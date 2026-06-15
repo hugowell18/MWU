@@ -1,0 +1,402 @@
+{
+  "summary": {
+    "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+    "assemblyai_json": "",
+    "unit_count": 18,
+    "alignment_allowed_count": 18,
+    "blocked_count": 0,
+    "missing_speaker_count": 0,
+    "short_unit_count": 0,
+    "asr_overlap_candidate_count": 0,
+    "speaker_tier_overlap_candidate_count": 0,
+    "speakers": [
+      "Simon",
+      "Todd"
+    ],
+    "options": {
+      "min_duration_seconds": 0.25,
+      "overlap_min_seconds": 0.05,
+      "allow_overlap": false
+    }
+  },
+  "units": [
+    {
+      "utt_id": "utt_0001",
+      "start_sec": 0.53,
+      "end_sec": 6.17,
+      "duration_sec": 5.64,
+      "speaker": "Todd",
+      "text": "OK, Simon, let's go get something to eat? Let's go out to dinner. I'm really hungry.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0002",
+      "start_sec": 7.02,
+      "end_sec": 12.1,
+      "duration_sec": 5.08,
+      "speaker": "Simon",
+      "text": "Yeah, OK, me too. I'm really hungry as well. Ah, what is there to eat around here?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0003",
+      "start_sec": 12.1,
+      "end_sec": 28.73,
+      "duration_sec": 16.63,
+      "speaker": "Todd",
+      "text": "Well, around my house there's a few restaurants. Um, there's an Italian restaurant. There's a grilled chicken restaurant. There is a fish restaurant, and there is a family diner.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0004",
+      "start_sec": 29.45,
+      "end_sec": 32.049,
+      "duration_sec": 2.599,
+      "speaker": "Simon",
+      "text": "Family diner. What's that?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0005",
+      "start_sec": 32.169,
+      "end_sec": 52.63,
+      "duration_sec": 20.461,
+      "speaker": "Todd",
+      "text": "The family diner is one of those restaurants that they serve many types of food, for example they have noodles, they have pasta, they have hamburger, they have salad. Pretty much anyone in the family could order what they want. They have desserts, things like that.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0006",
+      "start_sec": 52.72,
+      "end_sec": 64.97,
+      "duration_sec": 12.25,
+      "speaker": "Simon",
+      "text": "Well, that makes sense, that's why it's called a family diner, or family restaurant because I guess everyone in the family will be happy if they eat there. You said Italian restaurant.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0007",
+      "start_sec": 65.48,
+      "end_sec": 83.96,
+      "duration_sec": 18.48,
+      "speaker": "Todd",
+      "text": "Ah, yeah, there's an Italian restaurant. It's a very small family owned Italian restaurant. They have really good pasta,fresh salad. They always have really good specials. The only problem is that it's really crowded and it's a little expensive because it's very popular.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0008",
+      "start_sec": 84.37,
+      "end_sec": 88.06,
+      "duration_sec": 3.69,
+      "speaker": "Simon",
+      "text": "Oh, really. Ah, do they have pizza? I like pizza.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0009",
+      "start_sec": 88.17,
+      "end_sec": 90.4,
+      "duration_sec": 2.23,
+      "speaker": "Todd",
+      "text": "Actually, they don't have pizza. They only have pasta.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0010",
+      "start_sec": 90.869,
+      "end_sec": 93.13,
+      "duration_sec": 2.261,
+      "speaker": "Simon",
+      "text": "OK. What were the other choices?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0011",
+      "start_sec": 93.25,
+      "end_sec": 100.49,
+      "duration_sec": 7.24,
+      "speaker": "Todd",
+      "text": "There's also a fish restaurant and there's a grilled chicken restaurant. A grilled chicken. That's pretty general.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0012",
+      "start_sec": 100.49,
+      "end_sec": 101.71,
+      "duration_sec": 1.22,
+      "speaker": "Simon",
+      "text": "How do they serve that?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0013",
+      "start_sec": 101.71,
+      "end_sec": 123.32,
+      "duration_sec": 21.61,
+      "speaker": "Todd",
+      "text": "It's actually, it's not a restaurant. This guy has a small stand, a very small area, and there are some small tables in front of it, and he just grills chicken, kind of on the street, and then he has little tables in front of his booth or stall and you eat chicken for really cheap.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0014",
+      "start_sec": 123.32,
+      "end_sec": 125.15,
+      "duration_sec": 1.83,
+      "speaker": "Simon",
+      "text": "Oh, that sounds really cool. Let's do that.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0015",
+      "start_sec": 125.16,
+      "end_sec": 126.52,
+      "duration_sec": 1.36,
+      "speaker": "Todd",
+      "text": "Yeah, yeah, and they have beer, too.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0016",
+      "start_sec": 127.02,
+      "end_sec": 128.69,
+      "duration_sec": 1.67,
+      "speaker": "Simon",
+      "text": "Oh, yeah, I like beer.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0017",
+      "start_sec": 128.76,
+      "end_sec": 129.94,
+      "duration_sec": 1.18,
+      "speaker": "Todd",
+      "text": "Cool, let's go.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0018",
+      "start_sec": 129.94,
+      "end_sec": 130.42,
+      "duration_sec": 0.48,
+      "speaker": "Simon",
+      "text": "OK.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    }
+  ]
+}

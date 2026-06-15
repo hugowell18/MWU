@@ -1,0 +1,179 @@
+{
+  "stage": "simulated-human-review",
+  "created_at": "2026-06-14T03:51:34.084Z",
+  "source_draft_textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.assemblyai.6tier.TextGrid",
+  "source_turns_json": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.turns.json",
+  "output_textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.reviewed.simulated.TextGrid",
+  "note": "This is a simulated reviewed TextGrid for pipeline testing. It uses ELLLO source transcript and ASR-derived approximate turn boundaries; it is not a real researcher-verified TextGrid.",
+  "changes": {
+    "speaker_labels": "speaker_A/speaker_B replaced with Todd/Simon",
+    "transcript": "AssemblyAI transcript replaced with ELLLO source transcript",
+    "sounding_silence_review_status": "cleared to simulate accepted acoustic review using Tier1 as primary reference",
+    "review_status": "all reviewed turn intervals marked fixed: simulated review"
+  },
+  "reviewed_turn_count": 18,
+  "reviewed_turns": [
+    {
+      "start": 0.53,
+      "end": 6.17,
+      "speaker": "Todd",
+      "turnIndexes": [
+        0
+      ],
+      "text": "OK, Simon, let's go get something to eat? Let's go out to dinner. I'm really hungry."
+    },
+    {
+      "start": 7.02,
+      "end": 12.1,
+      "speaker": "Simon",
+      "turnIndexes": [
+        1
+      ],
+      "text": "Yeah, OK, me too. I'm really hungry as well. Ah, what is there to eat around here?"
+    },
+    {
+      "start": 12.1,
+      "end": 28.73,
+      "speaker": "Todd",
+      "turnIndexes": [
+        2
+      ],
+      "text": "Well, around my house there's a few restaurants. Um, there's an Italian restaurant. There's a grilled chicken restaurant. There is a fish restaurant, and there is a family diner."
+    },
+    {
+      "start": 29.45,
+      "end": 32.049,
+      "speaker": "Simon",
+      "turnIndexes": [
+        3
+      ],
+      "text": "Family diner. What's that?"
+    },
+    {
+      "start": 32.169,
+      "end": 52.63,
+      "speaker": "Todd",
+      "turnIndexes": [
+        4
+      ],
+      "text": "The family diner is one of those restaurants that they serve many types of food, for example they have noodles, they have pasta, they have hamburger, they have salad. Pretty much anyone in the family could order what they want. They have desserts, things like that."
+    },
+    {
+      "start": 52.72,
+      "end": 64.97,
+      "speaker": "Simon",
+      "turnIndexes": [
+        5
+      ],
+      "text": "Well, that makes sense, that's why it's called a family diner, or family restaurant because I guess everyone in the family will be happy if they eat there. You said Italian restaurant."
+    },
+    {
+      "start": 65.48,
+      "end": 83.96,
+      "speaker": "Todd",
+      "turnIndexes": [
+        6
+      ],
+      "text": "Ah, yeah, there's an Italian restaurant. It's a very small family owned Italian restaurant. They have really good pasta,fresh salad. They always have really good specials. The only problem is that it's really crowded and it's a little expensive because it's very popular."
+    },
+    {
+      "start": 84.37,
+      "end": 88.06,
+      "speaker": "Simon",
+      "turnIndexes": [
+        7
+      ],
+      "text": "Oh, really. Ah, do they have pizza? I like pizza."
+    },
+    {
+      "start": 88.17,
+      "end": 90.4,
+      "speaker": "Todd",
+      "turnIndexes": [
+        8
+      ],
+      "text": "Actually, they don't have pizza. They only have pasta."
+    },
+    {
+      "start": 90.869,
+      "end": 93.13,
+      "speaker": "Simon",
+      "turnIndexes": [
+        9
+      ],
+      "text": "OK. What were the other choices?"
+    },
+    {
+      "start": 93.25,
+      "end": 100.49,
+      "speaker": "Todd",
+      "turnIndexes": [
+        10
+      ],
+      "text": "There's also a fish restaurant and there's a grilled chicken restaurant. A grilled chicken. That's pretty general."
+    },
+    {
+      "start": 100.49,
+      "end": 101.71,
+      "speaker": "Simon",
+      "turnIndexes": [
+        11
+      ],
+      "text": "How do they serve that?"
+    },
+    {
+      "start": 101.71,
+      "end": 123.32,
+      "speaker": "Todd",
+      "turnIndexes": [
+        12
+      ],
+      "text": "It's actually, it's not a restaurant. This guy has a small stand, a very small area, and there are some small tables in front of it, and he just grills chicken, kind of on the street, and then he has little tables in front of his booth or stall and you eat chicken for really cheap."
+    },
+    {
+      "start": 123.32,
+      "end": 125.15,
+      "speaker": "Simon",
+      "turnIndexes": [
+        13
+      ],
+      "text": "Oh, that sounds really cool. Let's do that."
+    },
+    {
+      "start": 125.16,
+      "end": 126.52,
+      "speaker": "Todd",
+      "turnIndexes": [
+        14
+      ],
+      "text": "Yeah, yeah, and they have beer, too."
+    },
+    {
+      "start": 127.02,
+      "end": 128.69,
+      "speaker": "Simon",
+      "turnIndexes": [
+        15
+      ],
+      "text": "Oh, yeah, I like beer."
+    },
+    {
+      "start": 128.76,
+      "end": 129.94,
+      "speaker": "Todd",
+      "turnIndexes": [
+        16
+      ],
+      "text": "Cool, let's go."
+    },
+    {
+      "start": 129.94,
+      "end": 130.42,
+      "speaker": "Simon",
+      "turnIndexes": [
+        17
+      ],
+      "text": "OK."
+    }
+  ]
+}

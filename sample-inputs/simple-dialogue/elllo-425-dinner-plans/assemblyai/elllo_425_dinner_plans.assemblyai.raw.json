@@ -1,0 +1,4619 @@
+{
+  "id": "118e8e91-c227-4e83-9184-7df9f2ab3d38",
+  "language_model": "assemblyai_default",
+  "acoustic_model": "assemblyai_default",
+  "language_code": "en_us",
+  "speech_understanding": null,
+  "translated_texts": null,
+  "status": "completed",
+  "audio_url": "https://cdn.assemblyai.com/upload/870508c770486f91b6211148d52483bd69005b5731984a65f6fc2920a32cd742/255a57dc-6f80-4f56-b675-65ac02a47c3b",
+  "text": "Okay, Simone, um, let's go get something to eat. Let's go out to dinner. I'm really hungry. Yeah, okay, me too. I'm really hungry as well. Uh, what is there to eat around here? Well, around my house there's a few restaurants. Um, there's an Italian restaurant, there's a grilled chicken restaurant, there is a fish restaurant, And there is a family diner. Hmm, family diner, what's that? Family diner is one of those restaurants that they serve many types of food. For example, they have noodles, they have pasta, they have hamburger, they have salad. Pretty much anyone in the family could order what they want. They have desserts, things like that. Well, that makes sense. That's why it's called a family diner or family restaurant, because I guess everyone in the family will be happy if they eat there. Oh, you said Italian restaurant. Yeah, there's an Italian restaurant. It's a very small family-owned Italian restaurant. They have really good pasta, fresh salads. They always have really good specials. The only problem is it's really crowded, and it's a little expensive because it's very popular. Oh, really? Uh, do they have pizza? I like pizza. Actually, they don't have pizza. They only have pasta. Okay. Uh, what were the other choices? There's also a fish restaurant, and there's a grilled chicken restaurant. Grilled chicken? That's pretty general. How do they serve that? It's actually— it's not a restaurant. This guy has a small stand. A very small area, and there's some small tables in front of it. And he just grills chicken kind of on the street, and then he has little tables in front of his booth or stall, and you eat chicken for really cheap. Oh, that sounds really cool. Let's do that. Yeah, yeah, and they have beer too. Oh yeah, I like beer. Cool, let's go. Okay.",
+  "words": [
+    {
+      "text": "Okay,",
+      "start": 530,
+      "end": 1180,
+      "confidence": 0.41911203,
+      "speaker": "A"
+    },
+    {
+      "text": "Simone,",
+      "start": 1180,
+      "end": 1860,
+      "confidence": 0.6939318,
+      "speaker": "A"
+    },
+    {
+      "text": "um,",
+      "start": 1860,
+      "end": 2980,
+      "confidence": 0.47665718,
+      "speaker": "A"
+    },
+    {
+      "text": "let's",
+      "start": 2980,
+      "end": 3120,
+      "confidence": 0.99601674,
+      "speaker": "A"
+    },
+    {
+      "text": "go",
+      "start": 3120,
+      "end": 3300,
+      "confidence": 0.99639326,
+      "speaker": "A"
+    },
+    {
+      "text": "get",
+      "start": 3300,
+      "end": 3420,
+      "confidence": 0.9964908,
+      "speaker": "A"
+    },
+    {
+      "text": "something",
+      "start": 3420,
+      "end": 3680,
+      "confidence": 0.9996637,
+      "speaker": "A"
+    },
+    {
+      "text": "to",
+      "start": 3680,
+      "end": 3980,
+      "confidence": 0.9995097,
+      "speaker": "A"
+    },
+    {
+      "text": "eat.",
+      "start": 3980,
+      "end": 4239,
+      "confidence": 0.8736509,
+      "speaker": "A"
+    },
+    {
+      "text": "Let's",
+      "start": 4239,
+      "end": 4380,
+      "confidence": 0.99938536,
+      "speaker": "A"
+    },
+    {
+      "text": "go",
+      "start": 4380,
+      "end": 4520,
+      "confidence": 0.9994217,
+      "speaker": "A"
+    },
+    {
+      "text": "out",
+      "start": 4520,
+      "end": 4720,
+      "confidence": 0.998403,
+      "speaker": "A"
+    },
+    {
+      "text": "to",
+      "start": 4720,
+      "end": 4779,
+      "confidence": 0.99865377,
+      "speaker": "A"
+    },
+    {
+      "text": "dinner.",
+      "start": 4779,
+      "end": 5080,
+      "confidence": 0.77295953,
+      "speaker": "A"
+    },
+    {
+      "text": "I'm",
+      "start": 5080,
+      "end": 5260,
+      "confidence": 0.9948428,
+      "speaker": "A"
+    },
+    {
+      "text": "really",
+      "start": 5260,
+      "end": 5520,
+      "confidence": 0.9996221,
+      "speaker": "A"
+    },
+    {
+      "text": "hungry.",
+      "start": 5520,
+      "end": 6170,
+      "confidence": 0.9881374,
+      "speaker": "A"
+    },
+    {
+      "text": "Yeah,",
+      "start": 7020,
+      "end": 7479,
+      "confidence": 0.91281044,
+      "speaker": "B"
+    },
+    {
+      "text": "okay,",
+      "start": 7479,
+      "end": 7779,
+      "confidence": 0.8995147,
+      "speaker": "B"
+    },
+    {
+      "text": "me",
+      "start": 7779,
+      "end": 8000,
+      "confidence": 0.99874544,
+      "speaker": "B"
+    },
+    {
+      "text": "too.",
+      "start": 8000,
+      "end": 8180,
+      "confidence": 0.8278161,
+      "speaker": "B"
+    },
+    {
+      "text": "I'm",
+      "start": 8180,
+      "end": 8360,
+      "confidence": 0.997074,
+      "speaker": "B"
+    },
+    {
+      "text": "really",
+      "start": 8360,
+      "end": 8580,
+      "confidence": 0.99720484,
+      "speaker": "B"
+    },
+    {
+      "text": "hungry",
+      "start": 8580,
+      "end": 8820,
+      "confidence": 0.9999213,
+      "speaker": "B"
+    },
+    {
+      "text": "as",
+      "start": 8820,
+      "end": 9040,
+      "confidence": 0.9956201,
+      "speaker": "B"
+    },
+    {
+      "text": "well.",
+      "start": 9040,
+      "end": 9580,
+      "confidence": 0.97633284,
+      "speaker": "B"
+    },
+    {
+      "text": "Uh,",
+      "start": 9770,
+      "end": 10420,
+      "confidence": 0.72435474,
+      "speaker": "B"
+    },
+    {
+      "text": "what",
+      "start": 10420,
+      "end": 10500,
+      "confidence": 0.9997391,
+      "speaker": "B"
+    },
+    {
+      "text": "is",
+      "start": 10500,
+      "end": 10740,
+      "confidence": 0.9994628,
+      "speaker": "B"
+    },
+    {
+      "text": "there",
+      "start": 10740,
+      "end": 11000,
+      "confidence": 0.99981946,
+      "speaker": "B"
+    },
+    {
+      "text": "to",
+      "start": 11000,
+      "end": 11100,
+      "confidence": 0.9995592,
+      "speaker": "B"
+    },
+    {
+      "text": "eat",
+      "start": 11100,
+      "end": 11260,
+      "confidence": 0.9999684,
+      "speaker": "B"
+    },
+    {
+      "text": "around",
+      "start": 11260,
+      "end": 11580,
+      "confidence": 0.99988365,
+      "speaker": "B"
+    },
+    {
+      "text": "here?",
+      "start": 11580,
+      "end": 12100,
+      "confidence": 0.99972564,
+      "speaker": "B"
+    },
+    {
+      "text": "Well,",
+      "start": 12100,
+      "end": 12360,
+      "confidence": 0.9974671,
+      "speaker": "A"
+    },
+    {
+      "text": "around",
+      "start": 12360,
+      "end": 12580,
+      "confidence": 0.9999031,
+      "speaker": "A"
+    },
+    {
+      "text": "my",
+      "start": 12580,
+      "end": 12879,
+      "confidence": 0.999974,
+      "speaker": "A"
+    },
+    {
+      "text": "house",
+      "start": 12879,
+      "end": 13180,
+      "confidence": 0.99995387,
+      "speaker": "A"
+    },
+    {
+      "text": "there's",
+      "start": 13180,
+      "end": 14320,
+      "confidence": 0.7578187,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 14320,
+      "end": 14760,
+      "confidence": 0.9972326,
+      "speaker": "A"
+    },
+    {
+      "text": "few",
+      "start": 14760,
+      "end": 14959,
+      "confidence": 0.99998224,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurants.",
+      "start": 14959,
+      "end": 15709,
+      "confidence": 0.9178431,
+      "speaker": "A"
+    },
+    {
+      "text": "Um,",
+      "start": 15840,
+      "end": 16340,
+      "confidence": 0.5741526,
+      "speaker": "A"
+    },
+    {
+      "text": "there's",
+      "start": 16340,
+      "end": 16480,
+      "confidence": 0.9991723,
+      "speaker": "A"
+    },
+    {
+      "text": "an",
+      "start": 16480,
+      "end": 16620,
+      "confidence": 0.9993774,
+      "speaker": "A"
+    },
+    {
+      "text": "Italian",
+      "start": 16620,
+      "end": 17000,
+      "confidence": 0.99982077,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurant,",
+      "start": 17000,
+      "end": 17950,
+      "confidence": 0.81695855,
+      "speaker": "A"
+    },
+    {
+      "text": "there's",
+      "start": 18500,
+      "end": 19580,
+      "confidence": 0.9985928,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 19580,
+      "end": 20540,
+      "confidence": 0.9960175,
+      "speaker": "A"
+    },
+    {
+      "text": "grilled",
+      "start": 20540,
+      "end": 20880,
+      "confidence": 0.9998073,
+      "speaker": "A"
+    },
+    {
+      "text": "chicken",
+      "start": 20880,
+      "end": 21460,
+      "confidence": 0.99975556,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurant,",
+      "start": 21460,
+      "end": 23060,
+      "confidence": 0.98744303,
+      "speaker": "A"
+    },
+    {
+      "text": "there",
+      "start": 23060,
+      "end": 23440,
+      "confidence": 0.99965954,
+      "speaker": "A"
+    },
+    {
+      "text": "is",
+      "start": 23440,
+      "end": 23720,
+      "confidence": 0.9955793,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 23720,
+      "end": 24520,
+      "confidence": 0.999403,
+      "speaker": "A"
+    },
+    {
+      "text": "fish",
+      "start": 24520,
+      "end": 25120,
+      "confidence": 0.9991535,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurant,",
+      "start": 25120,
+      "end": 25820,
+      "confidence": 0.4289701,
+      "speaker": "A"
+    },
+    {
+      "text": "And",
+      "start": 26110,
+      "end": 26809,
+      "confidence": 0.6895946,
+      "speaker": "A"
+    },
+    {
+      "text": "there",
+      "start": 26809,
+      "end": 26910,
+      "confidence": 0.98476654,
+      "speaker": "A"
+    },
+    {
+      "text": "is",
+      "start": 26910,
+      "end": 27070,
+      "confidence": 0.6137163,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 27070,
+      "end": 27330,
+      "confidence": 0.99291056,
+      "speaker": "A"
+    },
+    {
+      "text": "family",
+      "start": 27330,
+      "end": 27730,
+      "confidence": 0.85318273,
+      "speaker": "A"
+    },
+    {
+      "text": "diner.",
+      "start": 27730,
+      "end": 28730,
+      "confidence": 0.98647547,
+      "speaker": "A"
+    },
+    {
+      "text": "Hmm,",
+      "start": 29450,
+      "end": 30369,
+      "confidence": 0.34416026,
+      "speaker": "B"
+    },
+    {
+      "text": "family",
+      "start": 30369,
+      "end": 30410,
+      "confidence": 0.9495946,
+      "speaker": "B"
+    },
+    {
+      "text": "diner,",
+      "start": 30410,
+      "end": 30810,
+      "confidence": 0.5140848,
+      "speaker": "B"
+    },
+    {
+      "text": "what's",
+      "start": 30810,
+      "end": 31049,
+      "confidence": 0.9865246,
+      "speaker": "B"
+    },
+    {
+      "text": "that?",
+      "start": 31049,
+      "end": 32049,
+      "confidence": 0.99840426,
+      "speaker": "B"
+    },
+    {
+      "text": "Family",
+      "start": 32169,
+      "end": 32450,
+      "confidence": 0.6059514,
+      "speaker": "A"
+    },
+    {
+      "text": "diner",
+      "start": 32450,
+      "end": 32950,
+      "confidence": 0.99897087,
+      "speaker": "A"
+    },
+    {
+      "text": "is",
+      "start": 32950,
+      "end": 33450,
+      "confidence": 0.998473,
+      "speaker": "A"
+    },
+    {
+      "text": "one",
+      "start": 33450,
+      "end": 36070,
+      "confidence": 0.54589707,
+      "speaker": "A"
+    },
+    {
+      "text": "of",
+      "start": 36070,
+      "end": 36189,
+      "confidence": 0.99929535,
+      "speaker": "A"
+    },
+    {
+      "text": "those",
+      "start": 36189,
+      "end": 36370,
+      "confidence": 0.99847215,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurants",
+      "start": 36370,
+      "end": 36810,
+      "confidence": 0.9997838,
+      "speaker": "A"
+    },
+    {
+      "text": "that",
+      "start": 36810,
+      "end": 37090,
+      "confidence": 0.9234897,
+      "speaker": "A"
+    },
+    {
+      "text": "they",
+      "start": 37090,
+      "end": 37269,
+      "confidence": 0.9053344,
+      "speaker": "A"
+    },
+    {
+      "text": "serve",
+      "start": 37269,
+      "end": 37529,
+      "confidence": 0.99866796,
+      "speaker": "A"
+    },
+    {
+      "text": "many",
+      "start": 37529,
+      "end": 37790,
+      "confidence": 0.99982244,
+      "speaker": "A"
+    },
+    {
+      "text": "types",
+      "start": 37790,
+      "end": 38130,
+      "confidence": 0.99776435,
+      "speaker": "A"
+    },
+    {
+      "text": "of",
+      "start": 38130,
+      "end": 38450,
+      "confidence": 0.99972767,
+      "speaker": "A"
+    },
+    {
+      "text": "food.",
+      "start": 38450,
+      "end": 39150,
+      "confidence": 0.94535214,
+      "speaker": "A"
+    },
+    {
+      "text": "For",
+      "start": 39250,
+      "end": 39410,
+      "confidence": 0.99857736,
+      "speaker": "A"
+    },
+    {
+      "text": "example,",
+      "start": 39410,
+      "end": 39790,
+      "confidence": 0.9897092,
+      "speaker": "A"
+    },
+    {
+      "text": "they",
+      "start": 39790,
+      "end": 39890,
+      "confidence": 0.99872273,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 39890,
+      "end": 40010,
+      "confidence": 0.99842,
+      "speaker": "A"
+    },
+    {
+      "text": "noodles,",
+      "start": 40010,
+      "end": 40310,
+      "confidence": 0.9091211,
+      "speaker": "A"
+    },
+    {
+      "text": "they",
+      "start": 41010,
+      "end": 41010,
+      "confidence": 0.9834832,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 41010,
+      "end": 41189,
+      "confidence": 0.99953425,
+      "speaker": "A"
+    },
+    {
+      "text": "pasta,",
+      "start": 41189,
+      "end": 41640,
+      "confidence": 0.9852459,
+      "speaker": "A"
+    },
+    {
+      "text": "they",
+      "start": 42530,
+      "end": 42530,
+      "confidence": 0.99666756,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 42530,
+      "end": 42730,
+      "confidence": 0.9993562,
+      "speaker": "A"
+    },
+    {
+      "text": "hamburger,",
+      "start": 42730,
+      "end": 43230,
+      "confidence": 0.9290752,
+      "speaker": "A"
+    },
+    {
+      "text": "they",
+      "start": 44490,
+      "end": 44490,
+      "confidence": 0.9984333,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 44490,
+      "end": 45370,
+      "confidence": 0.99989593,
+      "speaker": "A"
+    },
+    {
+      "text": "salad.",
+      "start": 45370,
+      "end": 47250,
+      "confidence": 0.7510537,
+      "speaker": "A"
+    },
+    {
+      "text": "Pretty",
+      "start": 47250,
+      "end": 47390,
+      "confidence": 0.99945706,
+      "speaker": "A"
+    },
+    {
+      "text": "much",
+      "start": 47390,
+      "end": 47610,
+      "confidence": 0.99996376,
+      "speaker": "A"
+    },
+    {
+      "text": "anyone",
+      "start": 47610,
+      "end": 47930,
+      "confidence": 0.9906536,
+      "speaker": "A"
+    },
+    {
+      "text": "in",
+      "start": 47930,
+      "end": 48110,
+      "confidence": 0.99809927,
+      "speaker": "A"
+    },
+    {
+      "text": "the",
+      "start": 48110,
+      "end": 48230,
+      "confidence": 0.9989967,
+      "speaker": "A"
+    },
+    {
+      "text": "family",
+      "start": 48230,
+      "end": 48510,
+      "confidence": 0.99989533,
+      "speaker": "A"
+    },
+    {
+      "text": "could",
+      "start": 48510,
+      "end": 48770,
+      "confidence": 0.9393758,
+      "speaker": "A"
+    },
+    {
+      "text": "order",
+      "start": 48770,
+      "end": 49150,
+      "confidence": 0.9998735,
+      "speaker": "A"
+    },
+    {
+      "text": "what",
+      "start": 49150,
+      "end": 49710,
+      "confidence": 0.998852,
+      "speaker": "A"
+    },
+    {
+      "text": "they",
+      "start": 49710,
+      "end": 49890,
+      "confidence": 0.9999263,
+      "speaker": "A"
+    },
+    {
+      "text": "want.",
+      "start": 49890,
+      "end": 50540,
+      "confidence": 0.98857695,
+      "speaker": "A"
+    },
+    {
+      "text": "They",
+      "start": 50810,
+      "end": 51050,
+      "confidence": 0.99932456,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 51050,
+      "end": 51250,
+      "confidence": 0.99964106,
+      "speaker": "A"
+    },
+    {
+      "text": "desserts,",
+      "start": 51250,
+      "end": 51910,
+      "confidence": 0.9505538,
+      "speaker": "A"
+    },
+    {
+      "text": "things",
+      "start": 51910,
+      "end": 52110,
+      "confidence": 0.99815553,
+      "speaker": "A"
+    },
+    {
+      "text": "like",
+      "start": 52110,
+      "end": 52330,
+      "confidence": 0.9998971,
+      "speaker": "A"
+    },
+    {
+      "text": "that.",
+      "start": 52330,
+      "end": 52630,
+      "confidence": 0.9970165,
+      "speaker": "A"
+    },
+    {
+      "text": "Well,",
+      "start": 52720,
+      "end": 52880,
+      "confidence": 0.5021641,
+      "speaker": "B"
+    },
+    {
+      "text": "that",
+      "start": 52880,
+      "end": 53000,
+      "confidence": 0.9983381,
+      "speaker": "B"
+    },
+    {
+      "text": "makes",
+      "start": 53000,
+      "end": 53280,
+      "confidence": 0.9988625,
+      "speaker": "B"
+    },
+    {
+      "text": "sense.",
+      "start": 53280,
+      "end": 53740,
+      "confidence": 0.93523395,
+      "speaker": "B"
+    },
+    {
+      "text": "That's",
+      "start": 53740,
+      "end": 53880,
+      "confidence": 0.9964189,
+      "speaker": "B"
+    },
+    {
+      "text": "why",
+      "start": 53880,
+      "end": 54020,
+      "confidence": 0.99907434,
+      "speaker": "B"
+    },
+    {
+      "text": "it's",
+      "start": 54020,
+      "end": 54280,
+      "confidence": 0.9986186,
+      "speaker": "B"
+    },
+    {
+      "text": "called",
+      "start": 54280,
+      "end": 54640,
+      "confidence": 0.9525737,
+      "speaker": "B"
+    },
+    {
+      "text": "a",
+      "start": 54640,
+      "end": 54860,
+      "confidence": 0.9669511,
+      "speaker": "B"
+    },
+    {
+      "text": "family",
+      "start": 54860,
+      "end": 55440,
+      "confidence": 0.91854906,
+      "speaker": "B"
+    },
+    {
+      "text": "diner",
+      "start": 55440,
+      "end": 56240,
+      "confidence": 0.9860146,
+      "speaker": "B"
+    },
+    {
+      "text": "or",
+      "start": 56240,
+      "end": 56440,
+      "confidence": 0.80272275,
+      "speaker": "B"
+    },
+    {
+      "text": "family",
+      "start": 56440,
+      "end": 56840,
+      "confidence": 0.832815,
+      "speaker": "B"
+    },
+    {
+      "text": "restaurant,",
+      "start": 56840,
+      "end": 57660,
+      "confidence": 0.67530155,
+      "speaker": "B"
+    },
+    {
+      "text": "because",
+      "start": 57660,
+      "end": 58220,
+      "confidence": 0.99956197,
+      "speaker": "B"
+    },
+    {
+      "text": "I",
+      "start": 58220,
+      "end": 58500,
+      "confidence": 0.9371073,
+      "speaker": "B"
+    },
+    {
+      "text": "guess",
+      "start": 58500,
+      "end": 59000,
+      "confidence": 0.9998925,
+      "speaker": "B"
+    },
+    {
+      "text": "everyone",
+      "start": 59000,
+      "end": 59859,
+      "confidence": 0.91924715,
+      "speaker": "B"
+    },
+    {
+      "text": "in",
+      "start": 59859,
+      "end": 60120,
+      "confidence": 0.9996753,
+      "speaker": "B"
+    },
+    {
+      "text": "the",
+      "start": 60120,
+      "end": 60319,
+      "confidence": 0.99977905,
+      "speaker": "B"
+    },
+    {
+      "text": "family",
+      "start": 60319,
+      "end": 60640,
+      "confidence": 0.9998498,
+      "speaker": "B"
+    },
+    {
+      "text": "will",
+      "start": 60640,
+      "end": 60860,
+      "confidence": 0.99856746,
+      "speaker": "B"
+    },
+    {
+      "text": "be",
+      "start": 60860,
+      "end": 60999,
+      "confidence": 0.99992883,
+      "speaker": "B"
+    },
+    {
+      "text": "happy",
+      "start": 60999,
+      "end": 61380,
+      "confidence": 0.9998882,
+      "speaker": "B"
+    },
+    {
+      "text": "if",
+      "start": 61380,
+      "end": 61759,
+      "confidence": 0.9960879,
+      "speaker": "B"
+    },
+    {
+      "text": "they",
+      "start": 61759,
+      "end": 61980,
+      "confidence": 0.9998969,
+      "speaker": "B"
+    },
+    {
+      "text": "eat",
+      "start": 61980,
+      "end": 62180,
+      "confidence": 0.9998555,
+      "speaker": "B"
+    },
+    {
+      "text": "there.",
+      "start": 62180,
+      "end": 62730,
+      "confidence": 0.99790055,
+      "speaker": "B"
+    },
+    {
+      "text": "Oh,",
+      "start": 63600,
+      "end": 63700,
+      "confidence": 0.5020415,
+      "speaker": "B"
+    },
+    {
+      "text": "you",
+      "start": 63700,
+      "end": 63800,
+      "confidence": 0.99933726,
+      "speaker": "B"
+    },
+    {
+      "text": "said",
+      "start": 63800,
+      "end": 64020,
+      "confidence": 0.99911624,
+      "speaker": "B"
+    },
+    {
+      "text": "Italian",
+      "start": 64020,
+      "end": 64419,
+      "confidence": 0.9843774,
+      "speaker": "B"
+    },
+    {
+      "text": "restaurant.",
+      "start": 64419,
+      "end": 64970,
+      "confidence": 0.74639696,
+      "speaker": "B"
+    },
+    {
+      "text": "Yeah,",
+      "start": 65480,
+      "end": 65880,
+      "confidence": 0.7258972,
+      "speaker": "A"
+    },
+    {
+      "text": "there's",
+      "start": 65880,
+      "end": 66120,
+      "confidence": 0.9896435,
+      "speaker": "A"
+    },
+    {
+      "text": "an",
+      "start": 66120,
+      "end": 66300,
+      "confidence": 0.9993907,
+      "speaker": "A"
+    },
+    {
+      "text": "Italian",
+      "start": 66300,
+      "end": 66660,
+      "confidence": 0.9999752,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurant.",
+      "start": 66660,
+      "end": 67560,
+      "confidence": 0.95074034,
+      "speaker": "A"
+    },
+    {
+      "text": "It's",
+      "start": 68280,
+      "end": 68660,
+      "confidence": 0.9652741,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 68660,
+      "end": 68920,
+      "confidence": 0.9985763,
+      "speaker": "A"
+    },
+    {
+      "text": "very",
+      "start": 68920,
+      "end": 69200,
+      "confidence": 0.9995747,
+      "speaker": "A"
+    },
+    {
+      "text": "small",
+      "start": 69200,
+      "end": 69780,
+      "confidence": 0.99997294,
+      "speaker": "A"
+    },
+    {
+      "text": "family-owned",
+      "start": 69780,
+      "end": 70660,
+      "confidence": 0.7011298,
+      "speaker": "A"
+    },
+    {
+      "text": "Italian",
+      "start": 70660,
+      "end": 71100,
+      "confidence": 0.99986184,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurant.",
+      "start": 71100,
+      "end": 72200,
+      "confidence": 0.9880396,
+      "speaker": "A"
+    },
+    {
+      "text": "They",
+      "start": 72320,
+      "end": 72420,
+      "confidence": 0.99744296,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 72420,
+      "end": 72680,
+      "confidence": 0.9994073,
+      "speaker": "A"
+    },
+    {
+      "text": "really",
+      "start": 72680,
+      "end": 72960,
+      "confidence": 0.99980384,
+      "speaker": "A"
+    },
+    {
+      "text": "good",
+      "start": 72960,
+      "end": 73180,
+      "confidence": 0.99989414,
+      "speaker": "A"
+    },
+    {
+      "text": "pasta,",
+      "start": 73180,
+      "end": 74580,
+      "confidence": 0.9216129,
+      "speaker": "A"
+    },
+    {
+      "text": "fresh",
+      "start": 74580,
+      "end": 75160,
+      "confidence": 0.9988951,
+      "speaker": "A"
+    },
+    {
+      "text": "salads.",
+      "start": 75160,
+      "end": 75860,
+      "confidence": 0.83202213,
+      "speaker": "A"
+    },
+    {
+      "text": "They",
+      "start": 76680,
+      "end": 76920,
+      "confidence": 0.9997466,
+      "speaker": "A"
+    },
+    {
+      "text": "always",
+      "start": 76920,
+      "end": 77140,
+      "confidence": 0.99618787,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 77140,
+      "end": 77320,
+      "confidence": 0.99944156,
+      "speaker": "A"
+    },
+    {
+      "text": "really",
+      "start": 77320,
+      "end": 77560,
+      "confidence": 0.99975187,
+      "speaker": "A"
+    },
+    {
+      "text": "good",
+      "start": 77560,
+      "end": 77800,
+      "confidence": 0.9999013,
+      "speaker": "A"
+    },
+    {
+      "text": "specials.",
+      "start": 77800,
+      "end": 78400,
+      "confidence": 0.902611,
+      "speaker": "A"
+    },
+    {
+      "text": "The",
+      "start": 78900,
+      "end": 79550,
+      "confidence": 0.9611661,
+      "speaker": "A"
+    },
+    {
+      "text": "only",
+      "start": 79550,
+      "end": 79750,
+      "confidence": 0.9997346,
+      "speaker": "A"
+    },
+    {
+      "text": "problem",
+      "start": 79750,
+      "end": 80070,
+      "confidence": 0.99926645,
+      "speaker": "A"
+    },
+    {
+      "text": "is",
+      "start": 80070,
+      "end": 80350,
+      "confidence": 0.99761474,
+      "speaker": "A"
+    },
+    {
+      "text": "it's",
+      "start": 80350,
+      "end": 80610,
+      "confidence": 0.44485655,
+      "speaker": "A"
+    },
+    {
+      "text": "really",
+      "start": 80610,
+      "end": 80810,
+      "confidence": 0.9988921,
+      "speaker": "A"
+    },
+    {
+      "text": "crowded,",
+      "start": 80810,
+      "end": 81510,
+      "confidence": 0.45964044,
+      "speaker": "A"
+    },
+    {
+      "text": "and",
+      "start": 81610,
+      "end": 81790,
+      "confidence": 0.9992995,
+      "speaker": "A"
+    },
+    {
+      "text": "it's",
+      "start": 81790,
+      "end": 81930,
+      "confidence": 0.9930513,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 81930,
+      "end": 82030,
+      "confidence": 0.99820364,
+      "speaker": "A"
+    },
+    {
+      "text": "little",
+      "start": 82030,
+      "end": 82150,
+      "confidence": 0.9999478,
+      "speaker": "A"
+    },
+    {
+      "text": "expensive",
+      "start": 82150,
+      "end": 82710,
+      "confidence": 0.99978346,
+      "speaker": "A"
+    },
+    {
+      "text": "because",
+      "start": 82710,
+      "end": 83070,
+      "confidence": 0.88638645,
+      "speaker": "A"
+    },
+    {
+      "text": "it's",
+      "start": 83070,
+      "end": 83389,
+      "confidence": 0.9981071,
+      "speaker": "A"
+    },
+    {
+      "text": "very",
+      "start": 83389,
+      "end": 83509,
+      "confidence": 0.99883515,
+      "speaker": "A"
+    },
+    {
+      "text": "popular.",
+      "start": 83509,
+      "end": 83960,
+      "confidence": 0.99868035,
+      "speaker": "A"
+    },
+    {
+      "text": "Oh,",
+      "start": 84370,
+      "end": 85049,
+      "confidence": 0.72591716,
+      "speaker": "B"
+    },
+    {
+      "text": "really?",
+      "start": 85049,
+      "end": 86290,
+      "confidence": 0.9407314,
+      "speaker": "B"
+    },
+    {
+      "text": "Uh,",
+      "start": 86290,
+      "end": 86349,
+      "confidence": 0.4679639,
+      "speaker": "B"
+    },
+    {
+      "text": "do",
+      "start": 86349,
+      "end": 86490,
+      "confidence": 0.90176445,
+      "speaker": "B"
+    },
+    {
+      "text": "they",
+      "start": 86490,
+      "end": 86610,
+      "confidence": 0.9993444,
+      "speaker": "B"
+    },
+    {
+      "text": "have",
+      "start": 86610,
+      "end": 86770,
+      "confidence": 0.9994573,
+      "speaker": "B"
+    },
+    {
+      "text": "pizza?",
+      "start": 86770,
+      "end": 87119,
+      "confidence": 0.9988067,
+      "speaker": "B"
+    },
+    {
+      "text": "I",
+      "start": 87310,
+      "end": 87430,
+      "confidence": 0.99818254,
+      "speaker": "B"
+    },
+    {
+      "text": "like",
+      "start": 87430,
+      "end": 87610,
+      "confidence": 0.99976116,
+      "speaker": "B"
+    },
+    {
+      "text": "pizza.",
+      "start": 87610,
+      "end": 88060,
+      "confidence": 0.9809146,
+      "speaker": "B"
+    },
+    {
+      "text": "Actually,",
+      "start": 88170,
+      "end": 88490,
+      "confidence": 0.9606349,
+      "speaker": "A"
+    },
+    {
+      "text": "they",
+      "start": 88490,
+      "end": 88690,
+      "confidence": 0.99961543,
+      "speaker": "A"
+    },
+    {
+      "text": "don't",
+      "start": 88690,
+      "end": 88890,
+      "confidence": 0.99976414,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 88890,
+      "end": 89090,
+      "confidence": 0.9995727,
+      "speaker": "A"
+    },
+    {
+      "text": "pizza.",
+      "start": 89090,
+      "end": 89410,
+      "confidence": 0.82548845,
+      "speaker": "A"
+    },
+    {
+      "text": "They",
+      "start": 89410,
+      "end": 89510,
+      "confidence": 0.9995004,
+      "speaker": "A"
+    },
+    {
+      "text": "only",
+      "start": 89510,
+      "end": 89730,
+      "confidence": 0.99823666,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 89730,
+      "end": 89850,
+      "confidence": 0.9993812,
+      "speaker": "A"
+    },
+    {
+      "text": "pasta.",
+      "start": 89850,
+      "end": 90400,
+      "confidence": 0.99895275,
+      "speaker": "A"
+    },
+    {
+      "text": "Okay.",
+      "start": 90869,
+      "end": 91650,
+      "confidence": 0.5708172,
+      "speaker": "B"
+    },
+    {
+      "text": "Uh,",
+      "start": 91650,
+      "end": 92150,
+      "confidence": 0.622533,
+      "speaker": "B"
+    },
+    {
+      "text": "what",
+      "start": 92150,
+      "end": 92170,
+      "confidence": 0.9996346,
+      "speaker": "B"
+    },
+    {
+      "text": "were",
+      "start": 92170,
+      "end": 92369,
+      "confidence": 0.99318814,
+      "speaker": "B"
+    },
+    {
+      "text": "the",
+      "start": 92369,
+      "end": 92470,
+      "confidence": 0.999561,
+      "speaker": "B"
+    },
+    {
+      "text": "other",
+      "start": 92470,
+      "end": 92630,
+      "confidence": 0.99965847,
+      "speaker": "B"
+    },
+    {
+      "text": "choices?",
+      "start": 92630,
+      "end": 93130,
+      "confidence": 0.9997136,
+      "speaker": "B"
+    },
+    {
+      "text": "There's",
+      "start": 93250,
+      "end": 93550,
+      "confidence": 0.9899816,
+      "speaker": "A"
+    },
+    {
+      "text": "also",
+      "start": 93550,
+      "end": 93789,
+      "confidence": 0.99916065,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 93789,
+      "end": 93949,
+      "confidence": 0.9989165,
+      "speaker": "A"
+    },
+    {
+      "text": "fish",
+      "start": 93949,
+      "end": 94190,
+      "confidence": 0.99991477,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurant,",
+      "start": 94190,
+      "end": 94790,
+      "confidence": 0.79527694,
+      "speaker": "A"
+    },
+    {
+      "text": "and",
+      "start": 94790,
+      "end": 95470,
+      "confidence": 0.9998468,
+      "speaker": "A"
+    },
+    {
+      "text": "there's",
+      "start": 95470,
+      "end": 95750,
+      "confidence": 0.99207264,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 95750,
+      "end": 95930,
+      "confidence": 0.99630994,
+      "speaker": "A"
+    },
+    {
+      "text": "grilled",
+      "start": 95930,
+      "end": 96290,
+      "confidence": 0.99984753,
+      "speaker": "A"
+    },
+    {
+      "text": "chicken",
+      "start": 96290,
+      "end": 96630,
+      "confidence": 0.99916947,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurant.",
+      "start": 96630,
+      "end": 97510,
+      "confidence": 0.9988987,
+      "speaker": "A"
+    },
+    {
+      "text": "Grilled",
+      "start": 97510,
+      "end": 97830,
+      "confidence": 0.39398238,
+      "speaker": "B"
+    },
+    {
+      "text": "chicken?",
+      "start": 97830,
+      "end": 98590,
+      "confidence": 0.38091785,
+      "speaker": "B"
+    },
+    {
+      "text": "That's",
+      "start": 98590,
+      "end": 99250,
+      "confidence": 0.508123,
+      "speaker": "B"
+    },
+    {
+      "text": "pretty",
+      "start": 99250,
+      "end": 99450,
+      "confidence": 0.99383014,
+      "speaker": "B"
+    },
+    {
+      "text": "general.",
+      "start": 99450,
+      "end": 100490,
+      "confidence": 0.9905854,
+      "speaker": "B"
+    },
+    {
+      "text": "How",
+      "start": 100490,
+      "end": 100770,
+      "confidence": 0.99419373,
+      "speaker": "B"
+    },
+    {
+      "text": "do",
+      "start": 100770,
+      "end": 100870,
+      "confidence": 0.9920379,
+      "speaker": "B"
+    },
+    {
+      "text": "they",
+      "start": 100870,
+      "end": 101010,
+      "confidence": 0.99980503,
+      "speaker": "B"
+    },
+    {
+      "text": "serve",
+      "start": 101010,
+      "end": 101250,
+      "confidence": 0.9998272,
+      "speaker": "B"
+    },
+    {
+      "text": "that?",
+      "start": 101250,
+      "end": 101710,
+      "confidence": 0.9968184,
+      "speaker": "B"
+    },
+    {
+      "text": "It's",
+      "start": 101710,
+      "end": 101890,
+      "confidence": 0.5695071,
+      "speaker": "A"
+    },
+    {
+      "text": "actually—",
+      "start": 101890,
+      "end": 102410,
+      "confidence": 0.3890748,
+      "speaker": "A"
+    },
+    {
+      "text": "it's",
+      "start": 102410,
+      "end": 102410,
+      "confidence": 0.9225593,
+      "speaker": "A"
+    },
+    {
+      "text": "not",
+      "start": 102410,
+      "end": 102470,
+      "confidence": 0.9993944,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 102470,
+      "end": 102630,
+      "confidence": 0.9985453,
+      "speaker": "A"
+    },
+    {
+      "text": "restaurant.",
+      "start": 102630,
+      "end": 103080,
+      "confidence": 0.98343635,
+      "speaker": "A"
+    },
+    {
+      "text": "This",
+      "start": 103330,
+      "end": 103730,
+      "confidence": 0.88250434,
+      "speaker": "A"
+    },
+    {
+      "text": "guy",
+      "start": 103730,
+      "end": 104010,
+      "confidence": 0.9994869,
+      "speaker": "A"
+    },
+    {
+      "text": "has",
+      "start": 104010,
+      "end": 104250,
+      "confidence": 0.9993587,
+      "speaker": "A"
+    },
+    {
+      "text": "a",
+      "start": 104250,
+      "end": 104470,
+      "confidence": 0.9990139,
+      "speaker": "A"
+    },
+    {
+      "text": "small",
+      "start": 104470,
+      "end": 104870,
+      "confidence": 0.99976,
+      "speaker": "A"
+    },
+    {
+      "text": "stand.",
+      "start": 104870,
+      "end": 105520,
+      "confidence": 0.3831457,
+      "speaker": "A"
+    },
+    {
+      "text": "A",
+      "start": 105760,
+      "end": 106380,
+      "confidence": 0.26131538,
+      "speaker": "A"
+    },
+    {
+      "text": "very",
+      "start": 106380,
+      "end": 106640,
+      "confidence": 0.99865603,
+      "speaker": "A"
+    },
+    {
+      "text": "small",
+      "start": 106640,
+      "end": 107100,
+      "confidence": 0.99993324,
+      "speaker": "A"
+    },
+    {
+      "text": "area,",
+      "start": 107100,
+      "end": 107900,
+      "confidence": 0.5164111,
+      "speaker": "A"
+    },
+    {
+      "text": "and",
+      "start": 107900,
+      "end": 107940,
+      "confidence": 0.9996213,
+      "speaker": "A"
+    },
+    {
+      "text": "there's",
+      "start": 107940,
+      "end": 108200,
+      "confidence": 0.8369792,
+      "speaker": "A"
+    },
+    {
+      "text": "some",
+      "start": 108200,
+      "end": 108600,
+      "confidence": 0.9957514,
+      "speaker": "A"
+    },
+    {
+      "text": "small",
+      "start": 108600,
+      "end": 108800,
+      "confidence": 0.99985194,
+      "speaker": "A"
+    },
+    {
+      "text": "tables",
+      "start": 108800,
+      "end": 109160,
+      "confidence": 0.99995756,
+      "speaker": "A"
+    },
+    {
+      "text": "in",
+      "start": 109160,
+      "end": 109420,
+      "confidence": 0.99969125,
+      "speaker": "A"
+    },
+    {
+      "text": "front",
+      "start": 109420,
+      "end": 109500,
+      "confidence": 0.99992967,
+      "speaker": "A"
+    },
+    {
+      "text": "of",
+      "start": 109500,
+      "end": 109679,
+      "confidence": 0.9995912,
+      "speaker": "A"
+    },
+    {
+      "text": "it.",
+      "start": 109679,
+      "end": 110330,
+      "confidence": 0.52036357,
+      "speaker": "A"
+    },
+    {
+      "text": "And",
+      "start": 110460,
+      "end": 110620,
+      "confidence": 0.9520252,
+      "speaker": "A"
+    },
+    {
+      "text": "he",
+      "start": 110620,
+      "end": 110740,
+      "confidence": 0.99669844,
+      "speaker": "A"
+    },
+    {
+      "text": "just",
+      "start": 110740,
+      "end": 111059,
+      "confidence": 0.9996685,
+      "speaker": "A"
+    },
+    {
+      "text": "grills",
+      "start": 111059,
+      "end": 111460,
+      "confidence": 0.9996116,
+      "speaker": "A"
+    },
+    {
+      "text": "chicken",
+      "start": 111460,
+      "end": 112160,
+      "confidence": 0.9996094,
+      "speaker": "A"
+    },
+    {
+      "text": "kind",
+      "start": 112160,
+      "end": 113099,
+      "confidence": 0.635472,
+      "speaker": "A"
+    },
+    {
+      "text": "of",
+      "start": 113099,
+      "end": 113240,
+      "confidence": 0.99967515,
+      "speaker": "A"
+    },
+    {
+      "text": "on",
+      "start": 113240,
+      "end": 113439,
+      "confidence": 0.9950825,
+      "speaker": "A"
+    },
+    {
+      "text": "the",
+      "start": 113439,
+      "end": 113599,
+      "confidence": 0.9999106,
+      "speaker": "A"
+    },
+    {
+      "text": "street,",
+      "start": 113599,
+      "end": 114020,
+      "confidence": 0.6297921,
+      "speaker": "A"
+    },
+    {
+      "text": "and",
+      "start": 114470,
+      "end": 115320,
+      "confidence": 0.9937198,
+      "speaker": "A"
+    },
+    {
+      "text": "then",
+      "start": 115320,
+      "end": 115660,
+      "confidence": 0.9987147,
+      "speaker": "A"
+    },
+    {
+      "text": "he",
+      "start": 115660,
+      "end": 115879,
+      "confidence": 0.9985636,
+      "speaker": "A"
+    },
+    {
+      "text": "has",
+      "start": 115879,
+      "end": 116200,
+      "confidence": 0.9949443,
+      "speaker": "A"
+    },
+    {
+      "text": "little",
+      "start": 116200,
+      "end": 116420,
+      "confidence": 0.99866116,
+      "speaker": "A"
+    },
+    {
+      "text": "tables",
+      "start": 116420,
+      "end": 116799,
+      "confidence": 0.99996674,
+      "speaker": "A"
+    },
+    {
+      "text": "in",
+      "start": 116799,
+      "end": 117100,
+      "confidence": 0.99976605,
+      "speaker": "A"
+    },
+    {
+      "text": "front",
+      "start": 117100,
+      "end": 117220,
+      "confidence": 0.99995065,
+      "speaker": "A"
+    },
+    {
+      "text": "of",
+      "start": 117220,
+      "end": 117400,
+      "confidence": 0.9996264,
+      "speaker": "A"
+    },
+    {
+      "text": "his",
+      "start": 117400,
+      "end": 117799,
+      "confidence": 0.9991003,
+      "speaker": "A"
+    },
+    {
+      "text": "booth",
+      "start": 117799,
+      "end": 118440,
+      "confidence": 0.98597705,
+      "speaker": "A"
+    },
+    {
+      "text": "or",
+      "start": 118440,
+      "end": 118820,
+      "confidence": 0.93753004,
+      "speaker": "A"
+    },
+    {
+      "text": "stall,",
+      "start": 118820,
+      "end": 119640,
+      "confidence": 0.7576704,
+      "speaker": "A"
+    },
+    {
+      "text": "and",
+      "start": 119640,
+      "end": 120539,
+      "confidence": 0.9998611,
+      "speaker": "A"
+    },
+    {
+      "text": "you",
+      "start": 120539,
+      "end": 120780,
+      "confidence": 0.9994199,
+      "speaker": "A"
+    },
+    {
+      "text": "eat",
+      "start": 120780,
+      "end": 120980,
+      "confidence": 0.9985764,
+      "speaker": "A"
+    },
+    {
+      "text": "chicken",
+      "start": 120980,
+      "end": 121480,
+      "confidence": 0.9997789,
+      "speaker": "A"
+    },
+    {
+      "text": "for",
+      "start": 121480,
+      "end": 122180,
+      "confidence": 0.998754,
+      "speaker": "A"
+    },
+    {
+      "text": "really",
+      "start": 122180,
+      "end": 122480,
+      "confidence": 0.9990901,
+      "speaker": "A"
+    },
+    {
+      "text": "cheap.",
+      "start": 122480,
+      "end": 123320,
+      "confidence": 0.9966667,
+      "speaker": "A"
+    },
+    {
+      "text": "Oh,",
+      "start": 123320,
+      "end": 123440,
+      "confidence": 0.93732494,
+      "speaker": "B"
+    },
+    {
+      "text": "that",
+      "start": 123440,
+      "end": 123580,
+      "confidence": 0.99940455,
+      "speaker": "B"
+    },
+    {
+      "text": "sounds",
+      "start": 123580,
+      "end": 123840,
+      "confidence": 0.99956185,
+      "speaker": "B"
+    },
+    {
+      "text": "really",
+      "start": 123840,
+      "end": 124100,
+      "confidence": 0.9995721,
+      "speaker": "B"
+    },
+    {
+      "text": "cool.",
+      "start": 124100,
+      "end": 124360,
+      "confidence": 0.8026005,
+      "speaker": "B"
+    },
+    {
+      "text": "Let's",
+      "start": 124360,
+      "end": 124520,
+      "confidence": 0.99917144,
+      "speaker": "B"
+    },
+    {
+      "text": "do",
+      "start": 124520,
+      "end": 124700,
+      "confidence": 0.9998838,
+      "speaker": "B"
+    },
+    {
+      "text": "that.",
+      "start": 124700,
+      "end": 125150,
+      "confidence": 0.8489407,
+      "speaker": "B"
+    },
+    {
+      "text": "Yeah,",
+      "start": 125160,
+      "end": 125420,
+      "confidence": 0.93878704,
+      "speaker": "A"
+    },
+    {
+      "text": "yeah,",
+      "start": 125420,
+      "end": 125540,
+      "confidence": 0.62462753,
+      "speaker": "A"
+    },
+    {
+      "text": "and",
+      "start": 125540,
+      "end": 125620,
+      "confidence": 0.99670655,
+      "speaker": "A"
+    },
+    {
+      "text": "they",
+      "start": 125620,
+      "end": 125720,
+      "confidence": 0.9998424,
+      "speaker": "A"
+    },
+    {
+      "text": "have",
+      "start": 125720,
+      "end": 125880,
+      "confidence": 0.99883527,
+      "speaker": "A"
+    },
+    {
+      "text": "beer",
+      "start": 125880,
+      "end": 126120,
+      "confidence": 0.9997861,
+      "speaker": "A"
+    },
+    {
+      "text": "too.",
+      "start": 126120,
+      "end": 126520,
+      "confidence": 0.9393743,
+      "speaker": "A"
+    },
+    {
+      "text": "Oh",
+      "start": 127020,
+      "end": 127280,
+      "confidence": 0.9663263,
+      "speaker": "B"
+    },
+    {
+      "text": "yeah,",
+      "start": 127280,
+      "end": 127780,
+      "confidence": 0.62031925,
+      "speaker": "B"
+    },
+    {
+      "text": "I",
+      "start": 127780,
+      "end": 127860,
+      "confidence": 0.99809927,
+      "speaker": "B"
+    },
+    {
+      "text": "like",
+      "start": 127860,
+      "end": 128040,
+      "confidence": 0.9998486,
+      "speaker": "B"
+    },
+    {
+      "text": "beer.",
+      "start": 128040,
+      "end": 128690,
+      "confidence": 0.9877652,
+      "speaker": "B"
+    },
+    {
+      "text": "Cool,",
+      "start": 128760,
+      "end": 129240,
+      "confidence": 0.7870685,
+      "speaker": "B"
+    },
+    {
+      "text": "let's",
+      "start": 129240,
+      "end": 129460,
+      "confidence": 0.99979156,
+      "speaker": "B"
+    },
+    {
+      "text": "go.",
+      "start": 129460,
+      "end": 129940,
+      "confidence": 0.9378176,
+      "speaker": "B"
+    },
+    {
+      "text": "Okay.",
+      "start": 129940,
+      "end": 130420,
+      "confidence": 0.89734685,
+      "speaker": "B"
+    }
+  ],
+  "utterances": [
+    {
+      "speaker": "A",
+      "text": "Okay, Simone, um, let's go get something to eat. Let's go out to dinner. I'm really hungry.",
+      "confidence": 0.8942854,
+      "start": 530,
+      "end": 6170,
+      "words": [
+        {
+          "text": "Okay,",
+          "start": 530,
+          "end": 1180,
+          "confidence": 0.41911203,
+          "speaker": "A"
+        },
+        {
+          "text": "Simone,",
+          "start": 1180,
+          "end": 1860,
+          "confidence": 0.6939318,
+          "speaker": "A"
+        },
+        {
+          "text": "um,",
+          "start": 1860,
+          "end": 2980,
+          "confidence": 0.47665718,
+          "speaker": "A"
+        },
+        {
+          "text": "let's",
+          "start": 2980,
+          "end": 3120,
+          "confidence": 0.99601674,
+          "speaker": "A"
+        },
+        {
+          "text": "go",
+          "start": 3120,
+          "end": 3300,
+          "confidence": 0.99639326,
+          "speaker": "A"
+        },
+        {
+          "text": "get",
+          "start": 3300,
+          "end": 3420,
+          "confidence": 0.9964908,
+          "speaker": "A"
+        },
+        {
+          "text": "something",
+          "start": 3420,
+          "end": 3680,
+          "confidence": 0.9996637,
+          "speaker": "A"
+        },
+        {
+          "text": "to",
+          "start": 3680,
+          "end": 3980,
+          "confidence": 0.9995097,
+          "speaker": "A"
+        },
+        {
+          "text": "eat.",
+          "start": 3980,
+          "end": 4239,
+          "confidence": 0.8736509,
+          "speaker": "A"
+        },
+        {
+          "text": "Let's",
+          "start": 4239,
+          "end": 4380,
+          "confidence": 0.99938536,
+          "speaker": "A"
+        },
+        {
+          "text": "go",
+          "start": 4380,
+          "end": 4520,
+          "confidence": 0.9994217,
+          "speaker": "A"
+        },
+        {
+          "text": "out",
+          "start": 4520,
+          "end": 4720,
+          "confidence": 0.998403,
+          "speaker": "A"
+        },
+        {
+          "text": "to",
+          "start": 4720,
+          "end": 4779,
+          "confidence": 0.99865377,
+          "speaker": "A"
+        },
+        {
+          "text": "dinner.",
+          "start": 4779,
+          "end": 5080,
+          "confidence": 0.77295953,
+          "speaker": "A"
+        },
+        {
+          "text": "I'm",
+          "start": 5080,
+          "end": 5260,
+          "confidence": 0.9948428,
+          "speaker": "A"
+        },
+        {
+          "text": "really",
+          "start": 5260,
+          "end": 5520,
+          "confidence": 0.9996221,
+          "speaker": "A"
+        },
+        {
+          "text": "hungry.",
+          "start": 5520,
+          "end": 6170,
+          "confidence": 0.9881374,
+          "speaker": "A"
+        }
+      ]
+    },
+    {
+      "speaker": "B",
+      "text": "Yeah, okay, me too. I'm really hungry as well. Uh, what is there to eat around here?",
+      "confidence": 0.9604443,
+      "start": 7020,
+      "end": 12100,
+      "words": [
+        {
+          "text": "Yeah,",
+          "start": 7020,
+          "end": 7479,
+          "confidence": 0.91281044,
+          "speaker": "B"
+        },
+        {
+          "text": "okay,",
+          "start": 7479,
+          "end": 7779,
+          "confidence": 0.8995147,
+          "speaker": "B"
+        },
+        {
+          "text": "me",
+          "start": 7779,
+          "end": 8000,
+          "confidence": 0.99874544,
+          "speaker": "B"
+        },
+        {
+          "text": "too.",
+          "start": 8000,
+          "end": 8180,
+          "confidence": 0.8278161,
+          "speaker": "B"
+        },
+        {
+          "text": "I'm",
+          "start": 8180,
+          "end": 8360,
+          "confidence": 0.997074,
+          "speaker": "B"
+        },
+        {
+          "text": "really",
+          "start": 8360,
+          "end": 8580,
+          "confidence": 0.99720484,
+          "speaker": "B"
+        },
+        {
+          "text": "hungry",
+          "start": 8580,
+          "end": 8820,
+          "confidence": 0.9999213,
+          "speaker": "B"
+        },
+        {
+          "text": "as",
+          "start": 8820,
+          "end": 9040,
+          "confidence": 0.9956201,
+          "speaker": "B"
+        },
+        {
+          "text": "well.",
+          "start": 9040,
+          "end": 9580,
+          "confidence": 0.97633284,
+          "speaker": "B"
+        },
+        {
+          "text": "Uh,",
+          "start": 9770,
+          "end": 10420,
+          "confidence": 0.72435474,
+          "speaker": "B"
+        },
+        {
+          "text": "what",
+          "start": 10420,
+          "end": 10500,
+          "confidence": 0.9997391,
+          "speaker": "B"
+        },
+        {
+          "text": "is",
+          "start": 10500,
+          "end": 10740,
+          "confidence": 0.9994628,
+          "speaker": "B"
+        },
+        {
+          "text": "there",
+          "start": 10740,
+          "end": 11000,
+          "confidence": 0.99981946,
+          "speaker": "B"
+        },
+        {
+          "text": "to",
+          "start": 11000,
+          "end": 11100,
+          "confidence": 0.9995592,
+          "speaker": "B"
+        },
+        {
+          "text": "eat",
+          "start": 11100,
+          "end": 11260,
+          "confidence": 0.9999684,
+          "speaker": "B"
+        },
+        {
+          "text": "around",
+          "start": 11260,
+          "end": 11580,
+          "confidence": 0.99988365,
+          "speaker": "B"
+        },
+        {
+          "text": "here?",
+          "start": 11580,
+          "end": 12100,
+          "confidence": 0.99972564,
+          "speaker": "B"
+        }
+      ]
+    },
+    {
+      "speaker": "A",
+      "text": "Well, around my house there's a few restaurants. Um, there's an Italian restaurant, there's a grilled chicken restaurant, there is a fish restaurant, And there is a family diner.",
+      "confidence": 0.91671324,
+      "start": 12100,
+      "end": 28730,
+      "words": [
+        {
+          "text": "Well,",
+          "start": 12100,
+          "end": 12360,
+          "confidence": 0.9974671,
+          "speaker": "A"
+        },
+        {
+          "text": "around",
+          "start": 12360,
+          "end": 12580,
+          "confidence": 0.9999031,
+          "speaker": "A"
+        },
+        {
+          "text": "my",
+          "start": 12580,
+          "end": 12879,
+          "confidence": 0.999974,
+          "speaker": "A"
+        },
+        {
+          "text": "house",
+          "start": 12879,
+          "end": 13180,
+          "confidence": 0.99995387,
+          "speaker": "A"
+        },
+        {
+          "text": "there's",
+          "start": 13180,
+          "end": 14320,
+          "confidence": 0.7578187,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 14320,
+          "end": 14760,
+          "confidence": 0.9972326,
+          "speaker": "A"
+        },
+        {
+          "text": "few",
+          "start": 14760,
+          "end": 14959,
+          "confidence": 0.99998224,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurants.",
+          "start": 14959,
+          "end": 15709,
+          "confidence": 0.9178431,
+          "speaker": "A"
+        },
+        {
+          "text": "Um,",
+          "start": 15840,
+          "end": 16340,
+          "confidence": 0.5741526,
+          "speaker": "A"
+        },
+        {
+          "text": "there's",
+          "start": 16340,
+          "end": 16480,
+          "confidence": 0.9991723,
+          "speaker": "A"
+        },
+        {
+          "text": "an",
+          "start": 16480,
+          "end": 16620,
+          "confidence": 0.9993774,
+          "speaker": "A"
+        },
+        {
+          "text": "Italian",
+          "start": 16620,
+          "end": 17000,
+          "confidence": 0.99982077,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurant,",
+          "start": 17000,
+          "end": 17950,
+          "confidence": 0.81695855,
+          "speaker": "A"
+        },
+        {
+          "text": "there's",
+          "start": 18500,
+          "end": 19580,
+          "confidence": 0.9985928,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 19580,
+          "end": 20540,
+          "confidence": 0.9960175,
+          "speaker": "A"
+        },
+        {
+          "text": "grilled",
+          "start": 20540,
+          "end": 20880,
+          "confidence": 0.9998073,
+          "speaker": "A"
+        },
+        {
+          "text": "chicken",
+          "start": 20880,
+          "end": 21460,
+          "confidence": 0.99975556,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurant,",
+          "start": 21460,
+          "end": 23060,
+          "confidence": 0.98744303,
+          "speaker": "A"
+        },
+        {
+          "text": "there",
+          "start": 23060,
+          "end": 23440,
+          "confidence": 0.99965954,
+          "speaker": "A"
+        },
+        {
+          "text": "is",
+          "start": 23440,
+          "end": 23720,
+          "confidence": 0.9955793,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 23720,
+          "end": 24520,
+          "confidence": 0.999403,
+          "speaker": "A"
+        },
+        {
+          "text": "fish",
+          "start": 24520,
+          "end": 25120,
+          "confidence": 0.9991535,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurant,",
+          "start": 25120,
+          "end": 25820,
+          "confidence": 0.4289701,
+          "speaker": "A"
+        },
+        {
+          "text": "And",
+          "start": 26110,
+          "end": 26809,
+          "confidence": 0.6895946,
+          "speaker": "A"
+        },
+        {
+          "text": "there",
+          "start": 26809,
+          "end": 26910,
+          "confidence": 0.98476654,
+          "speaker": "A"
+        },
+        {
+          "text": "is",
+          "start": 26910,
+          "end": 27070,
+          "confidence": 0.6137163,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 27070,
+          "end": 27330,
+          "confidence": 0.99291056,
+          "speaker": "A"
+        },
+        {
+          "text": "family",
+          "start": 27330,
+          "end": 27730,
+          "confidence": 0.85318273,
+          "speaker": "A"
+        },
+        {
+          "text": "diner.",
+          "start": 27730,
+          "end": 28730,
+          "confidence": 0.98647547,
+          "speaker": "A"
+        }
+      ]
+    },
+    {
+      "speaker": "B",
+      "text": "Hmm, family diner, what's that?",
+      "confidence": 0.75855374,
+      "start": 29450,
+      "end": 32049,
+      "words": [
+        {
+          "text": "Hmm,",
+          "start": 29450,
+          "end": 30369,
+          "confidence": 0.34416026,
+          "speaker": "B"
+        },
+        {
+          "text": "family",
+          "start": 30369,
+          "end": 30410,
+          "confidence": 0.9495946,
+          "speaker": "B"
+        },
+        {
+          "text": "diner,",
+          "start": 30410,
+          "end": 30810,
+          "confidence": 0.5140848,
+          "speaker": "B"
+        },
+        {
+          "text": "what's",
+          "start": 30810,
+          "end": 31049,
+          "confidence": 0.9865246,
+          "speaker": "B"
+        },
+        {
+          "text": "that?",
+          "start": 31049,
+          "end": 32049,
+          "confidence": 0.99840426,
+          "speaker": "B"
+        }
+      ]
+    },
+    {
+      "speaker": "A",
+      "text": "Family diner is one of those restaurants that they serve many types of food. For example, they have noodles, they have pasta, they have hamburger, they have salad. Pretty much anyone in the family could order what they want. They have desserts, things like that.",
+      "confidence": 0.9625013,
+      "start": 32169,
+      "end": 52630,
+      "words": [
+        {
+          "text": "Family",
+          "start": 32169,
+          "end": 32450,
+          "confidence": 0.6059514,
+          "speaker": "A"
+        },
+        {
+          "text": "diner",
+          "start": 32450,
+          "end": 32950,
+          "confidence": 0.99897087,
+          "speaker": "A"
+        },
+        {
+          "text": "is",
+          "start": 32950,
+          "end": 33450,
+          "confidence": 0.998473,
+          "speaker": "A"
+        },
+        {
+          "text": "one",
+          "start": 33450,
+          "end": 36070,
+          "confidence": 0.54589707,
+          "speaker": "A"
+        },
+        {
+          "text": "of",
+          "start": 36070,
+          "end": 36189,
+          "confidence": 0.99929535,
+          "speaker": "A"
+        },
+        {
+          "text": "those",
+          "start": 36189,
+          "end": 36370,
+          "confidence": 0.99847215,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurants",
+          "start": 36370,
+          "end": 36810,
+          "confidence": 0.9997838,
+          "speaker": "A"
+        },
+        {
+          "text": "that",
+          "start": 36810,
+          "end": 37090,
+          "confidence": 0.9234897,
+          "speaker": "A"
+        },
+        {
+          "text": "they",
+          "start": 37090,
+          "end": 37269,
+          "confidence": 0.9053344,
+          "speaker": "A"
+        },
+        {
+          "text": "serve",
+          "start": 37269,
+          "end": 37529,
+          "confidence": 0.99866796,
+          "speaker": "A"
+        },
+        {
+          "text": "many",
+          "start": 37529,
+          "end": 37790,
+          "confidence": 0.99982244,
+          "speaker": "A"
+        },
+        {
+          "text": "types",
+          "start": 37790,
+          "end": 38130,
+          "confidence": 0.99776435,
+          "speaker": "A"
+        },
+        {
+          "text": "of",
+          "start": 38130,
+          "end": 38450,
+          "confidence": 0.99972767,
+          "speaker": "A"
+        },
+        {
+          "text": "food.",
+          "start": 38450,
+          "end": 39150,
+          "confidence": 0.94535214,
+          "speaker": "A"
+        },
+        {
+          "text": "For",
+          "start": 39250,
+          "end": 39410,
+          "confidence": 0.99857736,
+          "speaker": "A"
+        },
+        {
+          "text": "example,",
+          "start": 39410,
+          "end": 39790,
+          "confidence": 0.9897092,
+          "speaker": "A"
+        },
+        {
+          "text": "they",
+          "start": 39790,
+          "end": 39890,
+          "confidence": 0.99872273,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 39890,
+          "end": 40010,
+          "confidence": 0.99842,
+          "speaker": "A"
+        },
+        {
+          "text": "noodles,",
+          "start": 40010,
+          "end": 40310,
+          "confidence": 0.9091211,
+          "speaker": "A"
+        },
+        {
+          "text": "they",
+          "start": 41010,
+          "end": 41010,
+          "confidence": 0.9834832,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 41010,
+          "end": 41189,
+          "confidence": 0.99953425,
+          "speaker": "A"
+        },
+        {
+          "text": "pasta,",
+          "start": 41189,
+          "end": 41640,
+          "confidence": 0.9852459,
+          "speaker": "A"
+        },
+        {
+          "text": "they",
+          "start": 42530,
+          "end": 42530,
+          "confidence": 0.99666756,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 42530,
+          "end": 42730,
+          "confidence": 0.9993562,
+          "speaker": "A"
+        },
+        {
+          "text": "hamburger,",
+          "start": 42730,
+          "end": 43230,
+          "confidence": 0.9290752,
+          "speaker": "A"
+        },
+        {
+          "text": "they",
+          "start": 44490,
+          "end": 44490,
+          "confidence": 0.9984333,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 44490,
+          "end": 45370,
+          "confidence": 0.99989593,
+          "speaker": "A"
+        },
+        {
+          "text": "salad.",
+          "start": 45370,
+          "end": 47250,
+          "confidence": 0.7510537,
+          "speaker": "A"
+        },
+        {
+          "text": "Pretty",
+          "start": 47250,
+          "end": 47390,
+          "confidence": 0.99945706,
+          "speaker": "A"
+        },
+        {
+          "text": "much",
+          "start": 47390,
+          "end": 47610,
+          "confidence": 0.99996376,
+          "speaker": "A"
+        },
+        {
+          "text": "anyone",
+          "start": 47610,
+          "end": 47930,
+          "confidence": 0.9906536,
+          "speaker": "A"
+        },
+        {
+          "text": "in",
+          "start": 47930,
+          "end": 48110,
+          "confidence": 0.99809927,
+          "speaker": "A"
+        },
+        {
+          "text": "the",
+          "start": 48110,
+          "end": 48230,
+          "confidence": 0.9989967,
+          "speaker": "A"
+        },
+        {
+          "text": "family",
+          "start": 48230,
+          "end": 48510,
+          "confidence": 0.99989533,
+          "speaker": "A"
+        },
+        {
+          "text": "could",
+          "start": 48510,
+          "end": 48770,
+          "confidence": 0.9393758,
+          "speaker": "A"
+        },
+        {
+          "text": "order",
+          "start": 48770,
+          "end": 49150,
+          "confidence": 0.9998735,
+          "speaker": "A"
+        },
+        {
+          "text": "what",
+          "start": 49150,
+          "end": 49710,
+          "confidence": 0.998852,
+          "speaker": "A"
+        },
+        {
+          "text": "they",
+          "start": 49710,
+          "end": 49890,
+          "confidence": 0.9999263,
+          "speaker": "A"
+        },
+        {
+          "text": "want.",
+          "start": 49890,
+          "end": 50540,
+          "confidence": 0.98857695,
+          "speaker": "A"
+        },
+        {
+          "text": "They",
+          "start": 50810,
+          "end": 51050,
+          "confidence": 0.99932456,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 51050,
+          "end": 51250,
+          "confidence": 0.99964106,
+          "speaker": "A"
+        },
+        {
+          "text": "desserts,",
+          "start": 51250,
+          "end": 51910,
+          "confidence": 0.9505538,
+          "speaker": "A"
+        },
+        {
+          "text": "things",
+          "start": 51910,
+          "end": 52110,
+          "confidence": 0.99815553,
+          "speaker": "A"
+        },
+        {
+          "text": "like",
+          "start": 52110,
+          "end": 52330,
+          "confidence": 0.9998971,
+          "speaker": "A"
+        },
+        {
+          "text": "that.",
+          "start": 52330,
+          "end": 52630,
+          "confidence": 0.9970165,
+          "speaker": "A"
+        }
+      ]
+    },
+    {
+      "speaker": "B",
+      "text": "Well, that makes sense. That's why it's called a family diner or family restaurant, because I guess everyone in the family will be happy if they eat there. Oh, you said Italian restaurant.",
+      "confidence": 0.9285499,
+      "start": 52720,
+      "end": 64970,
+      "words": [
+        {
+          "text": "Well,",
+          "start": 52720,
+          "end": 52880,
+          "confidence": 0.5021641,
+          "speaker": "B"
+        },
+        {
+          "text": "that",
+          "start": 52880,
+          "end": 53000,
+          "confidence": 0.9983381,
+          "speaker": "B"
+        },
+        {
+          "text": "makes",
+          "start": 53000,
+          "end": 53280,
+          "confidence": 0.9988625,
+          "speaker": "B"
+        },
+        {
+          "text": "sense.",
+          "start": 53280,
+          "end": 53740,
+          "confidence": 0.93523395,
+          "speaker": "B"
+        },
+        {
+          "text": "That's",
+          "start": 53740,
+          "end": 53880,
+          "confidence": 0.9964189,
+          "speaker": "B"
+        },
+        {
+          "text": "why",
+          "start": 53880,
+          "end": 54020,
+          "confidence": 0.99907434,
+          "speaker": "B"
+        },
+        {
+          "text": "it's",
+          "start": 54020,
+          "end": 54280,
+          "confidence": 0.9986186,
+          "speaker": "B"
+        },
+        {
+          "text": "called",
+          "start": 54280,
+          "end": 54640,
+          "confidence": 0.9525737,
+          "speaker": "B"
+        },
+        {
+          "text": "a",
+          "start": 54640,
+          "end": 54860,
+          "confidence": 0.9669511,
+          "speaker": "B"
+        },
+        {
+          "text": "family",
+          "start": 54860,
+          "end": 55440,
+          "confidence": 0.91854906,
+          "speaker": "B"
+        },
+        {
+          "text": "diner",
+          "start": 55440,
+          "end": 56240,
+          "confidence": 0.9860146,
+          "speaker": "B"
+        },
+        {
+          "text": "or",
+          "start": 56240,
+          "end": 56440,
+          "confidence": 0.80272275,
+          "speaker": "B"
+        },
+        {
+          "text": "family",
+          "start": 56440,
+          "end": 56840,
+          "confidence": 0.832815,
+          "speaker": "B"
+        },
+        {
+          "text": "restaurant,",
+          "start": 56840,
+          "end": 57660,
+          "confidence": 0.67530155,
+          "speaker": "B"
+        },
+        {
+          "text": "because",
+          "start": 57660,
+          "end": 58220,
+          "confidence": 0.99956197,
+          "speaker": "B"
+        },
+        {
+          "text": "I",
+          "start": 58220,
+          "end": 58500,
+          "confidence": 0.9371073,
+          "speaker": "B"
+        },
+        {
+          "text": "guess",
+          "start": 58500,
+          "end": 59000,
+          "confidence": 0.9998925,
+          "speaker": "B"
+        },
+        {
+          "text": "everyone",
+          "start": 59000,
+          "end": 59859,
+          "confidence": 0.91924715,
+          "speaker": "B"
+        },
+        {
+          "text": "in",
+          "start": 59859,
+          "end": 60120,
+          "confidence": 0.9996753,
+          "speaker": "B"
+        },
+        {
+          "text": "the",
+          "start": 60120,
+          "end": 60319,
+          "confidence": 0.99977905,
+          "speaker": "B"
+        },
+        {
+          "text": "family",
+          "start": 60319,
+          "end": 60640,
+          "confidence": 0.9998498,
+          "speaker": "B"
+        },
+        {
+          "text": "will",
+          "start": 60640,
+          "end": 60860,
+          "confidence": 0.99856746,
+          "speaker": "B"
+        },
+        {
+          "text": "be",
+          "start": 60860,
+          "end": 60999,
+          "confidence": 0.99992883,
+          "speaker": "B"
+        },
+        {
+          "text": "happy",
+          "start": 60999,
+          "end": 61380,
+          "confidence": 0.9998882,
+          "speaker": "B"
+        },
+        {
+          "text": "if",
+          "start": 61380,
+          "end": 61759,
+          "confidence": 0.9960879,
+          "speaker": "B"
+        },
+        {
+          "text": "they",
+          "start": 61759,
+          "end": 61980,
+          "confidence": 0.9998969,
+          "speaker": "B"
+        },
+        {
+          "text": "eat",
+          "start": 61980,
+          "end": 62180,
+          "confidence": 0.9998555,
+          "speaker": "B"
+        },
+        {
+          "text": "there.",
+          "start": 62180,
+          "end": 62730,
+          "confidence": 0.99790055,
+          "speaker": "B"
+        },
+        {
+          "text": "Oh,",
+          "start": 63600,
+          "end": 63700,
+          "confidence": 0.5020415,
+          "speaker": "B"
+        },
+        {
+          "text": "you",
+          "start": 63700,
+          "end": 63800,
+          "confidence": 0.99933726,
+          "speaker": "B"
+        },
+        {
+          "text": "said",
+          "start": 63800,
+          "end": 64020,
+          "confidence": 0.99911624,
+          "speaker": "B"
+        },
+        {
+          "text": "Italian",
+          "start": 64020,
+          "end": 64419,
+          "confidence": 0.9843774,
+          "speaker": "B"
+        },
+        {
+          "text": "restaurant.",
+          "start": 64419,
+          "end": 64970,
+          "confidence": 0.74639696,
+          "speaker": "B"
+        }
+      ]
+    },
+    {
+      "speaker": "A",
+      "text": "Yeah, there's an Italian restaurant. It's a very small family-owned Italian restaurant. They have really good pasta, fresh salads. They always have really good specials. The only problem is it's really crowded, and it's a little expensive because it's very popular.",
+      "confidence": 0.94386,
+      "start": 65480,
+      "end": 83960,
+      "words": [
+        {
+          "text": "Yeah,",
+          "start": 65480,
+          "end": 65880,
+          "confidence": 0.7258972,
+          "speaker": "A"
+        },
+        {
+          "text": "there's",
+          "start": 65880,
+          "end": 66120,
+          "confidence": 0.9896435,
+          "speaker": "A"
+        },
+        {
+          "text": "an",
+          "start": 66120,
+          "end": 66300,
+          "confidence": 0.9993907,
+          "speaker": "A"
+        },
+        {
+          "text": "Italian",
+          "start": 66300,
+          "end": 66660,
+          "confidence": 0.9999752,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurant.",
+          "start": 66660,
+          "end": 67560,
+          "confidence": 0.95074034,
+          "speaker": "A"
+        },
+        {
+          "text": "It's",
+          "start": 68280,
+          "end": 68660,
+          "confidence": 0.9652741,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 68660,
+          "end": 68920,
+          "confidence": 0.9985763,
+          "speaker": "A"
+        },
+        {
+          "text": "very",
+          "start": 68920,
+          "end": 69200,
+          "confidence": 0.9995747,
+          "speaker": "A"
+        },
+        {
+          "text": "small",
+          "start": 69200,
+          "end": 69780,
+          "confidence": 0.99997294,
+          "speaker": "A"
+        },
+        {
+          "text": "family-owned",
+          "start": 69780,
+          "end": 70660,
+          "confidence": 0.7011298,
+          "speaker": "A"
+        },
+        {
+          "text": "Italian",
+          "start": 70660,
+          "end": 71100,
+          "confidence": 0.99986184,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurant.",
+          "start": 71100,
+          "end": 72200,
+          "confidence": 0.9880396,
+          "speaker": "A"
+        },
+        {
+          "text": "They",
+          "start": 72320,
+          "end": 72420,
+          "confidence": 0.99744296,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 72420,
+          "end": 72680,
+          "confidence": 0.9994073,
+          "speaker": "A"
+        },
+        {
+          "text": "really",
+          "start": 72680,
+          "end": 72960,
+          "confidence": 0.99980384,
+          "speaker": "A"
+        },
+        {
+          "text": "good",
+          "start": 72960,
+          "end": 73180,
+          "confidence": 0.99989414,
+          "speaker": "A"
+        },
+        {
+          "text": "pasta,",
+          "start": 73180,
+          "end": 74580,
+          "confidence": 0.9216129,
+          "speaker": "A"
+        },
+        {
+          "text": "fresh",
+          "start": 74580,
+          "end": 75160,
+          "confidence": 0.9988951,
+          "speaker": "A"
+        },
+        {
+          "text": "salads.",
+          "start": 75160,
+          "end": 75860,
+          "confidence": 0.83202213,
+          "speaker": "A"
+        },
+        {
+          "text": "They",
+          "start": 76680,
+          "end": 76920,
+          "confidence": 0.9997466,
+          "speaker": "A"
+        },
+        {
+          "text": "always",
+          "start": 76920,
+          "end": 77140,
+          "confidence": 0.99618787,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 77140,
+          "end": 77320,
+          "confidence": 0.99944156,
+          "speaker": "A"
+        },
+        {
+          "text": "really",
+          "start": 77320,
+          "end": 77560,
+          "confidence": 0.99975187,
+          "speaker": "A"
+        },
+        {
+          "text": "good",
+          "start": 77560,
+          "end": 77800,
+          "confidence": 0.9999013,
+          "speaker": "A"
+        },
+        {
+          "text": "specials.",
+          "start": 77800,
+          "end": 78400,
+          "confidence": 0.902611,
+          "speaker": "A"
+        },
+        {
+          "text": "The",
+          "start": 78900,
+          "end": 79550,
+          "confidence": 0.9611661,
+          "speaker": "A"
+        },
+        {
+          "text": "only",
+          "start": 79550,
+          "end": 79750,
+          "confidence": 0.9997346,
+          "speaker": "A"
+        },
+        {
+          "text": "problem",
+          "start": 79750,
+          "end": 80070,
+          "confidence": 0.99926645,
+          "speaker": "A"
+        },
+        {
+          "text": "is",
+          "start": 80070,
+          "end": 80350,
+          "confidence": 0.99761474,
+          "speaker": "A"
+        },
+        {
+          "text": "it's",
+          "start": 80350,
+          "end": 80610,
+          "confidence": 0.44485655,
+          "speaker": "A"
+        },
+        {
+          "text": "really",
+          "start": 80610,
+          "end": 80810,
+          "confidence": 0.9988921,
+          "speaker": "A"
+        },
+        {
+          "text": "crowded,",
+          "start": 80810,
+          "end": 81510,
+          "confidence": 0.45964044,
+          "speaker": "A"
+        },
+        {
+          "text": "and",
+          "start": 81610,
+          "end": 81790,
+          "confidence": 0.9992995,
+          "speaker": "A"
+        },
+        {
+          "text": "it's",
+          "start": 81790,
+          "end": 81930,
+          "confidence": 0.9930513,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 81930,
+          "end": 82030,
+          "confidence": 0.99820364,
+          "speaker": "A"
+        },
+        {
+          "text": "little",
+          "start": 82030,
+          "end": 82150,
+          "confidence": 0.9999478,
+          "speaker": "A"
+        },
+        {
+          "text": "expensive",
+          "start": 82150,
+          "end": 82710,
+          "confidence": 0.99978346,
+          "speaker": "A"
+        },
+        {
+          "text": "because",
+          "start": 82710,
+          "end": 83070,
+          "confidence": 0.88638645,
+          "speaker": "A"
+        },
+        {
+          "text": "it's",
+          "start": 83070,
+          "end": 83389,
+          "confidence": 0.9981071,
+          "speaker": "A"
+        },
+        {
+          "text": "very",
+          "start": 83389,
+          "end": 83509,
+          "confidence": 0.99883515,
+          "speaker": "A"
+        },
+        {
+          "text": "popular.",
+          "start": 83509,
+          "end": 83960,
+          "confidence": 0.99868035,
+          "speaker": "A"
+        }
+      ]
+    },
+    {
+      "speaker": "B",
+      "text": "Oh, really? Uh, do they have pizza? I like pizza.",
+      "confidence": 0.90128434,
+      "start": 84370,
+      "end": 88060,
+      "words": [
+        {
+          "text": "Oh,",
+          "start": 84370,
+          "end": 85049,
+          "confidence": 0.72591716,
+          "speaker": "B"
+        },
+        {
+          "text": "really?",
+          "start": 85049,
+          "end": 86290,
+          "confidence": 0.9407314,
+          "speaker": "B"
+        },
+        {
+          "text": "Uh,",
+          "start": 86290,
+          "end": 86349,
+          "confidence": 0.4679639,
+          "speaker": "B"
+        },
+        {
+          "text": "do",
+          "start": 86349,
+          "end": 86490,
+          "confidence": 0.90176445,
+          "speaker": "B"
+        },
+        {
+          "text": "they",
+          "start": 86490,
+          "end": 86610,
+          "confidence": 0.9993444,
+          "speaker": "B"
+        },
+        {
+          "text": "have",
+          "start": 86610,
+          "end": 86770,
+          "confidence": 0.9994573,
+          "speaker": "B"
+        },
+        {
+          "text": "pizza?",
+          "start": 86770,
+          "end": 87119,
+          "confidence": 0.9988067,
+          "speaker": "B"
+        },
+        {
+          "text": "I",
+          "start": 87310,
+          "end": 87430,
+          "confidence": 0.99818254,
+          "speaker": "B"
+        },
+        {
+          "text": "like",
+          "start": 87430,
+          "end": 87610,
+          "confidence": 0.99976116,
+          "speaker": "B"
+        },
+        {
+          "text": "pizza.",
+          "start": 87610,
+          "end": 88060,
+          "confidence": 0.9809146,
+          "speaker": "B"
+        }
+      ]
+    },
+    {
+      "speaker": "A",
+      "text": "Actually, they don't have pizza. They only have pasta.",
+      "confidence": 0.975683,
+      "start": 88170,
+      "end": 90400,
+      "words": [
+        {
+          "text": "Actually,",
+          "start": 88170,
+          "end": 88490,
+          "confidence": 0.9606349,
+          "speaker": "A"
+        },
+        {
+          "text": "they",
+          "start": 88490,
+          "end": 88690,
+          "confidence": 0.99961543,
+          "speaker": "A"
+        },
+        {
+          "text": "don't",
+          "start": 88690,
+          "end": 88890,
+          "confidence": 0.99976414,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 88890,
+          "end": 89090,
+          "confidence": 0.9995727,
+          "speaker": "A"
+        },
+        {
+          "text": "pizza.",
+          "start": 89090,
+          "end": 89410,
+          "confidence": 0.82548845,
+          "speaker": "A"
+        },
+        {
+          "text": "They",
+          "start": 89410,
+          "end": 89510,
+          "confidence": 0.9995004,
+          "speaker": "A"
+        },
+        {
+          "text": "only",
+          "start": 89510,
+          "end": 89730,
+          "confidence": 0.99823666,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 89730,
+          "end": 89850,
+          "confidence": 0.9993812,
+          "speaker": "A"
+        },
+        {
+          "text": "pasta.",
+          "start": 89850,
+          "end": 90400,
+          "confidence": 0.99895275,
+          "speaker": "A"
+        }
+      ]
+    },
+    {
+      "speaker": "B",
+      "text": "Okay. Uh, what were the other choices?",
+      "confidence": 0.8835866,
+      "start": 90869,
+      "end": 93130,
+      "words": [
+        {
+          "text": "Okay.",
+          "start": 90869,
+          "end": 91650,
+          "confidence": 0.5708172,
+          "speaker": "B"
+        },
+        {
+          "text": "Uh,",
+          "start": 91650,
+          "end": 92150,
+          "confidence": 0.622533,
+          "speaker": "B"
+        },
+        {
+          "text": "what",
+          "start": 92150,
+          "end": 92170,
+          "confidence": 0.9996346,
+          "speaker": "B"
+        },
+        {
+          "text": "were",
+          "start": 92170,
+          "end": 92369,
+          "confidence": 0.99318814,
+          "speaker": "B"
+        },
+        {
+          "text": "the",
+          "start": 92369,
+          "end": 92470,
+          "confidence": 0.999561,
+          "speaker": "B"
+        },
+        {
+          "text": "other",
+          "start": 92470,
+          "end": 92630,
+          "confidence": 0.99965847,
+          "speaker": "B"
+        },
+        {
+          "text": "choices?",
+          "start": 92630,
+          "end": 93130,
+          "confidence": 0.9997136,
+          "speaker": "B"
+        }
+      ]
+    },
+    {
+      "speaker": "A",
+      "text": "There's also a fish restaurant, and there's a grilled chicken restaurant.",
+      "confidence": 0.979036,
+      "start": 93250,
+      "end": 97510,
+      "words": [
+        {
+          "text": "There's",
+          "start": 93250,
+          "end": 93550,
+          "confidence": 0.9899816,
+          "speaker": "A"
+        },
+        {
+          "text": "also",
+          "start": 93550,
+          "end": 93789,
+          "confidence": 0.99916065,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 93789,
+          "end": 93949,
+          "confidence": 0.9989165,
+          "speaker": "A"
+        },
+        {
+          "text": "fish",
+          "start": 93949,
+          "end": 94190,
+          "confidence": 0.99991477,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurant,",
+          "start": 94190,
+          "end": 94790,
+          "confidence": 0.79527694,
+          "speaker": "A"
+        },
+        {
+          "text": "and",
+          "start": 94790,
+          "end": 95470,
+          "confidence": 0.9998468,
+          "speaker": "A"
+        },
+        {
+          "text": "there's",
+          "start": 95470,
+          "end": 95750,
+          "confidence": 0.99207264,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 95750,
+          "end": 95930,
+          "confidence": 0.99630994,
+          "speaker": "A"
+        },
+        {
+          "text": "grilled",
+          "start": 95930,
+          "end": 96290,
+          "confidence": 0.99984753,
+          "speaker": "A"
+        },
+        {
+          "text": "chicken",
+          "start": 96290,
+          "end": 96630,
+          "confidence": 0.99916947,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurant.",
+          "start": 96630,
+          "end": 97510,
+          "confidence": 0.9988987,
+          "speaker": "A"
+        }
+      ]
+    },
+    {
+      "speaker": "B",
+      "text": "Grilled chicken? That's pretty general. How do they serve that?",
+      "confidence": 0.8250121,
+      "start": 97510,
+      "end": 101710,
+      "words": [
+        {
+          "text": "Grilled",
+          "start": 97510,
+          "end": 97830,
+          "confidence": 0.39398238,
+          "speaker": "B"
+        },
+        {
+          "text": "chicken?",
+          "start": 97830,
+          "end": 98590,
+          "confidence": 0.38091785,
+          "speaker": "B"
+        },
+        {
+          "text": "That's",
+          "start": 98590,
+          "end": 99250,
+          "confidence": 0.508123,
+          "speaker": "B"
+        },
+        {
+          "text": "pretty",
+          "start": 99250,
+          "end": 99450,
+          "confidence": 0.99383014,
+          "speaker": "B"
+        },
+        {
+          "text": "general.",
+          "start": 99450,
+          "end": 100490,
+          "confidence": 0.9905854,
+          "speaker": "B"
+        },
+        {
+          "text": "How",
+          "start": 100490,
+          "end": 100770,
+          "confidence": 0.99419373,
+          "speaker": "B"
+        },
+        {
+          "text": "do",
+          "start": 100770,
+          "end": 100870,
+          "confidence": 0.9920379,
+          "speaker": "B"
+        },
+        {
+          "text": "they",
+          "start": 100870,
+          "end": 101010,
+          "confidence": 0.99980503,
+          "speaker": "B"
+        },
+        {
+          "text": "serve",
+          "start": 101010,
+          "end": 101250,
+          "confidence": 0.9998272,
+          "speaker": "B"
+        },
+        {
+          "text": "that?",
+          "start": 101250,
+          "end": 101710,
+          "confidence": 0.9968184,
+          "speaker": "B"
+        }
+      ]
+    },
+    {
+      "speaker": "A",
+      "text": "It's actually— it's not a restaurant. This guy has a small stand. A very small area, and there's some small tables in front of it. And he just grills chicken kind of on the street, and then he has little tables in front of his booth or stall, and you eat chicken for really cheap.",
+      "confidence": 0.91123134,
+      "start": 101710,
+      "end": 123320,
+      "words": [
+        {
+          "text": "It's",
+          "start": 101710,
+          "end": 101890,
+          "confidence": 0.5695071,
+          "speaker": "A"
+        },
+        {
+          "text": "actually—",
+          "start": 101890,
+          "end": 102410,
+          "confidence": 0.3890748,
+          "speaker": "A"
+        },
+        {
+          "text": "it's",
+          "start": 102410,
+          "end": 102410,
+          "confidence": 0.9225593,
+          "speaker": "A"
+        },
+        {
+          "text": "not",
+          "start": 102410,
+          "end": 102470,
+          "confidence": 0.9993944,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 102470,
+          "end": 102630,
+          "confidence": 0.9985453,
+          "speaker": "A"
+        },
+        {
+          "text": "restaurant.",
+          "start": 102630,
+          "end": 103080,
+          "confidence": 0.98343635,
+          "speaker": "A"
+        },
+        {
+          "text": "This",
+          "start": 103330,
+          "end": 103730,
+          "confidence": 0.88250434,
+          "speaker": "A"
+        },
+        {
+          "text": "guy",
+          "start": 103730,
+          "end": 104010,
+          "confidence": 0.9994869,
+          "speaker": "A"
+        },
+        {
+          "text": "has",
+          "start": 104010,
+          "end": 104250,
+          "confidence": 0.9993587,
+          "speaker": "A"
+        },
+        {
+          "text": "a",
+          "start": 104250,
+          "end": 104470,
+          "confidence": 0.9990139,
+          "speaker": "A"
+        },
+        {
+          "text": "small",
+          "start": 104470,
+          "end": 104870,
+          "confidence": 0.99976,
+          "speaker": "A"
+        },
+        {
+          "text": "stand.",
+          "start": 104870,
+          "end": 105520,
+          "confidence": 0.3831457,
+          "speaker": "A"
+        },
+        {
+          "text": "A",
+          "start": 105760,
+          "end": 106380,
+          "confidence": 0.26131538,
+          "speaker": "A"
+        },
+        {
+          "text": "very",
+          "start": 106380,
+          "end": 106640,
+          "confidence": 0.99865603,
+          "speaker": "A"
+        },
+        {
+          "text": "small",
+          "start": 106640,
+          "end": 107100,
+          "confidence": 0.99993324,
+          "speaker": "A"
+        },
+        {
+          "text": "area,",
+          "start": 107100,
+          "end": 107900,
+          "confidence": 0.5164111,
+          "speaker": "A"
+        },
+        {
+          "text": "and",
+          "start": 107900,
+          "end": 107940,
+          "confidence": 0.9996213,
+          "speaker": "A"
+        },
+        {
+          "text": "there's",
+          "start": 107940,
+          "end": 108200,
+          "confidence": 0.8369792,
+          "speaker": "A"
+        },
+        {
+          "text": "some",
+          "start": 108200,
+          "end": 108600,
+          "confidence": 0.9957514,
+          "speaker": "A"
+        },
+        {
+          "text": "small",
+          "start": 108600,
+          "end": 108800,
+          "confidence": 0.99985194,
+          "speaker": "A"
+        },
+        {
+          "text": "tables",
+          "start": 108800,
+          "end": 109160,
+          "confidence": 0.99995756,
+          "speaker": "A"
+        },
+        {
+          "text": "in",
+          "start": 109160,
+          "end": 109420,
+          "confidence": 0.99969125,
+          "speaker": "A"
+        },
+        {
+          "text": "front",
+          "start": 109420,
+          "end": 109500,
+          "confidence": 0.99992967,
+          "speaker": "A"
+        },
+        {
+          "text": "of",
+          "start": 109500,
+          "end": 109679,
+          "confidence": 0.9995912,
+          "speaker": "A"
+        },
+        {
+          "text": "it.",
+          "start": 109679,
+          "end": 110330,
+          "confidence": 0.52036357,
+          "speaker": "A"
+        },
+        {
+          "text": "And",
+          "start": 110460,
+          "end": 110620,
+          "confidence": 0.9520252,
+          "speaker": "A"
+        },
+        {
+          "text": "he",
+          "start": 110620,
+          "end": 110740,
+          "confidence": 0.99669844,
+          "speaker": "A"
+        },
+        {
+          "text": "just",
+          "start": 110740,
+          "end": 111059,
+          "confidence": 0.9996685,
+          "speaker": "A"
+        },
+        {
+          "text": "grills",
+          "start": 111059,
+          "end": 111460,
+          "confidence": 0.9996116,
+          "speaker": "A"
+        },
+        {
+          "text": "chicken",
+          "start": 111460,
+          "end": 112160,
+          "confidence": 0.9996094,
+          "speaker": "A"
+        },
+        {
+          "text": "kind",
+          "start": 112160,
+          "end": 113099,
+          "confidence": 0.635472,
+          "speaker": "A"
+        },
+        {
+          "text": "of",
+          "start": 113099,
+          "end": 113240,
+          "confidence": 0.99967515,
+          "speaker": "A"
+        },
+        {
+          "text": "on",
+          "start": 113240,
+          "end": 113439,
+          "confidence": 0.9950825,
+          "speaker": "A"
+        },
+        {
+          "text": "the",
+          "start": 113439,
+          "end": 113599,
+          "confidence": 0.9999106,
+          "speaker": "A"
+        },
+        {
+          "text": "street,",
+          "start": 113599,
+          "end": 114020,
+          "confidence": 0.6297921,
+          "speaker": "A"
+        },
+        {
+          "text": "and",
+          "start": 114470,
+          "end": 115320,
+          "confidence": 0.9937198,
+          "speaker": "A"
+        },
+        {
+          "text": "then",
+          "start": 115320,
+          "end": 115660,
+          "confidence": 0.9987147,
+          "speaker": "A"
+        },
+        {
+          "text": "he",
+          "start": 115660,
+          "end": 115879,
+          "confidence": 0.9985636,
+          "speaker": "A"
+        },
+        {
+          "text": "has",
+          "start": 115879,
+          "end": 116200,
+          "confidence": 0.9949443,
+          "speaker": "A"
+        },
+        {
+          "text": "little",
+          "start": 116200,
+          "end": 116420,
+          "confidence": 0.99866116,
+          "speaker": "A"
+        },
+        {
+          "text": "tables",
+          "start": 116420,
+          "end": 116799,
+          "confidence": 0.99996674,
+          "speaker": "A"
+        },
+        {
+          "text": "in",
+          "start": 116799,
+          "end": 117100,
+          "confidence": 0.99976605,
+          "speaker": "A"
+        },
+        {
+          "text": "front",
+          "start": 117100,
+          "end": 117220,
+          "confidence": 0.99995065,
+          "speaker": "A"
+        },
+        {
+          "text": "of",
+          "start": 117220,
+          "end": 117400,
+          "confidence": 0.9996264,
+          "speaker": "A"
+        },
+        {
+          "text": "his",
+          "start": 117400,
+          "end": 117799,
+          "confidence": 0.9991003,
+          "speaker": "A"
+        },
+        {
+          "text": "booth",
+          "start": 117799,
+          "end": 118440,
+          "confidence": 0.98597705,
+          "speaker": "A"
+        },
+        {
+          "text": "or",
+          "start": 118440,
+          "end": 118820,
+          "confidence": 0.93753004,
+          "speaker": "A"
+        },
+        {
+          "text": "stall,",
+          "start": 118820,
+          "end": 119640,
+          "confidence": 0.7576704,
+          "speaker": "A"
+        },
+        {
+          "text": "and",
+          "start": 119640,
+          "end": 120539,
+          "confidence": 0.9998611,
+          "speaker": "A"
+        },
+        {
+          "text": "you",
+          "start": 120539,
+          "end": 120780,
+          "confidence": 0.9994199,
+          "speaker": "A"
+        },
+        {
+          "text": "eat",
+          "start": 120780,
+          "end": 120980,
+          "confidence": 0.9985764,
+          "speaker": "A"
+        },
+        {
+          "text": "chicken",
+          "start": 120980,
+          "end": 121480,
+          "confidence": 0.9997789,
+          "speaker": "A"
+        },
+        {
+          "text": "for",
+          "start": 121480,
+          "end": 122180,
+          "confidence": 0.998754,
+          "speaker": "A"
+        },
+        {
+          "text": "really",
+          "start": 122180,
+          "end": 122480,
+          "confidence": 0.9990901,
+          "speaker": "A"
+        },
+        {
+          "text": "cheap.",
+          "start": 122480,
+          "end": 123320,
+          "confidence": 0.9966667,
+          "speaker": "A"
+        }
+      ]
+    },
+    {
+      "speaker": "B",
+      "text": "Oh, that sounds really cool. Let's do that.",
+      "confidence": 0.9483075,
+      "start": 123320,
+      "end": 125150,
+      "words": [
+        {
+          "text": "Oh,",
+          "start": 123320,
+          "end": 123440,
+          "confidence": 0.93732494,
+          "speaker": "B"
+        },
+        {
+          "text": "that",
+          "start": 123440,
+          "end": 123580,
+          "confidence": 0.99940455,
+          "speaker": "B"
+        },
+        {
+          "text": "sounds",
+          "start": 123580,
+          "end": 123840,
+          "confidence": 0.99956185,
+          "speaker": "B"
+        },
+        {
+          "text": "really",
+          "start": 123840,
+          "end": 124100,
+          "confidence": 0.9995721,
+          "speaker": "B"
+        },
+        {
+          "text": "cool.",
+          "start": 124100,
+          "end": 124360,
+          "confidence": 0.8026005,
+          "speaker": "B"
+        },
+        {
+          "text": "Let's",
+          "start": 124360,
+          "end": 124520,
+          "confidence": 0.99917144,
+          "speaker": "B"
+        },
+        {
+          "text": "do",
+          "start": 124520,
+          "end": 124700,
+          "confidence": 0.9998838,
+          "speaker": "B"
+        },
+        {
+          "text": "that.",
+          "start": 124700,
+          "end": 125150,
+          "confidence": 0.8489407,
+          "speaker": "B"
+        }
+      ]
+    },
+    {
+      "speaker": "A",
+      "text": "Yeah, yeah, and they have beer too.",
+      "confidence": 0.9282799,
+      "start": 125160,
+      "end": 126520,
+      "words": [
+        {
+          "text": "Yeah,",
+          "start": 125160,
+          "end": 125420,
+          "confidence": 0.93878704,
+          "speaker": "A"
+        },
+        {
+          "text": "yeah,",
+          "start": 125420,
+          "end": 125540,
+          "confidence": 0.62462753,
+          "speaker": "A"
+        },
+        {
+          "text": "and",
+          "start": 125540,
+          "end": 125620,
+          "confidence": 0.99670655,
+          "speaker": "A"
+        },
+        {
+          "text": "they",
+          "start": 125620,
+          "end": 125720,
+          "confidence": 0.9998424,
+          "speaker": "A"
+        },
+        {
+          "text": "have",
+          "start": 125720,
+          "end": 125880,
+          "confidence": 0.99883527,
+          "speaker": "A"
+        },
+        {
+          "text": "beer",
+          "start": 125880,
+          "end": 126120,
+          "confidence": 0.9997861,
+          "speaker": "A"
+        },
+        {
+          "text": "too.",
+          "start": 126120,
+          "end": 126520,
+          "confidence": 0.9393743,
+          "speaker": "A"
+        }
+      ]
+    },
+    {
+      "speaker": "B",
+      "text": "Oh yeah, I like beer. Cool, let's go. Okay.",
+      "confidence": 0.910487,
+      "start": 127020,
+      "end": 130420,
+      "words": [
+        {
+          "text": "Oh",
+          "start": 127020,
+          "end": 127280,
+          "confidence": 0.9663263,
+          "speaker": "B"
+        },
+        {
+          "text": "yeah,",
+          "start": 127280,
+          "end": 127780,
+          "confidence": 0.62031925,
+          "speaker": "B"
+        },
+        {
+          "text": "I",
+          "start": 127780,
+          "end": 127860,
+          "confidence": 0.99809927,
+          "speaker": "B"
+        },
+        {
+          "text": "like",
+          "start": 127860,
+          "end": 128040,
+          "confidence": 0.9998486,
+          "speaker": "B"
+        },
+        {
+          "text": "beer.",
+          "start": 128040,
+          "end": 128690,
+          "confidence": 0.9877652,
+          "speaker": "B"
+        },
+        {
+          "text": "Cool,",
+          "start": 128760,
+          "end": 129240,
+          "confidence": 0.7870685,
+          "speaker": "B"
+        },
+        {
+          "text": "let's",
+          "start": 129240,
+          "end": 129460,
+          "confidence": 0.99979156,
+          "speaker": "B"
+        },
+        {
+          "text": "go.",
+          "start": 129460,
+          "end": 129940,
+          "confidence": 0.9378176,
+          "speaker": "B"
+        },
+        {
+          "text": "Okay.",
+          "start": 129940,
+          "end": 130420,
+          "confidence": 0.89734685,
+          "speaker": "B"
+        }
+      ]
+    }
+  ],
+  "confidence": 0.9263769,
+  "audio_duration": 132,
+  "punctuate": true,
+  "format_text": true,
+  "dual_channel": false,
+  "webhook_url": null,
+  "webhook_status_code": null,
+  "webhook_auth": false,
+  "webhook_auth_header_name": null,
+  "speed_boost": false,
+  "auto_highlights_result": null,
+  "auto_highlights": false,
+  "audio_start_from": null,
+  "audio_end_at": null,
+  "word_boost": [],
+  "boost_param": null,
+  "prompt": null,
+  "keyterms_prompt": [],
+  "filter_profanity": false,
+  "redact_pii": false,
+  "redact_pii_audio": false,
+  "redact_pii_audio_quality": null,
+  "redact_pii_audio_options": null,
+  "redact_pii_policies": null,
+  "redact_pii_sub": null,
+  "redact_static_entities": null,
+  "speaker_labels": true,
+  "speaker_options": {
+    "min_speakers_expected": 2,
+    "max_speakers_expected": 2
+  },
+  "content_safety": false,
+  "iab_categories": false,
+  "content_safety_labels": {
+    "status": "unavailable",
+    "results": [],
+    "summary": {}
+  },
+  "iab_categories_result": {
+    "status": "unavailable",
+    "results": [],
+    "summary": {}
+  },
+  "language_detection": false,
+  "language_detection_options": null,
+  "language_detection_results": null,
+  "language_confidence_threshold": null,
+  "language_confidence": null,
+  "custom_spelling": null,
+  "throttled": false,
+  "auto_chapters": false,
+  "summarization": false,
+  "summary_type": null,
+  "summary_model": null,
+  "custom_topics": false,
+  "topics": [],
+  "speech_threshold": null,
+  "speech_model": null,
+  "speech_models": [
+    "universal-3-pro",
+    "universal-2"
+  ],
+  "speech_model_used": "universal-3-pro",
+  "temperature": null,
+  "remove_audio_tags": "all",
+  "chapters": null,
+  "disfluencies": false,
+  "entity_detection": false,
+  "sentiment_analysis": false,
+  "sentiment_analysis_results": null,
+  "entities": null,
+  "speakers_expected": 2,
+  "summary": null,
+  "custom_topics_results": null,
+  "is_deleted": null,
+  "multichannel": null,
+  "project_id": 1865267,
+  "token_id": 1892543
+}

@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "provider": "assemblyai",
+    "created_at": "2026-06-14T03:34:09.203Z",
+    "audio_path": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/simple-dialogue/elllo-425-dinner-plans/elllo_425_dinner_plans.wav",
+    "output_dir": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/simple-dialogue/elllo-425-dinner-plans/assemblyai",
+    "request_payload": {
+      "audio_url": "[redacted upload_url]",
+      "speech_models": [
+        "universal-3-pro",
+        "universal-2"
+      ],
+      "language_code": "en",
+      "speaker_labels": true,
+      "speakers_expected": 2
+    }
+  },
+  "summary": {
+    "id": "118e8e91-c227-4e83-9184-7df9f2ab3d38",
+    "status": "completed",
+    "audio_duration": 132,
+    "language_code": "en_us",
+    "confidence": 0.9263769,
+    "utterance_count": 16,
+    "word_count": 313,
+    "speakers": [
+      "A",
+      "B"
+    ],
+    "sample_utterances": [
+      {
+        "speaker": "A",
+        "start_ms": 530,
+        "end_ms": 6170,
+        "confidence": 0.8942854,
+        "text": "Okay, Simone, um, let's go get something to eat. Let's go out to dinner. I'm really hungry."
+      },
+      {
+        "speaker": "B",
+        "start_ms": 7020,
+        "end_ms": 12100,
+        "confidence": 0.9604443,
+        "text": "Yeah, okay, me too. I'm really hungry as well. Uh, what is there to eat around here?"
+      },
+      {
+        "speaker": "A",
+        "start_ms": 12100,
+        "end_ms": 28730,
+        "confidence": 0.91671324,
+        "text": "Well, around my house there's a few restaurants. Um, there's an Italian restaurant, there's a grilled chicken restaurant, there is a fish restaurant, And there is a family diner."
+      },
+      {
+        "speaker": "B",
+        "start_ms": 29450,
+        "end_ms": 32049,
+        "confidence": 0.75855374,
+        "text": "Hmm, family diner, what's that?"
+      },
+      {
+        "speaker": "A",
+        "start_ms": 32169,
+        "end_ms": 52630,
+        "confidence": 0.9625013,
+        "text": "Family diner is one of those restaurants that they serve many types of food. For example, they have noodles, they have pasta, they have hamburger, they have salad. Pretty much anyone in the family could order what they want. They have desserts, things like that."
+      },
+      {
+        "speaker": "B",
+        "start_ms": 52720,
+        "end_ms": 64970,
+        "confidence": 0.9285499,
+        "text": "Well, that makes sense. That's why it's called a family diner or family restaurant, because I guess everyone in the family will be happy if they eat there. Oh, you said Italian restaurant."
+      },
+      {
+        "speaker": "A",
+        "start_ms": 65480,
+        "end_ms": 83960,
+        "confidence": 0.94386,
+        "text": "Yeah, there's an Italian restaurant. It's a very small family-owned Italian restaurant. They have really good pasta, fresh salads. They always have really good specials. The only problem is it's really crowded, and it's a little expensive because it's very popular."
+      },
+      {
+        "speaker": "B",
+        "start_ms": 84370,
+        "end_ms": 88060,
+        "confidence": 0.90128434,
+        "text": "Oh, really? Uh, do they have pizza? I like pizza."
+      }
+    ]
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "sample_id": "elllo_425_dinner_plans",
+  "title": "Dinner Plans",
+  "source": "ELLLO",
+  "source_url": "https://elllo.org/english/0401/425-Simon-Dinner.htm",
+  "audio_url": "https://elllo-audio.s3.us-west-1.amazonaws.com/views-0401-0450/425-simon-dinner.mp3",
+  "note": "Use as a simple human English dialogue for internal pipeline testing.",
+  "speakers": [
+    "Todd",
+    "Simon"
+  ],
+  "turns": [
+    {
+      "turn_id": "turn_001",
+      "speaker": "Todd",
+      "text": "OK, Simon, let's go get something to eat? Let's go out to dinner. I'm really hungry."
+    },
+    {
+      "turn_id": "turn_002",
+      "speaker": "Simon",
+      "text": "Yeah, OK, me too. I'm really hungry as well. Ah, what is there to eat around here?"
+    },
+    {
+      "turn_id": "turn_003",
+      "speaker": "Todd",
+      "text": "Well, around my house there's a few restaurants. Um, there's an Italian restaurant. There's a grilled chicken restaurant. There is a fish restaurant, and there is a family diner."
+    },
+    {
+      "turn_id": "turn_004",
+      "speaker": "Simon",
+      "text": "Family diner. What's that?"
+    },
+    {
+      "turn_id": "turn_005",
+      "speaker": "Todd",
+      "text": "The family diner is one of those restaurants that they serve many types of food, for example they have noodles, they have pasta, they have hamburger, they have salad. Pretty much anyone in the family could order what they want. They have desserts, things like that."
+    },
+    {
+      "turn_id": "turn_006",
+      "speaker": "Simon",
+      "text": "Well, that makes sense, that's why it's called a family diner, or family restaurant because I guess everyone in the family will be happy if they eat there. You said Italian restaurant."
+    },
+    {
+      "turn_id": "turn_007",
+      "speaker": "Todd",
+      "text": "Ah, yeah, there's an Italian restaurant. It's a very small family owned Italian restaurant. They have really good pasta,fresh salad. They always have really good specials. The only problem is that it's really crowded and it's a little expensive because it's very popular."
+    },
+    {
+      "turn_id": "turn_008",
+      "speaker": "Simon",
+      "text": "Oh, really. Ah, do they have pizza? I like pizza."
+    },
+    {
+      "turn_id": "turn_009",
+      "speaker": "Todd",
+      "text": "Actually, they don't have pizza. They only have pasta."
+    },
+    {
+      "turn_id": "turn_010",
+      "speaker": "Simon",
+      "text": "OK. What were the other choices?"
+    },
+    {
+      "turn_id": "turn_011",
+      "speaker": "Todd",
+      "text": "There's also a fish restaurant and there's a grilled chicken restaurant. A grilled chicken. That's pretty general."
+    },
+    {
+      "turn_id": "turn_012",
+      "speaker": "Simon",
+      "text": "How do they serve that?"
+    },
+    {
+      "turn_id": "turn_013",
+      "speaker": "Todd",
+      "text": "It's actually, it's not a restaurant. This guy has a small stand, a very small area, and there are some small tables in front of it, and he just grills chicken, kind of on the street, and then he has little tables in front of his booth or stall and you eat chicken for really cheap."
+    },
+    {
+      "turn_id": "turn_014",
+      "speaker": "Simon",
+      "text": "Oh, that sounds really cool. Let's do that."
+    },
+    {
+      "turn_id": "turn_015",
+      "speaker": "Todd",
+      "text": "Yeah, yeah, and they have beer, too."
+    },
+    {
+      "turn_id": "turn_016",
+      "speaker": "Simon",
+      "text": "Oh, yeah, I like beer."
+    },
+    {
+      "turn_id": "turn_017",
+      "speaker": "Todd",
+      "text": "Cool, let's go."
+    },
+    {
+      "turn_id": "turn_018",
+      "speaker": "Simon",
+      "text": "OK."
+    }
+  ]
+}

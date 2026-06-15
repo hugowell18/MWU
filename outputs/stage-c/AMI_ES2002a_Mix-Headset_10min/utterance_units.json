@@ -1,0 +1,1399 @@
+{
+  "summary": {
+    "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+    "assemblyai_json": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/assemblyai/AMI_ES2002a_Mix-Headset_10min.assemblyai.raw.json",
+    "unit_count": 64,
+    "alignment_allowed_count": 63,
+    "blocked_count": 1,
+    "missing_speaker_count": 0,
+    "short_unit_count": 1,
+    "asr_overlap_candidate_count": 0,
+    "speaker_tier_overlap_candidate_count": 0,
+    "speakers": [
+      "speaker_A",
+      "speaker_B",
+      "speaker_C"
+    ],
+    "options": {
+      "min_duration_seconds": 0.25,
+      "overlap_min_seconds": 0.05,
+      "allow_overlap": false
+    }
+  },
+  "units": [
+    {
+      "utt_id": "utt_0001",
+      "start_sec": 0.1,
+      "end_sec": 12.32,
+      "duration_sec": 12.22,
+      "speaker": "speaker_A",
+      "text": "as it were. There are 3 different stages to the design. I'm not really sure what you guys have already received in your emails. What did you get?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0002",
+      "start_sec": 13.379,
+      "end_sec": 18.43,
+      "duration_sec": 5.051,
+      "speaker": "speaker_B",
+      "text": "I just got the project announcement, but what project is that? Designing a remote control?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0003",
+      "start_sec": 19.48,
+      "end_sec": 46.81,
+      "duration_sec": 27.33,
+      "speaker": "speaker_A",
+      "text": "Is that what everybody got? Okay. We're going to have— individual work and then a meeting about it and repeat that process 3 times. At this point we get to try out the whiteboard over there. You get to draw your favorite animal and sum up your favorite characteristics of it. Who would like to go first?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0004",
+      "start_sec": 46.81,
+      "end_sec": 47.91,
+      "duration_sec": 1.1,
+      "speaker": "speaker_B",
+      "text": "I'll go.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status",
+        "pending_sounding_silence_review"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.46",
+      "sounding_silence_review_status": "pending: praat=silence; local_vad=sounding",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0005",
+      "start_sec": 47.91,
+      "end_sec": 48.78,
+      "duration_sec": 0.87,
+      "speaker": "speaker_A",
+      "text": "Very good.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0006",
+      "start_sec": 53.75,
+      "end_sec": 63.4,
+      "duration_sec": 9.65,
+      "speaker": "speaker_C",
+      "text": "Alright, so this one here, right?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0007",
+      "start_sec": 63.4,
+      "end_sec": 64.1,
+      "duration_sec": 0.7,
+      "speaker": "speaker_A",
+      "text": "Mm-hmm.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.47",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0008",
+      "start_sec": 64.1,
+      "end_sec": 95.389,
+      "duration_sec": 31.289,
+      "speaker": "speaker_C",
+      "text": "Okay, very nice. Alright, my favorite animal is like A beagle. And character— favorite characteristics of it, is that right?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0009",
+      "start_sec": 96.064,
+      "end_sec": 96.289,
+      "duration_sec": 0.225,
+      "speaker": "speaker_A",
+      "text": "Yeah.",
+      "alignment_allowed": false,
+      "flags": [
+        "short_unit",
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.55; short_utt=0.23s",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0010",
+      "start_sec": 96.691,
+      "end_sec": 123.22,
+      "duration_sec": 26.529,
+      "speaker": "speaker_C",
+      "text": "Uh, right, well, basically, um, high priority for any animal for me is that they be willing to take a lot of physical affection from their family. And yeah, they have lots of personality and be fit and in robust good health. So this is Blue, Blue Beagle, my family's beagle.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0011",
+      "start_sec": 123.22,
+      "end_sec": 125.35,
+      "duration_sec": 2.13,
+      "speaker": "speaker_A",
+      "text": "Right, lovely.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.56",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0012",
+      "start_sec": 134.96,
+      "end_sec": 141.55,
+      "duration_sec": 6.59,
+      "speaker": "speaker_B",
+      "text": "My favourite animal would be a monkey.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0013",
+      "start_sec": 143.869,
+      "end_sec": 153.66,
+      "duration_sec": 9.791,
+      "speaker": "speaker_C",
+      "text": "They're small, cute, and furry, and when Planet of the Apes becomes real, I'm going to be up there with them.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0014",
+      "start_sec": 156.72,
+      "end_sec": 166.14,
+      "duration_sec": 9.42,
+      "speaker": "speaker_B",
+      "text": "Right. There's too much gear.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.70",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0015",
+      "start_sec": 166.14,
+      "end_sec": 173.49,
+      "duration_sec": 7.35,
+      "speaker": "speaker_A",
+      "text": "You can take as long over this as you like because we haven't got an awful lot to discuss. Oh, cool. We do. We do. Don't feel like you're in a rush anyway.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0016",
+      "start_sec": 174.52,
+      "end_sec": 176,
+      "duration_sec": 1.48,
+      "speaker": "speaker_B",
+      "text": "Okay.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.51",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0017",
+      "start_sec": 176,
+      "end_sec": 177.93,
+      "duration_sec": 1.93,
+      "speaker": "speaker_C",
+      "text": "I could have told you a whole lot more about Beagles.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0018",
+      "start_sec": 178.06,
+      "end_sec": 183.76,
+      "duration_sec": 5.7,
+      "speaker": "speaker_A",
+      "text": "Okay, too. We might have to get you up again then. I don't know what mine is, I'm gonna have to think on the spot now.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0019",
+      "start_sec": 187.38,
+      "end_sec": 188.84,
+      "duration_sec": 1.46,
+      "speaker": "speaker_C",
+      "text": "Impressionist.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0020",
+      "start_sec": 188.84,
+      "end_sec": 191.879,
+      "duration_sec": 3.039,
+      "speaker": "speaker_B",
+      "text": "Can't draw.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0021",
+      "start_sec": 191.879,
+      "end_sec": 193.24,
+      "duration_sec": 1.361,
+      "speaker": "speaker_A",
+      "text": "Is that a whale?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0022",
+      "start_sec": 193.24,
+      "end_sec": 221.84,
+      "duration_sec": 28.6,
+      "speaker": "speaker_B",
+      "text": "Yeah. Eh! Um, oh my, I don't know, it's just the first animal I can think of off the top of my head. I guess big reason is because I'm allergic to most animals. Logic to animal first, so fish was a natural choice. Yeah, and I kind of like whales. They come in and go, \"Hrrr,\" eat everything in sight. They're quite harmless and mild and interesting.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0023",
+      "start_sec": 222.84,
+      "end_sec": 225.53,
+      "duration_sec": 2.69,
+      "speaker": "speaker_A",
+      "text": "Okay, I still don't know what I'm gonna write about.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0024",
+      "start_sec": 229.48,
+      "end_sec": 231.48,
+      "duration_sec": 2,
+      "speaker": "speaker_C",
+      "text": "Superb sketch, by the way.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0025",
+      "start_sec": 234.77,
+      "end_sec": 256.85,
+      "duration_sec": 22.08,
+      "speaker": "speaker_A",
+      "text": "I was going to choose a dog as well, but I'll just draw a different kind of dog. My favourite animal is my own dog at home. That doesn't really look like him actually. He looks more like a pig actually. Oh well.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0026",
+      "start_sec": 258.189,
+      "end_sec": 259.809,
+      "duration_sec": 1.62,
+      "speaker": "speaker_C",
+      "text": "I see a dog in there.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0027",
+      "start_sec": 259.809,
+      "end_sec": 261.479,
+      "duration_sec": 1.67,
+      "speaker": "speaker_A",
+      "text": "Do you? Oh, that's very good of you.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0028",
+      "start_sec": 262.649,
+      "end_sec": 263.939,
+      "duration_sec": 1.29,
+      "speaker": "speaker_C",
+      "text": "Now I see a rooster.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0029",
+      "start_sec": 268.369,
+      "end_sec": 274.929,
+      "duration_sec": 6.56,
+      "speaker": "speaker_B",
+      "text": "What kind is it?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0030",
+      "start_sec": 274.929,
+      "end_sec": 311.39,
+      "duration_sec": 36.461,
+      "speaker": "speaker_A",
+      "text": "He's a mixture of various things. And what do I like about him? That's supposed to suggest that his tail wags. He's very friendly and cheery and always pleased to see you and very kind of affectionate and he's quite wee as well, so he doesn't take up too much space. And he does a funny thing where he chases his tail as well, which is quite amusing.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0031",
+      "start_sec": 311.39,
+      "end_sec": 313.43,
+      "duration_sec": 2.04,
+      "speaker": "speaker_C",
+      "text": "Is he aware that it's his own tail he's chasing?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0032",
+      "start_sec": 313.56,
+      "end_sec": 322.2,
+      "duration_sec": 8.64,
+      "speaker": "speaker_A",
+      "text": "It is, I think it is. He only does it after he's had his dinner and he'll just all of a sudden get up and start chasing his tail around the living room.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0033",
+      "start_sec": 322.2,
+      "end_sec": 323.739,
+      "duration_sec": 1.539,
+      "speaker": "speaker_B",
+      "text": "An after-dinner dog then.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.64",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0034",
+      "start_sec": 323.739,
+      "end_sec": 324.159,
+      "duration_sec": 0.42,
+      "speaker": "speaker_A",
+      "text": "Yeah.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.22",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0035",
+      "start_sec": 324.159,
+      "end_sec": 328.96,
+      "duration_sec": 4.801,
+      "speaker": "speaker_C",
+      "text": "Probably when he was little he got lots of attention for doing it and has forever been conditioned.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0036",
+      "start_sec": 329.48,
+      "end_sec": 333.18,
+      "duration_sec": 3.7,
+      "speaker": "speaker_A",
+      "text": "Maybe. Where did you find this? Just down here?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0037",
+      "start_sec": 333.18,
+      "end_sec": 335.32,
+      "duration_sec": 2.14,
+      "speaker": "speaker_B",
+      "text": "Yeah.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.35",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0038",
+      "start_sec": 335.32,
+      "end_sec": 376.36,
+      "duration_sec": 41.04,
+      "speaker": "speaker_A",
+      "text": "Okay. What are we doing next? Okay, we now need to discuss the project finance. So according to the brief, we're going to be selling this remote control for €25, and we're aiming to make €50 million. So we're going to be selling this one in international scale. And we don't want it to cost any more than €12.50, so 50% of the selling price.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0039",
+      "start_sec": 376.429,
+      "end_sec": 380.679,
+      "duration_sec": 4.25,
+      "speaker": "speaker_C",
+      "text": "Can we just go over that again? Sure.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0040",
+      "start_sec": 380.679,
+      "end_sec": 385.52,
+      "duration_sec": 4.841,
+      "speaker": "speaker_B",
+      "text": "So basically— all right. Yeah. Okay.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.58",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0041",
+      "start_sec": 385.52,
+      "end_sec": 394.985,
+      "duration_sec": 9.465,
+      "speaker": "speaker_C",
+      "text": "So cost, like production cost is— altogether €12.50, but selling price is— is that wholesale or retail? Like on the shelf?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0042",
+      "start_sec": 396.569,
+      "end_sec": 398.689,
+      "duration_sec": 2.12,
+      "speaker": "speaker_A",
+      "text": "I don't know. I imagine that's a good question.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0043",
+      "start_sec": 398.689,
+      "end_sec": 399.79,
+      "duration_sec": 1.101,
+      "speaker": "speaker_C",
+      "text": "Our sale.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.58",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0044",
+      "start_sec": 399.79,
+      "end_sec": 420.35,
+      "duration_sec": 20.56,
+      "speaker": "speaker_A",
+      "text": "I imagine it probably is our sale actually, because it's probably up to the retailer to sell it for whatever price they want. But I don't know. I mean, do you think the fact that it's going to be sold internationally will have a bearing on how we design it at all? Yes. I think it will.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0045",
+      "start_sec": 428.14,
+      "end_sec": 433.86,
+      "duration_sec": 5.72,
+      "speaker": "speaker_C",
+      "text": "Right away I'm wondering if there's, like with DVD players, if there are zones.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0046",
+      "start_sec": 433.86,
+      "end_sec": 435.86,
+      "duration_sec": 2,
+      "speaker": "speaker_A",
+      "text": "Oh yeah, regions and stuff.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0047",
+      "start_sec": 435.86,
+      "end_sec": 436.83,
+      "duration_sec": 0.97,
+      "speaker": "speaker_C",
+      "text": "Frequencies or something.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0048",
+      "start_sec": 437.1,
+      "end_sec": 437.88,
+      "duration_sec": 0.78,
+      "speaker": "speaker_A",
+      "text": "Yeah.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.38",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0049",
+      "start_sec": 437.88,
+      "end_sec": 446.05,
+      "duration_sec": 8.17,
+      "speaker": "speaker_C",
+      "text": "Okay. As well as characters, different keypad styles and symbols.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0050",
+      "start_sec": 446.05,
+      "end_sec": 451.39,
+      "duration_sec": 5.34,
+      "speaker": "speaker_A",
+      "text": "Yeah. Well, for remote control, do you think that will be— I suppose it depends on how complicated our remote control is.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0051",
+      "start_sec": 451.85,
+      "end_sec": 460.26,
+      "duration_sec": 8.41,
+      "speaker": "speaker_B",
+      "text": "It does make sense from maybe the design point of view, because if you have more complicated characters like European languages, then you need more buttons.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0052",
+      "start_sec": 460.55,
+      "end_sec": 463.51,
+      "duration_sec": 2.96,
+      "speaker": "speaker_A",
+      "text": "Yeah, yeah, yeah.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0053",
+      "start_sec": 463.51,
+      "end_sec": 476.77,
+      "duration_sec": 13.26,
+      "speaker": "speaker_C",
+      "text": "Okay. And then, and then the other thing, international, on topic of price, I'm thinking The price might appeal to a certain market in one region, whereas in another it'll be different.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0054",
+      "start_sec": 477.8,
+      "end_sec": 483.04,
+      "duration_sec": 5.24,
+      "speaker": "speaker_A",
+      "text": "So, what, just like in terms of the wealth of the country? Like how much money people have to spend on things?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0055",
+      "start_sec": 483.04,
+      "end_sec": 495.8,
+      "duration_sec": 12.76,
+      "speaker": "speaker_C",
+      "text": "Or just like basic product positioning. A €25 remote control might be a big hit in London, might not be such a big hit in Greece. Who knows?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0056",
+      "start_sec": 495.86,
+      "end_sec": 503.684,
+      "duration_sec": 7.824,
+      "speaker": "speaker_A",
+      "text": "I see what you mean. Marketing. Good marketing thoughts. Oh gosh, I should be writing all this down. Um.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0057",
+      "start_sec": 534.93,
+      "end_sec": 545.51,
+      "duration_sec": 10.58,
+      "speaker": "speaker_C",
+      "text": "Right away I'm making some kind of assumptions about what information we're given here, thinking, okay, trendy probably means something other than just basic.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0058",
+      "start_sec": 545.51,
+      "end_sec": 545.89,
+      "duration_sec": 0.38,
+      "speaker": "speaker_A",
+      "text": "Yeah.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.47",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0059",
+      "start_sec": 545.89,
+      "end_sec": 556.289,
+      "duration_sec": 10.399,
+      "speaker": "speaker_C",
+      "text": "Something other than just standard. So I'm wondering right away, is selling €25, is that sort of— is this going to be like the premium product?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0060",
+      "start_sec": 557.299,
+      "end_sec": 571.32,
+      "duration_sec": 14.021,
+      "speaker": "speaker_A",
+      "text": "Yeah, yeah. Like how much does a remote control cost? Well, €25, I mean, that's about like £18 or something, isn't it? Or no, is it as much as that? £16, £17, £18?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0061",
+      "start_sec": 571.32,
+      "end_sec": 572.12,
+      "duration_sec": 0.8,
+      "speaker": "speaker_C",
+      "text": "Yeah, I'd say so.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0062",
+      "start_sec": 573.79,
+      "end_sec": 589.03,
+      "duration_sec": 15.24,
+      "speaker": "speaker_A",
+      "text": "I don't know, I've never bought a remote control, so I don't know how good a remote control that would get you. But yeah, I suppose it has to look kind of cool, gimmicky.",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0063",
+      "start_sec": 589.03,
+      "end_sec": 591.53,
+      "duration_sec": 2.5,
+      "speaker": "speaker_B",
+      "text": "Right. Okay.",
+      "alignment_allowed": true,
+      "flags": [
+        "pending_review_status"
+      ],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "pending: low_utt_conf=0.42",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    },
+    {
+      "utt_id": "utt_0064",
+      "start_sec": 591.53,
+      "end_sec": 599.02,
+      "duration_sec": 7.49,
+      "speaker": "speaker_A",
+      "text": "Let me just scoot on ahead here. Okay. Well, does anybody have anything to add to that?",
+      "alignment_allowed": true,
+      "flags": [],
+      "source": {
+        "textgrid": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.assemblyai.6tier.TextGrid",
+        "transcript_tier": "transcript",
+        "speaker_tier": "speaker"
+      },
+      "review_status": "",
+      "sounding_silence_review_status": "",
+      "overlap_candidates": {
+        "asr": [],
+        "speaker_tier": []
+      }
+    }
+  ]
+}

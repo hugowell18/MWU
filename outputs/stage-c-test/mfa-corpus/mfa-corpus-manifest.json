@@ -1,0 +1,66 @@
+{
+  "source_audio": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.wav",
+  "source_units": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/outputs/stage-c-test/utterance_units.json",
+  "output_dir": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/outputs/stage-c-test/mfa-corpus",
+  "dry_run": false,
+  "options": {
+    "include_blocked": false,
+    "max_units": 3,
+    "sample_rate": 16000,
+    "channels": 1
+  },
+  "clips": [
+    {
+      "utt_id": "utt_0001",
+      "speaker": "speaker_A",
+      "start_sec": 0.1,
+      "end_sec": 12.32,
+      "duration_sec": 12.22,
+      "clip_offset_sec": 0.1,
+      "wav": "speaker_A/utt_0001.wav",
+      "lab": "speaker_A/utt_0001.lab",
+      "original_text": "as it were. There are 3 different stages to the design. I'm not really sure what you guys have already received in your emails. What did you get?",
+      "lab_text": "as it were there are three different stages to the design i'm not really sure what you guys have already received in your emails what did you get",
+      "flags": [],
+      "alignment_allowed": true
+    },
+    {
+      "utt_id": "utt_0002",
+      "speaker": "speaker_B",
+      "start_sec": 13.379,
+      "end_sec": 18.43,
+      "duration_sec": 5.051,
+      "clip_offset_sec": 13.379,
+      "wav": "speaker_B/utt_0002.wav",
+      "lab": "speaker_B/utt_0002.lab",
+      "original_text": "I just got the project announcement, but what project is that? Designing a remote control?",
+      "lab_text": "i just got the project announcement but what project is that designing a remote control",
+      "flags": [],
+      "alignment_allowed": true
+    },
+    {
+      "utt_id": "utt_0003",
+      "speaker": "speaker_A",
+      "start_sec": 19.48,
+      "end_sec": 46.81,
+      "duration_sec": 27.33,
+      "clip_offset_sec": 19.48,
+      "wav": "speaker_A/utt_0003.wav",
+      "lab": "speaker_A/utt_0003.lab",
+      "original_text": "Is that what everybody got? Okay. We're going to have— individual work and then a meeting about it and repeat that process 3 times. At this point we get to try out the whiteboard over there. You get to draw your favorite animal and sum up your favorite characteristics of it. Who would like to go first?",
+      "lab_text": "is that what everybody got okay we're going to have individual work and then a meeting about it and repeat that process three times at this point we get to try out the whiteboard over there you get to draw your favorite animal and sum up your favorite characteristics of it who would like to go first",
+      "flags": [],
+      "alignment_allowed": true
+    }
+  ],
+  "summary": {
+    "unit_count": 64,
+    "selected_count": 3,
+    "blocked_count": 1,
+    "clip_count": 3,
+    "speakers": [
+      "speaker_A",
+      "speaker_B"
+    ]
+  }
+}

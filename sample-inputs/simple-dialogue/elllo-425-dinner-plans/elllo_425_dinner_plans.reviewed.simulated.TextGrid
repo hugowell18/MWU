@@ -1,0 +1,1512 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0
+xmax = 132
+tiers? <exists>
+size = 6
+item []:
+    item [1]:
+        class = "IntervalTier"
+        name = "praat_sounding_silence"
+        xmin = 0
+        xmax = 132
+        intervals: size = 69
+        intervals [1]:
+            xmin = 0
+            xmax = 0.744219
+            text = "silence"
+        intervals [2]:
+            xmin = 0.744219
+            xmax = 2.392219
+            text = "sounding"
+        intervals [3]:
+            xmin = 2.392219
+            xmax = 2.808219
+            text = "silence"
+        intervals [4]:
+            xmin = 2.808219
+            xmax = 5.872219
+            text = "sounding"
+        intervals [5]:
+            xmin = 5.872219
+            xmax = 7.216219
+            text = "silence"
+        intervals [6]:
+            xmin = 7.216219
+            xmax = 14.216219
+            text = "sounding"
+        intervals [7]:
+            xmin = 14.216219
+            xmax = 14.544219
+            text = "silence"
+        intervals [8]:
+            xmin = 14.544219
+            xmax = 17.600219
+            text = "sounding"
+        intervals [9]:
+            xmin = 17.600219
+            xmax = 17.864219
+            text = "silence"
+        intervals [10]:
+            xmin = 17.864219
+            xmax = 17.968219
+            text = "sounding"
+        intervals [11]:
+            xmin = 17.968219
+            xmax = 18.424219
+            text = "silence"
+        intervals [12]:
+            xmin = 18.424219
+            xmax = 19.328219
+            text = "sounding"
+        intervals [13]:
+            xmin = 19.328219
+            xmax = 19.632219
+            text = "silence"
+        intervals [14]:
+            xmin = 19.632219
+            xmax = 22.096219
+            text = "sounding"
+        intervals [15]:
+            xmin = 22.096219
+            xmax = 23.120219
+            text = "silence"
+        intervals [16]:
+            xmin = 23.120219
+            xmax = 24.128219
+            text = "sounding"
+        intervals [17]:
+            xmin = 24.128219
+            xmax = 24.568219
+            text = "silence"
+        intervals [18]:
+            xmin = 24.568219
+            xmax = 25.736219
+            text = "sounding"
+        intervals [19]:
+            xmin = 25.736219
+            xmax = 26.440219
+            text = "silence"
+        intervals [20]:
+            xmin = 26.440219
+            xmax = 28.144219
+            text = "sounding"
+        intervals [21]:
+            xmin = 28.144219
+            xmax = 28.672219
+            text = "silence"
+        intervals [22]:
+            xmin = 28.672219
+            xmax = 28.792219
+            text = "sounding"
+        intervals [23]:
+            xmin = 28.792219
+            xmax = 29.152219
+            text = "silence"
+        intervals [24]:
+            xmin = 29.152219
+            xmax = 34.072219
+            text = "sounding"
+        intervals [25]:
+            xmin = 34.072219
+            xmax = 35.784219
+            text = "silence"
+        intervals [26]:
+            xmin = 35.784219
+            xmax = 46.336219
+            text = "sounding"
+        intervals [27]:
+            xmin = 46.336219
+            xmax = 47.000219
+            text = "silence"
+        intervals [28]:
+            xmin = 47.000219
+            xmax = 50.208219
+            text = "sounding"
+        intervals [29]:
+            xmin = 50.208219
+            xmax = 50.808219
+            text = "silence"
+        intervals [30]:
+            xmin = 50.808219
+            xmax = 71.624219
+            text = "sounding"
+        intervals [31]:
+            xmin = 71.624219
+            xmax = 72.200219
+            text = "silence"
+        intervals [32]:
+            xmin = 72.200219
+            xmax = 73.760219
+            text = "sounding"
+        intervals [33]:
+            xmin = 73.760219
+            xmax = 74.384219
+            text = "silence"
+        intervals [34]:
+            xmin = 74.384219
+            xmax = 75.904219
+            text = "sounding"
+        intervals [35]:
+            xmin = 75.904219
+            xmax = 76.648219
+            text = "silence"
+        intervals [36]:
+            xmin = 76.648219
+            xmax = 78.464219
+            text = "sounding"
+        intervals [37]:
+            xmin = 78.464219
+            xmax = 79.296219
+            text = "silence"
+        intervals [38]:
+            xmin = 79.296219
+            xmax = 81.288219
+            text = "sounding"
+        intervals [39]:
+            xmin = 81.288219
+            xmax = 81.544219
+            text = "silence"
+        intervals [40]:
+            xmin = 81.544219
+            xmax = 83.960219
+            text = "sounding"
+        intervals [41]:
+            xmin = 83.960219
+            xmax = 84.744219
+            text = "silence"
+        intervals [42]:
+            xmin = 84.744219
+            xmax = 85.952219
+            text = "sounding"
+        intervals [43]:
+            xmin = 85.952219
+            xmax = 86.304219
+            text = "silence"
+        intervals [44]:
+            xmin = 86.304219
+            xmax = 90.264219
+            text = "sounding"
+        intervals [45]:
+            xmin = 90.264219
+            xmax = 90.800219
+            text = "silence"
+        intervals [46]:
+            xmin = 90.800219
+            xmax = 94.696219
+            text = "sounding"
+        intervals [47]:
+            xmin = 94.696219
+            xmax = 95.056219
+            text = "silence"
+        intervals [48]:
+            xmin = 95.056219
+            xmax = 98.888219
+            text = "sounding"
+        intervals [49]:
+            xmin = 98.888219
+            xmax = 99.184219
+            text = "silence"
+        intervals [50]:
+            xmin = 99.184219
+            xmax = 105.504219
+            text = "sounding"
+        intervals [51]:
+            xmin = 105.504219
+            xmax = 106.176219
+            text = "silence"
+        intervals [52]:
+            xmin = 106.176219
+            xmax = 109.712219
+            text = "sounding"
+        intervals [53]:
+            xmin = 109.712219
+            xmax = 110.304219
+            text = "silence"
+        intervals [54]:
+            xmin = 110.304219
+            xmax = 111.960219
+            text = "sounding"
+        intervals [55]:
+            xmin = 111.960219
+            xmax = 112.416219
+            text = "silence"
+        intervals [56]:
+            xmin = 112.416219
+            xmax = 112.568219
+            text = "sounding"
+        intervals [57]:
+            xmin = 112.568219
+            xmax = 112.832219
+            text = "silence"
+        intervals [58]:
+            xmin = 112.832219
+            xmax = 119.624219
+            text = "sounding"
+        intervals [59]:
+            xmin = 119.624219
+            xmax = 120.088219
+            text = "silence"
+        intervals [60]:
+            xmin = 120.088219
+            xmax = 121.504219
+            text = "sounding"
+        intervals [61]:
+            xmin = 121.504219
+            xmax = 121.768219
+            text = "silence"
+        intervals [62]:
+            xmin = 121.768219
+            xmax = 126.400219
+            text = "sounding"
+        intervals [63]:
+            xmin = 126.400219
+            xmax = 126.776219
+            text = "silence"
+        intervals [64]:
+            xmin = 126.776219
+            xmax = 127.096219
+            text = "sounding"
+        intervals [65]:
+            xmin = 127.096219
+            xmax = 127.488219
+            text = "silence"
+        intervals [66]:
+            xmin = 127.488219
+            xmax = 128.384219
+            text = "sounding"
+        intervals [67]:
+            xmin = 128.384219
+            xmax = 128.776219
+            text = "silence"
+        intervals [68]:
+            xmin = 128.776219
+            xmax = 130.328219
+            text = "sounding"
+        intervals [69]:
+            xmin = 130.328219
+            xmax = 132
+            text = "silence"
+    item [2]:
+        class = "IntervalTier"
+        name = "local_vad_sounding_silence"
+        xmin = 0
+        xmax = 132
+        intervals: size = 105
+        intervals [1]:
+            xmin = 0
+            xmax = 0.63
+            text = "silence"
+        intervals [2]:
+            xmin = 0.63
+            xmax = 2.36
+            text = "sounding"
+        intervals [3]:
+            xmin = 2.36
+            xmax = 2.79
+            text = "silence"
+        intervals [4]:
+            xmin = 2.79
+            xmax = 5.81
+            text = "sounding"
+        intervals [5]:
+            xmin = 5.81
+            xmax = 7.21
+            text = "silence"
+        intervals [6]:
+            xmin = 7.21
+            xmax = 9.15
+            text = "sounding"
+        intervals [7]:
+            xmin = 9.15
+            xmax = 9.4
+            text = "silence"
+        intervals [8]:
+            xmin = 9.4
+            xmax = 9.87
+            text = "sounding"
+        intervals [9]:
+            xmin = 9.87
+            xmax = 10.11
+            text = "silence"
+        intervals [10]:
+            xmin = 10.11
+            xmax = 13.73
+            text = "sounding"
+        intervals [11]:
+            xmin = 13.73
+            xmax = 14.53
+            text = "silence"
+        intervals [12]:
+            xmin = 14.53
+            xmax = 17.5
+            text = "sounding"
+        intervals [13]:
+            xmin = 17.5
+            xmax = 18.42
+            text = "silence"
+        intervals [14]:
+            xmin = 18.42
+            xmax = 19.3
+            text = "sounding"
+        intervals [15]:
+            xmin = 19.3
+            xmax = 19.61
+            text = "silence"
+        intervals [16]:
+            xmin = 19.61
+            xmax = 22.03
+            text = "sounding"
+        intervals [17]:
+            xmin = 22.03
+            xmax = 23.11
+            text = "silence"
+        intervals [18]:
+            xmin = 23.11
+            xmax = 24.08
+            text = "sounding"
+        intervals [19]:
+            xmin = 24.08
+            xmax = 24.55
+            text = "silence"
+        intervals [20]:
+            xmin = 24.55
+            xmax = 25.67
+            text = "sounding"
+        intervals [21]:
+            xmin = 25.67
+            xmax = 26.43
+            text = "silence"
+        intervals [22]:
+            xmin = 26.43
+            xmax = 28.08
+            text = "sounding"
+        intervals [23]:
+            xmin = 28.08
+            xmax = 29.16
+            text = "silence"
+        intervals [24]:
+            xmin = 29.16
+            xmax = 29.77
+            text = "sounding"
+        intervals [25]:
+            xmin = 29.77
+            xmax = 29.98
+            text = "silence"
+        intervals [26]:
+            xmin = 29.98
+            xmax = 31.29
+            text = "sounding"
+        intervals [27]:
+            xmin = 31.29
+            xmax = 32
+            text = "silence"
+        intervals [28]:
+            xmin = 32
+            xmax = 33.88
+            text = "sounding"
+        intervals [29]:
+            xmin = 33.88
+            xmax = 35.77
+            text = "silence"
+        intervals [30]:
+            xmin = 35.77
+            xmax = 38.67
+            text = "sounding"
+        intervals [31]:
+            xmin = 38.67
+            xmax = 39.18
+            text = "silence"
+        intervals [32]:
+            xmin = 39.18
+            xmax = 41.83
+            text = "sounding"
+        intervals [33]:
+            xmin = 41.83
+            xmax = 42.28
+            text = "silence"
+        intervals [34]:
+            xmin = 42.28
+            xmax = 43.5
+            text = "sounding"
+        intervals [35]:
+            xmin = 43.5
+            xmax = 44.12
+            text = "silence"
+        intervals [36]:
+            xmin = 44.12
+            xmax = 44.91
+            text = "sounding"
+        intervals [37]:
+            xmin = 44.91
+            xmax = 45.48
+            text = "silence"
+        intervals [38]:
+            xmin = 45.48
+            xmax = 46.26
+            text = "sounding"
+        intervals [39]:
+            xmin = 46.26
+            xmax = 47.09
+            text = "silence"
+        intervals [40]:
+            xmin = 47.09
+            xmax = 49.15
+            text = "sounding"
+        intervals [41]:
+            xmin = 49.15
+            xmax = 49.42
+            text = "silence"
+        intervals [42]:
+            xmin = 49.42
+            xmax = 50.12
+            text = "sounding"
+        intervals [43]:
+            xmin = 50.12
+            xmax = 50.8
+            text = "silence"
+        intervals [44]:
+            xmin = 50.8
+            xmax = 57.76
+            text = "sounding"
+        intervals [45]:
+            xmin = 57.76
+            xmax = 58.25
+            text = "silence"
+        intervals [46]:
+            xmin = 58.25
+            xmax = 62.88
+            text = "sounding"
+        intervals [47]:
+            xmin = 62.88
+            xmax = 63.45
+            text = "silence"
+        intervals [48]:
+            xmin = 63.45
+            xmax = 64.91
+            text = "sounding"
+        intervals [49]:
+            xmin = 64.91
+            xmax = 65.27
+            text = "silence"
+        intervals [50]:
+            xmin = 65.27
+            xmax = 68.39
+            text = "sounding"
+        intervals [51]:
+            xmin = 68.39
+            xmax = 68.63
+            text = "silence"
+        intervals [52]:
+            xmin = 68.63
+            xmax = 71.53
+            text = "sounding"
+        intervals [53]:
+            xmin = 71.53
+            xmax = 72.19
+            text = "silence"
+        intervals [54]:
+            xmin = 72.19
+            xmax = 73.7
+            text = "sounding"
+        intervals [55]:
+            xmin = 73.7
+            xmax = 74.37
+            text = "silence"
+        intervals [56]:
+            xmin = 74.37
+            xmax = 75.72
+            text = "sounding"
+        intervals [57]:
+            xmin = 75.72
+            xmax = 76.71
+            text = "silence"
+        intervals [58]:
+            xmin = 76.71
+            xmax = 78.43
+            text = "sounding"
+        intervals [59]:
+            xmin = 78.43
+            xmax = 79.31
+            text = "silence"
+        intervals [60]:
+            xmin = 79.31
+            xmax = 81.26
+            text = "sounding"
+        intervals [61]:
+            xmin = 81.26
+            xmax = 81.55
+            text = "silence"
+        intervals [62]:
+            xmin = 81.55
+            xmax = 83.89
+            text = "sounding"
+        intervals [63]:
+            xmin = 83.89
+            xmax = 84.76
+            text = "silence"
+        intervals [64]:
+            xmin = 84.76
+            xmax = 85.91
+            text = "sounding"
+        intervals [65]:
+            xmin = 85.91
+            xmax = 86.3
+            text = "silence"
+        intervals [66]:
+            xmin = 86.3
+            xmax = 90.23
+            text = "sounding"
+        intervals [67]:
+            xmin = 90.23
+            xmax = 90.78
+            text = "silence"
+        intervals [68]:
+            xmin = 90.78
+            xmax = 91.21
+            text = "sounding"
+        intervals [69]:
+            xmin = 91.21
+            xmax = 91.44
+            text = "silence"
+        intervals [70]:
+            xmin = 91.44
+            xmax = 93.02
+            text = "sounding"
+        intervals [71]:
+            xmin = 93.02
+            xmax = 93.25
+            text = "silence"
+        intervals [72]:
+            xmin = 93.25
+            xmax = 94.66
+            text = "sounding"
+        intervals [73]:
+            xmin = 94.66
+            xmax = 95.04
+            text = "silence"
+        intervals [74]:
+            xmin = 95.04
+            xmax = 96.96
+            text = "sounding"
+        intervals [75]:
+            xmin = 96.96
+            xmax = 97.33
+            text = "silence"
+        intervals [76]:
+            xmin = 97.33
+            xmax = 98.8
+            text = "sounding"
+        intervals [77]:
+            xmin = 98.8
+            xmax = 99.17
+            text = "silence"
+        intervals [78]:
+            xmin = 99.17
+            xmax = 101.35
+            text = "sounding"
+        intervals [79]:
+            xmin = 101.35
+            xmax = 101.67
+            text = "silence"
+        intervals [80]:
+            xmin = 101.67
+            xmax = 105.46
+            text = "sounding"
+        intervals [81]:
+            xmin = 105.46
+            xmax = 106.17
+            text = "silence"
+        intervals [82]:
+            xmin = 106.17
+            xmax = 109.65
+            text = "sounding"
+        intervals [83]:
+            xmin = 109.65
+            xmax = 110.31
+            text = "silence"
+        intervals [84]:
+            xmin = 110.31
+            xmax = 111.9
+            text = "sounding"
+        intervals [85]:
+            xmin = 111.9
+            xmax = 112.82
+            text = "silence"
+        intervals [86]:
+            xmin = 112.82
+            xmax = 114.26
+            text = "sounding"
+        intervals [87]:
+            xmin = 114.26
+            xmax = 114.85
+            text = "silence"
+        intervals [88]:
+            xmin = 114.85
+            xmax = 117.5
+            text = "sounding"
+        intervals [89]:
+            xmin = 117.5
+            xmax = 117.76
+            text = "silence"
+        intervals [90]:
+            xmin = 117.76
+            xmax = 118.24
+            text = "sounding"
+        intervals [91]:
+            xmin = 118.24
+            xmax = 118.51
+            text = "silence"
+        intervals [92]:
+            xmin = 118.51
+            xmax = 119.26
+            text = "sounding"
+        intervals [93]:
+            xmin = 119.26
+            xmax = 120.07
+            text = "silence"
+        intervals [94]:
+            xmin = 120.07
+            xmax = 121.45
+            text = "sounding"
+        intervals [95]:
+            xmin = 121.45
+            xmax = 121.83
+            text = "silence"
+        intervals [96]:
+            xmin = 121.83
+            xmax = 122.65
+            text = "sounding"
+        intervals [97]:
+            xmin = 122.65
+            xmax = 123.08
+            text = "silence"
+        intervals [98]:
+            xmin = 123.08
+            xmax = 126.34
+            text = "sounding"
+        intervals [99]:
+            xmin = 126.34
+            xmax = 126.76
+            text = "silence"
+        intervals [100]:
+            xmin = 126.76
+            xmax = 127.06
+            text = "sounding"
+        intervals [101]:
+            xmin = 127.06
+            xmax = 127.48
+            text = "silence"
+        intervals [102]:
+            xmin = 127.48
+            xmax = 128.32
+            text = "sounding"
+        intervals [103]:
+            xmin = 128.32
+            xmax = 128.79
+            text = "silence"
+        intervals [104]:
+            xmin = 128.79
+            xmax = 130.28
+            text = "sounding"
+        intervals [105]:
+            xmin = 130.28
+            xmax = 132
+            text = "silence"
+    item [3]:
+        class = "IntervalTier"
+        name = "sounding_silence_review_status"
+        xmin = 0
+        xmax = 132
+        intervals: size = 97
+        intervals [1]:
+            xmin = 0
+            xmax = 0.63
+            text = ""
+        intervals [2]:
+            xmin = 0.63
+            xmax = 0.744219
+            text = ""
+        intervals [3]:
+            xmin = 0.744219
+            xmax = 5.81
+            text = ""
+        intervals [4]:
+            xmin = 5.81
+            xmax = 5.872219
+            text = ""
+        intervals [5]:
+            xmin = 5.872219
+            xmax = 9.15
+            text = ""
+        intervals [6]:
+            xmin = 9.15
+            xmax = 9.4
+            text = ""
+        intervals [7]:
+            xmin = 9.4
+            xmax = 9.87
+            text = ""
+        intervals [8]:
+            xmin = 9.87
+            xmax = 10.11
+            text = ""
+        intervals [9]:
+            xmin = 10.11
+            xmax = 13.73
+            text = ""
+        intervals [10]:
+            xmin = 13.73
+            xmax = 14.216219
+            text = ""
+        intervals [11]:
+            xmin = 14.216219
+            xmax = 17.5
+            text = ""
+        intervals [12]:
+            xmin = 17.5
+            xmax = 17.600219
+            text = ""
+        intervals [13]:
+            xmin = 17.600219
+            xmax = 17.864219
+            text = ""
+        intervals [14]:
+            xmin = 17.864219
+            xmax = 17.968219
+            text = ""
+        intervals [15]:
+            xmin = 17.968219
+            xmax = 22.03
+            text = ""
+        intervals [16]:
+            xmin = 22.03
+            xmax = 22.096219
+            text = ""
+        intervals [17]:
+            xmin = 22.096219
+            xmax = 25.67
+            text = ""
+        intervals [18]:
+            xmin = 25.67
+            xmax = 25.736219
+            text = ""
+        intervals [19]:
+            xmin = 25.736219
+            xmax = 28.08
+            text = ""
+        intervals [20]:
+            xmin = 28.08
+            xmax = 28.144219
+            text = ""
+        intervals [21]:
+            xmin = 28.144219
+            xmax = 28.672219
+            text = ""
+        intervals [22]:
+            xmin = 28.672219
+            xmax = 28.792219
+            text = ""
+        intervals [23]:
+            xmin = 28.792219
+            xmax = 29.77
+            text = ""
+        intervals [24]:
+            xmin = 29.77
+            xmax = 29.98
+            text = ""
+        intervals [25]:
+            xmin = 29.98
+            xmax = 31.29
+            text = ""
+        intervals [26]:
+            xmin = 31.29
+            xmax = 32
+            text = ""
+        intervals [27]:
+            xmin = 32
+            xmax = 33.88
+            text = ""
+        intervals [28]:
+            xmin = 33.88
+            xmax = 34.072219
+            text = ""
+        intervals [29]:
+            xmin = 34.072219
+            xmax = 38.67
+            text = ""
+        intervals [30]:
+            xmin = 38.67
+            xmax = 39.18
+            text = ""
+        intervals [31]:
+            xmin = 39.18
+            xmax = 41.83
+            text = ""
+        intervals [32]:
+            xmin = 41.83
+            xmax = 42.28
+            text = ""
+        intervals [33]:
+            xmin = 42.28
+            xmax = 43.5
+            text = ""
+        intervals [34]:
+            xmin = 43.5
+            xmax = 44.12
+            text = ""
+        intervals [35]:
+            xmin = 44.12
+            xmax = 44.91
+            text = ""
+        intervals [36]:
+            xmin = 44.91
+            xmax = 45.48
+            text = ""
+        intervals [37]:
+            xmin = 45.48
+            xmax = 46.26
+            text = ""
+        intervals [38]:
+            xmin = 46.26
+            xmax = 46.336219
+            text = ""
+        intervals [39]:
+            xmin = 46.336219
+            xmax = 47.000219
+            text = ""
+        intervals [40]:
+            xmin = 47.000219
+            xmax = 47.09
+            text = ""
+        intervals [41]:
+            xmin = 47.09
+            xmax = 49.15
+            text = ""
+        intervals [42]:
+            xmin = 49.15
+            xmax = 49.42
+            text = ""
+        intervals [43]:
+            xmin = 49.42
+            xmax = 50.12
+            text = ""
+        intervals [44]:
+            xmin = 50.12
+            xmax = 50.208219
+            text = ""
+        intervals [45]:
+            xmin = 50.208219
+            xmax = 57.76
+            text = ""
+        intervals [46]:
+            xmin = 57.76
+            xmax = 58.25
+            text = ""
+        intervals [47]:
+            xmin = 58.25
+            xmax = 62.88
+            text = ""
+        intervals [48]:
+            xmin = 62.88
+            xmax = 63.45
+            text = ""
+        intervals [49]:
+            xmin = 63.45
+            xmax = 64.91
+            text = ""
+        intervals [50]:
+            xmin = 64.91
+            xmax = 65.27
+            text = ""
+        intervals [51]:
+            xmin = 65.27
+            xmax = 68.39
+            text = ""
+        intervals [52]:
+            xmin = 68.39
+            xmax = 68.63
+            text = ""
+        intervals [53]:
+            xmin = 68.63
+            xmax = 71.53
+            text = ""
+        intervals [54]:
+            xmin = 71.53
+            xmax = 71.624219
+            text = ""
+        intervals [55]:
+            xmin = 71.624219
+            xmax = 73.7
+            text = ""
+        intervals [56]:
+            xmin = 73.7
+            xmax = 73.760219
+            text = ""
+        intervals [57]:
+            xmin = 73.760219
+            xmax = 75.72
+            text = ""
+        intervals [58]:
+            xmin = 75.72
+            xmax = 75.904219
+            text = ""
+        intervals [59]:
+            xmin = 75.904219
+            xmax = 76.648219
+            text = ""
+        intervals [60]:
+            xmin = 76.648219
+            xmax = 76.71
+            text = ""
+        intervals [61]:
+            xmin = 76.71
+            xmax = 83.89
+            text = ""
+        intervals [62]:
+            xmin = 83.89
+            xmax = 83.960219
+            text = ""
+        intervals [63]:
+            xmin = 83.960219
+            xmax = 91.21
+            text = ""
+        intervals [64]:
+            xmin = 91.21
+            xmax = 91.44
+            text = ""
+        intervals [65]:
+            xmin = 91.44
+            xmax = 93.02
+            text = ""
+        intervals [66]:
+            xmin = 93.02
+            xmax = 93.25
+            text = ""
+        intervals [67]:
+            xmin = 93.25
+            xmax = 96.96
+            text = ""
+        intervals [68]:
+            xmin = 96.96
+            xmax = 97.33
+            text = ""
+        intervals [69]:
+            xmin = 97.33
+            xmax = 98.8
+            text = ""
+        intervals [70]:
+            xmin = 98.8
+            xmax = 98.888219
+            text = ""
+        intervals [71]:
+            xmin = 98.888219
+            xmax = 101.35
+            text = ""
+        intervals [72]:
+            xmin = 101.35
+            xmax = 101.67
+            text = ""
+        intervals [73]:
+            xmin = 101.67
+            xmax = 109.65
+            text = ""
+        intervals [74]:
+            xmin = 109.65
+            xmax = 109.712219
+            text = ""
+        intervals [75]:
+            xmin = 109.712219
+            xmax = 111.9
+            text = ""
+        intervals [76]:
+            xmin = 111.9
+            xmax = 111.960219
+            text = ""
+        intervals [77]:
+            xmin = 111.960219
+            xmax = 112.416219
+            text = ""
+        intervals [78]:
+            xmin = 112.416219
+            xmax = 112.568219
+            text = ""
+        intervals [79]:
+            xmin = 112.568219
+            xmax = 114.26
+            text = ""
+        intervals [80]:
+            xmin = 114.26
+            xmax = 114.85
+            text = ""
+        intervals [81]:
+            xmin = 114.85
+            xmax = 117.5
+            text = ""
+        intervals [82]:
+            xmin = 117.5
+            xmax = 117.76
+            text = ""
+        intervals [83]:
+            xmin = 117.76
+            xmax = 118.24
+            text = ""
+        intervals [84]:
+            xmin = 118.24
+            xmax = 118.51
+            text = ""
+        intervals [85]:
+            xmin = 118.51
+            xmax = 119.26
+            text = ""
+        intervals [86]:
+            xmin = 119.26
+            xmax = 119.624219
+            text = ""
+        intervals [87]:
+            xmin = 119.624219
+            xmax = 121.45
+            text = ""
+        intervals [88]:
+            xmin = 121.45
+            xmax = 121.504219
+            text = ""
+        intervals [89]:
+            xmin = 121.504219
+            xmax = 121.768219
+            text = ""
+        intervals [90]:
+            xmin = 121.768219
+            xmax = 121.83
+            text = ""
+        intervals [91]:
+            xmin = 121.83
+            xmax = 122.65
+            text = ""
+        intervals [92]:
+            xmin = 122.65
+            xmax = 123.08
+            text = ""
+        intervals [93]:
+            xmin = 123.08
+            xmax = 126.34
+            text = ""
+        intervals [94]:
+            xmin = 126.34
+            xmax = 126.400219
+            text = ""
+        intervals [95]:
+            xmin = 126.400219
+            xmax = 128.32
+            text = ""
+        intervals [96]:
+            xmin = 128.32
+            xmax = 128.384219
+            text = ""
+        intervals [97]:
+            xmin = 128.384219
+            xmax = 132
+            text = ""
+    item [4]:
+        class = "IntervalTier"
+        name = "speaker"
+        xmin = 0
+        xmax = 132
+        intervals: size = 32
+        intervals [1]:
+            xmin = 0
+            xmax = 0.53
+            text = ""
+        intervals [2]:
+            xmin = 0.53
+            xmax = 6.17
+            text = "Todd"
+        intervals [3]:
+            xmin = 6.17
+            xmax = 7.02
+            text = ""
+        intervals [4]:
+            xmin = 7.02
+            xmax = 12.1
+            text = "Simon"
+        intervals [5]:
+            xmin = 12.1
+            xmax = 28.73
+            text = "Todd"
+        intervals [6]:
+            xmin = 28.73
+            xmax = 29.45
+            text = ""
+        intervals [7]:
+            xmin = 29.45
+            xmax = 32.049
+            text = "Simon"
+        intervals [8]:
+            xmin = 32.049
+            xmax = 32.169
+            text = ""
+        intervals [9]:
+            xmin = 32.169
+            xmax = 52.63
+            text = "Todd"
+        intervals [10]:
+            xmin = 52.63
+            xmax = 52.72
+            text = ""
+        intervals [11]:
+            xmin = 52.72
+            xmax = 64.97
+            text = "Simon"
+        intervals [12]:
+            xmin = 64.97
+            xmax = 65.48
+            text = ""
+        intervals [13]:
+            xmin = 65.48
+            xmax = 83.96
+            text = "Todd"
+        intervals [14]:
+            xmin = 83.96
+            xmax = 84.37
+            text = ""
+        intervals [15]:
+            xmin = 84.37
+            xmax = 88.06
+            text = "Simon"
+        intervals [16]:
+            xmin = 88.06
+            xmax = 88.17
+            text = ""
+        intervals [17]:
+            xmin = 88.17
+            xmax = 90.4
+            text = "Todd"
+        intervals [18]:
+            xmin = 90.4
+            xmax = 90.869
+            text = ""
+        intervals [19]:
+            xmin = 90.869
+            xmax = 93.13
+            text = "Simon"
+        intervals [20]:
+            xmin = 93.13
+            xmax = 93.25
+            text = ""
+        intervals [21]:
+            xmin = 93.25
+            xmax = 100.49
+            text = "Todd"
+        intervals [22]:
+            xmin = 100.49
+            xmax = 101.71
+            text = "Simon"
+        intervals [23]:
+            xmin = 101.71
+            xmax = 123.32
+            text = "Todd"
+        intervals [24]:
+            xmin = 123.32
+            xmax = 125.15
+            text = "Simon"
+        intervals [25]:
+            xmin = 125.15
+            xmax = 125.16
+            text = ""
+        intervals [26]:
+            xmin = 125.16
+            xmax = 126.52
+            text = "Todd"
+        intervals [27]:
+            xmin = 126.52
+            xmax = 127.02
+            text = ""
+        intervals [28]:
+            xmin = 127.02
+            xmax = 128.69
+            text = "Simon"
+        intervals [29]:
+            xmin = 128.69
+            xmax = 128.76
+            text = ""
+        intervals [30]:
+            xmin = 128.76
+            xmax = 129.94
+            text = "Todd"
+        intervals [31]:
+            xmin = 129.94
+            xmax = 130.42
+            text = "Simon"
+        intervals [32]:
+            xmin = 130.42
+            xmax = 132
+            text = ""
+    item [5]:
+        class = "IntervalTier"
+        name = "transcript"
+        xmin = 0
+        xmax = 132
+        intervals: size = 32
+        intervals [1]:
+            xmin = 0
+            xmax = 0.53
+            text = ""
+        intervals [2]:
+            xmin = 0.53
+            xmax = 6.17
+            text = "OK, Simon, let's go get something to eat? Let's go out to dinner. I'm really hungry."
+        intervals [3]:
+            xmin = 6.17
+            xmax = 7.02
+            text = ""
+        intervals [4]:
+            xmin = 7.02
+            xmax = 12.1
+            text = "Yeah, OK, me too. I'm really hungry as well. Ah, what is there to eat around here?"
+        intervals [5]:
+            xmin = 12.1
+            xmax = 28.73
+            text = "Well, around my house there's a few restaurants. Um, there's an Italian restaurant. There's a grilled chicken restaurant. There is a fish restaurant, and there is a family diner."
+        intervals [6]:
+            xmin = 28.73
+            xmax = 29.45
+            text = ""
+        intervals [7]:
+            xmin = 29.45
+            xmax = 32.049
+            text = "Family diner. What's that?"
+        intervals [8]:
+            xmin = 32.049
+            xmax = 32.169
+            text = ""
+        intervals [9]:
+            xmin = 32.169
+            xmax = 52.63
+            text = "The family diner is one of those restaurants that they serve many types of food, for example they have noodles, they have pasta, they have hamburger, they have salad. Pretty much anyone in the family could order what they want. They have desserts, things like that."
+        intervals [10]:
+            xmin = 52.63
+            xmax = 52.72
+            text = ""
+        intervals [11]:
+            xmin = 52.72
+            xmax = 64.97
+            text = "Well, that makes sense, that's why it's called a family diner, or family restaurant because I guess everyone in the family will be happy if they eat there. You said Italian restaurant."
+        intervals [12]:
+            xmin = 64.97
+            xmax = 65.48
+            text = ""
+        intervals [13]:
+            xmin = 65.48
+            xmax = 83.96
+            text = "Ah, yeah, there's an Italian restaurant. It's a very small family owned Italian restaurant. They have really good pasta,fresh salad. They always have really good specials. The only problem is that it's really crowded and it's a little expensive because it's very popular."
+        intervals [14]:
+            xmin = 83.96
+            xmax = 84.37
+            text = ""
+        intervals [15]:
+            xmin = 84.37
+            xmax = 88.06
+            text = "Oh, really. Ah, do they have pizza? I like pizza."
+        intervals [16]:
+            xmin = 88.06
+            xmax = 88.17
+            text = ""
+        intervals [17]:
+            xmin = 88.17
+            xmax = 90.4
+            text = "Actually, they don't have pizza. They only have pasta."
+        intervals [18]:
+            xmin = 90.4
+            xmax = 90.869
+            text = ""
+        intervals [19]:
+            xmin = 90.869
+            xmax = 93.13
+            text = "OK. What were the other choices?"
+        intervals [20]:
+            xmin = 93.13
+            xmax = 93.25
+            text = ""
+        intervals [21]:
+            xmin = 93.25
+            xmax = 100.49
+            text = "There's also a fish restaurant and there's a grilled chicken restaurant. A grilled chicken. That's pretty general."
+        intervals [22]:
+            xmin = 100.49
+            xmax = 101.71
+            text = "How do they serve that?"
+        intervals [23]:
+            xmin = 101.71
+            xmax = 123.32
+            text = "It's actually, it's not a restaurant. This guy has a small stand, a very small area, and there are some small tables in front of it, and he just grills chicken, kind of on the street, and then he has little tables in front of his booth or stall and you eat chicken for really cheap."
+        intervals [24]:
+            xmin = 123.32
+            xmax = 125.15
+            text = "Oh, that sounds really cool. Let's do that."
+        intervals [25]:
+            xmin = 125.15
+            xmax = 125.16
+            text = ""
+        intervals [26]:
+            xmin = 125.16
+            xmax = 126.52
+            text = "Yeah, yeah, and they have beer, too."
+        intervals [27]:
+            xmin = 126.52
+            xmax = 127.02
+            text = ""
+        intervals [28]:
+            xmin = 127.02
+            xmax = 128.69
+            text = "Oh, yeah, I like beer."
+        intervals [29]:
+            xmin = 128.69
+            xmax = 128.76
+            text = ""
+        intervals [30]:
+            xmin = 128.76
+            xmax = 129.94
+            text = "Cool, let's go."
+        intervals [31]:
+            xmin = 129.94
+            xmax = 130.42
+            text = "OK."
+        intervals [32]:
+            xmin = 130.42
+            xmax = 132
+            text = ""
+    item [6]:
+        class = "IntervalTier"
+        name = "review_status"
+        xmin = 0
+        xmax = 132
+        intervals: size = 32
+        intervals [1]:
+            xmin = 0
+            xmax = 0.53
+            text = ""
+        intervals [2]:
+            xmin = 0.53
+            xmax = 6.17
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [3]:
+            xmin = 6.17
+            xmax = 7.02
+            text = ""
+        intervals [4]:
+            xmin = 7.02
+            xmax = 12.1
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [5]:
+            xmin = 12.1
+            xmax = 28.73
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [6]:
+            xmin = 28.73
+            xmax = 29.45
+            text = ""
+        intervals [7]:
+            xmin = 29.45
+            xmax = 32.049
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [8]:
+            xmin = 32.049
+            xmax = 32.169
+            text = ""
+        intervals [9]:
+            xmin = 32.169
+            xmax = 52.63
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [10]:
+            xmin = 52.63
+            xmax = 52.72
+            text = ""
+        intervals [11]:
+            xmin = 52.72
+            xmax = 64.97
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [12]:
+            xmin = 64.97
+            xmax = 65.48
+            text = ""
+        intervals [13]:
+            xmin = 65.48
+            xmax = 83.96
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [14]:
+            xmin = 83.96
+            xmax = 84.37
+            text = ""
+        intervals [15]:
+            xmin = 84.37
+            xmax = 88.06
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [16]:
+            xmin = 88.06
+            xmax = 88.17
+            text = ""
+        intervals [17]:
+            xmin = 88.17
+            xmax = 90.4
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [18]:
+            xmin = 90.4
+            xmax = 90.869
+            text = ""
+        intervals [19]:
+            xmin = 90.869
+            xmax = 93.13
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [20]:
+            xmin = 93.13
+            xmax = 93.25
+            text = ""
+        intervals [21]:
+            xmin = 93.25
+            xmax = 100.49
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [22]:
+            xmin = 100.49
+            xmax = 101.71
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [23]:
+            xmin = 101.71
+            xmax = 123.32
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [24]:
+            xmin = 123.32
+            xmax = 125.15
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [25]:
+            xmin = 125.15
+            xmax = 125.16
+            text = ""
+        intervals [26]:
+            xmin = 125.16
+            xmax = 126.52
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [27]:
+            xmin = 126.52
+            xmax = 127.02
+            text = ""
+        intervals [28]:
+            xmin = 127.02
+            xmax = 128.69
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [29]:
+            xmin = 128.69
+            xmax = 128.76
+            text = ""
+        intervals [30]:
+            xmin = 128.76
+            xmax = 129.94
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [31]:
+            xmin = 129.94
+            xmax = 130.42
+            text = "fixed: simulated review from ELLLO source transcript; researcher must verify in Praat"
+        intervals [32]:
+            xmin = 130.42
+            xmax = 132
+            text = ""

@@ -1,0 +1,57 @@
+{
+  "stage": "stage-d-forced-alignment",
+  "created_at": "2026-06-15T14:17:08.176Z",
+  "started_at": "2026-06-15T14:15:47.939Z",
+  "status": 0,
+  "mfa_version": "3.3.9",
+  "mfa_root_dir": "/Users/nedved/Tool/Workspace/MWU/.mfa-data",
+  "cache_dir": "/Users/nedved/Tool/Workspace/MWU/.cache",
+  "corpus_dir": "/Users/nedved/Tool/Workspace/MWU/outputs/wp2.0/elllo/mfa-corpus",
+  "output_dir": "/Users/nedved/Tool/Workspace/MWU/outputs/wp2.0/elllo/mfa-output",
+  "dictionary": "english_us_mfa",
+  "acoustic_model": "english_mfa",
+  "options": {
+    "output_format": "long_textgrid",
+    "num_jobs": 3,
+    "include_original_text": false,
+    "overwrite": true,
+    "single_speaker": false,
+    "quiet": true,
+    "dry_run": false
+  },
+  "corpus_counts": {
+    "wav_count": 18,
+    "lab_count": 18,
+    "paired_count": 18
+  },
+  "manifest_summary": {
+    "unit_count": 18,
+    "selected_count": 18,
+    "blocked_count": 0,
+    "clip_count": 18,
+    "speakers": [
+      "Simon",
+      "Todd"
+    ]
+  },
+  "output_counts": {
+    "textgrid_count": 18
+  },
+  "command": [
+    "/Users/nedved/Tool/Workspace/MWU/.mfa-env/bin/mfa",
+    "align",
+    "/Users/nedved/Tool/Workspace/MWU/outputs/wp2.0/elllo/mfa-corpus",
+    "english_us_mfa",
+    "english_mfa",
+    "/Users/nedved/Tool/Workspace/MWU/outputs/wp2.0/elllo/mfa-output",
+    "--output_format",
+    "long_textgrid",
+    "--num_jobs",
+    "3",
+    "--clean",
+    "--no_final_clean",
+    "--no_use_postgres",
+    "--overwrite",
+    "--quiet"
+  ]
+}

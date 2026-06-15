@@ -1,0 +1,1588 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0
+xmax = 132
+tiers? <exists>
+size = 2
+item []:
+    item [1]:
+        class = "IntervalTier"
+        name = "Simon_mfa_words"
+        xmin = 0
+        xmax = 132
+        intervals: size = 110
+        intervals [1]:
+            xmin = 0
+            xmax = 7.2
+            text = ""
+        intervals [2]:
+            xmin = 7.2
+            xmax = 7.36
+            text = "yeah"
+        intervals [3]:
+            xmin = 7.36
+            xmax = 7.65
+            text = "ok"
+        intervals [4]:
+            xmin = 7.65
+            xmax = 7.79
+            text = "me"
+        intervals [5]:
+            xmin = 7.79
+            xmax = 8.02
+            text = "too"
+        intervals [6]:
+            xmin = 8.02
+            xmax = 8.26
+            text = "i'm"
+        intervals [7]:
+            xmin = 8.26
+            xmax = 8.42
+            text = "really"
+        intervals [8]:
+            xmin = 8.42
+            xmax = 8.73
+            text = "hungry"
+        intervals [9]:
+            xmin = 8.73
+            xmax = 8.85
+            text = "as"
+        intervals [10]:
+            xmin = 8.85
+            xmax = 9.14
+            text = "well"
+        intervals [11]:
+            xmin = 9.14
+            xmax = 9.4
+            text = ""
+        intervals [12]:
+            xmin = 9.4
+            xmax = 9.85
+            text = "ah"
+        intervals [13]:
+            xmin = 9.85
+            xmax = 10.07
+            text = ""
+        intervals [14]:
+            xmin = 10.07
+            xmax = 10.4
+            text = "what"
+        intervals [15]:
+            xmin = 10.4
+            xmax = 10.67
+            text = "is"
+        intervals [16]:
+            xmin = 10.67
+            xmax = 10.84
+            text = "there"
+        intervals [17]:
+            xmin = 10.84
+            xmax = 10.91
+            text = "to"
+        intervals [18]:
+            xmin = 10.91
+            xmax = 11.13
+            text = "eat"
+        intervals [19]:
+            xmin = 11.13
+            xmax = 11.47
+            text = "around"
+        intervals [20]:
+            xmin = 11.47
+            xmax = 11.79
+            text = "here"
+        intervals [21]:
+            xmin = 11.79
+            xmax = 29.95
+            text = ""
+        intervals [22]:
+            xmin = 29.95
+            xmax = 30.33
+            text = "family"
+        intervals [23]:
+            xmin = 30.33
+            xmax = 30.71
+            text = "diner"
+        intervals [24]:
+            xmin = 30.71
+            xmax = 30.87
+            text = "what's"
+        intervals [25]:
+            xmin = 30.87
+            xmax = 31.23
+            text = "that"
+        intervals [26]:
+            xmin = 31.23
+            xmax = 52.72
+            text = ""
+        intervals [27]:
+            xmin = 52.72
+            xmax = 52.85
+            text = "well"
+        intervals [28]:
+            xmin = 52.85
+            xmax = 52.88
+            text = "that"
+        intervals [29]:
+            xmin = 52.88
+            xmax = 53.17
+            text = "makes"
+        intervals [30]:
+            xmin = 53.17
+            xmax = 53.45
+            text = "sense"
+        intervals [31]:
+            xmin = 53.45
+            xmax = 53.68
+            text = "that's"
+        intervals [32]:
+            xmin = 53.68
+            xmax = 53.97
+            text = "why"
+        intervals [33]:
+            xmin = 53.97
+            xmax = 54.11
+            text = "it's"
+        intervals [34]:
+            xmin = 54.11
+            xmax = 54.53
+            text = "called"
+        intervals [35]:
+            xmin = 54.53
+            xmax = 54.62
+            text = "a"
+        intervals [36]:
+            xmin = 54.62
+            xmax = 55.55
+            text = "family"
+        intervals [37]:
+            xmin = 55.55
+            xmax = 56.23
+            text = "diner"
+        intervals [38]:
+            xmin = 56.23
+            xmax = 56.26
+            text = "or"
+        intervals [39]:
+            xmin = 56.26
+            xmax = 56.74
+            text = "family"
+        intervals [40]:
+            xmin = 56.74
+            xmax = 57.25
+            text = "restaurant"
+        intervals [41]:
+            xmin = 57.25
+            xmax = 57.69
+            text = "because"
+        intervals [42]:
+            xmin = 57.69
+            xmax = 58.26
+            text = ""
+        intervals [43]:
+            xmin = 58.26
+            xmax = 58.37
+            text = "i"
+        intervals [44]:
+            xmin = 58.37
+            xmax = 58.65
+            text = "guess"
+        intervals [45]:
+            xmin = 58.65
+            xmax = 58.96
+            text = ""
+        intervals [46]:
+            xmin = 58.96
+            xmax = 59.85
+            text = "everyone"
+        intervals [47]:
+            xmin = 59.85
+            xmax = 59.99
+            text = "in"
+        intervals [48]:
+            xmin = 59.99
+            xmax = 60.05
+            text = "the"
+        intervals [49]:
+            xmin = 60.05
+            xmax = 60.57
+            text = "family"
+        intervals [50]:
+            xmin = 60.57
+            xmax = 60.7
+            text = "will"
+        intervals [51]:
+            xmin = 60.7
+            xmax = 60.83
+            text = "be"
+        intervals [52]:
+            xmin = 60.83
+            xmax = 61.34
+            text = "happy"
+        intervals [53]:
+            xmin = 61.34
+            xmax = 61.52
+            text = ""
+        intervals [54]:
+            xmin = 61.52
+            xmax = 61.69
+            text = "if"
+        intervals [55]:
+            xmin = 61.69
+            xmax = 61.83
+            text = "they"
+        intervals [56]:
+            xmin = 61.83
+            xmax = 62.06
+            text = "eat"
+        intervals [57]:
+            xmin = 62.06
+            xmax = 62.28
+            text = "there"
+        intervals [58]:
+            xmin = 62.28
+            xmax = 62.49
+            text = ""
+        intervals [59]:
+            xmin = 62.49
+            xmax = 62.83
+            text = "you"
+        intervals [60]:
+            xmin = 62.83
+            xmax = 63.45
+            text = ""
+        intervals [61]:
+            xmin = 63.45
+            xmax = 63.58
+            text = "said"
+        intervals [62]:
+            xmin = 63.58
+            xmax = 64.32
+            text = "italian"
+        intervals [63]:
+            xmin = 64.32
+            xmax = 64.97
+            text = "restaurant"
+        intervals [64]:
+            xmin = 64.97
+            xmax = 84.81
+            text = ""
+        intervals [65]:
+            xmin = 84.81
+            xmax = 84.93
+            text = "oh"
+        intervals [66]:
+            xmin = 84.93
+            xmax = 85.3
+            text = "really"
+        intervals [67]:
+            xmin = 85.3
+            xmax = 85.42
+            text = ""
+        intervals [68]:
+            xmin = 85.42
+            xmax = 85.85
+            text = "ah"
+        intervals [69]:
+            xmin = 85.85
+            xmax = 86.3
+            text = ""
+        intervals [70]:
+            xmin = 86.3
+            xmax = 86.37
+            text = "do"
+        intervals [71]:
+            xmin = 86.37
+            xmax = 86.46
+            text = "they"
+        intervals [72]:
+            xmin = 86.46
+            xmax = 86.61
+            text = "have"
+        intervals [73]:
+            xmin = 86.61
+            xmax = 86.98
+            text = "pizza"
+        intervals [74]:
+            xmin = 86.98
+            xmax = 87.19
+            text = ""
+        intervals [75]:
+            xmin = 87.19
+            xmax = 87.31
+            text = "i"
+        intervals [76]:
+            xmin = 87.31
+            xmax = 87.51
+            text = "like"
+        intervals [77]:
+            xmin = 87.51
+            xmax = 87.92
+            text = "pizza"
+        intervals [78]:
+            xmin = 87.92
+            xmax = 90.869
+            text = ""
+        intervals [79]:
+            xmin = 90.869
+            xmax = 91.159
+            text = "ok"
+        intervals [80]:
+            xmin = 91.159
+            xmax = 91.419
+            text = ""
+        intervals [81]:
+            xmin = 91.419
+            xmax = 92.089
+            text = "what"
+        intervals [82]:
+            xmin = 92.089
+            xmax = 92.209
+            text = "were"
+        intervals [83]:
+            xmin = 92.209
+            xmax = 92.339
+            text = "the"
+        intervals [84]:
+            xmin = 92.339
+            xmax = 92.489
+            text = "other"
+        intervals [85]:
+            xmin = 92.489
+            xmax = 92.959
+            text = "choices"
+        intervals [86]:
+            xmin = 92.959
+            xmax = 100.55
+            text = ""
+        intervals [87]:
+            xmin = 100.55
+            xmax = 100.65
+            text = "how"
+        intervals [88]:
+            xmin = 100.65
+            xmax = 100.73
+            text = "do"
+        intervals [89]:
+            xmin = 100.73
+            xmax = 100.87
+            text = "they"
+        intervals [90]:
+            xmin = 100.87
+            xmax = 101.14
+            text = "serve"
+        intervals [91]:
+            xmin = 101.14
+            xmax = 101.34
+            text = "that"
+        intervals [92]:
+            xmin = 101.34
+            xmax = 123.32
+            text = ""
+        intervals [93]:
+            xmin = 123.32
+            xmax = 123.35
+            text = "oh"
+        intervals [94]:
+            xmin = 123.35
+            xmax = 123.47
+            text = "that"
+        intervals [95]:
+            xmin = 123.47
+            xmax = 123.79
+            text = "sounds"
+        intervals [96]:
+            xmin = 123.79
+            xmax = 124
+            text = "really"
+        intervals [97]:
+            xmin = 124
+            xmax = 124.22
+            text = "cool"
+        intervals [98]:
+            xmin = 124.22
+            xmax = 124.44
+            text = "let's"
+        intervals [99]:
+            xmin = 124.44
+            xmax = 124.59
+            text = "do"
+        intervals [100]:
+            xmin = 124.59
+            xmax = 124.9
+            text = "that"
+        intervals [101]:
+            xmin = 124.9
+            xmax = 127.02
+            text = ""
+        intervals [102]:
+            xmin = 127.02
+            xmax = 127.05
+            text = "oh"
+        intervals [103]:
+            xmin = 127.05
+            xmax = 127.49
+            text = ""
+        intervals [104]:
+            xmin = 127.49
+            xmax = 127.62
+            text = "yeah"
+        intervals [105]:
+            xmin = 127.62
+            xmax = 127.74
+            text = "i"
+        intervals [106]:
+            xmin = 127.74
+            xmax = 127.97
+            text = "like"
+        intervals [107]:
+            xmin = 127.97
+            xmax = 128.3
+            text = "beer"
+        intervals [108]:
+            xmin = 128.3
+            xmax = 129.94
+            text = ""
+        intervals [109]:
+            xmin = 129.94
+            xmax = 130.28
+            text = "ok"
+        intervals [110]:
+            xmin = 130.28
+            xmax = 132
+            text = ""
+    item [2]:
+        class = "IntervalTier"
+        name = "Todd_mfa_words"
+        xmin = 0
+        xmax = 132
+        intervals: size = 282
+        intervals [1]:
+            xmin = 0
+            xmax = 0.75
+            text = ""
+        intervals [2]:
+            xmin = 0.75
+            xmax = 1
+            text = "ok"
+        intervals [3]:
+            xmin = 1
+            xmax = 1.53
+            text = "simon"
+        intervals [4]:
+            xmin = 1.53
+            xmax = 1.65
+            text = "let's"
+        intervals [5]:
+            xmin = 1.65
+            xmax = 2.28
+            text = "go"
+        intervals [6]:
+            xmin = 2.28
+            xmax = 2.82
+            text = ""
+        intervals [7]:
+            xmin = 2.82
+            xmax = 2.99
+            text = "get"
+        intervals [8]:
+            xmin = 2.99
+            xmax = 3.48
+            text = "something"
+        intervals [9]:
+            xmin = 3.48
+            xmax = 3.56
+            text = "to"
+        intervals [10]:
+            xmin = 3.56
+            xmax = 4
+            text = "eat"
+        intervals [11]:
+            xmin = 4
+            xmax = 4.07
+            text = ""
+        intervals [12]:
+            xmin = 4.07
+            xmax = 4.25
+            text = "let's"
+        intervals [13]:
+            xmin = 4.25
+            xmax = 4.4
+            text = "go"
+        intervals [14]:
+            xmin = 4.4
+            xmax = 4.55
+            text = "out"
+        intervals [15]:
+            xmin = 4.55
+            xmax = 4.62
+            text = "to"
+        intervals [16]:
+            xmin = 4.62
+            xmax = 4.95
+            text = "dinner"
+        intervals [17]:
+            xmin = 4.95
+            xmax = 5.16
+            text = "i'm"
+        intervals [18]:
+            xmin = 5.16
+            xmax = 5.39
+            text = "really"
+        intervals [19]:
+            xmin = 5.39
+            xmax = 5.83
+            text = "hungry"
+        intervals [20]:
+            xmin = 5.83
+            xmax = 12.1
+            text = ""
+        intervals [21]:
+            xmin = 12.1
+            xmax = 12.21
+            text = "well"
+        intervals [22]:
+            xmin = 12.21
+            xmax = 12.5
+            text = "around"
+        intervals [23]:
+            xmin = 12.5
+            xmax = 12.66
+            text = "my"
+        intervals [24]:
+            xmin = 12.66
+            xmax = 13.15
+            text = "house"
+        intervals [25]:
+            xmin = 13.15
+            xmax = 13.18
+            text = ""
+        intervals [26]:
+            xmin = 13.18
+            xmax = 13.72
+            text = "there's"
+        intervals [27]:
+            xmin = 13.72
+            xmax = 14.54
+            text = ""
+        intervals [28]:
+            xmin = 14.54
+            xmax = 14.6
+            text = "a"
+        intervals [29]:
+            xmin = 14.6
+            xmax = 14.84
+            text = "few"
+        intervals [30]:
+            xmin = 14.84
+            xmax = 15.57
+            text = "restaurants"
+        intervals [31]:
+            xmin = 15.57
+            xmax = 15.64
+            text = ""
+        intervals [32]:
+            xmin = 15.64
+            xmax = 16.15
+            text = "um"
+        intervals [33]:
+            xmin = 16.15
+            xmax = 16.38
+            text = "there's"
+        intervals [34]:
+            xmin = 16.38
+            xmax = 16.46
+            text = "an"
+        intervals [35]:
+            xmin = 16.46
+            xmax = 16.9
+            text = "italian"
+        intervals [36]:
+            xmin = 16.9
+            xmax = 17.47
+            text = "restaurant"
+        intervals [37]:
+            xmin = 17.47
+            xmax = 18.42
+            text = ""
+        intervals [38]:
+            xmin = 18.42
+            xmax = 19.31
+            text = "there's"
+        intervals [39]:
+            xmin = 19.31
+            xmax = 19.63
+            text = ""
+        intervals [40]:
+            xmin = 19.63
+            xmax = 20.23
+            text = "a"
+        intervals [41]:
+            xmin = 20.23
+            xmax = 20.37
+            text = ""
+        intervals [42]:
+            xmin = 20.37
+            xmax = 20.9
+            text = "grilled"
+        intervals [43]:
+            xmin = 20.9
+            xmax = 21.39
+            text = "chicken"
+        intervals [44]:
+            xmin = 21.39
+            xmax = 21.44
+            text = ""
+        intervals [45]:
+            xmin = 21.44
+            xmax = 22.01
+            text = "restaurant"
+        intervals [46]:
+            xmin = 22.01
+            xmax = 23.11
+            text = ""
+        intervals [47]:
+            xmin = 23.11
+            xmax = 23.36
+            text = "there"
+        intervals [48]:
+            xmin = 23.36
+            xmax = 23.56
+            text = "is"
+        intervals [49]:
+            xmin = 23.56
+            xmax = 24.05
+            text = "a"
+        intervals [50]:
+            xmin = 24.05
+            xmax = 24.68
+            text = ""
+        intervals [51]:
+            xmin = 24.68
+            xmax = 25.06
+            text = "fish"
+        intervals [52]:
+            xmin = 25.06
+            xmax = 25.65
+            text = "restaurant"
+        intervals [53]:
+            xmin = 25.65
+            xmax = 26.43
+            text = ""
+        intervals [54]:
+            xmin = 26.43
+            xmax = 26.67
+            text = "and"
+        intervals [55]:
+            xmin = 26.67
+            xmax = 26.81
+            text = "there"
+        intervals [56]:
+            xmin = 26.81
+            xmax = 26.93
+            text = "is"
+        intervals [57]:
+            xmin = 26.93
+            xmax = 27.06
+            text = "a"
+        intervals [58]:
+            xmin = 27.06
+            xmax = 27.63
+            text = "family"
+        intervals [59]:
+            xmin = 27.63
+            xmax = 28.08
+            text = "diner"
+        intervals [60]:
+            xmin = 28.08
+            xmax = 32.169
+            text = ""
+        intervals [61]:
+            xmin = 32.169
+            xmax = 32.179
+            text = "the"
+        intervals [62]:
+            xmin = 32.179
+            xmax = 32.359
+            text = "family"
+        intervals [63]:
+            xmin = 32.359
+            xmax = 32.799
+            text = "diner"
+        intervals [64]:
+            xmin = 32.799
+            xmax = 33.269
+            text = "is"
+        intervals [65]:
+            xmin = 33.269
+            xmax = 33.419
+            text = "one"
+        intervals [66]:
+            xmin = 33.419
+            xmax = 33.839
+            text = "of"
+        intervals [67]:
+            xmin = 33.839
+            xmax = 35.769
+            text = ""
+        intervals [68]:
+            xmin = 35.769
+            xmax = 36.209
+            text = "those"
+        intervals [69]:
+            xmin = 36.209
+            xmax = 36.799
+            text = "restaurants"
+        intervals [70]:
+            xmin = 36.799
+            xmax = 36.969
+            text = "that"
+        intervals [71]:
+            xmin = 36.969
+            xmax = 37.109
+            text = "they"
+        intervals [72]:
+            xmin = 37.109
+            xmax = 37.419
+            text = "serve"
+        intervals [73]:
+            xmin = 37.419
+            xmax = 37.689
+            text = "many"
+        intervals [74]:
+            xmin = 37.689
+            xmax = 38.069
+            text = "types"
+        intervals [75]:
+            xmin = 38.069
+            xmax = 38.179
+            text = "of"
+        intervals [76]:
+            xmin = 38.179
+            xmax = 38.649
+            text = "food"
+        intervals [77]:
+            xmin = 38.649
+            xmax = 39.169
+            text = ""
+        intervals [78]:
+            xmin = 39.169
+            xmax = 39.239
+            text = "for"
+        intervals [79]:
+            xmin = 39.239
+            xmax = 39.619
+            text = "example"
+        intervals [80]:
+            xmin = 39.619
+            xmax = 39.709
+            text = "they"
+        intervals [81]:
+            xmin = 39.709
+            xmax = 39.879
+            text = "have"
+        intervals [82]:
+            xmin = 39.879
+            xmax = 40.559
+            text = "noodles"
+        intervals [83]:
+            xmin = 40.559
+            xmax = 40.769
+            text = ""
+        intervals [84]:
+            xmin = 40.769
+            xmax = 40.839
+            text = "they"
+        intervals [85]:
+            xmin = 40.839
+            xmax = 41.099
+            text = "have"
+        intervals [86]:
+            xmin = 41.099
+            xmax = 41.809
+            text = "pasta"
+        intervals [87]:
+            xmin = 41.809
+            xmax = 42.279
+            text = ""
+        intervals [88]:
+            xmin = 42.279
+            xmax = 42.379
+            text = "they"
+        intervals [89]:
+            xmin = 42.379
+            xmax = 42.579
+            text = "have"
+        intervals [90]:
+            xmin = 42.579
+            xmax = 43.479
+            text = "hamburger"
+        intervals [91]:
+            xmin = 43.479
+            xmax = 44.119
+            text = ""
+        intervals [92]:
+            xmin = 44.119
+            xmax = 44.299
+            text = "they"
+        intervals [93]:
+            xmin = 44.299
+            xmax = 44.889
+            text = "have"
+        intervals [94]:
+            xmin = 44.889
+            xmax = 45.439
+            text = ""
+        intervals [95]:
+            xmin = 45.439
+            xmax = 46.199
+            text = "salad"
+        intervals [96]:
+            xmin = 46.199
+            xmax = 47.089
+            text = ""
+        intervals [97]:
+            xmin = 47.089
+            xmax = 47.259
+            text = "pretty"
+        intervals [98]:
+            xmin = 47.259
+            xmax = 47.499
+            text = "much"
+        intervals [99]:
+            xmin = 47.499
+            xmax = 47.529
+            text = ""
+        intervals [100]:
+            xmin = 47.529
+            xmax = 47.869
+            text = "anyone"
+        intervals [101]:
+            xmin = 47.869
+            xmax = 47.929
+            text = "in"
+        intervals [102]:
+            xmin = 47.929
+            xmax = 47.999
+            text = "the"
+        intervals [103]:
+            xmin = 47.999
+            xmax = 48.429
+            text = "family"
+        intervals [104]:
+            xmin = 48.429
+            xmax = 48.619001
+            text = "could"
+        intervals [105]:
+            xmin = 48.619001
+            xmax = 49.128999
+            text = "order"
+        intervals [106]:
+            xmin = 49.128999
+            xmax = 49.429
+            text = ""
+        intervals [107]:
+            xmin = 49.429
+            xmax = 49.619001
+            text = "what"
+        intervals [108]:
+            xmin = 49.619001
+            xmax = 49.728999
+            text = "they"
+        intervals [109]:
+            xmin = 49.728999
+            xmax = 50.119001
+            text = "want"
+        intervals [110]:
+            xmin = 50.119001
+            xmax = 50.798999
+            text = ""
+        intervals [111]:
+            xmin = 50.798999
+            xmax = 50.878999
+            text = "they"
+        intervals [112]:
+            xmin = 50.878999
+            xmax = 51.149
+            text = "have"
+        intervals [113]:
+            xmin = 51.149
+            xmax = 51.739
+            text = "desserts"
+        intervals [114]:
+            xmin = 51.739
+            xmax = 52.048999
+            text = "things"
+        intervals [115]:
+            xmin = 52.048999
+            xmax = 52.228999
+            text = "like"
+        intervals [116]:
+            xmin = 52.228999
+            xmax = 52.439
+            text = "that"
+        intervals [117]:
+            xmin = 52.439
+            xmax = 65.48
+            text = ""
+        intervals [118]:
+            xmin = 65.48
+            xmax = 65.53
+            text = "ah"
+        intervals [119]:
+            xmin = 65.53
+            xmax = 65.8
+            text = "yeah"
+        intervals [120]:
+            xmin = 65.8
+            xmax = 66.04
+            text = "there's"
+        intervals [121]:
+            xmin = 66.04
+            xmax = 66.15
+            text = "an"
+        intervals [122]:
+            xmin = 66.15
+            xmax = 66.55
+            text = "italian"
+        intervals [123]:
+            xmin = 66.55
+            xmax = 67.09
+            text = "restaurant"
+        intervals [124]:
+            xmin = 67.09
+            xmax = 67.2
+            text = ""
+        intervals [125]:
+            xmin = 67.2
+            xmax = 67.3
+            text = "it's"
+        intervals [126]:
+            xmin = 67.3
+            xmax = 67.81
+            text = "a"
+        intervals [127]:
+            xmin = 67.81
+            xmax = 68.05
+            text = ""
+        intervals [128]:
+            xmin = 68.05
+            xmax = 68.22
+            text = "very"
+        intervals [129]:
+            xmin = 68.22
+            xmax = 68.46
+            text = "small"
+        intervals [130]:
+            xmin = 68.46
+            xmax = 68.63
+            text = ""
+        intervals [131]:
+            xmin = 68.63
+            xmax = 69.13
+            text = "family"
+        intervals [132]:
+            xmin = 69.13
+            xmax = 69.26
+            text = ""
+        intervals [133]:
+            xmin = 69.26
+            xmax = 69.68
+            text = "owned"
+        intervals [134]:
+            xmin = 69.68
+            xmax = 70.66
+            text = "italian"
+        intervals [135]:
+            xmin = 70.66
+            xmax = 70.74
+            text = ""
+        intervals [136]:
+            xmin = 70.74
+            xmax = 71.51
+            text = "restaurant"
+        intervals [137]:
+            xmin = 71.51
+            xmax = 72.19
+            text = ""
+        intervals [138]:
+            xmin = 72.19
+            xmax = 72.26
+            text = "they"
+        intervals [139]:
+            xmin = 72.26
+            xmax = 72.57
+            text = "have"
+        intervals [140]:
+            xmin = 72.57
+            xmax = 72.87
+            text = "really"
+        intervals [141]:
+            xmin = 72.87
+            xmax = 73.07
+            text = "good"
+        intervals [142]:
+            xmin = 73.07
+            xmax = 73.67
+            text = "pasta"
+        intervals [143]:
+            xmin = 73.67
+            xmax = 74.36
+            text = ""
+        intervals [144]:
+            xmin = 74.36
+            xmax = 74.61
+            text = "fresh"
+        intervals [145]:
+            xmin = 74.61
+            xmax = 74.79
+            text = ""
+        intervals [146]:
+            xmin = 74.79
+            xmax = 75.01
+            text = "salad"
+        intervals [147]:
+            xmin = 75.01
+            xmax = 75.12
+            text = ""
+        intervals [148]:
+            xmin = 75.12
+            xmax = 75.19
+            text = "they"
+        intervals [149]:
+            xmin = 75.19
+            xmax = 75.63
+            text = "always"
+        intervals [150]:
+            xmin = 75.63
+            xmax = 76.72
+            text = ""
+        intervals [151]:
+            xmin = 76.72
+            xmax = 77.21
+            text = "have"
+        intervals [152]:
+            xmin = 77.21
+            xmax = 77.46
+            text = "really"
+        intervals [153]:
+            xmin = 77.46
+            xmax = 77.69
+            text = "good"
+        intervals [154]:
+            xmin = 77.69
+            xmax = 78.45
+            text = "specials"
+        intervals [155]:
+            xmin = 78.45
+            xmax = 79.29
+            text = ""
+        intervals [156]:
+            xmin = 79.29
+            xmax = 79.44
+            text = "the"
+        intervals [157]:
+            xmin = 79.44
+            xmax = 79.63
+            text = "only"
+        intervals [158]:
+            xmin = 79.63
+            xmax = 80.03
+            text = "problem"
+        intervals [159]:
+            xmin = 80.03
+            xmax = 80.3
+            text = "is"
+        intervals [160]:
+            xmin = 80.3
+            xmax = 80.37
+            text = "that"
+        intervals [161]:
+            xmin = 80.37
+            xmax = 80.5
+            text = "it's"
+        intervals [162]:
+            xmin = 80.5
+            xmax = 80.71
+            text = "really"
+        intervals [163]:
+            xmin = 80.71
+            xmax = 81.24
+            text = "crowded"
+        intervals [164]:
+            xmin = 81.24
+            xmax = 81.55
+            text = ""
+        intervals [165]:
+            xmin = 81.55
+            xmax = 81.65
+            text = "and"
+        intervals [166]:
+            xmin = 81.65
+            xmax = 81.82
+            text = "it's"
+        intervals [167]:
+            xmin = 81.82
+            xmax = 81.850001
+            text = "a"
+        intervals [168]:
+            xmin = 81.850001
+            xmax = 82.08
+            text = "little"
+        intervals [169]:
+            xmin = 82.08
+            xmax = 82.71
+            text = "expensive"
+        intervals [170]:
+            xmin = 82.71
+            xmax = 83.020001
+            text = "because"
+        intervals [171]:
+            xmin = 83.020001
+            xmax = 83.22
+            text = "it's"
+        intervals [172]:
+            xmin = 83.22
+            xmax = 83.420001
+            text = "very"
+        intervals [173]:
+            xmin = 83.420001
+            xmax = 83.89
+            text = "popular"
+        intervals [174]:
+            xmin = 83.89
+            xmax = 88.17
+            text = ""
+        intervals [175]:
+            xmin = 88.17
+            xmax = 88.4
+            text = "actually"
+        intervals [176]:
+            xmin = 88.4
+            xmax = 88.54
+            text = "they"
+        intervals [177]:
+            xmin = 88.54
+            xmax = 88.78
+            text = "don't"
+        intervals [178]:
+            xmin = 88.78
+            xmax = 88.97
+            text = "have"
+        intervals [179]:
+            xmin = 88.97
+            xmax = 89.25
+            text = "pizza"
+        intervals [180]:
+            xmin = 89.25
+            xmax = 89.4
+            text = "they"
+        intervals [181]:
+            xmin = 89.4
+            xmax = 89.56
+            text = "only"
+        intervals [182]:
+            xmin = 89.56
+            xmax = 89.74
+            text = "have"
+        intervals [183]:
+            xmin = 89.74
+            xmax = 90.15
+            text = "pasta"
+        intervals [184]:
+            xmin = 90.15
+            xmax = 93.25
+            text = ""
+        intervals [185]:
+            xmin = 93.25
+            xmax = 93.39
+            text = "there's"
+        intervals [186]:
+            xmin = 93.39
+            xmax = 93.7
+            text = "also"
+        intervals [187]:
+            xmin = 93.7
+            xmax = 93.75
+            text = "a"
+        intervals [188]:
+            xmin = 93.75
+            xmax = 94.08
+            text = "fish"
+        intervals [189]:
+            xmin = 94.08
+            xmax = 94.66
+            text = "restaurant"
+        intervals [190]:
+            xmin = 94.66
+            xmax = 95.05
+            text = ""
+        intervals [191]:
+            xmin = 95.05
+            xmax = 95.37
+            text = "and"
+        intervals [192]:
+            xmin = 95.37
+            xmax = 95.6
+            text = "there's"
+        intervals [193]:
+            xmin = 95.6
+            xmax = 95.76
+            text = "a"
+        intervals [194]:
+            xmin = 95.76
+            xmax = 96.2
+            text = "grilled"
+        intervals [195]:
+            xmin = 96.2
+            xmax = 96.56
+            text = "chicken"
+        intervals [196]:
+            xmin = 96.56
+            xmax = 96.98
+            text = "restaurant"
+        intervals [197]:
+            xmin = 96.98
+            xmax = 97.34
+            text = ""
+        intervals [198]:
+            xmin = 97.34
+            xmax = 97.47
+            text = "a"
+        intervals [199]:
+            xmin = 97.47
+            xmax = 97.73
+            text = "grilled"
+        intervals [200]:
+            xmin = 97.73
+            xmax = 98.18
+            text = "chicken"
+        intervals [201]:
+            xmin = 98.18
+            xmax = 98.46
+            text = "that's"
+        intervals [202]:
+            xmin = 98.46
+            xmax = 99.16
+            text = ""
+        intervals [203]:
+            xmin = 99.16
+            xmax = 99.37
+            text = "pretty"
+        intervals [204]:
+            xmin = 99.37
+            xmax = 99.98
+            text = "general"
+        intervals [205]:
+            xmin = 99.98
+            xmax = 101.71
+            text = ""
+        intervals [206]:
+            xmin = 101.71
+            xmax = 101.77
+            text = "it's"
+        intervals [207]:
+            xmin = 101.77
+            xmax = 102.03
+            text = "actually"
+        intervals [208]:
+            xmin = 102.03
+            xmax = 102.19
+            text = "it's"
+        intervals [209]:
+            xmin = 102.19
+            xmax = 102.36
+            text = "not"
+        intervals [210]:
+            xmin = 102.36
+            xmax = 102.4
+            text = "a"
+        intervals [211]:
+            xmin = 102.4
+            xmax = 103.14
+            text = "restaurant"
+        intervals [212]:
+            xmin = 103.14
+            xmax = 103.65
+            text = "this"
+        intervals [213]:
+            xmin = 103.65
+            xmax = 103.91
+            text = "guy"
+        intervals [214]:
+            xmin = 103.91
+            xmax = 104.16
+            text = "has"
+        intervals [215]:
+            xmin = 104.16
+            xmax = 104.22
+            text = "a"
+        intervals [216]:
+            xmin = 104.22
+            xmax = 104.79
+            text = "small"
+        intervals [217]:
+            xmin = 104.79
+            xmax = 105.43
+            text = "stand"
+        intervals [218]:
+            xmin = 105.43
+            xmax = 106.18
+            text = ""
+        intervals [219]:
+            xmin = 106.18
+            xmax = 106.24
+            text = "a"
+        intervals [220]:
+            xmin = 106.24
+            xmax = 106.55
+            text = "very"
+        intervals [221]:
+            xmin = 106.55
+            xmax = 106.99
+            text = "small"
+        intervals [222]:
+            xmin = 106.99
+            xmax = 107.58
+            text = "area"
+        intervals [223]:
+            xmin = 107.58
+            xmax = 107.66
+            text = ""
+        intervals [224]:
+            xmin = 107.66
+            xmax = 107.83
+            text = "and"
+        intervals [225]:
+            xmin = 107.83
+            xmax = 107.93
+            text = "there"
+        intervals [226]:
+            xmin = 107.93
+            xmax = 107.98
+            text = "are"
+        intervals [227]:
+            xmin = 107.98
+            xmax = 108.36
+            text = "some"
+        intervals [228]:
+            xmin = 108.36
+            xmax = 108.67
+            text = "small"
+        intervals [229]:
+            xmin = 108.67
+            xmax = 109.1
+            text = "tables"
+        intervals [230]:
+            xmin = 109.1
+            xmax = 109.2
+            text = "in"
+        intervals [231]:
+            xmin = 109.2
+            xmax = 109.41
+            text = "front"
+        intervals [232]:
+            xmin = 109.41
+            xmax = 109.5
+            text = "of"
+        intervals [233]:
+            xmin = 109.5
+            xmax = 109.65
+            text = "it"
+        intervals [234]:
+            xmin = 109.65
+            xmax = 110.31
+            text = ""
+        intervals [235]:
+            xmin = 110.31
+            xmax = 110.43
+            text = "and"
+        intervals [236]:
+            xmin = 110.43
+            xmax = 110.62
+            text = "he"
+        intervals [237]:
+            xmin = 110.62
+            xmax = 110.88
+            text = "just"
+        intervals [238]:
+            xmin = 110.88
+            xmax = 111.39
+            text = "grills"
+        intervals [239]:
+            xmin = 111.39
+            xmax = 111.9
+            text = "chicken"
+        intervals [240]:
+            xmin = 111.9
+            xmax = 112.81
+            text = ""
+        intervals [241]:
+            xmin = 112.81
+            xmax = 113.01
+            text = "kind"
+        intervals [242]:
+            xmin = 113.01
+            xmax = 113.11
+            text = "of"
+        intervals [243]:
+            xmin = 113.11
+            xmax = 113.34
+            text = "on"
+        intervals [244]:
+            xmin = 113.34
+            xmax = 113.42
+            text = "the"
+        intervals [245]:
+            xmin = 113.42
+            xmax = 113.9
+            text = "street"
+        intervals [246]:
+            xmin = 113.9
+            xmax = 114.86
+            text = ""
+        intervals [247]:
+            xmin = 114.86
+            xmax = 115.23
+            text = "and"
+        intervals [248]:
+            xmin = 115.23
+            xmax = 115.61
+            text = "then"
+        intervals [249]:
+            xmin = 115.61
+            xmax = 115.77
+            text = "he"
+        intervals [250]:
+            xmin = 115.77
+            xmax = 116.1
+            text = "has"
+        intervals [251]:
+            xmin = 116.1
+            xmax = 116.28
+            text = "little"
+        intervals [252]:
+            xmin = 116.28
+            xmax = 116.77
+            text = "tables"
+        intervals [253]:
+            xmin = 116.77
+            xmax = 116.85
+            text = "in"
+        intervals [254]:
+            xmin = 116.85
+            xmax = 117.1
+            text = "front"
+        intervals [255]:
+            xmin = 117.1
+            xmax = 117.16
+            text = "of"
+        intervals [256]:
+            xmin = 117.16
+            xmax = 117.48
+            text = "his"
+        intervals [257]:
+            xmin = 117.48
+            xmax = 117.759999
+            text = ""
+        intervals [258]:
+            xmin = 117.759999
+            xmax = 118.240001
+            text = "booth"
+        intervals [259]:
+            xmin = 118.240001
+            xmax = 118.509999
+            text = ""
+        intervals [260]:
+            xmin = 118.509999
+            xmax = 118.669999
+            text = "or"
+        intervals [261]:
+            xmin = 118.669999
+            xmax = 119.29
+            text = "stall"
+        intervals [262]:
+            xmin = 119.29
+            xmax = 120.070001
+            text = ""
+        intervals [263]:
+            xmin = 120.070001
+            xmax = 120.47
+            text = "and"
+        intervals [264]:
+            xmin = 120.47
+            xmax = 120.64
+            text = "you"
+        intervals [265]:
+            xmin = 120.64
+            xmax = 120.8
+            text = "eat"
+        intervals [266]:
+            xmin = 120.8
+            xmax = 121.429999
+            text = "chicken"
+        intervals [267]:
+            xmin = 121.429999
+            xmax = 121.830001
+            text = ""
+        intervals [268]:
+            xmin = 121.830001
+            xmax = 122.080001
+            text = "for"
+        intervals [269]:
+            xmin = 122.080001
+            xmax = 122.37
+            text = "really"
+        intervals [270]:
+            xmin = 122.37
+            xmax = 122.72
+            text = "cheap"
+        intervals [271]:
+            xmin = 122.72
+            xmax = 125.16
+            text = ""
+        intervals [272]:
+            xmin = 125.16
+            xmax = 125.37
+            text = "yeah"
+        intervals [273]:
+            xmin = 125.37
+            xmax = 125.51
+            text = "and"
+        intervals [274]:
+            xmin = 125.51
+            xmax = 125.58
+            text = "they"
+        intervals [275]:
+            xmin = 125.58
+            xmax = 125.78
+            text = "have"
+        intervals [276]:
+            xmin = 125.78
+            xmax = 126.01
+            text = "beer"
+        intervals [277]:
+            xmin = 126.01
+            xmax = 126.29
+            text = "too"
+        intervals [278]:
+            xmin = 126.29
+            xmax = 128.76
+            text = ""
+        intervals [279]:
+            xmin = 128.76
+            xmax = 129.12
+            text = "cool"
+        intervals [280]:
+            xmin = 129.12
+            xmax = 129.36
+            text = "let's"
+        intervals [281]:
+            xmin = 129.36
+            xmax = 129.94
+            text = "go"
+        intervals [282]:
+            xmin = 129.94
+            xmax = 132
+            text = ""

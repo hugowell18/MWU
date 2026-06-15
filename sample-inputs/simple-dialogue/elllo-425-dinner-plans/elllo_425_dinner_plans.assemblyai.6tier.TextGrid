@@ -1,0 +1,1476 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0
+xmax = 132.000000
+tiers? <exists>
+size = 6
+item []:
+    item [1]:
+        class = "IntervalTier"
+        name = "praat_sounding_silence"
+        xmin = 0
+        xmax = 132.000000
+        intervals: size = 69
+        intervals [1]:
+            xmin = 0.000000
+            xmax = 0.744219
+            text = "silence"
+        intervals [2]:
+            xmin = 0.744219
+            xmax = 2.392219
+            text = "sounding"
+        intervals [3]:
+            xmin = 2.392219
+            xmax = 2.808219
+            text = "silence"
+        intervals [4]:
+            xmin = 2.808219
+            xmax = 5.872219
+            text = "sounding"
+        intervals [5]:
+            xmin = 5.872219
+            xmax = 7.216219
+            text = "silence"
+        intervals [6]:
+            xmin = 7.216219
+            xmax = 14.216219
+            text = "sounding"
+        intervals [7]:
+            xmin = 14.216219
+            xmax = 14.544219
+            text = "silence"
+        intervals [8]:
+            xmin = 14.544219
+            xmax = 17.600219
+            text = "sounding"
+        intervals [9]:
+            xmin = 17.600219
+            xmax = 17.864219
+            text = "silence"
+        intervals [10]:
+            xmin = 17.864219
+            xmax = 17.968219
+            text = "sounding"
+        intervals [11]:
+            xmin = 17.968219
+            xmax = 18.424219
+            text = "silence"
+        intervals [12]:
+            xmin = 18.424219
+            xmax = 19.328219
+            text = "sounding"
+        intervals [13]:
+            xmin = 19.328219
+            xmax = 19.632219
+            text = "silence"
+        intervals [14]:
+            xmin = 19.632219
+            xmax = 22.096219
+            text = "sounding"
+        intervals [15]:
+            xmin = 22.096219
+            xmax = 23.120219
+            text = "silence"
+        intervals [16]:
+            xmin = 23.120219
+            xmax = 24.128219
+            text = "sounding"
+        intervals [17]:
+            xmin = 24.128219
+            xmax = 24.568219
+            text = "silence"
+        intervals [18]:
+            xmin = 24.568219
+            xmax = 25.736219
+            text = "sounding"
+        intervals [19]:
+            xmin = 25.736219
+            xmax = 26.440219
+            text = "silence"
+        intervals [20]:
+            xmin = 26.440219
+            xmax = 28.144219
+            text = "sounding"
+        intervals [21]:
+            xmin = 28.144219
+            xmax = 28.672219
+            text = "silence"
+        intervals [22]:
+            xmin = 28.672219
+            xmax = 28.792219
+            text = "sounding"
+        intervals [23]:
+            xmin = 28.792219
+            xmax = 29.152219
+            text = "silence"
+        intervals [24]:
+            xmin = 29.152219
+            xmax = 34.072219
+            text = "sounding"
+        intervals [25]:
+            xmin = 34.072219
+            xmax = 35.784219
+            text = "silence"
+        intervals [26]:
+            xmin = 35.784219
+            xmax = 46.336219
+            text = "sounding"
+        intervals [27]:
+            xmin = 46.336219
+            xmax = 47.000219
+            text = "silence"
+        intervals [28]:
+            xmin = 47.000219
+            xmax = 50.208219
+            text = "sounding"
+        intervals [29]:
+            xmin = 50.208219
+            xmax = 50.808219
+            text = "silence"
+        intervals [30]:
+            xmin = 50.808219
+            xmax = 71.624219
+            text = "sounding"
+        intervals [31]:
+            xmin = 71.624219
+            xmax = 72.200219
+            text = "silence"
+        intervals [32]:
+            xmin = 72.200219
+            xmax = 73.760219
+            text = "sounding"
+        intervals [33]:
+            xmin = 73.760219
+            xmax = 74.384219
+            text = "silence"
+        intervals [34]:
+            xmin = 74.384219
+            xmax = 75.904219
+            text = "sounding"
+        intervals [35]:
+            xmin = 75.904219
+            xmax = 76.648219
+            text = "silence"
+        intervals [36]:
+            xmin = 76.648219
+            xmax = 78.464219
+            text = "sounding"
+        intervals [37]:
+            xmin = 78.464219
+            xmax = 79.296219
+            text = "silence"
+        intervals [38]:
+            xmin = 79.296219
+            xmax = 81.288219
+            text = "sounding"
+        intervals [39]:
+            xmin = 81.288219
+            xmax = 81.544219
+            text = "silence"
+        intervals [40]:
+            xmin = 81.544219
+            xmax = 83.960219
+            text = "sounding"
+        intervals [41]:
+            xmin = 83.960219
+            xmax = 84.744219
+            text = "silence"
+        intervals [42]:
+            xmin = 84.744219
+            xmax = 85.952219
+            text = "sounding"
+        intervals [43]:
+            xmin = 85.952219
+            xmax = 86.304219
+            text = "silence"
+        intervals [44]:
+            xmin = 86.304219
+            xmax = 90.264219
+            text = "sounding"
+        intervals [45]:
+            xmin = 90.264219
+            xmax = 90.800219
+            text = "silence"
+        intervals [46]:
+            xmin = 90.800219
+            xmax = 94.696219
+            text = "sounding"
+        intervals [47]:
+            xmin = 94.696219
+            xmax = 95.056219
+            text = "silence"
+        intervals [48]:
+            xmin = 95.056219
+            xmax = 98.888219
+            text = "sounding"
+        intervals [49]:
+            xmin = 98.888219
+            xmax = 99.184219
+            text = "silence"
+        intervals [50]:
+            xmin = 99.184219
+            xmax = 105.504219
+            text = "sounding"
+        intervals [51]:
+            xmin = 105.504219
+            xmax = 106.176219
+            text = "silence"
+        intervals [52]:
+            xmin = 106.176219
+            xmax = 109.712219
+            text = "sounding"
+        intervals [53]:
+            xmin = 109.712219
+            xmax = 110.304219
+            text = "silence"
+        intervals [54]:
+            xmin = 110.304219
+            xmax = 111.960219
+            text = "sounding"
+        intervals [55]:
+            xmin = 111.960219
+            xmax = 112.416219
+            text = "silence"
+        intervals [56]:
+            xmin = 112.416219
+            xmax = 112.568219
+            text = "sounding"
+        intervals [57]:
+            xmin = 112.568219
+            xmax = 112.832219
+            text = "silence"
+        intervals [58]:
+            xmin = 112.832219
+            xmax = 119.624219
+            text = "sounding"
+        intervals [59]:
+            xmin = 119.624219
+            xmax = 120.088219
+            text = "silence"
+        intervals [60]:
+            xmin = 120.088219
+            xmax = 121.504219
+            text = "sounding"
+        intervals [61]:
+            xmin = 121.504219
+            xmax = 121.768219
+            text = "silence"
+        intervals [62]:
+            xmin = 121.768219
+            xmax = 126.400219
+            text = "sounding"
+        intervals [63]:
+            xmin = 126.400219
+            xmax = 126.776219
+            text = "silence"
+        intervals [64]:
+            xmin = 126.776219
+            xmax = 127.096219
+            text = "sounding"
+        intervals [65]:
+            xmin = 127.096219
+            xmax = 127.488219
+            text = "silence"
+        intervals [66]:
+            xmin = 127.488219
+            xmax = 128.384219
+            text = "sounding"
+        intervals [67]:
+            xmin = 128.384219
+            xmax = 128.776219
+            text = "silence"
+        intervals [68]:
+            xmin = 128.776219
+            xmax = 130.328219
+            text = "sounding"
+        intervals [69]:
+            xmin = 130.328219
+            xmax = 132.000000
+            text = "silence"
+    item [2]:
+        class = "IntervalTier"
+        name = "local_vad_sounding_silence"
+        xmin = 0
+        xmax = 132.000000
+        intervals: size = 105
+        intervals [1]:
+            xmin = 0.000000
+            xmax = 0.630000
+            text = "silence"
+        intervals [2]:
+            xmin = 0.630000
+            xmax = 2.360000
+            text = "sounding"
+        intervals [3]:
+            xmin = 2.360000
+            xmax = 2.790000
+            text = "silence"
+        intervals [4]:
+            xmin = 2.790000
+            xmax = 5.810000
+            text = "sounding"
+        intervals [5]:
+            xmin = 5.810000
+            xmax = 7.210000
+            text = "silence"
+        intervals [6]:
+            xmin = 7.210000
+            xmax = 9.150000
+            text = "sounding"
+        intervals [7]:
+            xmin = 9.150000
+            xmax = 9.400000
+            text = "silence"
+        intervals [8]:
+            xmin = 9.400000
+            xmax = 9.870000
+            text = "sounding"
+        intervals [9]:
+            xmin = 9.870000
+            xmax = 10.110000
+            text = "silence"
+        intervals [10]:
+            xmin = 10.110000
+            xmax = 13.730000
+            text = "sounding"
+        intervals [11]:
+            xmin = 13.730000
+            xmax = 14.530000
+            text = "silence"
+        intervals [12]:
+            xmin = 14.530000
+            xmax = 17.500000
+            text = "sounding"
+        intervals [13]:
+            xmin = 17.500000
+            xmax = 18.420000
+            text = "silence"
+        intervals [14]:
+            xmin = 18.420000
+            xmax = 19.300000
+            text = "sounding"
+        intervals [15]:
+            xmin = 19.300000
+            xmax = 19.610000
+            text = "silence"
+        intervals [16]:
+            xmin = 19.610000
+            xmax = 22.030000
+            text = "sounding"
+        intervals [17]:
+            xmin = 22.030000
+            xmax = 23.110000
+            text = "silence"
+        intervals [18]:
+            xmin = 23.110000
+            xmax = 24.080000
+            text = "sounding"
+        intervals [19]:
+            xmin = 24.080000
+            xmax = 24.550000
+            text = "silence"
+        intervals [20]:
+            xmin = 24.550000
+            xmax = 25.670000
+            text = "sounding"
+        intervals [21]:
+            xmin = 25.670000
+            xmax = 26.430000
+            text = "silence"
+        intervals [22]:
+            xmin = 26.430000
+            xmax = 28.080000
+            text = "sounding"
+        intervals [23]:
+            xmin = 28.080000
+            xmax = 29.160000
+            text = "silence"
+        intervals [24]:
+            xmin = 29.160000
+            xmax = 29.770000
+            text = "sounding"
+        intervals [25]:
+            xmin = 29.770000
+            xmax = 29.980000
+            text = "silence"
+        intervals [26]:
+            xmin = 29.980000
+            xmax = 31.290000
+            text = "sounding"
+        intervals [27]:
+            xmin = 31.290000
+            xmax = 32.000000
+            text = "silence"
+        intervals [28]:
+            xmin = 32.000000
+            xmax = 33.880000
+            text = "sounding"
+        intervals [29]:
+            xmin = 33.880000
+            xmax = 35.770000
+            text = "silence"
+        intervals [30]:
+            xmin = 35.770000
+            xmax = 38.670000
+            text = "sounding"
+        intervals [31]:
+            xmin = 38.670000
+            xmax = 39.180000
+            text = "silence"
+        intervals [32]:
+            xmin = 39.180000
+            xmax = 41.830000
+            text = "sounding"
+        intervals [33]:
+            xmin = 41.830000
+            xmax = 42.280000
+            text = "silence"
+        intervals [34]:
+            xmin = 42.280000
+            xmax = 43.500000
+            text = "sounding"
+        intervals [35]:
+            xmin = 43.500000
+            xmax = 44.120000
+            text = "silence"
+        intervals [36]:
+            xmin = 44.120000
+            xmax = 44.910000
+            text = "sounding"
+        intervals [37]:
+            xmin = 44.910000
+            xmax = 45.480000
+            text = "silence"
+        intervals [38]:
+            xmin = 45.480000
+            xmax = 46.260000
+            text = "sounding"
+        intervals [39]:
+            xmin = 46.260000
+            xmax = 47.090000
+            text = "silence"
+        intervals [40]:
+            xmin = 47.090000
+            xmax = 49.150000
+            text = "sounding"
+        intervals [41]:
+            xmin = 49.150000
+            xmax = 49.420000
+            text = "silence"
+        intervals [42]:
+            xmin = 49.420000
+            xmax = 50.120000
+            text = "sounding"
+        intervals [43]:
+            xmin = 50.120000
+            xmax = 50.800000
+            text = "silence"
+        intervals [44]:
+            xmin = 50.800000
+            xmax = 57.760000
+            text = "sounding"
+        intervals [45]:
+            xmin = 57.760000
+            xmax = 58.250000
+            text = "silence"
+        intervals [46]:
+            xmin = 58.250000
+            xmax = 62.880000
+            text = "sounding"
+        intervals [47]:
+            xmin = 62.880000
+            xmax = 63.450000
+            text = "silence"
+        intervals [48]:
+            xmin = 63.450000
+            xmax = 64.910000
+            text = "sounding"
+        intervals [49]:
+            xmin = 64.910000
+            xmax = 65.270000
+            text = "silence"
+        intervals [50]:
+            xmin = 65.270000
+            xmax = 68.390000
+            text = "sounding"
+        intervals [51]:
+            xmin = 68.390000
+            xmax = 68.630000
+            text = "silence"
+        intervals [52]:
+            xmin = 68.630000
+            xmax = 71.530000
+            text = "sounding"
+        intervals [53]:
+            xmin = 71.530000
+            xmax = 72.190000
+            text = "silence"
+        intervals [54]:
+            xmin = 72.190000
+            xmax = 73.700000
+            text = "sounding"
+        intervals [55]:
+            xmin = 73.700000
+            xmax = 74.370000
+            text = "silence"
+        intervals [56]:
+            xmin = 74.370000
+            xmax = 75.720000
+            text = "sounding"
+        intervals [57]:
+            xmin = 75.720000
+            xmax = 76.710000
+            text = "silence"
+        intervals [58]:
+            xmin = 76.710000
+            xmax = 78.430000
+            text = "sounding"
+        intervals [59]:
+            xmin = 78.430000
+            xmax = 79.310000
+            text = "silence"
+        intervals [60]:
+            xmin = 79.310000
+            xmax = 81.260000
+            text = "sounding"
+        intervals [61]:
+            xmin = 81.260000
+            xmax = 81.550000
+            text = "silence"
+        intervals [62]:
+            xmin = 81.550000
+            xmax = 83.890000
+            text = "sounding"
+        intervals [63]:
+            xmin = 83.890000
+            xmax = 84.760000
+            text = "silence"
+        intervals [64]:
+            xmin = 84.760000
+            xmax = 85.910000
+            text = "sounding"
+        intervals [65]:
+            xmin = 85.910000
+            xmax = 86.300000
+            text = "silence"
+        intervals [66]:
+            xmin = 86.300000
+            xmax = 90.230000
+            text = "sounding"
+        intervals [67]:
+            xmin = 90.230000
+            xmax = 90.780000
+            text = "silence"
+        intervals [68]:
+            xmin = 90.780000
+            xmax = 91.210000
+            text = "sounding"
+        intervals [69]:
+            xmin = 91.210000
+            xmax = 91.440000
+            text = "silence"
+        intervals [70]:
+            xmin = 91.440000
+            xmax = 93.020000
+            text = "sounding"
+        intervals [71]:
+            xmin = 93.020000
+            xmax = 93.250000
+            text = "silence"
+        intervals [72]:
+            xmin = 93.250000
+            xmax = 94.660000
+            text = "sounding"
+        intervals [73]:
+            xmin = 94.660000
+            xmax = 95.040000
+            text = "silence"
+        intervals [74]:
+            xmin = 95.040000
+            xmax = 96.960000
+            text = "sounding"
+        intervals [75]:
+            xmin = 96.960000
+            xmax = 97.330000
+            text = "silence"
+        intervals [76]:
+            xmin = 97.330000
+            xmax = 98.800000
+            text = "sounding"
+        intervals [77]:
+            xmin = 98.800000
+            xmax = 99.170000
+            text = "silence"
+        intervals [78]:
+            xmin = 99.170000
+            xmax = 101.350000
+            text = "sounding"
+        intervals [79]:
+            xmin = 101.350000
+            xmax = 101.670000
+            text = "silence"
+        intervals [80]:
+            xmin = 101.670000
+            xmax = 105.460000
+            text = "sounding"
+        intervals [81]:
+            xmin = 105.460000
+            xmax = 106.170000
+            text = "silence"
+        intervals [82]:
+            xmin = 106.170000
+            xmax = 109.650000
+            text = "sounding"
+        intervals [83]:
+            xmin = 109.650000
+            xmax = 110.310000
+            text = "silence"
+        intervals [84]:
+            xmin = 110.310000
+            xmax = 111.900000
+            text = "sounding"
+        intervals [85]:
+            xmin = 111.900000
+            xmax = 112.820000
+            text = "silence"
+        intervals [86]:
+            xmin = 112.820000
+            xmax = 114.260000
+            text = "sounding"
+        intervals [87]:
+            xmin = 114.260000
+            xmax = 114.850000
+            text = "silence"
+        intervals [88]:
+            xmin = 114.850000
+            xmax = 117.500000
+            text = "sounding"
+        intervals [89]:
+            xmin = 117.500000
+            xmax = 117.760000
+            text = "silence"
+        intervals [90]:
+            xmin = 117.760000
+            xmax = 118.240000
+            text = "sounding"
+        intervals [91]:
+            xmin = 118.240000
+            xmax = 118.510000
+            text = "silence"
+        intervals [92]:
+            xmin = 118.510000
+            xmax = 119.260000
+            text = "sounding"
+        intervals [93]:
+            xmin = 119.260000
+            xmax = 120.070000
+            text = "silence"
+        intervals [94]:
+            xmin = 120.070000
+            xmax = 121.450000
+            text = "sounding"
+        intervals [95]:
+            xmin = 121.450000
+            xmax = 121.830000
+            text = "silence"
+        intervals [96]:
+            xmin = 121.830000
+            xmax = 122.650000
+            text = "sounding"
+        intervals [97]:
+            xmin = 122.650000
+            xmax = 123.080000
+            text = "silence"
+        intervals [98]:
+            xmin = 123.080000
+            xmax = 126.340000
+            text = "sounding"
+        intervals [99]:
+            xmin = 126.340000
+            xmax = 126.760000
+            text = "silence"
+        intervals [100]:
+            xmin = 126.760000
+            xmax = 127.060000
+            text = "sounding"
+        intervals [101]:
+            xmin = 127.060000
+            xmax = 127.480000
+            text = "silence"
+        intervals [102]:
+            xmin = 127.480000
+            xmax = 128.320000
+            text = "sounding"
+        intervals [103]:
+            xmin = 128.320000
+            xmax = 128.790000
+            text = "silence"
+        intervals [104]:
+            xmin = 128.790000
+            xmax = 130.280000
+            text = "sounding"
+        intervals [105]:
+            xmin = 130.280000
+            xmax = 132.000000
+            text = "silence"
+    item [3]:
+        class = "IntervalTier"
+        name = "sounding_silence_review_status"
+        xmin = 0
+        xmax = 132.000000
+        intervals: size = 97
+        intervals [1]:
+            xmin = 0.000000
+            xmax = 0.630000
+            text = ""
+        intervals [2]:
+            xmin = 0.630000
+            xmax = 0.744219
+            text = "pending: praat=silence; local_vad=sounding"
+        intervals [3]:
+            xmin = 0.744219
+            xmax = 5.810000
+            text = ""
+        intervals [4]:
+            xmin = 5.810000
+            xmax = 5.872219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [5]:
+            xmin = 5.872219
+            xmax = 9.150000
+            text = ""
+        intervals [6]:
+            xmin = 9.150000
+            xmax = 9.400000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [7]:
+            xmin = 9.400000
+            xmax = 9.870000
+            text = ""
+        intervals [8]:
+            xmin = 9.870000
+            xmax = 10.110000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [9]:
+            xmin = 10.110000
+            xmax = 13.730000
+            text = ""
+        intervals [10]:
+            xmin = 13.730000
+            xmax = 14.216219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [11]:
+            xmin = 14.216219
+            xmax = 17.500000
+            text = ""
+        intervals [12]:
+            xmin = 17.500000
+            xmax = 17.600219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [13]:
+            xmin = 17.600219
+            xmax = 17.864219
+            text = ""
+        intervals [14]:
+            xmin = 17.864219
+            xmax = 17.968219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [15]:
+            xmin = 17.968219
+            xmax = 22.030000
+            text = ""
+        intervals [16]:
+            xmin = 22.030000
+            xmax = 22.096219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [17]:
+            xmin = 22.096219
+            xmax = 25.670000
+            text = ""
+        intervals [18]:
+            xmin = 25.670000
+            xmax = 25.736219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [19]:
+            xmin = 25.736219
+            xmax = 28.080000
+            text = ""
+        intervals [20]:
+            xmin = 28.080000
+            xmax = 28.144219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [21]:
+            xmin = 28.144219
+            xmax = 28.672219
+            text = ""
+        intervals [22]:
+            xmin = 28.672219
+            xmax = 28.792219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [23]:
+            xmin = 28.792219
+            xmax = 29.770000
+            text = ""
+        intervals [24]:
+            xmin = 29.770000
+            xmax = 29.980000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [25]:
+            xmin = 29.980000
+            xmax = 31.290000
+            text = ""
+        intervals [26]:
+            xmin = 31.290000
+            xmax = 32.000000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [27]:
+            xmin = 32.000000
+            xmax = 33.880000
+            text = ""
+        intervals [28]:
+            xmin = 33.880000
+            xmax = 34.072219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [29]:
+            xmin = 34.072219
+            xmax = 38.670000
+            text = ""
+        intervals [30]:
+            xmin = 38.670000
+            xmax = 39.180000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [31]:
+            xmin = 39.180000
+            xmax = 41.830000
+            text = ""
+        intervals [32]:
+            xmin = 41.830000
+            xmax = 42.280000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [33]:
+            xmin = 42.280000
+            xmax = 43.500000
+            text = ""
+        intervals [34]:
+            xmin = 43.500000
+            xmax = 44.120000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [35]:
+            xmin = 44.120000
+            xmax = 44.910000
+            text = ""
+        intervals [36]:
+            xmin = 44.910000
+            xmax = 45.480000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [37]:
+            xmin = 45.480000
+            xmax = 46.260000
+            text = ""
+        intervals [38]:
+            xmin = 46.260000
+            xmax = 46.336219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [39]:
+            xmin = 46.336219
+            xmax = 47.000219
+            text = ""
+        intervals [40]:
+            xmin = 47.000219
+            xmax = 47.090000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [41]:
+            xmin = 47.090000
+            xmax = 49.150000
+            text = ""
+        intervals [42]:
+            xmin = 49.150000
+            xmax = 49.420000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [43]:
+            xmin = 49.420000
+            xmax = 50.120000
+            text = ""
+        intervals [44]:
+            xmin = 50.120000
+            xmax = 50.208219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [45]:
+            xmin = 50.208219
+            xmax = 57.760000
+            text = ""
+        intervals [46]:
+            xmin = 57.760000
+            xmax = 58.250000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [47]:
+            xmin = 58.250000
+            xmax = 62.880000
+            text = ""
+        intervals [48]:
+            xmin = 62.880000
+            xmax = 63.450000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [49]:
+            xmin = 63.450000
+            xmax = 64.910000
+            text = ""
+        intervals [50]:
+            xmin = 64.910000
+            xmax = 65.270000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [51]:
+            xmin = 65.270000
+            xmax = 68.390000
+            text = ""
+        intervals [52]:
+            xmin = 68.390000
+            xmax = 68.630000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [53]:
+            xmin = 68.630000
+            xmax = 71.530000
+            text = ""
+        intervals [54]:
+            xmin = 71.530000
+            xmax = 71.624219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [55]:
+            xmin = 71.624219
+            xmax = 73.700000
+            text = ""
+        intervals [56]:
+            xmin = 73.700000
+            xmax = 73.760219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [57]:
+            xmin = 73.760219
+            xmax = 75.720000
+            text = ""
+        intervals [58]:
+            xmin = 75.720000
+            xmax = 75.904219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [59]:
+            xmin = 75.904219
+            xmax = 76.648219
+            text = ""
+        intervals [60]:
+            xmin = 76.648219
+            xmax = 76.710000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [61]:
+            xmin = 76.710000
+            xmax = 83.890000
+            text = ""
+        intervals [62]:
+            xmin = 83.890000
+            xmax = 83.960219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [63]:
+            xmin = 83.960219
+            xmax = 91.210000
+            text = ""
+        intervals [64]:
+            xmin = 91.210000
+            xmax = 91.440000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [65]:
+            xmin = 91.440000
+            xmax = 93.020000
+            text = ""
+        intervals [66]:
+            xmin = 93.020000
+            xmax = 93.250000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [67]:
+            xmin = 93.250000
+            xmax = 96.960000
+            text = ""
+        intervals [68]:
+            xmin = 96.960000
+            xmax = 97.330000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [69]:
+            xmin = 97.330000
+            xmax = 98.800000
+            text = ""
+        intervals [70]:
+            xmin = 98.800000
+            xmax = 98.888219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [71]:
+            xmin = 98.888219
+            xmax = 101.350000
+            text = ""
+        intervals [72]:
+            xmin = 101.350000
+            xmax = 101.670000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [73]:
+            xmin = 101.670000
+            xmax = 109.650000
+            text = ""
+        intervals [74]:
+            xmin = 109.650000
+            xmax = 109.712219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [75]:
+            xmin = 109.712219
+            xmax = 111.900000
+            text = ""
+        intervals [76]:
+            xmin = 111.900000
+            xmax = 111.960219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [77]:
+            xmin = 111.960219
+            xmax = 112.416219
+            text = ""
+        intervals [78]:
+            xmin = 112.416219
+            xmax = 112.568219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [79]:
+            xmin = 112.568219
+            xmax = 114.260000
+            text = ""
+        intervals [80]:
+            xmin = 114.260000
+            xmax = 114.850000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [81]:
+            xmin = 114.850000
+            xmax = 117.500000
+            text = ""
+        intervals [82]:
+            xmin = 117.500000
+            xmax = 117.760000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [83]:
+            xmin = 117.760000
+            xmax = 118.240000
+            text = ""
+        intervals [84]:
+            xmin = 118.240000
+            xmax = 118.510000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [85]:
+            xmin = 118.510000
+            xmax = 119.260000
+            text = ""
+        intervals [86]:
+            xmin = 119.260000
+            xmax = 119.624219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [87]:
+            xmin = 119.624219
+            xmax = 121.450000
+            text = ""
+        intervals [88]:
+            xmin = 121.450000
+            xmax = 121.504219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [89]:
+            xmin = 121.504219
+            xmax = 121.768219
+            text = ""
+        intervals [90]:
+            xmin = 121.768219
+            xmax = 121.830000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [91]:
+            xmin = 121.830000
+            xmax = 122.650000
+            text = ""
+        intervals [92]:
+            xmin = 122.650000
+            xmax = 123.080000
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [93]:
+            xmin = 123.080000
+            xmax = 126.340000
+            text = ""
+        intervals [94]:
+            xmin = 126.340000
+            xmax = 126.400219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [95]:
+            xmin = 126.400219
+            xmax = 128.320000
+            text = ""
+        intervals [96]:
+            xmin = 128.320000
+            xmax = 128.384219
+            text = "pending: praat=sounding; local_vad=silence"
+        intervals [97]:
+            xmin = 128.384219
+            xmax = 132.000000
+            text = ""
+    item [4]:
+        class = "IntervalTier"
+        name = "speaker"
+        xmin = 0
+        xmax = 132.000000
+        intervals: size = 29
+        intervals [1]:
+            xmin = 0.000000
+            xmax = 0.530000
+            text = ""
+        intervals [2]:
+            xmin = 0.530000
+            xmax = 6.170000
+            text = "speaker_A"
+        intervals [3]:
+            xmin = 6.170000
+            xmax = 7.020000
+            text = ""
+        intervals [4]:
+            xmin = 7.020000
+            xmax = 12.100000
+            text = "speaker_B"
+        intervals [5]:
+            xmin = 12.100000
+            xmax = 28.730000
+            text = "speaker_A"
+        intervals [6]:
+            xmin = 28.730000
+            xmax = 29.450000
+            text = ""
+        intervals [7]:
+            xmin = 29.450000
+            xmax = 32.049000
+            text = "speaker_B"
+        intervals [8]:
+            xmin = 32.049000
+            xmax = 32.169000
+            text = ""
+        intervals [9]:
+            xmin = 32.169000
+            xmax = 52.630000
+            text = "speaker_A"
+        intervals [10]:
+            xmin = 52.630000
+            xmax = 52.720000
+            text = ""
+        intervals [11]:
+            xmin = 52.720000
+            xmax = 64.970000
+            text = "speaker_B"
+        intervals [12]:
+            xmin = 64.970000
+            xmax = 65.480000
+            text = ""
+        intervals [13]:
+            xmin = 65.480000
+            xmax = 83.960000
+            text = "speaker_A"
+        intervals [14]:
+            xmin = 83.960000
+            xmax = 84.370000
+            text = ""
+        intervals [15]:
+            xmin = 84.370000
+            xmax = 88.060000
+            text = "speaker_B"
+        intervals [16]:
+            xmin = 88.060000
+            xmax = 88.170000
+            text = ""
+        intervals [17]:
+            xmin = 88.170000
+            xmax = 90.400000
+            text = "speaker_A"
+        intervals [18]:
+            xmin = 90.400000
+            xmax = 90.869000
+            text = ""
+        intervals [19]:
+            xmin = 90.869000
+            xmax = 93.130000
+            text = "speaker_B"
+        intervals [20]:
+            xmin = 93.130000
+            xmax = 93.250000
+            text = ""
+        intervals [21]:
+            xmin = 93.250000
+            xmax = 97.510000
+            text = "speaker_A"
+        intervals [22]:
+            xmin = 97.510000
+            xmax = 101.710000
+            text = "speaker_B"
+        intervals [23]:
+            xmin = 101.710000
+            xmax = 123.320000
+            text = "speaker_A"
+        intervals [24]:
+            xmin = 123.320000
+            xmax = 125.150000
+            text = "speaker_B"
+        intervals [25]:
+            xmin = 125.150000
+            xmax = 125.160000
+            text = ""
+        intervals [26]:
+            xmin = 125.160000
+            xmax = 126.520000
+            text = "speaker_A"
+        intervals [27]:
+            xmin = 126.520000
+            xmax = 127.020000
+            text = ""
+        intervals [28]:
+            xmin = 127.020000
+            xmax = 130.420000
+            text = "speaker_B"
+        intervals [29]:
+            xmin = 130.420000
+            xmax = 132.000000
+            text = ""
+    item [5]:
+        class = "IntervalTier"
+        name = "transcript"
+        xmin = 0
+        xmax = 132.000000
+        intervals: size = 29
+        intervals [1]:
+            xmin = 0.000000
+            xmax = 0.530000
+            text = ""
+        intervals [2]:
+            xmin = 0.530000
+            xmax = 6.170000
+            text = "Okay, Simone, um, let's go get something to eat. Let's go out to dinner. I'm really hungry."
+        intervals [3]:
+            xmin = 6.170000
+            xmax = 7.020000
+            text = ""
+        intervals [4]:
+            xmin = 7.020000
+            xmax = 12.100000
+            text = "Yeah, okay, me too. I'm really hungry as well. Uh, what is there to eat around here?"
+        intervals [5]:
+            xmin = 12.100000
+            xmax = 28.730000
+            text = "Well, around my house there's a few restaurants. Um, there's an Italian restaurant, there's a grilled chicken restaurant, there is a fish restaurant, And there is a family diner."
+        intervals [6]:
+            xmin = 28.730000
+            xmax = 29.450000
+            text = ""
+        intervals [7]:
+            xmin = 29.450000
+            xmax = 32.049000
+            text = "Hmm, family diner, what's that?"
+        intervals [8]:
+            xmin = 32.049000
+            xmax = 32.169000
+            text = ""
+        intervals [9]:
+            xmin = 32.169000
+            xmax = 52.630000
+            text = "Family diner is one of those restaurants that they serve many types of food. For example, they have noodles, they have pasta, they have hamburger, they have salad. Pretty much anyone in the family could order what they want. They have desserts, things like that."
+        intervals [10]:
+            xmin = 52.630000
+            xmax = 52.720000
+            text = ""
+        intervals [11]:
+            xmin = 52.720000
+            xmax = 64.970000
+            text = "Well, that makes sense. That's why it's called a family diner or family restaurant, because I guess everyone in the family will be happy if they eat there. Oh, you said Italian restaurant."
+        intervals [12]:
+            xmin = 64.970000
+            xmax = 65.480000
+            text = ""
+        intervals [13]:
+            xmin = 65.480000
+            xmax = 83.960000
+            text = "Yeah, there's an Italian restaurant. It's a very small family-owned Italian restaurant. They have really good pasta, fresh salads. They always have really good specials. The only problem is it's really crowded, and it's a little expensive because it's very popular."
+        intervals [14]:
+            xmin = 83.960000
+            xmax = 84.370000
+            text = ""
+        intervals [15]:
+            xmin = 84.370000
+            xmax = 88.060000
+            text = "Oh, really? Uh, do they have pizza? I like pizza."
+        intervals [16]:
+            xmin = 88.060000
+            xmax = 88.170000
+            text = ""
+        intervals [17]:
+            xmin = 88.170000
+            xmax = 90.400000
+            text = "Actually, they don't have pizza. They only have pasta."
+        intervals [18]:
+            xmin = 90.400000
+            xmax = 90.869000
+            text = ""
+        intervals [19]:
+            xmin = 90.869000
+            xmax = 93.130000
+            text = "Okay. Uh, what were the other choices?"
+        intervals [20]:
+            xmin = 93.130000
+            xmax = 93.250000
+            text = ""
+        intervals [21]:
+            xmin = 93.250000
+            xmax = 97.510000
+            text = "There's also a fish restaurant, and there's a grilled chicken restaurant."
+        intervals [22]:
+            xmin = 97.510000
+            xmax = 101.710000
+            text = "Grilled chicken? That's pretty general. How do they serve that?"
+        intervals [23]:
+            xmin = 101.710000
+            xmax = 123.320000
+            text = "It's actually— it's not a restaurant. This guy has a small stand. A very small area, and there's some small tables in front of it. And he just grills chicken kind of on the street, and then he has little tables in front of his booth or stall, and you eat chicken for really cheap."
+        intervals [24]:
+            xmin = 123.320000
+            xmax = 125.150000
+            text = "Oh, that sounds really cool. Let's do that."
+        intervals [25]:
+            xmin = 125.150000
+            xmax = 125.160000
+            text = ""
+        intervals [26]:
+            xmin = 125.160000
+            xmax = 126.520000
+            text = "Yeah, yeah, and they have beer too."
+        intervals [27]:
+            xmin = 126.520000
+            xmax = 127.020000
+            text = ""
+        intervals [28]:
+            xmin = 127.020000
+            xmax = 130.420000
+            text = "Oh yeah, I like beer. Cool, let's go. Okay."
+        intervals [29]:
+            xmin = 130.420000
+            xmax = 132.000000
+            text = ""
+    item [6]:
+        class = "IntervalTier"
+        name = "review_status"
+        xmin = 0
+        xmax = 132.000000
+        intervals: size = 29
+        intervals [1]:
+            xmin = 0.000000
+            xmax = 0.530000
+            text = ""
+        intervals [2]:
+            xmin = 0.530000
+            xmax = 6.170000
+            text = ""
+        intervals [3]:
+            xmin = 6.170000
+            xmax = 7.020000
+            text = ""
+        intervals [4]:
+            xmin = 7.020000
+            xmax = 12.100000
+            text = ""
+        intervals [5]:
+            xmin = 12.100000
+            xmax = 28.730000
+            text = ""
+        intervals [6]:
+            xmin = 28.730000
+            xmax = 29.450000
+            text = ""
+        intervals [7]:
+            xmin = 29.450000
+            xmax = 32.049000
+            text = ""
+        intervals [8]:
+            xmin = 32.049000
+            xmax = 32.169000
+            text = ""
+        intervals [9]:
+            xmin = 32.169000
+            xmax = 52.630000
+            text = ""
+        intervals [10]:
+            xmin = 52.630000
+            xmax = 52.720000
+            text = ""
+        intervals [11]:
+            xmin = 52.720000
+            xmax = 64.970000
+            text = ""
+        intervals [12]:
+            xmin = 64.970000
+            xmax = 65.480000
+            text = ""
+        intervals [13]:
+            xmin = 65.480000
+            xmax = 83.960000
+            text = ""
+        intervals [14]:
+            xmin = 83.960000
+            xmax = 84.370000
+            text = ""
+        intervals [15]:
+            xmin = 84.370000
+            xmax = 88.060000
+            text = ""
+        intervals [16]:
+            xmin = 88.060000
+            xmax = 88.170000
+            text = ""
+        intervals [17]:
+            xmin = 88.170000
+            xmax = 90.400000
+            text = ""
+        intervals [18]:
+            xmin = 90.400000
+            xmax = 90.869000
+            text = ""
+        intervals [19]:
+            xmin = 90.869000
+            xmax = 93.130000
+            text = ""
+        intervals [20]:
+            xmin = 93.130000
+            xmax = 93.250000
+            text = ""
+        intervals [21]:
+            xmin = 93.250000
+            xmax = 97.510000
+            text = ""
+        intervals [22]:
+            xmin = 97.510000
+            xmax = 101.710000
+            text = ""
+        intervals [23]:
+            xmin = 101.710000
+            xmax = 123.320000
+            text = ""
+        intervals [24]:
+            xmin = 123.320000
+            xmax = 125.150000
+            text = ""
+        intervals [25]:
+            xmin = 125.150000
+            xmax = 125.160000
+            text = ""
+        intervals [26]:
+            xmin = 125.160000
+            xmax = 126.520000
+            text = ""
+        intervals [27]:
+            xmin = 126.520000
+            xmax = 127.020000
+            text = ""
+        intervals [28]:
+            xmin = 127.020000
+            xmax = 130.420000
+            text = ""
+        intervals [29]:
+            xmin = 130.420000
+            xmax = 132.000000
+            text = ""

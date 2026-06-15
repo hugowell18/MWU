@@ -1,0 +1,1018 @@
+{
+  "summary": {
+    "stage": "wp2.2-clause-boundary-tagging",
+    "method": "rule_suggested",
+    "source_word_alignment": "/Users/nedved/Tool/Workspace/MWU/outputs/wp2.0/elllo/word_alignment.json",
+    "params": {
+      "clause_gap_seconds": 0.4,
+      "min_words_before_conjunction": 2,
+      "conjunctions": [
+        "and",
+        "but",
+        "so",
+        "or",
+        "because",
+        "when",
+        "while",
+        "if",
+        "although",
+        "though",
+        "since",
+        "before",
+        "after",
+        "then",
+        "that",
+        "which",
+        "who"
+      ]
+    },
+    "word_count": 315,
+    "clause_count": 61,
+    "mean_words_per_clause": 5.164,
+    "boundary_trigger_counts": {
+      "start": 1,
+      "long_gap": 28,
+      "speaker_change": 17,
+      "clause_initial_conjunction": 15
+    },
+    "review_note": "All clauses are auto_suggested candidates and require human confirmation before mid/end-clause analysis."
+  },
+  "clauses": [
+    {
+      "clause_id": "c_0001",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0001"
+      ],
+      "start_word_id": "utt_0001_w001",
+      "end_word_id": "utt_0001_w004",
+      "start_sec": 0.75,
+      "end_sec": 2.28,
+      "word_count": 4,
+      "text": "ok simon let's go",
+      "source": "rule_suggested",
+      "boundary_trigger": "start",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0002",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0001"
+      ],
+      "start_word_id": "utt_0001_w005",
+      "end_word_id": "utt_0001_w016",
+      "start_sec": 2.82,
+      "end_sec": 5.83,
+      "word_count": 12,
+      "text": "get something to eat let's go out to dinner i'm really hungry",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0003",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0002"
+      ],
+      "start_word_id": "utt_0002_w001",
+      "end_word_id": "utt_0002_w017",
+      "start_sec": 7.2,
+      "end_sec": 11.79,
+      "word_count": 17,
+      "text": "yeah ok me too i'm really hungry as well ah what is there to eat around here",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0004",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0003"
+      ],
+      "start_word_id": "utt_0003_w001",
+      "end_word_id": "utt_0003_w005",
+      "start_sec": 12.1,
+      "end_sec": 13.72,
+      "word_count": 5,
+      "text": "well around my house there's",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0005",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0003"
+      ],
+      "start_word_id": "utt_0003_w006",
+      "end_word_id": "utt_0003_w013",
+      "start_sec": 14.54,
+      "end_sec": 17.47,
+      "word_count": 8,
+      "text": "a few restaurants um there's an italian restaurant",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0006",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0003"
+      ],
+      "start_word_id": "utt_0003_w014",
+      "end_word_id": "utt_0003_w018",
+      "start_sec": 18.42,
+      "end_sec": 22.01,
+      "word_count": 5,
+      "text": "there's a grilled chicken restaurant",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0007",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0003"
+      ],
+      "start_word_id": "utt_0003_w019",
+      "end_word_id": "utt_0003_w021",
+      "start_sec": 23.11,
+      "end_sec": 24.05,
+      "word_count": 3,
+      "text": "there is a",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0008",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0003"
+      ],
+      "start_word_id": "utt_0003_w022",
+      "end_word_id": "utt_0003_w023",
+      "start_sec": 24.68,
+      "end_sec": 25.65,
+      "word_count": 2,
+      "text": "fish restaurant",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0009",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0003"
+      ],
+      "start_word_id": "utt_0003_w024",
+      "end_word_id": "utt_0003_w029",
+      "start_sec": 26.43,
+      "end_sec": 28.08,
+      "word_count": 6,
+      "text": "and there is a family diner",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0010",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0004"
+      ],
+      "start_word_id": "utt_0004_w001",
+      "end_word_id": "utt_0004_w003",
+      "start_sec": 29.95,
+      "end_sec": 30.87,
+      "word_count": 3,
+      "text": "family diner what's",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0011",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0004"
+      ],
+      "start_word_id": "utt_0004_w004",
+      "end_word_id": "utt_0004_w004",
+      "start_sec": 30.87,
+      "end_sec": 31.23,
+      "word_count": 1,
+      "text": "that",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0012",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w001",
+      "end_word_id": "utt_0005_w006",
+      "start_sec": 32.169,
+      "end_sec": 33.839,
+      "word_count": 6,
+      "text": "the family diner is one of",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0013",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w007",
+      "end_word_id": "utt_0005_w008",
+      "start_sec": 35.769,
+      "end_sec": 36.799,
+      "word_count": 2,
+      "text": "those restaurants",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0014",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w009",
+      "end_word_id": "utt_0005_w015",
+      "start_sec": 36.799,
+      "end_sec": 38.649,
+      "word_count": 7,
+      "text": "that they serve many types of food",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0015",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w016",
+      "end_word_id": "utt_0005_w023",
+      "start_sec": 39.169,
+      "end_sec": 41.809,
+      "word_count": 8,
+      "text": "for example they have noodles they have pasta",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0016",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w024",
+      "end_word_id": "utt_0005_w026",
+      "start_sec": 42.279,
+      "end_sec": 43.479,
+      "word_count": 3,
+      "text": "they have hamburger",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0017",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w027",
+      "end_word_id": "utt_0005_w028",
+      "start_sec": 44.119,
+      "end_sec": 44.889,
+      "word_count": 2,
+      "text": "they have",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0018",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w029",
+      "end_word_id": "utt_0005_w029",
+      "start_sec": 45.439,
+      "end_sec": 46.199,
+      "word_count": 1,
+      "text": "salad",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0019",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w030",
+      "end_word_id": "utt_0005_w040",
+      "start_sec": 47.089,
+      "end_sec": 50.119001,
+      "word_count": 11,
+      "text": "pretty much anyone in the family could order what they want",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0020",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w041",
+      "end_word_id": "utt_0005_w045",
+      "start_sec": 50.798999,
+      "end_sec": 52.228999,
+      "word_count": 5,
+      "text": "they have desserts things like",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0021",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0005"
+      ],
+      "start_word_id": "utt_0005_w046",
+      "end_word_id": "utt_0005_w046",
+      "start_sec": 52.228999,
+      "end_sec": 52.439,
+      "word_count": 1,
+      "text": "that",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0022",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0006"
+      ],
+      "start_word_id": "utt_0006_w001",
+      "end_word_id": "utt_0006_w011",
+      "start_sec": 52.72,
+      "end_sec": 56.23,
+      "word_count": 11,
+      "text": "well that makes sense that's why it's called a family diner",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0023",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0006"
+      ],
+      "start_word_id": "utt_0006_w012",
+      "end_word_id": "utt_0006_w014",
+      "start_sec": 56.23,
+      "end_sec": 57.25,
+      "word_count": 3,
+      "text": "or family restaurant",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0024",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0006"
+      ],
+      "start_word_id": "utt_0006_w015",
+      "end_word_id": "utt_0006_w015",
+      "start_sec": 57.25,
+      "end_sec": 57.69,
+      "word_count": 1,
+      "text": "because",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0025",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0006"
+      ],
+      "start_word_id": "utt_0006_w016",
+      "end_word_id": "utt_0006_w024",
+      "start_sec": 58.26,
+      "end_sec": 61.34,
+      "word_count": 9,
+      "text": "i guess everyone in the family will be happy",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0026",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0006"
+      ],
+      "start_word_id": "utt_0006_w025",
+      "end_word_id": "utt_0006_w029",
+      "start_sec": 61.52,
+      "end_sec": 62.83,
+      "word_count": 5,
+      "text": "if they eat there you",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0027",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0006"
+      ],
+      "start_word_id": "utt_0006_w030",
+      "end_word_id": "utt_0006_w032",
+      "start_sec": 63.45,
+      "end_sec": 64.97,
+      "word_count": 3,
+      "text": "said italian restaurant",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0028",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0007"
+      ],
+      "start_word_id": "utt_0007_w001",
+      "end_word_id": "utt_0007_w014",
+      "start_sec": 65.48,
+      "end_sec": 71.51,
+      "word_count": 14,
+      "text": "ah yeah there's an italian restaurant it's a very small family owned italian restaurant",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0029",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0007"
+      ],
+      "start_word_id": "utt_0007_w015",
+      "end_word_id": "utt_0007_w019",
+      "start_sec": 72.19,
+      "end_sec": 73.67,
+      "word_count": 5,
+      "text": "they have really good pasta",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0030",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0007"
+      ],
+      "start_word_id": "utt_0007_w020",
+      "end_word_id": "utt_0007_w023",
+      "start_sec": 74.36,
+      "end_sec": 75.63,
+      "word_count": 4,
+      "text": "fresh salad they always",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0031",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0007"
+      ],
+      "start_word_id": "utt_0007_w024",
+      "end_word_id": "utt_0007_w027",
+      "start_sec": 76.72,
+      "end_sec": 78.45,
+      "word_count": 4,
+      "text": "have really good specials",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0032",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0007"
+      ],
+      "start_word_id": "utt_0007_w028",
+      "end_word_id": "utt_0007_w031",
+      "start_sec": 79.29,
+      "end_sec": 80.3,
+      "word_count": 4,
+      "text": "the only problem is",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0033",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0007"
+      ],
+      "start_word_id": "utt_0007_w032",
+      "end_word_id": "utt_0007_w035",
+      "start_sec": 80.3,
+      "end_sec": 81.24,
+      "word_count": 4,
+      "text": "that it's really crowded",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0034",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0007"
+      ],
+      "start_word_id": "utt_0007_w036",
+      "end_word_id": "utt_0007_w040",
+      "start_sec": 81.55,
+      "end_sec": 82.71,
+      "word_count": 5,
+      "text": "and it's a little expensive",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0035",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0007"
+      ],
+      "start_word_id": "utt_0007_w041",
+      "end_word_id": "utt_0007_w044",
+      "start_sec": 82.71,
+      "end_sec": 83.89,
+      "word_count": 4,
+      "text": "because it's very popular",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0036",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0008"
+      ],
+      "start_word_id": "utt_0008_w001",
+      "end_word_id": "utt_0008_w003",
+      "start_sec": 84.81,
+      "end_sec": 85.85,
+      "word_count": 3,
+      "text": "oh really ah",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0037",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0008"
+      ],
+      "start_word_id": "utt_0008_w004",
+      "end_word_id": "utt_0008_w010",
+      "start_sec": 86.3,
+      "end_sec": 87.92,
+      "word_count": 7,
+      "text": "do they have pizza i like pizza",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0038",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0009"
+      ],
+      "start_word_id": "utt_0009_w001",
+      "end_word_id": "utt_0009_w009",
+      "start_sec": 88.17,
+      "end_sec": 90.15,
+      "word_count": 9,
+      "text": "actually they don't have pizza they only have pasta",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0039",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0010"
+      ],
+      "start_word_id": "utt_0010_w001",
+      "end_word_id": "utt_0010_w006",
+      "start_sec": 90.869,
+      "end_sec": 92.959,
+      "word_count": 6,
+      "text": "ok what were the other choices",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0040",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0011"
+      ],
+      "start_word_id": "utt_0011_w001",
+      "end_word_id": "utt_0011_w005",
+      "start_sec": 93.25,
+      "end_sec": 94.66,
+      "word_count": 5,
+      "text": "there's also a fish restaurant",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0041",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0011"
+      ],
+      "start_word_id": "utt_0011_w006",
+      "end_word_id": "utt_0011_w015",
+      "start_sec": 95.05,
+      "end_sec": 98.46,
+      "word_count": 10,
+      "text": "and there's a grilled chicken restaurant a grilled chicken that's",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0042",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0011"
+      ],
+      "start_word_id": "utt_0011_w016",
+      "end_word_id": "utt_0011_w017",
+      "start_sec": 99.16,
+      "end_sec": 99.98,
+      "word_count": 2,
+      "text": "pretty general",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0043",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0012"
+      ],
+      "start_word_id": "utt_0012_w001",
+      "end_word_id": "utt_0012_w004",
+      "start_sec": 100.55,
+      "end_sec": 101.14,
+      "word_count": 4,
+      "text": "how do they serve",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0044",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0012"
+      ],
+      "start_word_id": "utt_0012_w005",
+      "end_word_id": "utt_0012_w005",
+      "start_sec": 101.14,
+      "end_sec": 101.34,
+      "word_count": 1,
+      "text": "that",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0045",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0013"
+      ],
+      "start_word_id": "utt_0013_w001",
+      "end_word_id": "utt_0013_w012",
+      "start_sec": 101.71,
+      "end_sec": 105.43,
+      "word_count": 12,
+      "text": "it's actually it's not a restaurant this guy has a small stand",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0046",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0013"
+      ],
+      "start_word_id": "utt_0013_w013",
+      "end_word_id": "utt_0013_w016",
+      "start_sec": 106.18,
+      "end_sec": 107.58,
+      "word_count": 4,
+      "text": "a very small area",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0047",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0013"
+      ],
+      "start_word_id": "utt_0013_w017",
+      "end_word_id": "utt_0013_w026",
+      "start_sec": 107.66,
+      "end_sec": 109.65,
+      "word_count": 10,
+      "text": "and there are some small tables in front of it",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0048",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0013"
+      ],
+      "start_word_id": "utt_0013_w027",
+      "end_word_id": "utt_0013_w031",
+      "start_sec": 110.31,
+      "end_sec": 111.9,
+      "word_count": 5,
+      "text": "and he just grills chicken",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0049",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0013"
+      ],
+      "start_word_id": "utt_0013_w032",
+      "end_word_id": "utt_0013_w036",
+      "start_sec": 112.81,
+      "end_sec": 113.9,
+      "word_count": 5,
+      "text": "kind of on the street",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0050",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0013"
+      ],
+      "start_word_id": "utt_0013_w037",
+      "end_word_id": "utt_0013_w047",
+      "start_sec": 114.86,
+      "end_sec": 118.240001,
+      "word_count": 11,
+      "text": "and then he has little tables in front of his booth",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0051",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0013"
+      ],
+      "start_word_id": "utt_0013_w048",
+      "end_word_id": "utt_0013_w049",
+      "start_sec": 118.509999,
+      "end_sec": 119.29,
+      "word_count": 2,
+      "text": "or stall",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0052",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0013"
+      ],
+      "start_word_id": "utt_0013_w050",
+      "end_word_id": "utt_0013_w053",
+      "start_sec": 120.070001,
+      "end_sec": 121.429999,
+      "word_count": 4,
+      "text": "and you eat chicken",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0053",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0013"
+      ],
+      "start_word_id": "utt_0013_w054",
+      "end_word_id": "utt_0013_w056",
+      "start_sec": 121.830001,
+      "end_sec": 122.72,
+      "word_count": 3,
+      "text": "for really cheap",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0054",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0014"
+      ],
+      "start_word_id": "utt_0014_w001",
+      "end_word_id": "utt_0014_w007",
+      "start_sec": 123.32,
+      "end_sec": 124.59,
+      "word_count": 7,
+      "text": "oh that sounds really cool let's do",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0055",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0014"
+      ],
+      "start_word_id": "utt_0014_w008",
+      "end_word_id": "utt_0014_w008",
+      "start_sec": 124.59,
+      "end_sec": 124.9,
+      "word_count": 1,
+      "text": "that",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0056",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0015"
+      ],
+      "start_word_id": "utt_0015_w001",
+      "end_word_id": "utt_0015_w002",
+      "start_sec": 125.16,
+      "end_sec": 125.37,
+      "word_count": 2,
+      "text": "yeah yeah",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0057",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0015"
+      ],
+      "start_word_id": "utt_0015_w003",
+      "end_word_id": "utt_0015_w007",
+      "start_sec": 125.37,
+      "end_sec": 126.29,
+      "word_count": 5,
+      "text": "and they have beer too",
+      "source": "rule_suggested",
+      "boundary_trigger": "clause_initial_conjunction",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0058",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0016"
+      ],
+      "start_word_id": "utt_0016_w001",
+      "end_word_id": "utt_0016_w001",
+      "start_sec": 127.02,
+      "end_sec": 127.05,
+      "word_count": 1,
+      "text": "oh",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0059",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0016"
+      ],
+      "start_word_id": "utt_0016_w002",
+      "end_word_id": "utt_0016_w005",
+      "start_sec": 127.49,
+      "end_sec": 128.3,
+      "word_count": 4,
+      "text": "yeah i like beer",
+      "source": "rule_suggested",
+      "boundary_trigger": "long_gap",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0060",
+      "speaker": "Todd",
+      "utt_ids": [
+        "utt_0017"
+      ],
+      "start_word_id": "utt_0017_w001",
+      "end_word_id": "utt_0017_w003",
+      "start_sec": 128.76,
+      "end_sec": 129.94,
+      "word_count": 3,
+      "text": "cool let's go",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    },
+    {
+      "clause_id": "c_0061",
+      "speaker": "Simon",
+      "utt_ids": [
+        "utt_0018"
+      ],
+      "start_word_id": "utt_0018_w001",
+      "end_word_id": "utt_0018_w001",
+      "start_sec": 129.94,
+      "end_sec": 130.28,
+      "word_count": 1,
+      "text": "ok",
+      "source": "rule_suggested",
+      "boundary_trigger": "speaker_change",
+      "review_status": "auto_suggested"
+    }
+  ]
+}

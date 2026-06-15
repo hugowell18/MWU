@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "provider": "assemblyai",
+    "created_at": "2026-06-12T14:00:36.057Z",
+    "audio_path": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/AMI_ES2002a_Mix-Headset_10min.wav",
+    "output_dir": "/Users/nedved/Tool/Workspace/LDTWeb/Ldtwebdemo/sample-inputs/assemblyai",
+    "request_payload": {
+      "audio_url": "[redacted upload_url]",
+      "speech_models": [
+        "universal-3-pro",
+        "universal-2"
+      ],
+      "language_code": "en",
+      "speaker_labels": true,
+      "speakers_expected": 3
+    }
+  },
+  "summary": {
+    "id": "c1e17d36-0fa7-4f77-8478-67d66b3ed6ad",
+    "status": "completed",
+    "audio_duration": 600,
+    "language_code": "en_us",
+    "confidence": 0.87758875,
+    "utterance_count": 64,
+    "word_count": 1083,
+    "speakers": [
+      "A",
+      "B",
+      "C"
+    ],
+    "sample_utterances": [
+      {
+        "speaker": "A",
+        "start_ms": 100,
+        "end_ms": 12320,
+        "confidence": 0.9359195,
+        "text": "as it were. There are 3 different stages to the design. I'm not really sure what you guys have already received in your emails. What did you get?"
+      },
+      {
+        "speaker": "B",
+        "start_ms": 13379,
+        "end_ms": 18430,
+        "confidence": 0.7808609,
+        "text": "I just got the project announcement, but what project is that? Designing a remote control?"
+      },
+      {
+        "speaker": "A",
+        "start_ms": 19480,
+        "end_ms": 46810,
+        "confidence": 0.89443314,
+        "text": "Is that what everybody got? Okay. We're going to have— individual work and then a meeting about it and repeat that process 3 times. At this point we get to try out the whiteboard over there. You get to draw your favorite animal and sum up your favorite characteristics of it. Who would like to go first?"
+      },
+      {
+        "speaker": "B",
+        "start_ms": 46810,
+        "end_ms": 47910,
+        "confidence": 0.4579016,
+        "text": "I'll go."
+      },
+      {
+        "speaker": "A",
+        "start_ms": 47910,
+        "end_ms": 48780,
+        "confidence": 0.7682471,
+        "text": "Very good."
+      },
+      {
+        "speaker": "C",
+        "start_ms": 53750,
+        "end_ms": 63400,
+        "confidence": 0.8046482,
+        "text": "Alright, so this one here, right?"
+      },
+      {
+        "speaker": "A",
+        "start_ms": 63400,
+        "end_ms": 64100,
+        "confidence": 0.46692225,
+        "text": "Mm-hmm."
+      },
+      {
+        "speaker": "C",
+        "start_ms": 64100,
+        "end_ms": 95389,
+        "confidence": 0.860965,
+        "text": "Okay, very nice. Alright, my favorite animal is like A beagle. And character— favorite characteristics of it, is that right?"
+      }
+    ]
+  }
+}
