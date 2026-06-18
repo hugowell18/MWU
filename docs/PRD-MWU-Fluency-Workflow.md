@@ -1,11 +1,13 @@
 # PRD — AI-Assisted Praat Review Workflow for L2 Dialogic Fluency & Multi-Word Units
 
-**Product:** Six-tier TextGrid annotation pipeline + Excel export for L2 conversational fluency × multi-word-unit (MWU) analysis
-**Version:** 0.2 (draft) · **Date:** 2026-06-15 · **Owner:** Hugo / Luke (development)
-**Changelog:** 0.2 — Phase 2 expanded into a detailed work-package plan with current implementation status (word-level alignment ✅; clause segmentation / syllable rate / mid-end-clause classification ❌). 0.3 — WP2.1/2.2/2.3/2.5 scaffolds complete: `compute-rate-metrics.mjs`, `tag-clause-boundaries.mjs`, `classify-pause-location.mjs`, `export-research-excel.mjs` (exceljs, 5-sheet workbook). WP2.4 (validation harness) pending gold subset from client.
+**Product:** Five-phase research workflow system for L2 conversational fluency, pause analysis, transcript processing, MWU/lexical feature extraction, and final statistical matrix synthesis
+**Version:** 0.4 (draft) - **Date:** 2026-06-18 - **Owner:** Hugo / Luke (development)
+**Changelog:** 0.4 - realigned the PRD to Chris's five-phase workflow; added Web UI decision, local-first architecture, phase-runner scope, CLI-first vs Web UI product boundary, and three-stage delivery/pricing map. 0.3 - WP2.1/2.2/2.3/2.5 scaffolds complete: `compute-rate-metrics.mjs`, `tag-clause-boundaries.mjs`, `classify-pause-location.mjs`, `export-research-excel.mjs` (exceljs, 5-sheet workbook). WP2.4 validation harness is pending gold subset from client. 0.2 - Phase 2 expanded into a detailed work-package plan with current implementation status.
 **Research stakeholders:** Christopher Hollis (PI of study, Tottori U.) · Jon Clenton (Hiroshima U.) · Daniel Hougham · Gavin Brooks (Python/R scripts + PRAAT annotation supervision — technical counterpart)
 
 ---
+
+**Current PRD update (2026-06-18):** Version 0.4 draft realigns the product around Chris's five client-facing phases. The Web UI is scoped as a local-first workflow console over a reproducible CLI/worker pipeline, not as a replacement for Praat.
 
 ## 1. Background & Goal
 
@@ -20,11 +22,19 @@ Per the KAKEN proposal, the central scientific problem is:
 Manual Praat annotation is the largest single labour cost in the research (KAKEN budgets RA PRAAT annotation as the top personnel line). The tool's job is to **drastically reduce manual annotation effort while preserving research-grade defensibility** — it produces *reviewable drafts*, not final data.
 
 ### 1.3 Product goal
-Turn raw multi-party audio into **structured, human-verified annotation data** that can be fed directly into the team's statistical pipeline (mixed-effects models in R/Python), supporting:
-- fluency measures (speed / breakdown / repair),
-- pause **location** (mid- vs end-clause) and **type** (silent / filled / between-turn),
-- word-level timing (forced alignment),
-- MWU/LB segmentation and the **pause-relative-to-MWU** relationship (the study's novel contribution).
+Build a **phase-based, human-verifiable research workflow system** that turns raw three-speaker conversation recordings and transcripts into publication-ready analysis artifacts for R/Python. The system should reduce manual work while preserving the human review, audit trail, and parameter transparency required for peer-reviewed applied linguistics research.
+
+The product must support the full workflow requested by Chris:
+
+- isolate and diarize exactly three speakers while preserving the original group-audio timeline,
+- create Praat-compatible review artifacts and per-speaker muted-mirror WAV files,
+- run multi-threshold pause and duration analysis at 0.25 s and 0.35 s thresholds,
+- split and clean transcripts into research-specific raw-timing and tidy-phrase versions,
+- run or wrap lexical analysis tools including TAALES, TAALED, and AntConc-style MWU extraction,
+- synthesize the final dataset with speaker, group, pause, AS-unit, lexical, proficiency, and grade variables,
+- retain all raw provider outputs, parameters, method logs, validation results, and human-review status.
+
+The six-tier TextGrid currently implemented in the repository is an important Phase I review artifact, not the whole product goal.
 
 ---
 
@@ -32,9 +42,10 @@ Turn raw multi-party audio into **structured, human-verified annotation data** t
 
 1. **Drafts, not truth.** Automatic tools generate preliminary annotations and review flags only. Final analysis rests on TextGrids **reviewed and corrected in the real Praat GUI**.
 2. **Human-in-the-loop & defensibility.** The method must survive peer review at a leading journal: explicit parameters, recorded tool versions, archived raw ASR, and gold-subset validation.
-3. **Two-stage operation.** Stage 1 = review in Praat; Stage 2 = export Excel from the reviewed file. The Excel is generated *only after* the reviewed TextGrid is saved, and by default reads only human-confirmed tiers.
+3. **Review-before-export operation.** Praat/TextGrid review must happen before research exports are treated as analysis-ready. The Excel/matrix output is generated only after reviewed artifacts are saved, and by default reads only human-confirmed tiers or explicitly approved side-car data.
 4. **Dialogue is first-class.** Every temporal measure must distinguish **within-turn**, **between-turn (gap)**, and **turn-boundary** silence. The unit of analysis is the **triad**, not the individual.
 5. **Validation is part of the method, not polish.** Each phase has explicit acceptance criteria measured against a human gold subset.
+6. **Web UI as orchestration, not annotation replacement.** The application should coordinate files, runs, review gates, configurations, logs, and downloadable artifacts. Praat remains the primary detailed acoustic review environment in v1.
 
 ---
 
@@ -51,27 +62,113 @@ Turn raw multi-party audio into **structured, human-verified annotation data** t
 
 ## 4. System Overview
 
-### 4.1 Six-tier TextGrid (review interface)
+### 4.0 Web UI Decision and Product Boundary
+
+The Web UI is recommended for the operational product, but it is not required to prove the research method. The project should be built in two layers:
+
+1. **CLI/worker pipeline as the source of truth.** Each phase must be runnable from scripts or workers with stable inputs, outputs, logs, and validation checks. This keeps the method reproducible and suitable for publication.
+2. **Thin Web UI workflow console.** The UI should make the pipeline usable by Chris and research assistants: upload source files, run a phase, inspect status, download artifacts, upload reviewed files, and compare validation results.
+
+The UI should not become a browser-based replacement for Praat in v1. Praat is still used for fine acoustic inspection and manual correction of TextGrid boundaries. The product value is reducing setup, batching, file naming, artifact management, and repeated threshold analysis, not eliminating human acoustic review.
+
+Build the first working version as a local-first or lab-internal web app. A public multi-tenant SaaS model should be deferred until consent, data retention, IRB/privacy requirements, API-key handling, and storage policy are clarified.
+
+### 4.0.1 When Web UI Is Necessary
+
+Web UI is justified if the expected users are non-developer researchers or RAs, if multiple recordings must be processed repeatedly, or if Chris expects a controlled phase-by-phase workflow. Chris's updated requirement explicitly describes independent phase execution and validation gates, which maps naturally to a Web UI workflow console.
+
+Web UI is not strictly necessary for algorithm validation. If the immediate goal is to test feasibility on 2-5 gold-standard samples, CLI scripts plus a documented folder convention are enough. The recommended delivery sequence is therefore CLI-first for method validation, then Web UI shell for repeatable operation.
+
+### 4.0.2 Recommended Web UI Scope
+
+The v1 Web UI should provide:
+
+- Project creation and metadata: group id, recording id, expected speakers, cohort labels, notes.
+- Audio and transcript upload: source audio, optional AssemblyAI/ASR JSON, optional master transcript, optional manual speaker metadata.
+- Phase runner: run Phase I through Phase V independently, with visible status, logs, configuration, and rerun controls.
+- Review gates: mark artifacts as draft, needs review, reviewed, rejected, or locked.
+- Artifact browser: download WAVs, TextGrids, TXT transcripts, XLSX/CSV matrices, JSON logs, and provider raw outputs.
+- Spreadsheet import: upload participant metadata, TOEFL/final oral grades, gold-standard labels, manually generated lexical-tool outputs, and correction tables in XLSX/CSV format.
+- Gold-sample validation panel: compare system outputs against agreed gold TextGrid/transcript/result samples before scaling.
+- Configuration panel: pause thresholds, expected speaker count, diarization provider, ASR provider, Praat binary path, output naming convention.
+
+The v1 Web UI should not provide:
+
+- Full waveform annotation or manual boundary editing.
+- A custom Praat clone.
+- Real-time collaborative editing.
+- Fully automatic publication-ready outputs without human review.
+
+### 4.0.3 Target Architecture
+
+```mermaid
+flowchart LR
+  UI["Web UI\nProject dashboard\nPhase runner\nArtifact browser\nValidation panel"] --> API["Backend API\nProjects\nFiles\nRuns\nArtifacts"]
+  API --> Queue["Job orchestrator\nQueue\nStatus\nLogs\nRetries"]
+  Queue --> W1["Phase I worker\nDiarization\nSpeaker isolation\nDraft TextGrid"]
+  Queue --> W2["Phase II worker\nPraat CLI\nPause thresholds\nDurations"]
+  Queue --> W3["Phase III worker\nTranscript splitting\nRaw/tidy text\nAlignment checks"]
+  Queue --> W4["Phase IV worker\nLexical tools\nMWU extraction\nFeature files"]
+  Queue --> W5["Phase V worker\nAS-unit mapping\nFinal matrix\nResearch workbook"]
+  API --> Store["Artifact storage\nAudio\nTextGrid\nTranscript\nExcel/CSV\nLogs"]
+  W1 --> Store
+  W2 --> Store
+  W3 --> Store
+  W4 --> Store
+  W5 --> Store
+  Store --> Praat["Praat manual review\nExternal desktop tool"]
+  Praat --> UI
+```
+
+The backend should expose phase-oriented run endpoints rather than one opaque "process everything" button:
+
+- `POST /projects`
+- `POST /projects/{projectId}/files`
+- `POST /projects/{projectId}/runs/phase-i`
+- `POST /projects/{projectId}/runs/phase-ii`
+- `POST /projects/{projectId}/runs/phase-iii`
+- `POST /projects/{projectId}/runs/phase-iv`
+- `POST /projects/{projectId}/runs/phase-v`
+- `GET /runs/{runId}`
+- `GET /projects/{projectId}/artifacts`
+- `POST /projects/{projectId}/reviewed-artifacts`
+
+### 4.0.4 Implementation Recommendation
+
+Use the existing React/Vite frontend as the Web UI base. Add a backend API that orchestrates the existing Node scripts and later calls Python workers where needed for pyannote, praatio, WhisperX, or audio processing.
+
+Recommended service split:
+
+- **Frontend:** React/Vite workflow console.
+- **Backend API:** Node/Express or Fastify, because the current repository already uses Node scripts and package tooling.
+- **Worker layer:** Node for current TextGrid/Excel exports; Python workers only where the tool ecosystem requires it.
+- **Queue:** simple local job table for MVP; move to Redis/BullMQ only if parallel processing and retries become important.
+- **Storage:** local project folders for MVP, with a manifest JSON per project. Cloud/object storage can be added later.
+
+The architecture should preserve command-line reproducibility. Every Web UI action should map to a scriptable worker command with recorded parameters, input hashes, output paths, and version metadata.
+
+### 4.1 Six-tier TextGrid (Phase I review artifact)
 | Tier | Name | Produced by | Status |
 |---|---|---|---|
-| T1 | `praat_sounding_silence` | Praat CLI (primary acoustic reference, 250 ms threshold) | human-confirmed → analysis |
+| T1 | `praat_sounding_silence` | Praat CLI acoustic reference; Phase II reports 250 ms and 350 ms threshold outputs | human-confirmed → analysis |
 | T2 | `local_vad_sounding_silence` | Local acoustic VAD (second reference) | audit only |
 | T3 | `sounding_silence_review_status` | Auto: flags where T1≠T2 | audit only |
 | T4 | `speaker` | AssemblyAI diarization draft → reviewed | human-confirmed → analysis |
 | T5 | `transcript` | AssemblyAI ASR draft (verbatim) → corrected | human-confirmed → analysis |
 | T6 | `review_status` | Auto: flags low confidence / speaker uncertainty / ASR concern | audit only |
 
-> Phases 2–3 add derived layers (word alignment, AS-Unit/clause, pause-location, MWU). Whether these live as additional Praat tiers or as side-car data is a design decision in §7.
+> The six-tier TextGrid is the current enhanced Phase I review artifact. Chris's minimum Phase I requirement is a Praat-compatible speaker/timing artifact plus per-speaker muted-mirror audio. Downstream Phase II-V outputs may live as additional TextGrid tiers or side-car data, depending on what Gavin/Chris approve.
 
-### 4.2 Two-stage data flow
+### 4.2 Five-phase data flow
 ```
 RAW AUDIO
-  └─(Phase 1)→ generate T1..T6 draft TextGrid ──► [Stage 1: Praat manual review & correct] ──► reviewed TextGrid (saved)
-                                                                                                  │
-  ┌───────────────────────────────────────────────────────────────────────────────────────────┘
-  └─(Phase 2)→ forced alignment + AS-Unit + pause-location  ──► [review] ──►
-  └─(Phase 3)→ MWU extraction + pause↔MWU mapping           ──► [review] ──► [Stage 2: export Excel (long-format)]
-                                                                                                  └─► R/Python mixed-effects models
+  -> Phase I: diarization + per-speaker muted-mirror WAV + draft TextGrid
+  -> Review gate: verify speaker/timing artifacts in Praat
+  -> Phase II: Praat multi-threshold pause/duration analysis (0.25 s + 0.35 s)
+  -> Phase III: split master transcript into RAW-TIMING and TIDY-PHRASE text
+  -> Phase IV: batch lexical/MWU feature extraction (TAALES/TAALED/AntConc-style)
+  -> Phase V: AS-unit pause mapping + final analytic matrix
+  -> R/Python mixed-effects models
 ```
 
 ---
@@ -82,7 +179,8 @@ RAW AUDIO
 
 | Parameter | Default | Source / note |
 |---|---|---|
-| Silent-pause threshold | **250 ms** | de Jong & Bosker (2013); Tavakoli & Uchihara (2020). NB: Hougham 2024 used 350 ms — 250 ms supersedes for this project |
+| Silent-pause threshold | **250 ms and 350 ms, both reported** | Chris requests simultaneous 0.25 s and 0.35 s analysis. Do not collapse to one threshold unless the research team later signs off. |
+| Praat window size | **200 s** | Required by Chris's Phase II description for the Praat macro-style duration analysis. |
 | Pause location unit | **AS-Unit** | Foster, Tonkyn & Wigglesworth (2000) |
 | Pause location classes | **mid-clause / end-clause / between-turn** | Foster & Tavakoli (2009); +between-turn added for dialogue |
 | Pause type | **silent / filled** | filled (uh/um) ≠ pragmatic markers (you know) |
@@ -101,6 +199,189 @@ RAW AUDIO
 ---
 
 ## 6. Phased Requirements
+
+This PRD now follows Chris's five client-facing phases. The Web UI should expose these as independent run modules with clear review gates, not as one hidden end-to-end automation button.
+
+### 6.0 Phase Relationships
+
+The phases are sequential but not all equally automatic:
+
+1. **Phase I creates the timeline and speaker-specific audio artifacts.** It turns the original group recording into diarization, muted-mirror WAV files, and Praat-compatible draft review files.
+2. **Phase II measures acoustic fluency on reviewed speaker tracks.** It depends on Phase I outputs and produces pause/sounding/silence duration artifacts at both 0.25 s and 0.35 s thresholds.
+3. **Phase III creates research-ready per-speaker text.** It depends on the master transcript plus Phase I speaker/timing information and produces raw-timing and tidy-phrase transcript versions.
+4. **Phase IV extracts lexical and MWU features.** It depends primarily on Phase III text outputs, then runs or wraps TAALES, TAALED, and AntConc-style extraction.
+5. **Phase V synthesizes the final analytic database.** It merges Phase II pause data, Phase III text structure, Phase IV lexical features, AS-unit mapping, TOEFL/final oral grades, and participant/group metadata into the final R/Python-ready matrix.
+
+Gold-standard samples and human review gates cut across all phases. The system may automate draft generation, file handling, and calculation, but final research outputs remain human-verified.
+
+### Phase I - Automated Speaker Diarization and Voice Isolation
+
+**Goal:** Convert a raw three-speaker group recording into speaker-specific artifacts that preserve the original timeline and are ready for Praat review.
+
+**Scope in**
+
+- Exactly three speakers per recording.
+- Speaker diarization using a configurable provider such as AssemblyAI, pyannote.audio, WhisperX, or another approved diarization engine.
+- Per-speaker muted-mirror WAV generation: the target speaker remains audible; non-target speakers are replaced by silence; total duration and timestamps match the original group audio.
+- Initial Praat-compatible TextGrid generation via the existing six-tier pipeline or a Chris-required minimum three-speaker-tier TextGrid.
+- Review flags for low-confidence diarization, overlap, possible speaker confusion, and invalid/unusable regions.
+
+**Scope out**
+
+- Perfect speaker separation in overlapping speech.
+- Publication-ready speaker labels without human verification.
+- Browser-based acoustic editing.
+
+**Inputs:** original group WAV/MP3, expected speaker count, optional speaker names/metadata, optional existing ASR/diarization JSON.
+
+**Outputs:** diarization JSON, per-speaker muted-mirror WAV files, draft TextGrid, review-status flags, method log.
+
+**Acceptance and validation**
+
+- Output audio files have identical duration and timeline origin as the source recording.
+- Exactly three speaker tracks are produced.
+- Non-target speech is silent or marked invalid rather than reassigned to the target speaker.
+- Diarization error rate and manual correction rate are reported on gold-standard samples.
+
+### Phase II - Automated Multi-Threshold Pause and Duration Analysis
+
+**Goal:** Run Praat-style sounding/silence analysis on verified isolated speaker tracks and export duration data for both research thresholds.
+
+**Scope in**
+
+- Praat CLI automation, not GUI replacement.
+- Simultaneous pause-threshold analysis at **0.25 s and 0.35 s**.
+- Praat macro-compatible processing, including the requested **200 s window size** and Praat Scale times behavior.
+- TextGrid labels: `sounding`, `silent`, and `invalid`.
+- Batch execution of `calculate_segment_durations.praat` or an equivalent reviewed script.
+
+**Scope out**
+
+- Automatic final correction of quiet speech misclassified as silence.
+- Replacing the research team's Praat review workflow.
+
+**Inputs:** Phase I muted-mirror WAV files, reviewed or reviewable TextGrid, Praat parameter config, Praat binary path.
+
+**Outputs:** threshold-specific TextGrids per speaker, duration CSV/XLSX files, pause/sounding/silence summaries, Praat run logs.
+
+**Acceptance and validation**
+
+- 0.25 s and 0.35 s outputs are both generated and kept separate.
+- Quiet-speech and low-intensity regions are flagged for review instead of silently accepted.
+- Duration totals reconcile with source audio duration after invalid regions are accounted for.
+- Gold-sample comparison reports pause count error, total pause duration error, and boundary tolerance.
+
+### Phase III - Scripted Transcript Splitting and Alignment
+
+**Goal:** Convert the master group transcript into per-speaker research text files that preserve timing-sensitive fluency phenomena while also supporting lexical/MWU analysis.
+
+**Scope in**
+
+- Split the master transcript by speaker.
+- Preserve `X` or agreed placeholder marks for untranscribable words.
+- Produce two transcript variants per speaker:
+  - `_RAW-TIMING.txt`: keeps fillers, false starts, repetitions, repairs, laughter markers when needed, and timing-relevant material.
+  - `_TIDY-PHRASE.txt`: removes non-lexical fillers/laughter and normalizes text for lexical/MWU tools while preserving meaningful repetitions and reformulations.
+- Prevent boundary contamination, especially where a speaker's phrase spans a diarization boundary or overlaps another speaker.
+- Optional LLM/ASR assistance for draft splitting only; human review remains required.
+
+**Scope out**
+
+- Treating an LLM transcript as a final research transcript.
+- Collapsing raw timing text and lexical-clean text into one file.
+
+**Inputs:** master transcript, Phase I speaker/timing data, optional ASR word timestamps, transcription conventions.
+
+**Outputs:** per-speaker raw-timing TXT, per-speaker tidy-phrase TXT, split/alignment table, unresolved-boundary report.
+
+**Acceptance and validation**
+
+- Speaker-specific text reconciles with the master transcript.
+- Fillers and repairs are retained in raw-timing files and excluded only where allowed in tidy-phrase files.
+- All uncertain speaker boundaries, overlaps, and `X` tokens are surfaced for review.
+- Gold-sample transcript split agreement is reported.
+
+### Phase IV - Batch Computational Feature Extraction
+
+**Goal:** Run batch lexical and MWU feature extraction on the Phase III transcript outputs.
+
+**Scope in**
+
+- TAALES 2.2 feature extraction where licensing and local execution allow.
+- TAALED lexical diversity extraction.
+- AntConc-style four-word lexical bundle/MWU extraction, with an option to use AntConc manually for validation if no reliable headless API is available.
+- Tool-specific logs, versions, input file lists, and output normalization.
+- Separation of raw timing features and tidy lexical features when required by the research method.
+
+**Scope out**
+
+- Claiming third-party GUI tools have stable APIs unless verified.
+- Hiding manual/export steps required by TAALES, TAALED, or AntConc.
+
+**Inputs:** Phase III text files, lexical tool configuration, corpus/reference settings, participant metadata.
+
+**Outputs:** TAALES outputs, TAALED outputs, lexical bundle/MWU tables, normalized lexical feature CSV/XLSX files, tool logs.
+
+**Acceptance and validation**
+
+- Feature rows are traceable to source speaker, group, transcript version, and tool version.
+- AntConc-style bundle counts reproduce agreed settings on a gold sample.
+- Missing or manually generated third-party outputs are explicitly marked, not inferred.
+
+### Phase V - Structural Database Synthesis and AS-Unit Mapping
+
+**Goal:** Merge acoustic, transcript, lexical, AS-unit, proficiency, and metadata outputs into the final analysis matrix for R/Python.
+
+**Scope in**
+
+- Map pauses into at least these categories: within AS-unit, between AS-units, turn-boundary gap, invalid/excluded.
+- Preserve both 0.25 s and 0.35 s pause-threshold variables as separate columns or clearly named feature families.
+- Merge lexical/MWU features, fluency/performance measures, participant controls, TOEFL scores, final oral grades, Student_ID, and Group_ID.
+- Import researcher-maintained XLSX/CSV sheets for participant metadata, TOEFL/final oral grades, gold-standard validation labels, and manual correction tables.
+- Produce a tidy long-format matrix plus speaker/session summary tables.
+- Include codebook, method log, validation sheet, and unresolved-data report.
+
+**Scope out**
+
+- Statistical modeling itself unless separately scoped.
+- Automatic proficiency scoring or grade prediction.
+
+**Inputs:** Phase II duration/pause outputs, Phase III transcript outputs, Phase IV lexical outputs, AS-unit annotations, participant metadata workbook, TOEFL/final oral grade workbook, optional gold-standard/correction workbooks.
+
+**Outputs:** final research workbook (`.xlsx`), CSV/parquet analysis matrix, data dictionary/codebook, validation report, method log.
+
+**Acceptance and validation**
+
+- Every final row is traceable to source project, group, speaker, transcript version, threshold, and processing run.
+- 0.25 s and 0.35 s outputs are both present and distinguishable.
+- AS-unit pause mapping agrees with gold labels above the accepted reliability target.
+- Final workbook can be consumed directly by R/Python mixed-effects modeling scripts.
+
+### 6.6 Mapping to Current Repository Implementation
+
+The existing six-tier pipeline remains useful, but it should be treated as an implementation component, not the top-level client phase model:
+
+- Existing six-tier TextGrid generation maps mainly to **Phase I**.
+- Existing Praat/export scripts map mainly to **Phase II** and part of **Phase V**.
+- Existing transcript/alignment scaffolds map to **Phase III** and AS-unit support in **Phase V**.
+- Existing `export-research-excel.mjs` maps to the first version of **Phase V**.
+- TAALES/TAALED/AntConc wrappers are still needed for **Phase IV**.
+
+### 6.7 Proposed Delivery and Pricing Stages
+
+Chris's Phase I-V define the research workflow. The commercial proposal should group them into three delivery/pricing stages so each quote has a clear purpose, acceptance gate, and dependency boundary.
+
+| Pricing stage | Covers Chris phase(s) | Purpose | Primary deliverables |
+|---|---|---|---|
+| **Stage 1 / MVP** | **Phase I + Phase II** | Prove the audio pipeline first: upload/process audio, diarize exactly three speakers, generate speaker-isolated muted-mirror audio, create Praat/TextGrid review artifacts, and produce multi-threshold pause metrics. | Web/CLI phase runner for audio inputs; diarization artifacts; per-speaker muted-mirror WAVs; draft TextGrid; Praat automation; 0.25 s and 0.35 s duration outputs; method log; basic artifact download UI. |
+| **Stage 2** | **Phase III + Phase IV** | Add transcript and linguistic feature processing after the acoustic workflow is stable. This stage turns master transcripts into research text files and batch-runs lexical/MWU tools. | Transcript split workflow; `_RAW-TIMING.txt`; `_TIDY-PHRASE.txt`; unresolved-boundary report; TAALES/TAALED/AntConc-style batch outputs; normalized lexical feature tables; Excel/CSV import hooks for participant metadata, grades, and manually generated tool outputs. |
+| **Stage 3** | **Phase V + validation/reporting/UI polish** | Complete the research system: synthesize the final statistical dataset, map pauses to AS-units, validate reliability, and polish the UI into a repeatable research workflow. | Final R/Python-ready matrix; final research workbook export; AS-unit pause mapping; codebook; validation report; reliability/gold-sample reporting; review-status dashboard; full artifact browser; system-level UI polish and documentation. |
+
+This staging keeps Stage 1 small enough to validate feasibility and pricing risk. Stage 2 should not be quoted as simple "transcription cleanup" because it depends on third-party linguistic tools and research-specific transcript conventions. Stage 3 should be quoted as integration, validation, and systemization rather than as another standalone script.
+
+---
+
+## 6A. Legacy/Internal Implementation Notes (superseded as the client-facing phase model)
 
 > Each phase lists: **Goal · Scope (in/out) · Functional requirements · Inputs/Outputs · Acceptance & Validation · Dependencies.**
 
@@ -251,27 +532,59 @@ Sequencing: **WP2.0 → (WP2.1 ∥ WP2.2) → WP2.3 → WP2.4 → WP2.5**. WP2.1
 
 ## 7. Data Specifications
 
-### 7.1 TextGrid tier layout (target)
-Confirm with Gavin whether derived layers are Praat tiers or side-car:
-1. transcript (word-level, time-stamped)
-2. speaker / turn (turn boundaries, overlap, between-turn gap)
-3. pause (silent/filled, duration, location: mid/end-clause/between-turn)
-4. AS-Unit / clause boundary
-5. MWU/LB span (length, MI, frequency, overlap)
-6. syllable / prosody (for articulation rate)
-(+ audit tiers T2/T3/T6 retained.)
+### 7.1 Artifact layout (target)
+Confirm with Gavin whether derived layers are Praat tiers or side-car. The system should preserve all of the following artifact families:
 
-### 7.2 Excel schema (binding spec — confirm in Phase 0)
-Long-format, one observation per row, examples of granularity: pause-event, repair-event, MWU-instance, turn, speaker-session.
-Required columns: identifiers (participant/speaker/triad/turn/task/interaction), metadata (CEFR, L1, gender, study-abroad), fluency metrics (articulation rate, speech rate, mid/end-clause pause count+duration, between-turn latency, repair counts by type), MWU columns (length-bucketed, MI, frequency, overlap, source, pause-relative position), QC columns (double-coded flag, pause-threshold used, clause unit used, alignment accuracy).
+1. source audio and normalized audio,
+2. Phase I diarization JSON and per-speaker muted-mirror WAV files,
+3. Phase I review TextGrid, including the current six-tier enhanced schema where useful,
+4. Phase II threshold-specific TextGrids and duration tables for both 0.25 s and 0.35 s,
+5. Phase III per-speaker `_RAW-TIMING.txt` and `_TIDY-PHRASE.txt` files,
+6. Phase IV TAALES, TAALED, and AntConc-style lexical/MWU outputs,
+7. Phase V AS-unit mapping, pause-location mapping, final analytic matrix, codebook, and validation report.
+
+Target annotation concepts include: transcript, speaker/turn, sounding/silence, invalid region, pause duration, pause threshold, AS-unit/clause boundary, MWU/LB span, syllable/rate metrics, and audit/review status.
+
+### 7.2 Final matrix schema (binding spec - confirm in Phase 0)
+Long-format, one observation per row, examples of granularity: pause-event, repair-event, MWU-instance, AS-unit, turn, speaker-session.
+
+Required columns include:
+
+- identifiers: `Student_ID`, `Group_ID`, `speaker_id`, `turn_id`, `task_id`, `recording_id`, `run_id`,
+- metadata/control variables: CEFR, L1, gender, study-abroad, TOEFL score, final oral grade,
+- pause variables: threshold family (`0.25s` or `0.35s`), pause duration, sounding duration, invalid duration, within-AS-unit, between-AS-units, turn-boundary gap, invalid/excluded,
+- fluency/performance variables: articulation rate, speech rate, phonation time, repair counts, filled pause counts, speaking time,
+- transcript variables: raw/tidy transcript source, `X` count, unresolved-boundary flags,
+- lexical/MWU variables: TAALES metrics, TAALED metrics, bundle length, MI/frequency/range, overlap/nesting, AntConc-style source, pause-relative position,
+- QC variables: review status, double-coded flag, gold-sample result, alignment accuracy, tool versions, parameter set.
+
+### 7.3 Spreadsheet Import/Export Requirements
+
+Excel/CSV import and export remain part of the product. The Web UI should treat spreadsheets as controlled research artifacts, not as ad hoc uploads.
+
+**Import requirements**
+
+- Import `.xlsx` and `.csv` files for participant metadata, TOEFL/final oral grades, gold-standard labels, manually corrected tables, and third-party lexical-tool outputs.
+- Validate required columns before accepting a file. At minimum, imported research metadata must be linkable by `Student_ID`, `Group_ID`, `speaker_id`, and/or `recording_id`.
+- Preserve the original uploaded spreadsheet as an artifact and create a normalized JSON/CSV representation for downstream workers.
+- Show schema errors, unmatched IDs, duplicate keys, missing scores, and type mismatches in the Web UI.
+- Never overwrite generated data silently; imported corrections should be versioned and traceable to the upload time and user.
+
+**Export requirements**
+
+- Export Phase II duration/pause results as `.xlsx` and `.csv`, with separate columns or sheets for 0.25 s and 0.35 s threshold outputs.
+- Export Phase IV normalized lexical/MWU feature tables as `.xlsx` and `.csv` where practical.
+- Export Phase V as the final research workbook (`.xlsx`) plus machine-readable `.csv` or parquet files for R/Python.
+- Include workbook sheets for Summary/Provenance, Pauses, Rates, Transcripts or Clauses/AS-units, Lexical/MWU features, Validation, and unresolved issues when available.
+- Every exported workbook must include run parameters, tool versions, source artifact references, and review status.
 
 ---
 
 ## 8. Validation & Method Log (cross-cutting)
 
-- **Gold subset** is the calibration anchor for every phase (boundaries, WER, alignment, MWU).
+- **Gold subset** is the calibration anchor for every phase: speaker diarization, muted-mirror audio, Praat pause analysis, transcript splitting, lexical/MWU extraction, AS-unit mapping, and final matrix synthesis.
 - **Double-coding**: 20% of data independently annotated; report κ/α (targets in §5).
-- **Method log** (per file/run): Praat version, silence params, VAD params, AssemblyAI params, raw-ASR date, alignment tool+version, script version, gold-subset validation results, manual-review requirements.
+- **Method log** (per file/run): Praat version, threshold set, window size, VAD/diarization params, AssemblyAI/ASR params, lexical tool versions, script version, raw provider output date, gold-subset validation results, and manual-review requirements.
 - **Archive** raw cloud ASR output (exact regeneration not guaranteed).
 
 ---
@@ -280,26 +593,29 @@ Required columns: identifiers (participant/speaker/triad/turn/task/interaction),
 
 | # | Risk / question | Impact | Mitigation |
 |---|---|---|---|
-| R1 | Real corpus not released until mid-July/August 2026; Sept conference deadline | Squeezes Phase 2/3 | Use prior-study sample for Phase 0/1 now; pipeline ready before data lands |
-| R2 | Complete gold sample (with word-alignment + MWU) may not exist yet | Blocks P0 ideal path | Fallback: confirm conventions, dev drafts, team signs off (F0.2) |
+| R1 | Real corpus not released until mid-July/August 2026; Sept conference deadline | Squeezes Phase I-V validation and scaling | Use prior-study/gold samples now; pipeline ready before data lands |
+| R2 | Complete gold sample across all five phases may not exist yet | Blocks full validation | Fallback: confirm conventions, dev drafts, team signs off per phase |
 | R3 | Missing source papers: de Jong & Wempe (2009); "Facets of Fluency" | 250 ms / syllable-rate provenance | Request from Chris |
-| R4 | Pause threshold conflict (250 vs 350 ms) | Method consistency | Lock 250 ms, record in method log |
+| R4 | Pause threshold conflict (250 vs 350 ms) | Method consistency | Generate and preserve both 0.25 s and 0.35 s outputs until the research team decides otherwise |
 | R5 | Dialogue between-turn pause attribution in 3-party audio | Metric validity | Flag, don't force-attribute; dual-report |
 | R6 | Group alignment effect (MWU variance driven by triad) | Misreading individual ability | Triad as random effect; report ICC |
 | R7 | MI reliability for sequences >2 words | LB metric validity | Note as limitation; cross-check methods |
 | R8 | MFA vs WhisperX accuracy on overlapping/accented L2 speech | Alignment quality | Compare both on gold subset (F2.1) |
+| R9 | TAALES/TAALED/AntConc may require manual or desktop execution rather than stable APIs | Phase IV automation risk | Build wrappers around file conventions first; mark manual steps explicitly; validate outputs against gold samples |
 
 ---
 
 ## 10. Milestones (indicative)
 
-| Milestone | Target | Gate |
-|---|---|---|
-| M0 Phase 0 conventions + gold sample | on receipt of sample/conventions | parameter & Excel schema signed off |
-| M1 Phase 1 MVP demo on a sample file | before first audio batch | passes §6 P1 acceptance |
-| M2 Phase 2 alignment + pause-location | after M1 + gold word boundaries | alignment accuracy reported |
-| M3 Phase 3 MWU + final Excel | aligned with corpus release (Jul–Aug) | long-format export consumable in R |
-| M4 Validation report | before Sept conference | gold-subset results documented |
+| Milestone | Pricing stage | Target | Gate |
+|---|---|---|---|
+| M0 Conventions + gold samples | Pre-stage prerequisite | on receipt of sample/conventions | parameters, transcript conventions, final matrix schema signed off |
+| M1 Phase I speaker isolation demo | Stage 1 / MVP | before first audio batch | three muted-mirror WAVs + draft TextGrid + diarization validation |
+| M2 Phase II pause/duration demo | Stage 1 / MVP | after M1 reviewed artifacts | 0.25 s and 0.35 s Praat outputs + duration workbook |
+| M3 Phase III transcript split demo | Stage 2 | after master transcript sample | RAW-TIMING and TIDY-PHRASE files per speaker |
+| M4 Phase IV lexical feature demo | Stage 2 | after M3 text files | TAALES/TAALED/AntConc-style outputs normalized |
+| M5 Phase V final matrix demo | Stage 3 | aligned with corpus release (Jul-Aug) | R/Python-ready matrix with AS-unit pause mapping |
+| M6 Validation report | Stage 3 | before Sept conference | gold-subset results documented across all five phases |
 
 ---
 
@@ -309,6 +625,9 @@ Required columns: identifiers (participant/speaker/triad/turn/task/interaction),
 - IELTS/TOEFL rating-scale development & MFRM validation (research workstream).
 - Robust overlapping-speech separation beyond flagging.
 - Cross-linguistic (Vietnamese/Spanish) extension (data field kept extensible only).
+- Browser-based Praat replacement, waveform editor, or manual boundary annotation tool.
+- Public multi-tenant SaaS deployment before IRB/privacy, data retention, consent, and API-key policy are agreed.
+- One-click publication-ready automation without human review gates.
 
 ---
 
