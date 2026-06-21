@@ -17,7 +17,7 @@ const Play = (
 );
 
 // The Validation RUNNER — this is the content of the "Validation" sidebar item inside the
-// LDT-style phase console (see ValidationApp). One "Run Validation" button runs the whole pipeline.
+// MWU phase console (see ValidationApp). One "Run Validation" button runs the whole pipeline.
 export function ValidationRunner() {
   const [useSample, setUseSample] = useState(false);
   const [customOn, setCustomOn] = useState(false);

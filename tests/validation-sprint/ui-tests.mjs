@@ -50,14 +50,16 @@ async function main() {
       assert(src.includes(marker), `missing panel "${marker}"`);
   });
 
-  await t('Interactive flow present: upload UI + empty-on-load + 8 status states', async () => {
+  await t('Interactive flow present: validation HP + upload UI + empty-on-load + 8 status states', async () => {
     const assets = fs.readdirSync(path.join(BUILD, 'assets'));
     const js = fs.readFileSync(path.join(BUILD, 'assets', assets.find((f) => f.endsWith('.js'))), 'utf8');
     const css = fs.readFileSync(path.join(BUILD, 'assets', assets.find((f) => f.endsWith('.css'))), 'utf8');
     assert(js.includes('No results yet'), 'no empty-on-load guard');
     assert(js.includes('Run Validation'), 'no single Run Validation control');
     assert(js.includes('Pipeline progress'), 'no pipeline progress');
-    assert(js.includes('Enter Console') && js.includes('Workflow phases'), 'LDT shell (home hero + phase sidebar) missing');
+    assert(js.includes('L2 fluency and multiword-unit research') && js.includes('Five-stage research workflow'), 'MWU validation homepage missing');
+    assert(js.includes('Open Validation Console') && js.includes('Run SpeakerX Benchmark'), 'homepage validation CTAs missing');
+    assert(js.includes('Workflow phases'), 'phase sidebar missing');
     assert(!/Run Phase II/.test(js), 'per-phase Run buttons should be gone (single Validation entry)');
     assert(js.includes('Use SpeakerX sample') || js.includes('Benchmark inputs'), 'no upload UI');
     assert(/api\/run/.test(js) && /api\/status/.test(js) && /api\/upload/.test(js), 'missing run/status/upload wiring');

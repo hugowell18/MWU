@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ValidationRunner } from './ValidationConsole';
 import { StatusBadge } from './StatusBadge';
 
-// Original LDT-style app shell: homepage hero + Console with a left phase sidebar.
+// Validation app shell: homepage hero + Console with a left phase sidebar.
 // "Validation" is added as the top sidebar item (above Phase I); Phase I–V remain as
 // workflow context/preview. Future development builds out the phase panels.
 
@@ -46,16 +46,76 @@ const PHASES = [
   },
 ];
 
+const HERO_SLIDES = [
+  {
+    src: '/assets/overview/overview-l2-seminar.png',
+    title: 'International L2 speaking data',
+    caption: 'Small-group spoken English tasks become analyzable fluency and vocabulary evidence.',
+  },
+  {
+    src: '/assets/overview/overview-campus-dialogue.png',
+    title: 'Dialogic fluency in context',
+    caption: 'The workflow is designed for real conversational performance, not only isolated monologues.',
+  },
+  {
+    src: '/assets/overview/overview-language-class.png',
+    title: 'Research-ready language learning',
+    caption: 'Human review remains the final evidence layer while automation reduces repetitive preparation work.',
+  },
+];
+
+const OVERVIEW_PHASES = [
+  {
+    roman: 'I',
+    title: 'Speaker Isolation',
+    body: 'Separate multilogue recordings into reviewed speaker-specific audio tracks before acoustic analysis.',
+    status: 'Future multilogue module',
+  },
+  {
+    roman: 'II',
+    title: 'Pause & Duration',
+    body: 'Run Praat-based pause extraction at configurable thresholds and calculate sounding/silent durations.',
+    status: 'Validated by SpeakerX benchmark',
+  },
+  {
+    roman: 'III',
+    title: 'Transcript Split',
+    body: 'Prepare RAW-TIMING and TIDY-PHRASE transcript files for later fluency and lexical work.',
+    status: 'Validated by SpeakerX benchmark',
+  },
+  {
+    roman: 'IV',
+    title: 'Lexical / MWU Features',
+    body: 'Reserve TAALES, TAALED, AntConc and multiword-unit variables once definitions are signed off.',
+    status: 'Placeholders in validation',
+  },
+  {
+    roman: 'V',
+    title: 'Matrix Export',
+    body: 'Compile parallel 0.25 and 0.35 threshold columns plus Phase IV text-variable fields.',
+    status: 'Validated by SpeakerX benchmark',
+  },
+];
+
 export function ValidationApp() {
   const [view, setView] = useState<'home' | 'console'>('home');
   const [sel, setSel] = useState<string>('validation');
   const [report, setReport] = useState<any>(null);
+  const [heroIndex, setHeroIndex] = useState(0);
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
     if (p.get('view') === 'report' || p.get('view') === 'console' || p.get('autorun')) setView('console');
     fetch('/api/report').then((r) => r.json()).then((j) => setReport(j && j.readiness !== 'idle' ? j : null)).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (view !== 'home') return;
+    const timer = window.setInterval(() => {
+      setHeroIndex((i) => (i + 1) % HERO_SLIDES.length);
+    }, 5200);
+    return () => window.clearInterval(timer);
+  }, [view]);
 
   function enter() {
     setView('console');
@@ -97,44 +157,97 @@ export function ValidationApp() {
 
       {view === 'home' ? (
         <div className="vc-wrap">
-          <div className="vc-hero">
-            <div>
-              <div className="vc-badge2"><span className="vc-ping"><b /><i /></span>MWU Pipeline · Validation Ready</div>
-              <h1>L2 Dialogic Fluency<br /><span className="u">Research Pipeline</span></h1>
-              <p className="lede">A phase-based, human-verifiable workflow that turns conversation recordings into publication-ready fluency &amp; multiword-unit data. Run the SpeakerX benchmark validation, then build out Phase I–V on the same console.</p>
-              <div className="vc-cta2">
+          <section className="vc-hero-new">
+            <div className="vc-hero-copy">
+              <h1>L2 fluency and multiword-unit research, built for real spoken data.</h1>
+              <p className="lede">The project studies how second-language speakers use multiword sequences during spoken performance, and how those patterns relate to pause behavior, repair, and speed fluency. The software turns audio, Praat-reviewed timing, transcripts, and lexical tools into a reproducible research matrix.</p>
+              <div className="vc-hero-actions">
                 <button className="vc-btn-lg vc-btn-pri" onClick={enter}>
                   <svg className="vc-icon-sm" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                  Enter Console
+                  Open Validation Console
                 </button>
                 <button className="vc-btn-lg vc-btn-out" onClick={enter}>
                   <svg className="vc-icon-sm" viewBox="0 0 24 24" style={{ stroke: 'var(--blue-600)' }}><path d="m5 3 14 9-14 9V3Z" /></svg>
-                  Run Validation
+                  Run SpeakerX Benchmark
                 </button>
               </div>
-              <div className="vc-callout2">
-                <svg className="vc-icon" viewBox="0 0 24 24" style={{ width: 26, height: 26, stroke: 'var(--amber-600)', flex: '0 0 auto' }}><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" /><path d="M12 9v4M12 17h.01" /></svg>
-                <div><b>Current run:</b> Validation Sprint on the SpeakerX <b>monologue</b> benchmark. Phase I (diarization) is out of scope for this single-speaker sample.</div>
+              <div className="vc-hero-proof">
+                <span>Research line</span>
+                <b>fluency × vocabulary × reviewed Praat evidence</b>
               </div>
             </div>
-            <div>
-              <div className="vc-preview">
-                <div className="wb"><i /><i /><i /></div>
-                <div className="vc-prow on"><span className="n">✓</span>Validation · SpeakerX benchmark</div>
-                <div className="vc-prow"><span className="n">I</span>Phase I · skipped</div>
-                <div className="vc-prow"><span className="n">II</span>Phase II · Pause &amp; Duration</div>
-                <div className="vc-prow"><span className="n">III</span>Phase III · Transcript Split</div>
-                <div className="vc-prow"><span className="n">IV</span>Phase IV · placeholders</div>
-                <div className="vc-prow"><span className="n">V</span>Phase V · Matrix</div>
+            <div className="vc-hero-gallery" aria-label="International L2 research image carousel">
+              {HERO_SLIDES.map((slide, i) => (
+                <img
+                  key={slide.src}
+                  src={slide.src}
+                  alt={slide.title}
+                  className={`vc-hero-img ${i === heroIndex ? 'active' : ''}`}
+                />
+              ))}
+              <div className="vc-hero-caption">
+                <p>{HERO_SLIDES[heroIndex].title}</p>
+                <span>{HERO_SLIDES[heroIndex].caption}</span>
+              </div>
+              <div className="vc-hero-dots">
+                {HERO_SLIDES.map((slide, i) => (
+                  <button
+                    key={slide.src}
+                    className={i === heroIndex ? 'active' : ''}
+                    onClick={() => setHeroIndex(i)}
+                    aria-label={`Show hero image ${i + 1}`}
+                  />
+                ))}
               </div>
             </div>
-          </div>
+          </section>
 
-          <div className="vc-features2">
-            <div className="vc-feat"><div className="fi"><svg className="vc-icon" viewBox="0 0 24 24" style={{ width: 22, height: 22 }}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><path d="M22 4 12 14.01l-3-3" /></svg></div><h3>Gold validation</h3><p>One Run Validation reproduces the client's Praat/Excel baseline exactly — count exact, durations ≤ 0.001 s.</p></div>
-            <div className="vc-feat"><div className="fi"><svg className="vc-icon" viewBox="0 0 24 24" style={{ width: 22, height: 22 }}><path d="M3 3h18v18H3zM3 9h18M9 3v18" /></svg></div><h3>Praat automation</h3><p>Script 1 (200 s window + Scale times) and Script 2 (calculate_segment_durations.praat) run headless.</p></div>
-            <div className="vc-feat"><div className="fi"><svg className="vc-icon" viewBox="0 0 24 24" style={{ width: 22, height: 22 }}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" /><path d="M14 2v6h6" /></svg></div><h3>Phase-based console</h3><p>Validation today; Phase I–V modules build out on the same left-rail console for future development.</p></div>
-          </div>
+          <section className="vc-research-band">
+            <div>
+              <span className="vc-section-k">Research Background</span>
+              <h2>Why the workflow exists</h2>
+            </div>
+            <div className="vc-research-grid">
+              <div>
+                <h3>Utterance fluency</h3>
+                <p>Praat timing supports breakdown and speed measures: silent pauses, sounding time, articulation rate, and pause density.</p>
+              </div>
+              <div>
+                <h3>Multiword vocabulary</h3>
+                <p>Transcripts feed lexical-bundle and MWU analysis so vocabulary use can be studied beyond single-word counts.</p>
+              </div>
+              <div>
+                <h3>Human-verifiable data</h3>
+                <p>Automation creates drafts and matrices; reviewed Praat/TextGrid and workbook checks remain the evidence boundary.</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="vc-phase-runway">
+            <div className="vc-section-head">
+              <span className="vc-section-k">Five-stage research workflow</span>
+              <h2>From spoken interaction to a reproducible research matrix</h2>
+            </div>
+            <div className="vc-phase-grid">
+              {OVERVIEW_PHASES.map((phase) => (
+                <article key={phase.roman} className="vc-phase-card">
+                  <div className="vc-phase-roman">{phase.roman}</div>
+                  <h3>{phase.title}</h3>
+                  <p>{phase.body}</p>
+                  <span>{phase.status}</span>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="vc-validation-strip">
+            <div>
+              <span className="vc-section-k">Current delivery</span>
+              <h2>SpeakerX validation benchmark</h2>
+              <p>The current runnable package uses the supplied monologue WAV, expert TextGrid, transcript, and workbook to prove Phase II, Phase III, Phase IV placeholders, and Phase V export before official multilogue data arrives.</p>
+            </div>
+            <button className="vc-btn-lg vc-btn-pri" onClick={enter}>Run Validation</button>
+          </section>
         </div>
       ) : (
         <div className="vc-wrap">
