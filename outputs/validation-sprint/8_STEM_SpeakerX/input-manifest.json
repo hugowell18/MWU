@@ -1,0 +1,38 @@
+{
+  "recording_id": "8_STEM_SpeakerX",
+  "generated_at": "2026-06-21T14:39:04.015Z",
+  "inputs": [
+    {
+      "role": "wav",
+      "name": "8_STEM_SpeakerX_checked_and_pruned.wav",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/sample/8_STEM_SpeakerX_checked_and_pruned.wav",
+      "present": true,
+      "bytes": 32312894,
+      "sha256": "e2cbfac4d1d0f4438af20dcae0bc5a7e7ce79e2486deb5c8a9f7a00654991f35"
+    },
+    {
+      "role": "textgrid",
+      "name": "8 STEM SpeakerX.TextGrid",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/sample/8 STEM SpeakerX.TextGrid",
+      "present": true,
+      "bytes": 16637,
+      "sha256": "935cc6c75098e603a54bdb524b0fda000efb194e52ebd7aca78cd6a38bb93c41"
+    },
+    {
+      "role": "transcript",
+      "name": "8 STEM SpeakerX checked and pruned.txt",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/sample/8 STEM SpeakerX checked and pruned.txt",
+      "present": true,
+      "bytes": 1968,
+      "sha256": "1e31f199f2f6e27b266fe951ce5bdef666af7b943591ab0dc9093ee7e7ddda79"
+    },
+    {
+      "role": "workbook",
+      "name": "Example fluency measures calculations SpeakerX.xlsx",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/sample/Example fluency measures calculations SpeakerX.xlsx",
+      "present": true,
+      "bytes": 22766,
+      "sha256": "facf5f97f4599f69690d812d9631959a2b6bfe1423982f226ca357729b8d2a94"
+    }
+  ]
+}

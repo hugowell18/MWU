@@ -1,0 +1,30 @@
+{
+  "status": "diagnostic",
+  "note": "Generated segmentation differs from the expert manually-corrected TextGrid — expected. Not a gold pass.",
+  "rows": [
+    {
+      "metric": "silent intervals",
+      "generated": 98,
+      "expert": 60,
+      "delta": 38
+    },
+    {
+      "metric": "sounding intervals",
+      "generated": 97,
+      "expert": 61,
+      "delta": 36
+    },
+    {
+      "metric": "total sounding (s)",
+      "generated": 110.224,
+      "expert": 133.19653,
+      "delta": -22.97253
+    },
+    {
+      "metric": "total silent (s)",
+      "generated": 72.955229,
+      "expert": 49.982699,
+      "delta": 22.97253
+    }
+  ]
+}

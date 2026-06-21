@@ -1,0 +1,27 @@
+{
+  "recording_id": "8_STEM_SpeakerX",
+  "thresholds_sec": [
+    0.25,
+    0.35,
+    0.5
+  ],
+  "gold_threshold": 0.25,
+  "tolerances": {
+    "duration": 0.001,
+    "boundary": 0.001,
+    "articulation": 0.001
+  },
+  "praat": {
+    "binary": "/Applications/Praat.app/Contents/MacOS/Praat",
+    "window_size": 200,
+    "silence_threshold_db": -25,
+    "min_sounding_interval": 0.1,
+    "min_pitch": 100,
+    "available": true,
+    "version": "Praat 6.4.67 (May 21 2026)"
+  },
+  "phase_i": {
+    "status": "skipped",
+    "reason": "monologue — single speaker"
+  }
+}

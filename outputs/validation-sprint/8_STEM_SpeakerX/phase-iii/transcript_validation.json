@@ -1,0 +1,42 @@
+{
+  "method": "assemblyai",
+  "compared": "TIDY (cleaned ASR) vs client standard",
+  "model": "universal-3-pro",
+  "audio_duration": 184,
+  "asr_confidence": 0.930531,
+  "wer": {
+    "reference_words": 321,
+    "hypothesis_words": 315,
+    "edits": 24,
+    "wer": 0.07476635514018691,
+    "word_agreement": 0.9252336448598131
+  },
+  "cleaning_index": [
+    {
+      "token": "Uh,",
+      "kind": "filler",
+      "action": "removed"
+    },
+    {
+      "token": "uh,",
+      "kind": "filler",
+      "action": "removed"
+    },
+    {
+      "token": "um,",
+      "kind": "filler",
+      "action": "removed"
+    },
+    {
+      "token": "uh,",
+      "kind": "filler",
+      "action": "removed"
+    }
+  ],
+  "repetitions_kept": [
+    {
+      "phrase": "a method",
+      "kind": "bigram"
+    }
+  ]
+}

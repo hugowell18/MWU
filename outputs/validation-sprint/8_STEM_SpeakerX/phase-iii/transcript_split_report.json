@@ -1,0 +1,1322 @@
+{
+  "speakers": 1,
+  "raw_words": 318,
+  "tidy_words": 314,
+  "fillers_removed": 4,
+  "repetitions_kept": 1,
+  "x_placeholders": 0,
+  "cleaning_index": [
+    {
+      "token": "Uh,",
+      "kind": "filler",
+      "action": "removed"
+    },
+    {
+      "token": "uh,",
+      "kind": "filler",
+      "action": "removed"
+    },
+    {
+      "token": "um,",
+      "kind": "filler",
+      "action": "removed"
+    },
+    {
+      "token": "uh,",
+      "kind": "filler",
+      "action": "removed"
+    }
+  ],
+  "diff": [
+    {
+      "w": "The",
+      "op": "keep"
+    },
+    {
+      "w": "topic",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "my",
+      "op": "keep"
+    },
+    {
+      "w": "report",
+      "op": "keep"
+    },
+    {
+      "w": "is",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "influence",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "surface",
+      "op": "keep"
+    },
+    {
+      "w": "texture",
+      "op": "keep"
+    },
+    {
+      "w": "on",
+      "op": "keep"
+    },
+    {
+      "w": "mechanical",
+      "op": "keep"
+    },
+    {
+      "w": "surface",
+      "op": "keep"
+    },
+    {
+      "w": "friction,",
+      "op": "keep"
+    },
+    {
+      "w": "which",
+      "op": "keep"
+    },
+    {
+      "w": "closely",
+      "op": "keep"
+    },
+    {
+      "w": "related",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "my",
+      "op": "keep"
+    },
+    {
+      "w": "future",
+      "op": "keep"
+    },
+    {
+      "w": "study.",
+      "op": "keep"
+    },
+    {
+      "w": "So",
+      "op": "keep"
+    },
+    {
+      "w": "let's",
+      "op": "keep"
+    },
+    {
+      "w": "begin.",
+      "op": "keep"
+    },
+    {
+      "w": "Uh,",
+      "op": "remove",
+      "kind": "filler"
+    },
+    {
+      "w": "today",
+      "op": "keep"
+    },
+    {
+      "w": "I'd",
+      "op": "keep"
+    },
+    {
+      "w": "like",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "introduce",
+      "op": "keep"
+    },
+    {
+      "w": "it",
+      "op": "keep"
+    },
+    {
+      "w": "from",
+      "op": "keep"
+    },
+    {
+      "w": "6",
+      "op": "keep"
+    },
+    {
+      "w": "aspects.",
+      "op": "keep"
+    },
+    {
+      "w": "They",
+      "op": "keep"
+    },
+    {
+      "w": "are",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "introduction,",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "background,",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "development,",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "advantages",
+      "op": "keep"
+    },
+    {
+      "w": "and",
+      "op": "keep"
+    },
+    {
+      "w": "limitations,",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "conclusion,",
+      "op": "keep"
+    },
+    {
+      "w": "and",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "list",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "references.",
+      "op": "keep"
+    },
+    {
+      "w": "To",
+      "op": "keep"
+    },
+    {
+      "w": "begin",
+      "op": "keep"
+    },
+    {
+      "w": "with,",
+      "op": "keep"
+    },
+    {
+      "w": "uh,",
+      "op": "remove",
+      "kind": "filler"
+    },
+    {
+      "w": "just",
+      "op": "keep"
+    },
+    {
+      "w": "as",
+      "op": "keep"
+    },
+    {
+      "w": "its",
+      "op": "keep"
+    },
+    {
+      "w": "name",
+      "op": "keep"
+    },
+    {
+      "w": "implies,",
+      "op": "keep"
+    },
+    {
+      "w": "mechanical",
+      "op": "keep"
+    },
+    {
+      "w": "friction",
+      "op": "keep"
+    },
+    {
+      "w": "is",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "friction",
+      "op": "keep"
+    },
+    {
+      "w": "generated",
+      "op": "keep"
+    },
+    {
+      "w": "by",
+      "op": "keep"
+    },
+    {
+      "w": "relative",
+      "op": "keep"
+    },
+    {
+      "w": "motion",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "mechanical",
+      "op": "keep"
+    },
+    {
+      "w": "parts.",
+      "op": "keep"
+    },
+    {
+      "w": "The",
+      "op": "keep"
+    },
+    {
+      "w": "friction",
+      "op": "keep"
+    },
+    {
+      "w": "leads",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "wear",
+      "op": "keep"
+    },
+    {
+      "w": "and",
+      "op": "keep"
+    },
+    {
+      "w": "tear,",
+      "op": "keep"
+    },
+    {
+      "w": "and",
+      "op": "keep"
+    },
+    {
+      "w": "nearly",
+      "op": "keep"
+    },
+    {
+      "w": "80%",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "failures",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "mechanical",
+      "op": "keep"
+    },
+    {
+      "w": "parts",
+      "op": "keep"
+    },
+    {
+      "w": "worldwide",
+      "op": "keep"
+    },
+    {
+      "w": "are",
+      "op": "keep"
+    },
+    {
+      "w": "caused",
+      "op": "keep"
+    },
+    {
+      "w": "by",
+      "op": "keep"
+    },
+    {
+      "w": "it.",
+      "op": "keep"
+    },
+    {
+      "w": "Therefore,",
+      "op": "keep"
+    },
+    {
+      "w": "in",
+      "op": "keep"
+    },
+    {
+      "w": "mechanical",
+      "op": "keep"
+    },
+    {
+      "w": "manufacturing,",
+      "op": "keep"
+    },
+    {
+      "w": "some",
+      "op": "keep"
+    },
+    {
+      "w": "methods",
+      "op": "keep"
+    },
+    {
+      "w": "are",
+      "op": "keep"
+    },
+    {
+      "w": "usually",
+      "op": "keep"
+    },
+    {
+      "w": "used",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "reduce",
+      "op": "keep"
+    },
+    {
+      "w": "friction,",
+      "op": "keep"
+    },
+    {
+      "w": "and",
+      "op": "keep"
+    },
+    {
+      "w": "you",
+      "op": "keep"
+    },
+    {
+      "w": "can",
+      "op": "keep"
+    },
+    {
+      "w": "see",
+      "op": "keep"
+    },
+    {
+      "w": "some",
+      "op": "keep"
+    },
+    {
+      "w": "examples",
+      "op": "keep"
+    },
+    {
+      "w": "here.",
+      "op": "keep"
+    },
+    {
+      "w": "And",
+      "op": "keep"
+    },
+    {
+      "w": "one",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "them",
+      "op": "keep"
+    },
+    {
+      "w": "is",
+      "op": "keep"
+    },
+    {
+      "w": "a",
+      "op": "keep"
+    },
+    {
+      "w": "technology",
+      "op": "keep"
+    },
+    {
+      "w": "called",
+      "op": "keep"
+    },
+    {
+      "w": "surface",
+      "op": "keep"
+    },
+    {
+      "w": "texture,",
+      "op": "keep"
+    },
+    {
+      "w": "which",
+      "op": "keep"
+    },
+    {
+      "w": "is",
+      "op": "keep"
+    },
+    {
+      "w": "our",
+      "op": "keep"
+    },
+    {
+      "w": "focus",
+      "op": "keep"
+    },
+    {
+      "w": "today.",
+      "op": "keep"
+    },
+    {
+      "w": "Okay,",
+      "op": "keep"
+    },
+    {
+      "w": "so",
+      "op": "keep"
+    },
+    {
+      "w": "surface",
+      "op": "keep"
+    },
+    {
+      "w": "texture",
+      "op": "keep"
+    },
+    {
+      "w": "is",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "use",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "physical",
+      "op": "keep"
+    },
+    {
+      "w": "or",
+      "op": "keep"
+    },
+    {
+      "w": "chemical",
+      "op": "keep"
+    },
+    {
+      "w": "methods",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "prepare",
+      "op": "keep"
+    },
+    {
+      "w": "some",
+      "op": "keep"
+    },
+    {
+      "w": "Microstructure",
+      "op": "keep"
+    },
+    {
+      "w": "arrays,",
+      "op": "keep"
+    },
+    {
+      "w": "um,",
+      "op": "remove",
+      "kind": "filler"
+    },
+    {
+      "w": "with",
+      "op": "keep"
+    },
+    {
+      "w": "these",
+      "op": "keep"
+    },
+    {
+      "w": "characteristics",
+      "op": "keep"
+    },
+    {
+      "w": "on",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "surface",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "mechanical",
+      "op": "keep"
+    },
+    {
+      "w": "parts",
+      "op": "keep"
+    },
+    {
+      "w": "in",
+      "op": "keep"
+    },
+    {
+      "w": "order",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "obtain",
+      "op": "keep"
+    },
+    {
+      "w": "special",
+      "op": "keep"
+    },
+    {
+      "w": "surface",
+      "op": "keep"
+    },
+    {
+      "w": "lubrication",
+      "op": "keep"
+    },
+    {
+      "w": "performance.",
+      "op": "keep"
+    },
+    {
+      "w": "And",
+      "op": "keep"
+    },
+    {
+      "w": "when",
+      "op": "keep"
+    },
+    {
+      "w": "it",
+      "op": "keep"
+    },
+    {
+      "w": "comes",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "its",
+      "op": "keep"
+    },
+    {
+      "w": "principles,",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "summarize",
+      "op": "keep"
+    },
+    {
+      "w": "it",
+      "op": "keep"
+    },
+    {
+      "w": "in",
+      "op": "keep"
+    },
+    {
+      "w": "my",
+      "op": "keep"
+    },
+    {
+      "w": "own",
+      "op": "keep"
+    },
+    {
+      "w": "words,",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "most",
+      "op": "keep"
+    },
+    {
+      "w": "important",
+      "op": "keep"
+    },
+    {
+      "w": "point",
+      "op": "keep"
+    },
+    {
+      "w": "is",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "surface",
+      "op": "keep"
+    },
+    {
+      "w": "texture",
+      "op": "keep"
+    },
+    {
+      "w": "can",
+      "op": "keep"
+    },
+    {
+      "w": "also",
+      "op": "keep"
+    },
+    {
+      "w": "store",
+      "op": "keep"
+    },
+    {
+      "w": "lubricants",
+      "op": "keep"
+    },
+    {
+      "w": "while",
+      "op": "keep"
+    },
+    {
+      "w": "collecting",
+      "op": "keep"
+    },
+    {
+      "w": "abrasive",
+      "op": "keep"
+    },
+    {
+      "w": "articles.",
+      "op": "keep"
+    },
+    {
+      "w": "And",
+      "op": "keep"
+    },
+    {
+      "w": "then",
+      "op": "keep"
+    },
+    {
+      "w": "it",
+      "op": "keep"
+    },
+    {
+      "w": "comes",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "research",
+      "op": "keep"
+    },
+    {
+      "w": "background",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "surface",
+      "op": "keep"
+    },
+    {
+      "w": "texture.",
+      "op": "keep"
+    },
+    {
+      "w": "A",
+      "op": "keep"
+    },
+    {
+      "w": "scholar",
+      "op": "keep"
+    },
+    {
+      "w": "named",
+      "op": "keep"
+    },
+    {
+      "w": "Hamilton",
+      "op": "keep"
+    },
+    {
+      "w": "first",
+      "op": "keep"
+    },
+    {
+      "w": "adapted",
+      "op": "keep"
+    },
+    {
+      "w": "prepare",
+      "op": "keep"
+    },
+    {
+      "w": "surface",
+      "op": "keep"
+    },
+    {
+      "w": "textures",
+      "op": "keep"
+    },
+    {
+      "w": "and",
+      "op": "keep"
+    },
+    {
+      "w": "successfully",
+      "op": "keep"
+    },
+    {
+      "w": "it,",
+      "op": "keep"
+    },
+    {
+      "w": "and",
+      "op": "keep"
+    },
+    {
+      "w": "nowadays",
+      "op": "keep"
+    },
+    {
+      "w": "many",
+      "op": "keep"
+    },
+    {
+      "w": "scholars",
+      "op": "keep"
+    },
+    {
+      "w": "are",
+      "op": "keep"
+    },
+    {
+      "w": "attempting",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "apply",
+      "op": "keep"
+    },
+    {
+      "w": "this",
+      "op": "keep"
+    },
+    {
+      "w": "technology",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "mechanical",
+      "op": "keep"
+    },
+    {
+      "w": "surfaces.",
+      "op": "keep"
+    },
+    {
+      "w": "Okay,",
+      "op": "keep"
+    },
+    {
+      "w": "now",
+      "op": "keep"
+    },
+    {
+      "w": "it's",
+      "op": "keep"
+    },
+    {
+      "w": "time",
+      "op": "keep"
+    },
+    {
+      "w": "for",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "discussion",
+      "op": "keep"
+    },
+    {
+      "w": "part.",
+      "op": "keep"
+    },
+    {
+      "w": "And",
+      "op": "keep"
+    },
+    {
+      "w": "this",
+      "op": "keep"
+    },
+    {
+      "w": "is",
+      "op": "keep"
+    },
+    {
+      "w": "an",
+      "op": "keep"
+    },
+    {
+      "w": "experiment",
+      "op": "keep"
+    },
+    {
+      "w": "from",
+      "op": "keep"
+    },
+    {
+      "w": "Yu",
+      "op": "keep"
+    },
+    {
+      "w": "Hua",
+      "op": "keep"
+    },
+    {
+      "w": "Zhang,",
+      "op": "keep"
+    },
+    {
+      "w": "and",
+      "op": "keep"
+    },
+    {
+      "w": "let's",
+      "op": "keep"
+    },
+    {
+      "w": "take",
+      "op": "keep"
+    },
+    {
+      "w": "a",
+      "op": "keep"
+    },
+    {
+      "w": "look",
+      "op": "keep"
+    },
+    {
+      "w": "at",
+      "op": "keep"
+    },
+    {
+      "w": "how",
+      "op": "keep"
+    },
+    {
+      "w": "he",
+      "op": "keep"
+    },
+    {
+      "w": "did",
+      "op": "keep"
+    },
+    {
+      "w": "it.",
+      "op": "keep"
+    },
+    {
+      "w": "First",
+      "op": "keep"
+    },
+    {
+      "w": "of",
+      "op": "keep"
+    },
+    {
+      "w": "all,",
+      "op": "keep"
+    },
+    {
+      "w": "he",
+      "op": "keep"
+    },
+    {
+      "w": "established",
+      "op": "keep"
+    },
+    {
+      "w": "a",
+      "op": "keep"
+    },
+    {
+      "w": "friction-aware,",
+      "op": "keep"
+    },
+    {
+      "w": "uh,",
+      "op": "remove",
+      "kind": "filler"
+    },
+    {
+      "w": "a",
+      "op": "keep"
+    },
+    {
+      "w": "model.",
+      "op": "keep"
+    },
+    {
+      "w": "Then",
+      "op": "keep"
+    },
+    {
+      "w": "he",
+      "op": "keep"
+    },
+    {
+      "w": "added",
+      "op": "keep"
+    },
+    {
+      "w": "5",
+      "op": "keep"
+    },
+    {
+      "w": "different",
+      "op": "keep"
+    },
+    {
+      "w": "textures",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "the",
+      "op": "keep"
+    },
+    {
+      "w": "model",
+      "op": "keep"
+    },
+    {
+      "w": "in",
+      "op": "keep"
+    },
+    {
+      "w": "order",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "make",
+      "op": "keep"
+    },
+    {
+      "w": "a",
+      "op": "keep"
+    },
+    {
+      "w": "comparison",
+      "op": "keep"
+    },
+    {
+      "w": "between",
+      "op": "keep"
+    },
+    {
+      "w": "no",
+      "op": "keep"
+    },
+    {
+      "w": "texture",
+      "op": "keep"
+    },
+    {
+      "w": "and",
+      "op": "keep"
+    },
+    {
+      "w": "those",
+      "op": "keep"
+    },
+    {
+      "w": "5",
+      "op": "keep"
+    },
+    {
+      "w": "different",
+      "op": "keep"
+    },
+    {
+      "w": "textures.",
+      "op": "keep"
+    },
+    {
+      "w": "You",
+      "op": "keep"
+    },
+    {
+      "w": "can",
+      "op": "keep"
+    },
+    {
+      "w": "see",
+      "op": "keep"
+    },
+    {
+      "w": "their",
+      "op": "keep"
+    },
+    {
+      "w": "different",
+      "op": "keep"
+    },
+    {
+      "w": "arrangements.",
+      "op": "keep"
+    },
+    {
+      "w": "And",
+      "op": "keep"
+    },
+    {
+      "w": "after",
+      "op": "keep"
+    },
+    {
+      "w": "that,",
+      "op": "keep"
+    },
+    {
+      "w": "he",
+      "op": "keep"
+    },
+    {
+      "w": "studied",
+      "op": "keep"
+    },
+    {
+      "w": "finite",
+      "op": "keep"
+    },
+    {
+      "w": "element",
+      "op": "keep"
+    },
+    {
+      "w": "analysis,",
+      "op": "keep"
+    },
+    {
+      "w": "which",
+      "op": "keep"
+    },
+    {
+      "w": "is",
+      "op": "keep"
+    },
+    {
+      "w": "a",
+      "op": "keep"
+    },
+    {
+      "w": "method,",
+      "op": "keep"
+    },
+    {
+      "w": "a",
+      "op": "keep"
+    },
+    {
+      "w": "method",
+      "op": "keep"
+    },
+    {
+      "w": "using",
+      "op": "keep"
+    },
+    {
+      "w": "mathematical",
+      "op": "keep"
+    },
+    {
+      "w": "approximation",
+      "op": "keep"
+    },
+    {
+      "w": "to",
+      "op": "keep"
+    },
+    {
+      "w": "simulate",
+      "op": "keep"
+    },
+    {
+      "w": "real",
+      "op": "keep"
+    },
+    {
+      "w": "physical",
+      "op": "keep"
+    },
+    {
+      "w": "systems.",
+      "op": "keep"
+    }
+  ],
+  "repetitions": [
+    {
+      "phrase": "a method",
+      "kind": "bigram"
+    }
+  ],
+  "transforms": 5,
+  "log": [
+    "separated speakers: SpeakerX",
+    "concatenated turns per speaker",
+    "removed 4 non-lexical tokens",
+    "preserved 1 exact repetition(s)",
+    "preserved 0 X placeholder(s)"
+  ]
+}

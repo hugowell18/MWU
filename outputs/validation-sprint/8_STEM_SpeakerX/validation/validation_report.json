@@ -1,0 +1,1882 @@
+{
+  "sprint": "validation-sprint",
+  "recording_id": "8_STEM_SpeakerX",
+  "speaker": "SpeakerX",
+  "generated_at": "2026-06-21T14:39:04.015Z",
+  "phase_i": {
+    "status": "skipped",
+    "reason": "monologue — single speaker"
+  },
+  "inputs": [
+    {
+      "name": "8_STEM_SpeakerX_checked_and_pruned.wav",
+      "role": "wav",
+      "present": true,
+      "bytes": 32312894,
+      "sha256": "e2cbfac4d1d0f4438af20dcae0bc5a7e7ce79e2486deb5c8a9f7a00654991f35"
+    },
+    {
+      "name": "8 STEM SpeakerX.TextGrid",
+      "role": "textgrid",
+      "present": true,
+      "bytes": 16637,
+      "sha256": "935cc6c75098e603a54bdb524b0fda000efb194e52ebd7aca78cd6a38bb93c41"
+    },
+    {
+      "name": "8 STEM SpeakerX checked and pruned.txt",
+      "role": "transcript",
+      "present": true,
+      "bytes": 1968,
+      "sha256": "1e31f199f2f6e27b266fe951ce5bdef666af7b943591ab0dc9093ee7e7ddda79"
+    },
+    {
+      "name": "Example fluency measures calculations SpeakerX.xlsx",
+      "role": "workbook",
+      "present": true,
+      "bytes": 22766,
+      "sha256": "facf5f97f4599f69690d812d9631959a2b6bfe1423982f226ca357729b8d2a94"
+    }
+  ],
+  "config": {
+    "thresholds_sec": [
+      0.25,
+      0.35,
+      0.5
+    ],
+    "tolerances": {
+      "duration": 0.001,
+      "boundary": 0.001,
+      "articulation": 0.001
+    },
+    "praat_window_sec": 200
+  },
+  "praat": {
+    "available": true,
+    "status": "ok",
+    "binary": "/Applications/Praat.app/Contents/MacOS/Praat"
+  },
+  "phase_ii": {
+    "status": "passed",
+    "ran_at": "2026-06-21T14:39:04.015Z",
+    "praat_window_sec": 200,
+    "scale_times": "applied_single_window_full_wav",
+    "label_contract": [
+      "sounding",
+      "silent",
+      "invalid"
+    ],
+    "syllables": 535,
+    "script1": [
+      {
+        "threshold": 0.25,
+        "kind": "gold",
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/generated.TextGrid",
+        "praat_window_sec": 200,
+        "label_contract": [
+          "sounding",
+          "silent",
+          "invalid"
+        ],
+        "status": "generated",
+        "scale_times": "applied_single_window_full_wav"
+      },
+      {
+        "threshold": 0.35,
+        "kind": "generated_no_gold",
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/generated.TextGrid",
+        "praat_window_sec": 200,
+        "label_contract": [
+          "sounding",
+          "silent",
+          "invalid"
+        ],
+        "status": "generated",
+        "scale_times": "applied_single_window_full_wav"
+      },
+      {
+        "threshold": 0.5,
+        "kind": "generated_no_gold",
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/generated.TextGrid",
+        "praat_window_sec": 200,
+        "label_contract": [
+          "sounding",
+          "silent",
+          "invalid"
+        ],
+        "status": "generated",
+        "scale_times": "applied_single_window_full_wav"
+      }
+    ],
+    "script2": [
+      {
+        "threshold": 0.25,
+        "method": "praat",
+        "summary_json": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/script2_summary.json",
+        "totals": {
+          "total_duration": 183.17922902494408,
+          "interval_count": 195,
+          "sounding_count": 97,
+          "silent_count": 98,
+          "invalid_count": 0,
+          "total_sounding": 110.22400000000007,
+          "total_silent": 72.955229024944,
+          "total_invalid": 0,
+          "mean_silent": 0.7444411124994286,
+          "min_silent": 0.256,
+          "max_silent": 2.96
+        }
+      },
+      {
+        "threshold": 0.35,
+        "method": "praat",
+        "summary_json": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/script2_summary.json",
+        "totals": {
+          "total_duration": 183.17922902494402,
+          "interval_count": 142,
+          "sounding_count": 71,
+          "silent_count": 71,
+          "invalid_count": 0,
+          "total_sounding": 117.98561451247203,
+          "total_silent": 65.193614512472,
+          "total_invalid": 0,
+          "mean_silent": 0.9182199227108732,
+          "min_silent": 0.352,
+          "max_silent": 2.96
+        }
+      },
+      {
+        "threshold": 0.5,
+        "method": "praat",
+        "summary_json": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/script2_summary.json",
+        "totals": {
+          "total_duration": 183.17922902494405,
+          "interval_count": 112,
+          "sounding_count": 56,
+          "silent_count": 56,
+          "invalid_count": 0,
+          "total_sounding": 124.09761451247205,
+          "total_silent": 59.081614512471994,
+          "total_invalid": 0,
+          "mean_silent": 1.055028830579857,
+          "min_silent": 0.504,
+          "max_silent": 2.96
+        }
+      }
+    ],
+    "gold_replay": {
+      "status": "passed",
+      "method": "praat",
+      "rows": [
+        {
+          "metric": "No. of silent pauses",
+          "ours": 60,
+          "gold": 60,
+          "delta": 0,
+          "tolerance": "exact",
+          "pass": true
+        },
+        {
+          "metric": "Total audio duration (s)",
+          "ours": 183.17922902494303,
+          "gold": 183.1792290249431,
+          "delta": 8.526512829121202e-14,
+          "tolerance": "<= 0.001",
+          "pass": true
+        },
+        {
+          "metric": "Speaking time (s)",
+          "ours": 133.19652983384802,
+          "gold": 133.19652983384842,
+          "delta": 3.979039320256561e-13,
+          "tolerance": "<= 0.001",
+          "pass": true
+        },
+        {
+          "metric": "Total silent pausing (s)",
+          "ours": 49.98269919109502,
+          "gold": 49.98269919109469,
+          "delta": 3.339550858072471e-13,
+          "tolerance": "<= 0.001",
+          "pass": true
+        },
+        {
+          "metric": "Mean silent pause (s)",
+          "ours": 0.8330449865182504,
+          "gold": 0.8330449865182448,
+          "delta": 5.662137425588298e-15,
+          "tolerance": "<= 0.001",
+          "pass": true
+        },
+        {
+          "metric": "Articulation rate (syll/min)",
+          "ours": 240.99726952377947,
+          "gold": 240.99726952377873,
+          "delta": 7.389644451905042e-13,
+          "tolerance": "<= 0.001",
+          "pass": true
+        }
+      ],
+      "totals": {
+        "total_duration": 183.17922902494303,
+        "interval_count": 121,
+        "sounding_count": 61,
+        "silent_count": 60,
+        "invalid_count": 0,
+        "total_sounding": 133.19652983384802,
+        "total_silent": 49.98269919109502,
+        "total_invalid": 0,
+        "mean_silent": 0.8330449865182504,
+        "min_silent": 0.246806991476,
+        "max_silent": 2.806399928598
+      }
+    },
+    "generated_vs_expert_025": {
+      "status": "diagnostic",
+      "note": "Generated segmentation differs from the expert manually-corrected TextGrid — expected. Not a gold pass.",
+      "rows": [
+        {
+          "metric": "silent intervals",
+          "generated": 98,
+          "expert": 60,
+          "delta": 38
+        },
+        {
+          "metric": "sounding intervals",
+          "generated": 97,
+          "expert": 61,
+          "delta": 36
+        },
+        {
+          "metric": "total sounding (s)",
+          "generated": 110.224,
+          "expert": 133.19653,
+          "delta": -22.97253
+        },
+        {
+          "metric": "total silent (s)",
+          "generated": 72.955229,
+          "expert": 49.982699,
+          "delta": 22.97253
+        }
+      ]
+    },
+    "thresholds": [
+      {
+        "threshold": 0.25,
+        "kind": "gold",
+        "status": "generated",
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/generated.TextGrid",
+        "full_timeline_ok": true,
+        "durations": {
+          "total_duration": 183.17922902494408,
+          "interval_count": 195,
+          "sounding_count": 97,
+          "silent_count": 98,
+          "invalid_count": 0,
+          "total_sounding": 110.22400000000007,
+          "total_silent": 72.955229024944,
+          "total_invalid": 0,
+          "mean_silent": 0.7444411124994286,
+          "min_silent": 0.256,
+          "max_silent": 2.96
+        }
+      },
+      {
+        "threshold": 0.35,
+        "kind": "generated_no_gold",
+        "status": "generated_no_gold",
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/generated.TextGrid",
+        "full_timeline_ok": true,
+        "durations": {
+          "total_duration": 183.17922902494402,
+          "interval_count": 142,
+          "sounding_count": 71,
+          "silent_count": 71,
+          "invalid_count": 0,
+          "total_sounding": 117.98561451247203,
+          "total_silent": 65.193614512472,
+          "total_invalid": 0,
+          "mean_silent": 0.9182199227108732,
+          "min_silent": 0.352,
+          "max_silent": 2.96
+        }
+      },
+      {
+        "threshold": 0.5,
+        "kind": "generated_no_gold",
+        "status": "generated_no_gold",
+        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/generated.TextGrid",
+        "full_timeline_ok": true,
+        "durations": {
+          "total_duration": 183.17922902494405,
+          "interval_count": 112,
+          "sounding_count": 56,
+          "silent_count": 56,
+          "invalid_count": 0,
+          "total_sounding": 124.09761451247205,
+          "total_silent": 59.081614512471994,
+          "total_invalid": 0,
+          "mean_silent": 1.055028830579857,
+          "min_silent": 0.504,
+          "max_silent": 2.96
+        }
+      }
+    ]
+  },
+  "phase_iii": {
+    "status": "passed",
+    "ran_at": "2026-06-21T14:39:04.015Z",
+    "raw_file": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_RAW-TIMING.txt",
+    "tidy_file": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_TIDY-PHRASE.txt",
+    "transcription": "assemblyai (real ASR on the .wav, disfluencies kept)",
+    "asr": {
+      "model": "universal-3-pro",
+      "words": 318,
+      "confidence": 0.930531,
+      "audio_duration": 184
+    },
+    "validation": {
+      "method": "assemblyai",
+      "compared": "TIDY vs standard",
+      "status": "passed",
+      "reference_words": 321,
+      "hypothesis_words": 315,
+      "edits": 24,
+      "wer": 0.07476635514018691,
+      "word_agreement": 0.9252336448598131
+    },
+    "raw_words": 318,
+    "tidy_words": 314,
+    "fillers_removed": 4,
+    "repetitions_kept": 1,
+    "x_placeholders": 0,
+    "cleaning_index": [
+      {
+        "token": "Uh,",
+        "kind": "filler",
+        "action": "removed"
+      },
+      {
+        "token": "uh,",
+        "kind": "filler",
+        "action": "removed"
+      },
+      {
+        "token": "um,",
+        "kind": "filler",
+        "action": "removed"
+      },
+      {
+        "token": "uh,",
+        "kind": "filler",
+        "action": "removed"
+      }
+    ],
+    "diff": [
+      {
+        "w": "The",
+        "op": "keep"
+      },
+      {
+        "w": "topic",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "my",
+        "op": "keep"
+      },
+      {
+        "w": "report",
+        "op": "keep"
+      },
+      {
+        "w": "is",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "influence",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "surface",
+        "op": "keep"
+      },
+      {
+        "w": "texture",
+        "op": "keep"
+      },
+      {
+        "w": "on",
+        "op": "keep"
+      },
+      {
+        "w": "mechanical",
+        "op": "keep"
+      },
+      {
+        "w": "surface",
+        "op": "keep"
+      },
+      {
+        "w": "friction,",
+        "op": "keep"
+      },
+      {
+        "w": "which",
+        "op": "keep"
+      },
+      {
+        "w": "closely",
+        "op": "keep"
+      },
+      {
+        "w": "related",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "my",
+        "op": "keep"
+      },
+      {
+        "w": "future",
+        "op": "keep"
+      },
+      {
+        "w": "study.",
+        "op": "keep"
+      },
+      {
+        "w": "So",
+        "op": "keep"
+      },
+      {
+        "w": "let's",
+        "op": "keep"
+      },
+      {
+        "w": "begin.",
+        "op": "keep"
+      },
+      {
+        "w": "Uh,",
+        "op": "remove",
+        "kind": "filler"
+      },
+      {
+        "w": "today",
+        "op": "keep"
+      },
+      {
+        "w": "I'd",
+        "op": "keep"
+      },
+      {
+        "w": "like",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "introduce",
+        "op": "keep"
+      },
+      {
+        "w": "it",
+        "op": "keep"
+      },
+      {
+        "w": "from",
+        "op": "keep"
+      },
+      {
+        "w": "6",
+        "op": "keep"
+      },
+      {
+        "w": "aspects.",
+        "op": "keep"
+      },
+      {
+        "w": "They",
+        "op": "keep"
+      },
+      {
+        "w": "are",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "introduction,",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "background,",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "development,",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "advantages",
+        "op": "keep"
+      },
+      {
+        "w": "and",
+        "op": "keep"
+      },
+      {
+        "w": "limitations,",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "conclusion,",
+        "op": "keep"
+      },
+      {
+        "w": "and",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "list",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "references.",
+        "op": "keep"
+      },
+      {
+        "w": "To",
+        "op": "keep"
+      },
+      {
+        "w": "begin",
+        "op": "keep"
+      },
+      {
+        "w": "with,",
+        "op": "keep"
+      },
+      {
+        "w": "uh,",
+        "op": "remove",
+        "kind": "filler"
+      },
+      {
+        "w": "just",
+        "op": "keep"
+      },
+      {
+        "w": "as",
+        "op": "keep"
+      },
+      {
+        "w": "its",
+        "op": "keep"
+      },
+      {
+        "w": "name",
+        "op": "keep"
+      },
+      {
+        "w": "implies,",
+        "op": "keep"
+      },
+      {
+        "w": "mechanical",
+        "op": "keep"
+      },
+      {
+        "w": "friction",
+        "op": "keep"
+      },
+      {
+        "w": "is",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "friction",
+        "op": "keep"
+      },
+      {
+        "w": "generated",
+        "op": "keep"
+      },
+      {
+        "w": "by",
+        "op": "keep"
+      },
+      {
+        "w": "relative",
+        "op": "keep"
+      },
+      {
+        "w": "motion",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "mechanical",
+        "op": "keep"
+      },
+      {
+        "w": "parts.",
+        "op": "keep"
+      },
+      {
+        "w": "The",
+        "op": "keep"
+      },
+      {
+        "w": "friction",
+        "op": "keep"
+      },
+      {
+        "w": "leads",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "wear",
+        "op": "keep"
+      },
+      {
+        "w": "and",
+        "op": "keep"
+      },
+      {
+        "w": "tear,",
+        "op": "keep"
+      },
+      {
+        "w": "and",
+        "op": "keep"
+      },
+      {
+        "w": "nearly",
+        "op": "keep"
+      },
+      {
+        "w": "80%",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "failures",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "mechanical",
+        "op": "keep"
+      },
+      {
+        "w": "parts",
+        "op": "keep"
+      },
+      {
+        "w": "worldwide",
+        "op": "keep"
+      },
+      {
+        "w": "are",
+        "op": "keep"
+      },
+      {
+        "w": "caused",
+        "op": "keep"
+      },
+      {
+        "w": "by",
+        "op": "keep"
+      },
+      {
+        "w": "it.",
+        "op": "keep"
+      },
+      {
+        "w": "Therefore,",
+        "op": "keep"
+      },
+      {
+        "w": "in",
+        "op": "keep"
+      },
+      {
+        "w": "mechanical",
+        "op": "keep"
+      },
+      {
+        "w": "manufacturing,",
+        "op": "keep"
+      },
+      {
+        "w": "some",
+        "op": "keep"
+      },
+      {
+        "w": "methods",
+        "op": "keep"
+      },
+      {
+        "w": "are",
+        "op": "keep"
+      },
+      {
+        "w": "usually",
+        "op": "keep"
+      },
+      {
+        "w": "used",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "reduce",
+        "op": "keep"
+      },
+      {
+        "w": "friction,",
+        "op": "keep"
+      },
+      {
+        "w": "and",
+        "op": "keep"
+      },
+      {
+        "w": "you",
+        "op": "keep"
+      },
+      {
+        "w": "can",
+        "op": "keep"
+      },
+      {
+        "w": "see",
+        "op": "keep"
+      },
+      {
+        "w": "some",
+        "op": "keep"
+      },
+      {
+        "w": "examples",
+        "op": "keep"
+      },
+      {
+        "w": "here.",
+        "op": "keep"
+      },
+      {
+        "w": "And",
+        "op": "keep"
+      },
+      {
+        "w": "one",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "them",
+        "op": "keep"
+      },
+      {
+        "w": "is",
+        "op": "keep"
+      },
+      {
+        "w": "a",
+        "op": "keep"
+      },
+      {
+        "w": "technology",
+        "op": "keep"
+      },
+      {
+        "w": "called",
+        "op": "keep"
+      },
+      {
+        "w": "surface",
+        "op": "keep"
+      },
+      {
+        "w": "texture,",
+        "op": "keep"
+      },
+      {
+        "w": "which",
+        "op": "keep"
+      },
+      {
+        "w": "is",
+        "op": "keep"
+      },
+      {
+        "w": "our",
+        "op": "keep"
+      },
+      {
+        "w": "focus",
+        "op": "keep"
+      },
+      {
+        "w": "today.",
+        "op": "keep"
+      },
+      {
+        "w": "Okay,",
+        "op": "keep"
+      },
+      {
+        "w": "so",
+        "op": "keep"
+      },
+      {
+        "w": "surface",
+        "op": "keep"
+      },
+      {
+        "w": "texture",
+        "op": "keep"
+      },
+      {
+        "w": "is",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "use",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "physical",
+        "op": "keep"
+      },
+      {
+        "w": "or",
+        "op": "keep"
+      },
+      {
+        "w": "chemical",
+        "op": "keep"
+      },
+      {
+        "w": "methods",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "prepare",
+        "op": "keep"
+      },
+      {
+        "w": "some",
+        "op": "keep"
+      },
+      {
+        "w": "Microstructure",
+        "op": "keep"
+      },
+      {
+        "w": "arrays,",
+        "op": "keep"
+      },
+      {
+        "w": "um,",
+        "op": "remove",
+        "kind": "filler"
+      },
+      {
+        "w": "with",
+        "op": "keep"
+      },
+      {
+        "w": "these",
+        "op": "keep"
+      },
+      {
+        "w": "characteristics",
+        "op": "keep"
+      },
+      {
+        "w": "on",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "surface",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "mechanical",
+        "op": "keep"
+      },
+      {
+        "w": "parts",
+        "op": "keep"
+      },
+      {
+        "w": "in",
+        "op": "keep"
+      },
+      {
+        "w": "order",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "obtain",
+        "op": "keep"
+      },
+      {
+        "w": "special",
+        "op": "keep"
+      },
+      {
+        "w": "surface",
+        "op": "keep"
+      },
+      {
+        "w": "lubrication",
+        "op": "keep"
+      },
+      {
+        "w": "performance.",
+        "op": "keep"
+      },
+      {
+        "w": "And",
+        "op": "keep"
+      },
+      {
+        "w": "when",
+        "op": "keep"
+      },
+      {
+        "w": "it",
+        "op": "keep"
+      },
+      {
+        "w": "comes",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "its",
+        "op": "keep"
+      },
+      {
+        "w": "principles,",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "summarize",
+        "op": "keep"
+      },
+      {
+        "w": "it",
+        "op": "keep"
+      },
+      {
+        "w": "in",
+        "op": "keep"
+      },
+      {
+        "w": "my",
+        "op": "keep"
+      },
+      {
+        "w": "own",
+        "op": "keep"
+      },
+      {
+        "w": "words,",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "most",
+        "op": "keep"
+      },
+      {
+        "w": "important",
+        "op": "keep"
+      },
+      {
+        "w": "point",
+        "op": "keep"
+      },
+      {
+        "w": "is",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "surface",
+        "op": "keep"
+      },
+      {
+        "w": "texture",
+        "op": "keep"
+      },
+      {
+        "w": "can",
+        "op": "keep"
+      },
+      {
+        "w": "also",
+        "op": "keep"
+      },
+      {
+        "w": "store",
+        "op": "keep"
+      },
+      {
+        "w": "lubricants",
+        "op": "keep"
+      },
+      {
+        "w": "while",
+        "op": "keep"
+      },
+      {
+        "w": "collecting",
+        "op": "keep"
+      },
+      {
+        "w": "abrasive",
+        "op": "keep"
+      },
+      {
+        "w": "articles.",
+        "op": "keep"
+      },
+      {
+        "w": "And",
+        "op": "keep"
+      },
+      {
+        "w": "then",
+        "op": "keep"
+      },
+      {
+        "w": "it",
+        "op": "keep"
+      },
+      {
+        "w": "comes",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "research",
+        "op": "keep"
+      },
+      {
+        "w": "background",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "surface",
+        "op": "keep"
+      },
+      {
+        "w": "texture.",
+        "op": "keep"
+      },
+      {
+        "w": "A",
+        "op": "keep"
+      },
+      {
+        "w": "scholar",
+        "op": "keep"
+      },
+      {
+        "w": "named",
+        "op": "keep"
+      },
+      {
+        "w": "Hamilton",
+        "op": "keep"
+      },
+      {
+        "w": "first",
+        "op": "keep"
+      },
+      {
+        "w": "adapted",
+        "op": "keep"
+      },
+      {
+        "w": "prepare",
+        "op": "keep"
+      },
+      {
+        "w": "surface",
+        "op": "keep"
+      },
+      {
+        "w": "textures",
+        "op": "keep"
+      },
+      {
+        "w": "and",
+        "op": "keep"
+      },
+      {
+        "w": "successfully",
+        "op": "keep"
+      },
+      {
+        "w": "it,",
+        "op": "keep"
+      },
+      {
+        "w": "and",
+        "op": "keep"
+      },
+      {
+        "w": "nowadays",
+        "op": "keep"
+      },
+      {
+        "w": "many",
+        "op": "keep"
+      },
+      {
+        "w": "scholars",
+        "op": "keep"
+      },
+      {
+        "w": "are",
+        "op": "keep"
+      },
+      {
+        "w": "attempting",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "apply",
+        "op": "keep"
+      },
+      {
+        "w": "this",
+        "op": "keep"
+      },
+      {
+        "w": "technology",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "mechanical",
+        "op": "keep"
+      },
+      {
+        "w": "surfaces.",
+        "op": "keep"
+      },
+      {
+        "w": "Okay,",
+        "op": "keep"
+      },
+      {
+        "w": "now",
+        "op": "keep"
+      },
+      {
+        "w": "it's",
+        "op": "keep"
+      },
+      {
+        "w": "time",
+        "op": "keep"
+      },
+      {
+        "w": "for",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "discussion",
+        "op": "keep"
+      },
+      {
+        "w": "part.",
+        "op": "keep"
+      },
+      {
+        "w": "And",
+        "op": "keep"
+      },
+      {
+        "w": "this",
+        "op": "keep"
+      },
+      {
+        "w": "is",
+        "op": "keep"
+      },
+      {
+        "w": "an",
+        "op": "keep"
+      },
+      {
+        "w": "experiment",
+        "op": "keep"
+      },
+      {
+        "w": "from",
+        "op": "keep"
+      },
+      {
+        "w": "Yu",
+        "op": "keep"
+      },
+      {
+        "w": "Hua",
+        "op": "keep"
+      },
+      {
+        "w": "Zhang,",
+        "op": "keep"
+      },
+      {
+        "w": "and",
+        "op": "keep"
+      },
+      {
+        "w": "let's",
+        "op": "keep"
+      },
+      {
+        "w": "take",
+        "op": "keep"
+      },
+      {
+        "w": "a",
+        "op": "keep"
+      },
+      {
+        "w": "look",
+        "op": "keep"
+      },
+      {
+        "w": "at",
+        "op": "keep"
+      },
+      {
+        "w": "how",
+        "op": "keep"
+      },
+      {
+        "w": "he",
+        "op": "keep"
+      },
+      {
+        "w": "did",
+        "op": "keep"
+      },
+      {
+        "w": "it.",
+        "op": "keep"
+      },
+      {
+        "w": "First",
+        "op": "keep"
+      },
+      {
+        "w": "of",
+        "op": "keep"
+      },
+      {
+        "w": "all,",
+        "op": "keep"
+      },
+      {
+        "w": "he",
+        "op": "keep"
+      },
+      {
+        "w": "established",
+        "op": "keep"
+      },
+      {
+        "w": "a",
+        "op": "keep"
+      },
+      {
+        "w": "friction-aware,",
+        "op": "keep"
+      },
+      {
+        "w": "uh,",
+        "op": "remove",
+        "kind": "filler"
+      },
+      {
+        "w": "a",
+        "op": "keep"
+      },
+      {
+        "w": "model.",
+        "op": "keep"
+      },
+      {
+        "w": "Then",
+        "op": "keep"
+      },
+      {
+        "w": "he",
+        "op": "keep"
+      },
+      {
+        "w": "added",
+        "op": "keep"
+      },
+      {
+        "w": "5",
+        "op": "keep"
+      },
+      {
+        "w": "different",
+        "op": "keep"
+      },
+      {
+        "w": "textures",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "the",
+        "op": "keep"
+      },
+      {
+        "w": "model",
+        "op": "keep"
+      },
+      {
+        "w": "in",
+        "op": "keep"
+      },
+      {
+        "w": "order",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "make",
+        "op": "keep"
+      },
+      {
+        "w": "a",
+        "op": "keep"
+      },
+      {
+        "w": "comparison",
+        "op": "keep"
+      },
+      {
+        "w": "between",
+        "op": "keep"
+      },
+      {
+        "w": "no",
+        "op": "keep"
+      },
+      {
+        "w": "texture",
+        "op": "keep"
+      },
+      {
+        "w": "and",
+        "op": "keep"
+      },
+      {
+        "w": "those",
+        "op": "keep"
+      },
+      {
+        "w": "5",
+        "op": "keep"
+      },
+      {
+        "w": "different",
+        "op": "keep"
+      },
+      {
+        "w": "textures.",
+        "op": "keep"
+      },
+      {
+        "w": "You",
+        "op": "keep"
+      },
+      {
+        "w": "can",
+        "op": "keep"
+      },
+      {
+        "w": "see",
+        "op": "keep"
+      },
+      {
+        "w": "their",
+        "op": "keep"
+      },
+      {
+        "w": "different",
+        "op": "keep"
+      },
+      {
+        "w": "arrangements.",
+        "op": "keep"
+      },
+      {
+        "w": "And",
+        "op": "keep"
+      },
+      {
+        "w": "after",
+        "op": "keep"
+      },
+      {
+        "w": "that,",
+        "op": "keep"
+      },
+      {
+        "w": "he",
+        "op": "keep"
+      },
+      {
+        "w": "studied",
+        "op": "keep"
+      },
+      {
+        "w": "finite",
+        "op": "keep"
+      },
+      {
+        "w": "element",
+        "op": "keep"
+      },
+      {
+        "w": "analysis,",
+        "op": "keep"
+      },
+      {
+        "w": "which",
+        "op": "keep"
+      },
+      {
+        "w": "is",
+        "op": "keep"
+      },
+      {
+        "w": "a",
+        "op": "keep"
+      },
+      {
+        "w": "method,",
+        "op": "keep"
+      },
+      {
+        "w": "a",
+        "op": "keep"
+      },
+      {
+        "w": "method",
+        "op": "keep"
+      },
+      {
+        "w": "using",
+        "op": "keep"
+      },
+      {
+        "w": "mathematical",
+        "op": "keep"
+      },
+      {
+        "w": "approximation",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
+        "w": "simulate",
+        "op": "keep"
+      },
+      {
+        "w": "real",
+        "op": "keep"
+      },
+      {
+        "w": "physical",
+        "op": "keep"
+      },
+      {
+        "w": "systems.",
+        "op": "keep"
+      }
+    ],
+    "repetitions": [
+      {
+        "phrase": "a method",
+        "kind": "bigram"
+      }
+    ],
+    "transforms": 5,
+    "log": [
+      "separated speakers: SpeakerX",
+      "concatenated turns per speaker",
+      "removed 4 non-lexical tokens",
+      "preserved 1 exact repetition(s)",
+      "preserved 0 X placeholder(s)"
+    ]
+  },
+  "phase_iv": {
+    "status": "placeholder_ready",
+    "tools": [
+      "TAALES",
+      "TAALED",
+      "AntConc"
+    ],
+    "columns": [
+      "TAALES_Word_Frequency_Mean",
+      "TAALES_Lexical_Decision_Mean",
+      "TAALES_MWU_Proportion_Top30k",
+      "TAALED_MTLD",
+      "TAALED_MATTR",
+      "AntConc_LB4_Count",
+      "AntConc_LB_Range",
+      "AntConc_LB_MI_Mean"
+    ],
+    "note": "Columns 15+ reserved in the matrix; pending_not_implemented until tools are supplied."
+  },
+  "phase_v": {
+    "status": "passed",
+    "ran_at": "2026-06-21T14:39:04.015Z",
+    "xlsx": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.xlsx",
+    "csv": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.csv",
+    "columns": [
+      "recording_id",
+      "speaker_id",
+      "Total_Pauses_Between_AS_Units_025",
+      "Mean_Duration_Pauses_Between_AS_Units_025",
+      "Total_Pauses_Within_AS_Units_025",
+      "Mean_Duration_Pauses_Within_AS_Units_025",
+      "Pause_Density_Per_Minute_025",
+      "Articulation_Rate_025",
+      "Mean_Of_Silent_Pauses_025",
+      "Total_Pauses_Between_AS_Units_035",
+      "Mean_Duration_Pauses_Between_AS_Units_035",
+      "Total_Pauses_Within_AS_Units_035",
+      "Mean_Duration_Pauses_Within_AS_Units_035",
+      "Pause_Density_Per_Minute_035",
+      "Articulation_Rate_035",
+      "Mean_Of_Silent_Pauses_035",
+      "TAALES_Word_Frequency_Mean",
+      "TAALES_Lexical_Decision_Mean",
+      "TAALES_MWU_Proportion_Top30k",
+      "TAALED_MTLD",
+      "TAALED_MATTR",
+      "AntConc_LB4_Count",
+      "AntConc_LB_Range",
+      "AntConc_LB_MI_Mean",
+      "group_status_025",
+      "group_status_035"
+    ],
+    "row": {
+      "recording_id": "8_STEM_SpeakerX",
+      "speaker_id": "SpeakerX",
+      "Total_Pauses_Between_AS_Units_025": "pending_not_implemented",
+      "Mean_Duration_Pauses_Between_AS_Units_025": "pending_not_implemented",
+      "Total_Pauses_Within_AS_Units_025": "pending_not_implemented",
+      "Mean_Duration_Pauses_Within_AS_Units_025": "pending_not_implemented",
+      "Pause_Density_Per_Minute_025": 27.027731,
+      "Articulation_Rate_025": 240.99727,
+      "Mean_Of_Silent_Pauses_025": 0.833045,
+      "Total_Pauses_Between_AS_Units_035": "pending_not_implemented",
+      "Mean_Duration_Pauses_Between_AS_Units_035": "pending_not_implemented",
+      "Total_Pauses_Within_AS_Units_035": "pending_not_implemented",
+      "Mean_Duration_Pauses_Within_AS_Units_035": "pending_not_implemented",
+      "Pause_Density_Per_Minute_035": 36.106097,
+      "Articulation_Rate_035": 272.067066,
+      "Mean_Of_Silent_Pauses_035": 0.91822,
+      "TAALES_Word_Frequency_Mean": "pending_not_implemented",
+      "TAALES_Lexical_Decision_Mean": "pending_not_implemented",
+      "TAALES_MWU_Proportion_Top30k": "pending_not_implemented",
+      "TAALED_MTLD": "pending_not_implemented",
+      "TAALED_MATTR": "pending_not_implemented",
+      "AntConc_LB4_Count": "pending_not_implemented",
+      "AntConc_LB_Range": "pending_not_implemented",
+      "AntConc_LB_MI_Mean": "pending_not_implemented",
+      "group_status_025": "gold_replay",
+      "group_status_035": "generated_no_gold"
+    }
+  },
+  "artifacts": [
+    {
+      "name": "gold_script2_segment_durations.csv",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/gold_script2_segment_durations.csv",
+      "kind": "durations"
+    },
+    {
+      "name": "speakerx_025_baseline_comparison.json",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/speakerx_025_baseline_comparison.json",
+      "kind": "comparison"
+    },
+    {
+      "name": "generated_vs_expert_025.json",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/generated_vs_expert_025.json",
+      "kind": "comparison"
+    },
+    {
+      "name": "generated_0.25.TextGrid",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/generated.TextGrid",
+      "kind": "textgrid"
+    },
+    {
+      "name": "generated_0.35.TextGrid",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/generated.TextGrid",
+      "kind": "textgrid"
+    },
+    {
+      "name": "generated_0.5.TextGrid",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/generated.TextGrid",
+      "kind": "textgrid"
+    },
+    {
+      "name": "script2_summary_0.25.json",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/script2_summary.json",
+      "kind": "durations"
+    },
+    {
+      "name": "script2_summary_0.35.json",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/script2_summary.json",
+      "kind": "durations"
+    },
+    {
+      "name": "script2_summary_0.5.json",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/script2_summary.json",
+      "kind": "durations"
+    },
+    {
+      "name": "8_STEM_SpeakerX_RAW-TIMING.txt",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_RAW-TIMING.txt",
+      "kind": "transcript"
+    },
+    {
+      "name": "8_STEM_SpeakerX_TIDY-PHRASE.txt",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_TIDY-PHRASE.txt",
+      "kind": "transcript"
+    },
+    {
+      "name": "transcript_validation.json",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/transcript_validation.json",
+      "kind": "comparison"
+    },
+    {
+      "name": "assemblyai_transcript.txt",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/assemblyai_transcript.txt",
+      "kind": "transcript"
+    },
+    {
+      "name": "asr_run.log",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/logs/asr_run.log",
+      "kind": "log"
+    },
+    {
+      "name": "validation_matrix_speakerx.xlsx",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.xlsx",
+      "kind": "matrix"
+    },
+    {
+      "name": "validation_matrix_speakerx.csv",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.csv",
+      "kind": "matrix"
+    },
+    {
+      "name": "text_variable_placeholders.json",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iv/text_variable_placeholders.json",
+      "kind": "placeholder"
+    },
+    {
+      "name": "praat_script1_run.log",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/logs/praat_script1_run.log",
+      "kind": "log"
+    },
+    {
+      "name": "praat_script2_run.log",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/logs/praat_script2_run.log",
+      "kind": "log"
+    },
+    {
+      "name": "validation_report.json",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/validation_report.json",
+      "kind": "report"
+    },
+    {
+      "name": "validation_report.md",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/validation_report.md",
+      "kind": "report"
+    },
+    {
+      "name": "method_log.json",
+      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/logs/method_log.json",
+      "kind": "log"
+    }
+  ],
+  "tests": {
+    "unit": {
+      "passed": 28,
+      "failed": 0
+    },
+    "integration": {
+      "passed": 5,
+      "failed": 0
+    },
+    "ui": {
+      "passed": 10,
+      "failed": 0
+    },
+    "total_failed": 0
+  },
+  "readiness": "ready",
+  "limitations": [
+    "Phase IV (TAALES/TAALED/AntConc) text variables are placeholders — not computed for this validation sprint.",
+    "Matrix AS-unit (between/within) and Phase IV (TAALES/TAALED/AntConc) columns are pending_not_implemented — Layer 2.",
+    "Workbook articulation rate is syllables/min and \"phonation time\" = total audio; differs from PRD §5 — reconcile before sign-off."
+  ]
+}

@@ -1,13 +1,13 @@
 # PRD — AI-Assisted Praat Review Workflow for L2 Dialogic Fluency & Multi-Word Units
 
 **Product:** Five-phase research workflow system for L2 conversational fluency, pause analysis, transcript processing, MWU/lexical feature extraction, and final statistical matrix synthesis
-**Version:** 0.4 (draft) - **Date:** 2026-06-18 - **Owner:** Hugo / Luke (development)
-**Changelog:** 0.4 - realigned the PRD to Chris's five-phase workflow; added Web UI decision, local-first architecture, phase-runner scope, CLI-first vs Web UI product boundary, and three-stage delivery/pricing map. 0.3 - WP2.1/2.2/2.3/2.5 scaffolds complete: `compute-rate-metrics.mjs`, `tag-clause-boundaries.mjs`, `classify-pause-location.mjs`, `export-research-excel.mjs` (exceljs, 5-sheet workbook). WP2.4 validation harness is pending gold subset from client. 0.2 - Phase 2 expanded into a detailed work-package plan with current implementation status.
+**Version:** 0.5 (draft) - **Date:** 2026-06-21 - **Owner:** Hugo / Luke (development)
+**Changelog:** 0.5 - added the Validation Sprint as the Phase 0 benchmark package; aligned delivery tiers to Sprint + L1a/L1b/L2/L3; replaced fixed speaker-count language with configurable speaker count; added Layer 1a/1b implementation readiness; clarified that the Sprint WebUI console is net-new and that the provided workbook has no 0.35 gold baseline. 0.4 - realigned the PRD to Chris's five-phase workflow; added Web UI decision, local-first architecture, phase-runner scope, CLI-first vs Web UI product boundary, and three-stage delivery/pricing map. 0.3 - WP2.1/2.2/2.3/2.5 scaffolds complete: `compute-rate-metrics.mjs`, `tag-clause-boundaries.mjs`, `classify-pause-location.mjs`, `export-research-excel.mjs` (exceljs, 5-sheet workbook). WP2.4 validation harness is pending gold subset from client. 0.2 - Phase 2 expanded into a detailed work-package plan with current implementation status.
 **Research stakeholders:** Christopher Hollis (PI of study, Tottori U.) · Jon Clenton (Hiroshima U.) · Daniel Hougham · Gavin Brooks (Python/R scripts + PRAAT annotation supervision — technical counterpart)
 
 ---
 
-**Current PRD update (2026-06-18):** Version 0.4 draft realigns the product around Chris's five client-facing phases. The Web UI is scoped as a local-first workflow console over a reproducible CLI/worker pipeline, not as a replacement for Praat.
+**Current PRD update (2026-06-21):** Version 0.5 draft realigns the product around Chris's five client-facing phases while adding a paid Validation Sprint before Layer 1. The Web UI is scoped as a local-first workflow console over a reproducible CLI/worker pipeline, not as a replacement for Praat.
 
 ## 1. Background & Goal
 
@@ -22,11 +22,11 @@ Per the KAKEN proposal, the central scientific problem is:
 Manual Praat annotation is the largest single labour cost in the research (KAKEN budgets RA PRAAT annotation as the top personnel line). The tool's job is to **drastically reduce manual annotation effort while preserving research-grade defensibility** — it produces *reviewable drafts*, not final data.
 
 ### 1.3 Product goal
-Build a **phase-based, human-verifiable research workflow system** that turns raw three-speaker conversation recordings and transcripts into publication-ready analysis artifacts for R/Python. The system should reduce manual work while preserving the human review, audit trail, and parameter transparency required for peer-reviewed applied linguistics research.
+Build a **phase-based, human-verifiable research workflow system** that turns raw multi-party conversation recordings and transcripts into publication-ready analysis artifacts for R/Python. The current target corpus defaults to three speakers, but the product must treat speaker count as a configurable project setting. The system should reduce manual work while preserving the human review, audit trail, and parameter transparency required for peer-reviewed applied linguistics research.
 
 The product must support the full workflow requested by Chris:
 
-- isolate and diarize exactly three speakers while preserving the original group-audio timeline,
+- isolate and diarize the configured number of speakers while preserving the original group-audio timeline,
 - create Praat-compatible review artifacts and per-speaker muted-mirror WAV files,
 - run multi-threshold pause and duration analysis at 0.25 s and 0.35 s thresholds,
 - split and clean transcripts into research-specific raw-timing and tidy-phrase versions,
@@ -77,7 +77,9 @@ Build the first working version as a local-first or lab-internal web app. A publ
 
 Web UI is justified if the expected users are non-developer researchers or RAs, if multiple recordings must be processed repeatedly, or if Chris expects a controlled phase-by-phase workflow. Chris's updated requirement explicitly describes independent phase execution and validation gates, which maps naturally to a Web UI workflow console.
 
-Web UI is not strictly necessary for algorithm validation. If the immediate goal is to test feasibility on 2-5 gold-standard samples, CLI scripts plus a documented folder convention are enough. The recommended delivery sequence is therefore CLI-first for method validation, then Web UI shell for repeatable operation.
+Web UI is not strictly necessary for algorithm validation. If the immediate goal were only internal feasibility on 2-5 gold-standard samples, CLI scripts plus a documented folder convention would be enough. However, the commercial Validation Sprint should include a small **local WebUI validation console** because it is part of the client-facing trust-building package: upload/select the four benchmark files, configure thresholds, run the sprint modules, view pass/fail comparisons, and download artifacts.
+
+This console is **net-new work**. The existing `src/` frontend is an LDT demo shell, not a ready MWU/Praat validation console. Some UI components and styling patterns can be reused, but pricing and scheduling should treat the Sprint console as a new implementation.
 
 ### 4.0.2 Recommended Web UI Scope
 
@@ -135,7 +137,7 @@ The backend should expose phase-oriented run endpoints rather than one opaque "p
 
 ### 4.0.4 Implementation Recommendation
 
-Use the existing React/Vite frontend as the Web UI base. Add a backend API that orchestrates the existing Node scripts and later calls Python workers where needed for pyannote, praatio, WhisperX, or audio processing.
+Use the existing React/Vite frontend stack and UI component library as the technical base, but build the MWU/Praat validation console as a new product surface. Add a backend API that orchestrates the existing Node scripts and later calls Python workers where needed for pyannote, praatio, WhisperX, or audio processing.
 
 Recommended service split:
 
@@ -216,14 +218,14 @@ Gold-standard samples and human review gates cut across all phases. The system m
 
 ### Phase I - Automated Speaker Diarization and Voice Isolation
 
-**Goal:** Convert a raw three-speaker group recording into speaker-specific artifacts that preserve the original timeline and are ready for Praat review.
+**Goal:** Convert a raw group recording into speaker-specific artifacts that preserve the original timeline and are ready for Praat review. Speaker count is configurable; the current corpus defaults to 3.
 
 **Scope in**
 
-- Exactly three speakers per recording.
+- Configurable expected speaker count; default 3 for the current corpus, but no code path should assume exactly 3.
 - Speaker diarization using a configurable provider such as AssemblyAI, pyannote.audio, WhisperX, or another approved diarization engine.
 - Per-speaker muted-mirror WAV generation: the target speaker remains audible; non-target speakers are replaced by silence; total duration and timestamps match the original group audio.
-- Initial Praat-compatible TextGrid generation via the existing six-tier pipeline or a Chris-required minimum three-speaker-tier TextGrid.
+- Initial Praat-compatible TextGrid generation via the existing six-tier pipeline or a research-team-required minimum speaker/timing TextGrid.
 - Review flags for low-confidence diarization, overlap, possible speaker confusion, and invalid/unusable regions.
 
 **Scope out**
@@ -239,7 +241,7 @@ Gold-standard samples and human review gates cut across all phases. The system m
 **Acceptance and validation**
 
 - Output audio files have identical duration and timeline origin as the source recording.
-- Exactly three speaker tracks are produced.
+- One muted-mirror track is produced for each expected/confirmed speaker (`N` tracks).
 - Non-target speech is silent or marked invalid rather than reassigned to the target speaker.
 - Diarization error rate and manual correction rate are reported on gold-standard samples.
 
@@ -369,15 +371,32 @@ The existing six-tier pipeline remains useful, but it should be treated as an im
 
 ### 6.7 Proposed Delivery and Pricing Stages
 
-Chris's Phase I-V define the research workflow. The commercial proposal should group them into three delivery/pricing stages so each quote has a clear purpose, acceptance gate, and dependency boundary.
+Chris's Phase I-V define the research workflow. The commercial proposal should separate the **research phases** from the **delivery / pricing layers** so each quote has a clear acceptance gate, dependency boundary, and risk profile.
 
-| Pricing stage | Covers Chris phase(s) | Purpose | Primary deliverables |
+| Delivery layer | Covers client phase(s) | Purpose | Primary deliverables | Acceptance / dependency boundary |
+|---|---|---|---|---|
+| **Validation Sprint** | **Phase 0 benchmark + thin Phase II/III/V verification** | Prove the deterministic Praat/TextGrid/Excel calculation chain on the provided monologue sample before pricing the real multilogue pipeline. | Net-new local WebUI validation console; input manifest; gold TextGrid duration replay; 0.25 baseline comparison; 0.35 generated/no-gold output; RAW/TIDY transcript split; matrix skeleton; validation report. | SpeakerX 0.25 baseline must match the provided workbook; 0.35 is generated and preserved but has no workbook gold baseline. This Sprint does **not** validate diarization or speaker isolation. |
+| **Layer 1a** | **Phase I** | Process real multilogue recordings into speaker/timing artifacts: diarization, per-speaker muted-mirror audio, and Praat review drafts. | Diarization JSON; `N` muted-mirror WAVs; draft speaker/timing TextGrid; review flags; method log; correction-rate report. | Requires multilogue gold samples for speaker isolation. AI diarization is probabilistic and must be validated separately. |
+| **Layer 1b** | **Phase II** | Reuse the verified calculation chain for Praat-compatible dual-threshold pause/duration outputs. | Threshold-specific TextGrids; segment duration tables; 0.25/0.35 outputs; Praat logs; parameter/version logs; review-ready artifacts. | Directly de-risked by the Sprint, but still requires human Praat review for final research data. |
+| **Layer 2** | **Phase III + Phase IV + early Phase V** | Add transcript splitting, AS-unit / clause support, lexical and MWU feature extraction, and pause-location metrics after definitions are stable. | `_RAW-TIMING.txt`; `_TIDY-PHRASE.txt`; unresolved-boundary report; lexical/MWU feature tables; pause-location tables; early matrix merge. | Must start only after AS-unit rules, MWU definition, syllable/repair coding conventions, and gold examples are signed off. MFA / word-level alignment is an optional precision add-on, separately quoted and validated. |
+| **Layer 3** | **Full Phase V + validation/reporting/UI polish** | Complete the research system: synthesize the final statistical dataset, validate reliability, and polish the UI into a repeatable research workflow. | Final R/Python-ready matrix; final research workbook export; codebook; validation report; reliability/gold-sample reporting; review-status dashboard; full artifact browser; documentation. | Requires stable upstream outputs and signed-off final matrix schema. Statistical modeling and research interpretation remain outside v1 scope unless separately contracted. |
+
+This staging keeps the first paid step small enough to validate feasibility and pricing risk. The Sprint fee may be treated as deductible against Layer 1 only within an agreed window, for example four weeks. Layer 2 should not be quoted as simple "transcription cleanup" because it depends on third-party linguistic tools and research-specific transcript conventions. Layer 3 should be quoted as integration, validation, and systemization rather than as another standalone script.
+
+### 6.8 Layer 1a / 1b Implementation Readiness
+
+This table records what the current repository can and cannot support before development begins. It prevents the proposal from implying that Phase I/II production modules already exist.
+
+| Layer / capability | Current repo status | Evidence / gap | Development implication |
 |---|---|---|---|
-| **Stage 1 / MVP** | **Phase I + Phase II** | Prove the audio pipeline first: upload/process audio, diarize exactly three speakers, generate speaker-isolated muted-mirror audio, create Praat/TextGrid review artifacts, and produce multi-threshold pause metrics. | Web/CLI phase runner for audio inputs; diarization artifacts; per-speaker muted-mirror WAVs; draft TextGrid; Praat automation; 0.25 s and 0.35 s duration outputs; method log; basic artifact download UI. |
-| **Stage 2** | **Phase III + Phase IV** | Add transcript and linguistic feature processing after the acoustic workflow is stable. This stage turns master transcripts into research text files and batch-runs lexical/MWU tools. | Transcript split workflow; `_RAW-TIMING.txt`; `_TIDY-PHRASE.txt`; unresolved-boundary report; TAALES/TAALED/AntConc-style batch outputs; normalized lexical feature tables; Excel/CSV import hooks for participant metadata, grades, and manually generated tool outputs. |
-| **Stage 3** | **Phase V + validation/reporting/UI polish** | Complete the research system: synthesize the final statistical dataset, map pauses to AS-units, validate reliability, and polish the UI into a repeatable research workflow. | Final R/Python-ready matrix; final research workbook export; AS-unit pause mapping; codebook; validation report; reliability/gold-sample reporting; review-status dashboard; full artifact browser; system-level UI polish and documentation. |
-
-This staging keeps Stage 1 small enough to validate feasibility and pricing risk. Stage 2 should not be quoted as simple "transcription cleanup" because it depends on third-party linguistic tools and research-specific transcript conventions. Stage 3 should be quoted as integration, validation, and systemization rather than as another standalone script.
+| Validation Sprint WebUI console | ❌ not built | `src/` is an LDT demo UI; there is no MWU/Praat validation console, project manifest, run controls, or artifact download panel. | Treat as net-new UI work, though existing React/Vite/shadcn-style components can be reused. |
+| L1a diarization draft input | 🟡 partial | `assemblyai-json-to-textgrid.mjs` can consume AssemblyAI-style JSON and generate speaker/transcript tiers. | Needs provider run orchestration, configurable speaker count, and raw provider archive. |
+| L1a muted-mirror WAV generation | ❌ not built | No script currently produces one full-duration muted-mirror WAV per speaker. | Core Phase I development item. |
+| L1a speaker-overlap / uncertainty reporting | 🟡 partial concept only | Six-tier review flags exist, but overlap handling and correction-rate reporting are not productionized for multilogue gold validation. | Needs gold-sample validation harness and explicit overlap metrics. |
+| L1b Praat sounding/silence draft | 🟡 partial | `praat-silence-to-textgrid.praat`, `local-acoustic-vad.mjs`, and six-tier TextGrid generation exist. | Needs configurable dual-threshold runner and full-timeline batching. |
+| L1b dual 0.25 / 0.35 duration pipeline | ❌ not productionized | Current scripts can compute/export some TextGrid-derived values, but no complete dual-threshold Phase II runner exists. | Core Layer 1b development item. |
+| L1b gold replay / baseline comparison | ❌ not built | No current validation-sprint comparator reads the provided SpeakerX workbook and reports pass/fail against the gold values. | First Sprint development item. |
+| Phase V research export skeleton | 🟡 partial | `export-research-excel.mjs` and related scaffolds exist, but not aligned to the new client-supplied matrix columns. | Use Sprint to align the matrix skeleton before Layer 2/3 expansion. |
 
 ---
 
@@ -401,6 +420,18 @@ This staging keeps Stage 1 small enough to validate feasibility and pricing risk
 
 **Dependencies:** Chris's data / sample (the email request already sent). **Risk: real corpus not released until mid-July/August 2026** — see §9.
 
+**Validation Sprint mapping:** The client-provided `SpeakerX` monologue package is the first concrete Phase 0 benchmark. It is not a full end-to-end multilogue reference, but it is sufficient to validate the deterministic calculation chain:
+
+- input manifest and file parsing,
+- expert TextGrid duration replay,
+- SpeakerX 0.25 baseline comparison against the provided Excel workbook,
+- 0.35 threshold generation preserved as `generated_no_gold`,
+- RAW/TIDY transcript split,
+- matrix skeleton and validation report,
+- local WebUI validation console for running and inspecting the benchmark.
+
+Workbook inspection confirms that `Example fluency measures calculations SpeakerX.xlsx` contains `Durations` and `Fluency measures` sheets with Example/Speaker columns, not separate 0.35 threshold baseline columns. Numeric values near `0.35` inside the workbook are individual pause durations, not 0.35-threshold gold variables.
+
 ---
 
 ### Phase 1 — Six-Tier TextGrid + Praat Review + Baseline Fluency Excel (the MVP demo)
@@ -414,11 +445,11 @@ This staging keeps Stage 1 small enough to validate feasibility and pricing risk
 - F1.1 **T1 Praat sounding/silence** via Praat CLI, silent-pause threshold **250 ms**, parameters recorded.
 - F1.2 **T2 local VAD** as an independent acoustic reference.
 - F1.3 **T3 disagreement flag** marking regions where T1≠T2 (tolerance configurable).
-- F1.4 **T4 speaker** from AssemblyAI diarization (3 speakers); raw output archived.
+- F1.4 **T4 speaker** from AssemblyAI diarization using the configured expected speaker count; raw output archived.
 - F1.5 **T5 verbatim transcript** from AssemblyAI: preserve fillers, repetitions, false starts, repairs; never auto-clean.
 - F1.6 **T6 review flag**: low ASR confidence, speaker uncertainty, overlap regions.
 - F1.7 **Two-stage operation**: generate draft → researcher reviews/corrects T1/T4/T5 in Praat GUI → save → export.
-- F1.8 **Dialogue silence typing**: classify each silence as within-turn vs between-turn (gap) using T1×T4; do **not** force-attribute between-turn gaps in 3-party audio — flag and retain raw turn boundaries for sensitivity analysis.
+- F1.8 **Dialogue silence typing**: classify each silence as within-turn vs between-turn (gap) using T1×T4; do **not** force-attribute between-turn gaps in multi-party audio — flag and retain raw turn boundaries for sensitivity analysis.
 - F1.9 **Excel export (baseline)**: per speaker × (per turn + per session), speed/breakdown/repair measures; absolute counts + normalised (per min speaking time / per 100 syllables); dual-report metrics sensitive to between-turn handling (incl./excl.).
 - F1.10 **Method log**: Praat version, silence params, VAD params, AssemblyAI params + raw-output date, script version.
 
@@ -597,7 +628,7 @@ Excel/CSV import and export remain part of the product. The Web UI should treat 
 | R2 | Complete gold sample across all five phases may not exist yet | Blocks full validation | Fallback: confirm conventions, dev drafts, team signs off per phase |
 | R3 | Missing source papers: de Jong & Wempe (2009); "Facets of Fluency" | 250 ms / syllable-rate provenance | Request from Chris |
 | R4 | Pause threshold conflict (250 vs 350 ms) | Method consistency | Generate and preserve both 0.25 s and 0.35 s outputs until the research team decides otherwise |
-| R5 | Dialogue between-turn pause attribution in 3-party audio | Metric validity | Flag, don't force-attribute; dual-report |
+| R5 | Dialogue between-turn pause attribution in multi-party audio | Metric validity | Flag, don't force-attribute; dual-report |
 | R6 | Group alignment effect (MWU variance driven by triad) | Misreading individual ability | Triad as random effect; report ICC |
 | R7 | MI reliability for sequences >2 words | LB metric validity | Note as limitation; cross-check methods |
 | R8 | MFA vs WhisperX accuracy on overlapping/accented L2 speech | Alignment quality | Compare both on gold subset (F2.1) |
@@ -609,13 +640,13 @@ Excel/CSV import and export remain part of the product. The Web UI should treat 
 
 | Milestone | Pricing stage | Target | Gate |
 |---|---|---|---|
-| M0 Conventions + gold samples | Pre-stage prerequisite | on receipt of sample/conventions | parameters, transcript conventions, final matrix schema signed off |
-| M1 Phase I speaker isolation demo | Stage 1 / MVP | before first audio batch | three muted-mirror WAVs + draft TextGrid + diarization validation |
-| M2 Phase II pause/duration demo | Stage 1 / MVP | after M1 reviewed artifacts | 0.25 s and 0.35 s Praat outputs + duration workbook |
-| M3 Phase III transcript split demo | Stage 2 | after master transcript sample | RAW-TIMING and TIDY-PHRASE files per speaker |
-| M4 Phase IV lexical feature demo | Stage 2 | after M3 text files | TAALES/TAALED/AntConc-style outputs normalized |
-| M5 Phase V final matrix demo | Stage 3 | aligned with corpus release (Jul-Aug) | R/Python-ready matrix with AS-unit pause mapping |
-| M6 Validation report | Stage 3 | before Sept conference | gold-subset results documented across all five phases |
+| M0 Validation Sprint benchmark | Validation Sprint | current SpeakerX monologue sample | local WebUI console; 0.25 SpeakerX workbook baseline matched; 0.35 marked generated/no-gold; validation report produced |
+| M1 Phase I speaker isolation demo | Layer 1a | first multilogue gold sample | `N` muted-mirror WAVs + draft TextGrid + diarization correction/error report |
+| M2 Phase II pause/duration demo | Layer 1b | after M1 reviewed artifacts, or monologue input for calculation-only tests | 0.25 s and 0.35 s Praat-compatible outputs + duration workbook |
+| M3 Phase III transcript split demo | Layer 2 | after master transcript sample and transcript conventions sign-off | RAW-TIMING and TIDY-PHRASE files per speaker |
+| M4 Phase IV lexical feature demo | Layer 2 | after MWU / AS-unit / syllable / repair definitions sign-off | TAALES/TAALED/AntConc-style outputs normalized; pause-location assumptions documented |
+| M5 Phase V final matrix demo | Layer 3 | aligned with corpus release (Jul-Aug) | R/Python-ready matrix with AS-unit pause mapping |
+| M6 Validation report | Layer 3 | before Sept conference | gold-subset results documented across all contracted layers |
 
 ---
 

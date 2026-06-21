@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MWU Fluency Pipeline — Five-Phase Workflow</title>
+  <style>
+    :root {
+      --page: #f6f8fb;
+      --ink: #172033;
+      --muted: #5e6a7d;
+      --line: #cbd5e1;
+      --ui: #0f766e;
+      --worker: #6d28d9;
+      --review: #b42318;
+      --artifact: #2563eb;
+      --success: #15803d;
+      --warn: #d97706;
+      --sprint: #475569;
+      --shadow: 0 16px 38px rgba(23, 32, 51, 0.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.82), rgba(246,248,251,0.94)),
+        radial-gradient(circle at 25% 0%, rgba(15,118,110,0.12), transparent 32%),
+        radial-gradient(circle at 80% 15%, rgba(37,99,235,0.12), transparent 30%),
+        var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .shell {
+      display: grid;
+      grid-template-columns: 286px minmax(0, 1fr);
+      gap: 24px;
+      width: min(1520px, calc(100% - 40px));
+      margin: 0 auto; padding: 26px 0 36px;
+      align-items: start;
+    }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar {
+      position: sticky; top: 26px;
+      border: 1px solid var(--line); border-radius: 12px;
+      background: rgba(255,255,255,0.96); box-shadow: var(--shadow);
+      padding: 22px 18px;
+    }
+    .eyebrow { font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .sidebar h2 { margin: 8px 0 2px; font-size: 18px; line-height: 1.2; }
+    .sidebar .lede {
+      margin: 8px 0 18px; font-size: 12px; color: var(--muted); line-height: 1.5;
+      padding-bottom: 16px; border-bottom: 1px solid #e6eaf1;
+    }
+    .nav { display: flex; flex-direction: column; gap: 4px; }
+    .nav-item {
+      position: relative; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: center;
+      width: 100%; text-align: left; cursor: pointer;
+      border: 1px solid transparent; border-radius: 9px; background: transparent;
+      padding: 11px 12px 11px 10px; color: inherit; font-family: inherit;
+      transition: background .14s ease, border-color .14s ease;
+    }
+    .nav-item:hover { background: #f4f6fa; }
+    .nav-item.active { background: #fff; border-color: var(--line); box-shadow: 0 6px 18px rgba(23,32,51,0.08); }
+    .nav-item.active::before {
+      content: ""; position: absolute; left: -18px; top: 9px; bottom: 9px;
+      width: 4px; border-radius: 0 4px 4px 0; background: var(--accent, var(--ink));
+    }
+    .roman {
+      width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px;
+      border: 1px solid var(--line); font-weight: 800; font-size: 13px; color: var(--muted);
+      background: #fbfdff; font-variant: small-caps;
+    }
+    .nav-item.active .roman { color: #fff; border-color: transparent; background: var(--accent, var(--ink)); }
+    .nav-meta { min-width: 0; display: block; }
+    .nav-kicker { display: block; font-size: 10.5px; letter-spacing: .6px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .nav-item.active .nav-kicker { color: var(--accent, var(--ink)); }
+    .nav-title { display: block; font-size: 13px; font-weight: 650; line-height: 1.3; margin-top: 2px; color: var(--ink); }
+    .layers { margin-top: 18px; padding-top: 15px; border-top: 1px solid #e6eaf1; }
+    .layers .eyebrow { margin-bottom: 9px; }
+    .layer-row { display: grid; grid-template-columns: 42px 1fr; gap: 9px; align-items: start; font-size: 11px; color: var(--muted); line-height: 1.4; margin-bottom: 8px; }
+    .layer-row b { color: var(--ink); font-weight: 650; }
+    .lchip { display: inline-grid; place-items: center; width: 42px; height: 20px; border-radius: 6px; font-size: 10.5px; font-weight: 800; color: #fff; }
+    .lchip.vs { background: var(--sprint); }
+    .lchip.l1 { background: #0f766e; }
+    .lchip.l1b { background: #0d9488; }
+    .lchip.l2 { background: #2563eb; }
+    .lchip.l3 { background: #6d28d9; }
+    .layer-note {
+      margin: 12px 0 0; padding: 10px 11px; border: 1px solid #e2e8f0; border-radius: 8px;
+      background: #f8fafc; color: var(--muted); font-size: 11px; line-height: 1.45;
+    }
+    .sidebar .foot { margin-top: 16px; padding-top: 14px; border-top: 1px solid #e6eaf1; font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .layer-pill { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 750; color: #fff; }
+
+    /* ---------- Main ---------- */
+    .main { min-width: 0; }
+    header.doc { display: flex; justify-content: space-between; align-items: flex-end; gap: 22px; margin-bottom: 14px; }
+    header.doc h1 { margin: 0; font-size: 25px; line-height: 1.15; letter-spacing: -0.2px; }
+    .subtitle { margin: 8px 0 0; max-width: 900px; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+    .tag {
+      flex: 0 0 auto; padding: 11px 14px; border: 1px solid var(--line);
+      border-left: 5px solid var(--accent, var(--ui)); border-radius: 8px;
+      background: rgba(255,255,255,0.92); box-shadow: var(--shadow); color: var(--muted); font-size: 12.5px; min-width: 220px; max-width: 320px;
+    }
+    .tag strong { display: block; color: var(--ink); margin-bottom: 1px; font-size: 13px; }
+    .canvas { overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: var(--shadow); }
+    svg.diagram { display: block; width: 100%; height: auto; }
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .lane-bg { fill: #fbfcff; stroke: #e4e8f0; stroke-width: 1; }
+    .lane-title { fill: #64748b; font-size: 12.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+
+    .node { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.4; filter: url(#softShadow); }
+    .node-ui { stroke: var(--ui); }
+    .node-worker { stroke: var(--worker); }
+    .node-review { stroke: var(--review); }
+    .node-artifact { stroke: var(--artifact); }
+    .node-success { stroke: var(--success); }
+    .node-warn { stroke: var(--warn); }
+    .dashbox { stroke-dasharray: 6 4; }
+    .accent-ui { fill: var(--ui); }
+    .accent-worker { fill: var(--worker); }
+    .accent-review { fill: var(--review); }
+    .accent-artifact { fill: var(--artifact); }
+    .accent-success { fill: var(--success); }
+    .accent-warn { fill: var(--warn); }
+
+    .title { fill: var(--ink); font-size: 14px; font-weight: 750; }
+    .small-title { fill: var(--ink); font-size: 12.5px; font-weight: 750; }
+    .body { fill: var(--muted); font-size: 11.5px; }
+    .tiny { fill: var(--muted); font-size: 10.5px; }
+    .from-tag { fill: var(--artifact); font-size: 10.5px; font-weight: 750; }
+    .to-tag { fill: var(--success); font-size: 10.5px; font-weight: 750; }
+    .cfg-tag { fill: var(--ui); font-size: 10.5px; font-weight: 750; }
+    .ext-tag { fill: var(--warn); font-size: 10.5px; font-weight: 750; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #334155; }
+
+    .arrow { fill: none; stroke: #94a3b8; stroke-width: 2.1; marker-end: url(#arrowHead); }
+    .arrow-ui { stroke: var(--ui); marker-end: url(#headUi); }
+    .arrow-worker { stroke: var(--worker); marker-end: url(#headWorker); }
+    .arrow-review { stroke: var(--review); marker-end: url(#headReview); }
+    .arrow-artifact { stroke: var(--artifact); marker-end: url(#headArtifact); }
+    .arrow-success { stroke: var(--success); marker-end: url(#headSuccess); }
+    .dash { stroke-dasharray: 6 5; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,0.9); }
+    .dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; background: var(--ink); }
+    .dot.ui { background: var(--ui); } .dot.worker { background: var(--worker); }
+    .dot.review { background: var(--review); } .dot.artifact { background: var(--artifact); } .dot.success { background: var(--success); }
+
+    @media (max-width: 1040px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .nav { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); gap: 8px; }
+      .nav-item.active::before { display: none; }
+      header.doc { flex-direction: column; align-items: flex-start; }
+      .canvas { overflow-x: auto; }
+      svg.diagram { min-width: 1180px; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <filter id="softShadow" x="-18%" y="-18%" width="136%" height="136%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#172033" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrowHead" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/></marker>
+    <marker id="headUi" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0f766e"/></marker>
+    <marker id="headWorker" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6d28d9"/></marker>
+    <marker id="headReview" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#b42318"/></marker>
+    <marker id="headArtifact" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/></marker>
+    <marker id="headSuccess" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#15803d"/></marker>
+  </defs></svg>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <p class="eyebrow">Workflow Atlas</p>
+      <h2>MWU Fluency Pipeline</h2>
+      <p class="lede">Automated speech-fluency &amp; multiword-unit analysis for L2 speech. The diagram shows the research phases; the quote tiers below show how the work should be contracted.</p>
+      <nav class="nav" id="nav" aria-label="Pipeline phases"></nav>
+      <div class="layers">
+        <p class="eyebrow">Delivery layers · quote tiers</p>
+        <div class="layer-row"><span class="lchip vs">VS</span><span><b>Validation Sprint.</b> Monologue benchmark; proves the Praat/TextGrid/Excel calculation chain only.</span></div>
+        <div class="layer-row"><span class="lchip l1">L1a</span><span><b>Phase I.</b> AI diarization + speaker isolation; validated separately against gold cuts.</span></div>
+        <div class="layer-row"><span class="lchip l1b">L1b</span><span><b>Phase II.</b> Deterministic Praat automation: thresholds, durations, reviewable outputs.</span></div>
+        <div class="layer-row"><span class="lchip l2">L2</span><span><b>Phase III–IV + early V.</b> Transcript split, lexical / MWU features, pause-location metrics after definitions sign-off.</span></div>
+        <div class="layer-row"><span class="lchip l3">L3</span><span><b>Full Phase V / reporting.</b> Final matrix, validation package, reports and archive-ready export.</span></div>
+        <p class="layer-note">Sprint passing mainly validates the L1b calculation chain. L1a remains probabilistic and must be evaluated with the client's multilogue gold samples.</p>
+      </div>
+      <p class="foot">Each phase runs independently, pauses on completion for human check, then hands a reviewed artifact to the next.</p>
+    </aside>
+
+    <div class="main">
+      <header class="doc">
+        <div><h1 id="docTitle"></h1><p class="subtitle" id="docSub"></p></div>
+        <div class="tag" id="docTag"></div>
+      </header>
+
+      <section class="canvas" aria-label="Phase workflow diagram">
+
+        <!-- ===================== PHASE I ===================== -->
+        <div class="view" data-phase="0">
+          <svg class="diagram" viewBox="0 0 1360 740" role="img" aria-label="Phase I diarization and voice isolation workflow">
+            <rect x="18" y="20" width="1324" height="700" rx="12" fill="#f8fafc"/>
+            <rect class="lane-bg" x="40" y="56" width="1300" height="112" rx="10"/><text class="lane-title" x="60" y="82">① Inputs &amp; sources</text>
+            <rect class="lane-bg" x="40" y="188" width="1300" height="146" rx="10"/><text class="lane-title" x="60" y="214">② Automation workers</text>
+            <rect class="lane-bg" x="40" y="356" width="1300" height="88" rx="10"/><text class="lane-title" x="60" y="382">③ Human review gate</text>
+            <rect class="lane-bg" x="40" y="466" width="1300" height="130" rx="10"/><text class="lane-title" x="60" y="492">④ Reviewed outputs</text>
+            <rect class="lane-bg" x="40" y="618" width="1300" height="84" rx="10"/><text class="lane-title" x="60" y="644">⑤ Handoff</text>
+
+            <!-- inputs -->
+            <rect class="node node-artifact" x="66" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="66" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="86" y="112">Raw group audio</text><text class="body" x="86" y="131">One group recording</text><text class="from-tag" x="86" y="148">↤ from recording source</text>
+            <rect class="node node-ui" x="318" y="86" width="212" height="70" rx="8"/><rect class="accent-ui" x="318" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="338" y="112">Run metadata</text><text class="body" x="338" y="131">Group ID · speaker names</text><text class="cfg-tag" x="338" y="148">count: configurable · default 3</text>
+
+            <!-- workers -->
+            <rect class="node node-worker" x="66" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="66" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="86" y="244">Audio preflight</text><text class="body" x="86" y="265">Validate &amp; normalize</text><text class="body" x="86" y="282">ffmpeg → 16 kHz mono</text>
+            <rect class="node node-worker" x="318" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="318" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="338" y="244">Diarization + ASR</text><text class="body" x="338" y="265">AssemblyAI: speaker turns</text><text class="body" x="338" y="282">+ verbatim transcript</text>
+            <rect class="node node-worker" x="570" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="570" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="590" y="244">Silence detection</text><text class="body" x="590" y="265">Praat CLI + local VAD</text><text class="body" x="590" y="282">sounding-silence layers</text>
+            <rect class="node node-worker" x="822" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="822" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="842" y="244">Assemble draft</text><text class="body" x="842" y="265">Review TextGrid (draft) +</text><text class="body" x="842" y="282">N muted-mirror WAVs</text>
+
+            <!-- review -->
+            <rect class="node node-review" x="430" y="372" width="500" height="56" rx="8"/><rect class="accent-review" x="430" y="372" width="6" height="56" rx="3"/>
+            <text class="small-title" x="452" y="397">Praat manual review gate</text><text class="body" x="452" y="416">Correct silence, speaker &amp; transcript; resolve all review flags</text>
+            <rect class="node node-warn" x="1074" y="372" width="212" height="56" rx="8"/><rect class="accent-warn" x="1074" y="372" width="6" height="56" rx="3"/>
+            <text class="small-title" x="1094" y="397">Gold-sample check</text><text class="body" x="1094" y="416">error / correction rate</text>
+
+            <!-- outputs -->
+            <rect class="node node-artifact" x="66" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="66" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="86" y="524">Reviewed TextGrid</text><text class="body" x="86" y="543">speaker + timing · accepted</text><text class="mono" x="86" y="562">{audio}.reviewed.TextGrid</text>
+            <rect class="node node-artifact" x="318" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="318" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="338" y="524">N muted-mirror WAVs</text><text class="body" x="338" y="543">per-speaker isolated</text><text class="mono" x="338" y="562">{audio}_{speaker}.wav</text>
+            <rect class="node node-artifact" x="570" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="570" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="590" y="524">Diarization JSON</text><text class="body" x="590" y="543">turns · timestamps</text><text class="body" x="590" y="562">confidence scores</text>
+            <rect class="node node-artifact" x="822" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="822" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="842" y="524">Method log</text><text class="body" x="842" y="543">provider · params</text><text class="body" x="842" y="562">model versions</text>
+
+            <!-- handoff -->
+            <rect class="node node-success" x="300" y="636" width="760" height="54" rx="8"/><rect class="accent-success" x="300" y="636" width="6" height="54" rx="3"/>
+            <text class="title" x="324" y="660">Reviewed baseline</text><text class="to-tag" x="324" y="678">→ Phase II (pause metrics) &amp; Phase III (unit extraction)</text>
+
+            <!-- arrows -->
+            <path class="arrow arrow-artifact" d="M172 156 L172 218"/>
+            <path class="arrow arrow-ui" d="M424 156 L424 218"/>
+            <path class="arrow arrow-worker" d="M278 267 L318 267"/>
+            <path class="arrow arrow-worker" d="M530 267 L570 267"/>
+            <path class="arrow arrow-worker" d="M782 267 L822 267"/>
+            <path class="arrow arrow-worker" d="M928 316 C928 348 760 352 700 372"/>
+            <path class="arrow dash" d="M930 400 L1074 400"/>
+            <path class="arrow arrow-review" d="M640 428 C520 452 250 470 172 498"/>
+            <path class="arrow arrow-review" d="M660 428 C560 458 460 472 424 498"/>
+            <path class="arrow arrow-review" d="M700 428 C690 456 680 472 676 498"/>
+            <path class="arrow arrow-review" d="M740 428 C800 456 880 472 928 498"/>
+            <path class="arrow arrow-success" d="M320 576 C300 600 360 614 470 636"/>
+            <path class="arrow arrow-success" d="M676 576 L676 636"/>
+          </svg>
+        </div>
+
+        <!-- ===================== PHASE II ===================== -->
+        <div class="view" data-phase="1">
+          <svg class="diagram" viewBox="0 0 1360 740" role="img" aria-label="Phase II multi-threshold pause and duration analysis workflow">
+            <rect x="18" y="20" width="1324" height="700" rx="12" fill="#f8fafc"/>
+            <rect class="lane-bg" x="40" y="56" width="1300" height="112" rx="10"/><text class="lane-title" x="60" y="82">① Inputs · from Phase I &amp; configuration</text>
+            <rect class="lane-bg" x="40" y="188" width="1300" height="146" rx="10"/><text class="lane-title" x="60" y="214">② Praat segmentation workers</text>
+            <rect class="lane-bg" x="40" y="356" width="1300" height="88" rx="10"/><text class="lane-title" x="60" y="382">③ Praat review / validation gate</text>
+            <rect class="lane-bg" x="40" y="466" width="1300" height="130" rx="10"/><text class="lane-title" x="60" y="492">④ Duration calculation &amp; outputs</text>
+            <rect class="lane-bg" x="40" y="618" width="1300" height="84" rx="10"/><text class="lane-title" x="60" y="644">⑤ Handoff</text>
+
+            <!-- inputs -->
+            <rect class="node node-artifact" x="66" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="66" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="86" y="112">Reviewed TextGrid</text><text class="body" x="86" y="131">silence + speaker (reviewed)</text><text class="from-tag" x="86" y="148">↤ from Phase I</text>
+            <rect class="node node-artifact" x="318" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="318" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="338" y="112">Muted-mirror WAVs</text><text class="body" x="338" y="131">per-speaker tracks (N)</text><text class="from-tag" x="338" y="148">↤ from Phase I</text>
+            <rect class="node node-ui" x="570" y="86" width="212" height="70" rx="8"/><rect class="accent-ui" x="570" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="590" y="112">Threshold config</text><text class="body" x="590" y="131">0.25 s + 0.35 s · 200 s</text><text class="cfg-tag" x="590" y="148">locked parameters</text>
+
+            <!-- workers: segmentation only (no duration numbers yet) -->
+            <rect class="node node-worker" x="66" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="66" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="86" y="244">Load baseline</text><text class="body" x="86" y="265">read reviewed silence</text><text class="body" x="86" y="282">+ per-speaker WAVs</text>
+            <rect class="node node-worker" x="318" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="318" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="338" y="244">Generate 0.25 s TextGrid</text><text class="body" x="338" y="265">Praat silence segmentation</text><text class="body" x="338" y="282">at 0.25 s threshold</text>
+            <rect class="node node-worker" x="570" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="570" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="590" y="244">Generate 0.35 s TextGrid</text><text class="body" x="590" y="265">Praat silence segmentation</text><text class="body" x="590" y="282">at 0.35 s threshold</text>
+
+            <!-- review / validation gate (real human gate) -->
+            <rect class="node node-review" x="318" y="372" width="464" height="56" rx="8"/><rect class="accent-review" x="318" y="372" width="6" height="56" rx="3"/>
+            <text class="small-title" x="340" y="397">Praat review / validation gate</text><text class="body" x="340" y="416">verify threshold segmentation · gold-sample check (count / duration error per threshold)</text>
+
+            <!-- outputs: durations computed AFTER review -->
+            <rect class="node node-artifact" x="66" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="66" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="86" y="524">0.25 s TextGrid</text><text class="body" x="86" y="543">reviewed segmentation</text><text class="mono" x="86" y="562">{audio}_0.25s.TextGrid</text>
+            <rect class="node node-artifact" x="318" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="318" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="338" y="524">0.35 s TextGrid</text><text class="body" x="338" y="543">reviewed segmentation</text><text class="mono" x="338" y="562">{audio}_0.35s.TextGrid</text>
+            <rect class="node node-artifact" x="570" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="570" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="590" y="524">Duration summary</text><text class="body" x="590" y="543">computed post-review</text><text class="mono" x="590" y="562">duration_summary.xlsx</text>
+            <rect class="node node-artifact" x="822" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="822" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="842" y="524">Per-pause / method log</text><text class="body" x="842" y="543">per-pause table · params</text><text class="body" x="842" y="562">version · window 200 s</text>
+
+            <!-- handoff -->
+            <rect class="node node-success" x="430" y="636" width="500" height="54" rx="8"/><rect class="accent-success" x="430" y="636" width="6" height="54" rx="3"/>
+            <text class="title" x="454" y="660">Duration tables</text><text class="to-tag" x="454" y="678">→ Phase V (research export &amp; synthesis)</text>
+
+            <!-- arrows -->
+            <path class="arrow arrow-artifact" d="M172 156 L172 218"/>
+            <path class="arrow arrow-artifact" d="M424 156 L424 218"/>
+            <path class="arrow arrow-ui" d="M676 156 L676 218"/>
+            <path class="arrow arrow-worker" d="M278 267 L318 267"/>
+            <path class="arrow arrow-worker" d="M530 267 L570 267"/>
+            <path class="arrow arrow-worker" d="M424 316 L424 372"/>
+            <path class="arrow arrow-worker" d="M676 316 L676 372"/>
+            <path class="arrow arrow-review" d="M520 428 C420 452 230 470 172 498"/>
+            <path class="arrow arrow-review" d="M540 428 C470 456 440 472 424 498"/>
+            <path class="arrow arrow-review" d="M560 428 C620 456 660 472 676 498"/>
+            <path class="arrow arrow-review" d="M600 428 C760 454 860 472 928 498"/>
+            <path class="arrow arrow-success" d="M590 576 C560 600 600 616 660 636"/>
+            <path class="arrow arrow-success" d="M676 576 L700 636"/>
+          </svg>
+        </div>
+
+        <!-- ===================== PHASE III ===================== -->
+        <div class="view" data-phase="2">
+          <svg class="diagram" viewBox="0 0 1360 740" role="img" aria-label="Phase III transcript splitting and unit extraction workflow">
+            <rect x="18" y="20" width="1324" height="700" rx="12" fill="#f8fafc"/>
+            <rect class="lane-bg" x="40" y="56" width="1300" height="112" rx="10"/><text class="lane-title" x="60" y="82">① Inputs · from Phase I</text>
+            <rect class="lane-bg" x="40" y="188" width="1300" height="146" rx="10"/><text class="lane-title" x="60" y="214">② Splitting workers · Node + ffmpeg</text>
+            <rect class="lane-bg" x="40" y="356" width="1300" height="88" rx="10"/><text class="lane-title" x="60" y="382">③ Human review gate</text>
+            <rect class="lane-bg" x="40" y="466" width="1300" height="130" rx="10"/><text class="lane-title" x="60" y="492">④ Outputs</text>
+            <rect class="lane-bg" x="40" y="618" width="1300" height="84" rx="10"/><text class="lane-title" x="60" y="644">⑤ Handoff</text>
+
+            <!-- inputs -->
+            <rect class="node node-artifact" x="66" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="66" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="86" y="112">Reviewed TextGrid</text><text class="body" x="86" y="131">speaker + transcript (reviewed)</text><text class="from-tag" x="86" y="148">↤ from Phase I</text>
+            <rect class="node node-ui" x="318" y="86" width="212" height="70" rx="8"/><rect class="accent-ui" x="318" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="338" y="112">Conventions</text><text class="body" x="338" y="131">filler / repair markers · “X”</text><text class="cfg-tag" x="338" y="148">project settings</text>
+
+            <!-- workers -->
+            <rect class="node node-worker" x="66" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="66" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="86" y="244">Parse intervals</text><text class="body" x="86" y="265">speaker text per turn</text><text class="mono" x="86" y="281">extract-reviewed-units</text>
+            <rect class="node node-worker" x="318" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="318" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="338" y="244">Split two variants</text><text class="body" x="338" y="265">RAW-TIMING (verbatim)</text><text class="body" x="338" y="282">TIDY-PHRASE (cleaned)</text>
+            <rect class="node node-worker" x="570" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="570" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="590" y="244">Flag overlaps</text><text class="body" x="590" y="265">unknown speaker,</text><text class="body" x="590" y="282">boundary-spanning phrases</text>
+            <rect class="node node-worker" x="822" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="822" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="842" y="244">Prepare MFA corpus</text><text class="body" x="842" y="265">clip audio + .lab + manifest</text><text class="mono" x="842" y="281">prepare-mfa-corpus</text>
+
+            <!-- review -->
+            <rect class="node node-review" x="570" y="372" width="212" height="56" rx="8"/><rect class="accent-review" x="570" y="372" width="6" height="56" rx="3"/>
+            <text class="small-title" x="590" y="397">Resolve boundary flags</text><text class="body" x="590" y="416">confirm uncertain splits</text>
+
+            <!-- outputs -->
+            <rect class="node node-artifact" x="66" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="66" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="86" y="524">Utterance units</text><text class="body" x="86" y="543">timing · flags · allowed</text><text class="mono" x="86" y="562">utterance_units.json</text>
+            <rect class="node node-artifact" x="318" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="318" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="338" y="524">RAW / TIDY transcripts</text><text class="body" x="338" y="543">per-speaker text</text><text class="mono" x="338" y="562">*_RAW / *_TIDY.txt</text>
+            <rect class="node node-artifact" x="570" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="570" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="590" y="524">Unresolved report</text><text class="body" x="590" y="543">overlaps · boundary doubt</text><text class="body" x="590" y="562">for researcher review</text>
+            <rect class="node node-artifact" x="822" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="822" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="842" y="524">MFA corpus</text><text class="body" x="842" y="543">.lab files + audio clips</text><text class="mono" x="842" y="562">mfa-corpus-manifest</text>
+
+            <!-- handoff -->
+            <rect class="node node-success" x="300" y="636" width="760" height="54" rx="8"/><rect class="accent-success" x="300" y="636" width="6" height="54" rx="3"/>
+            <text class="title" x="324" y="660">Corpus + units &amp; transcripts</text><text class="to-tag" x="324" y="678">→ Phase IV alignment &amp; lexical · transcripts also → Phase V</text>
+
+            <!-- arrows -->
+            <path class="arrow arrow-artifact" d="M172 156 L172 218"/>
+            <path class="arrow arrow-ui" d="M424 156 L424 218"/>
+            <path class="arrow arrow-worker" d="M278 267 L318 267"/>
+            <path class="arrow arrow-worker" d="M530 267 L570 267"/>
+            <path class="arrow arrow-worker" d="M782 267 L822 267"/>
+            <path class="arrow arrow-worker" d="M172 316 L172 498"/>
+            <path class="arrow arrow-worker" d="M424 316 L424 498"/>
+            <path class="arrow arrow-review" d="M676 316 L676 372"/>
+            <path class="arrow arrow-review" d="M676 428 L676 498"/>
+            <path class="arrow arrow-worker" d="M928 316 L928 498"/>
+            <path class="arrow arrow-success" d="M172 576 C150 604 360 616 470 636"/>
+            <path class="arrow arrow-success" d="M676 576 L690 636"/>
+          </svg>
+        </div>
+
+        <!-- ===================== PHASE IV ===================== -->
+        <div class="view" data-phase="3">
+          <svg class="diagram" viewBox="0 0 1360 740" role="img" aria-label="Phase IV lexical and MWU feature extraction workflow">
+            <rect x="18" y="20" width="1324" height="700" rx="12" fill="#f8fafc"/>
+            <rect class="lane-bg" x="40" y="56" width="1300" height="112" rx="10"/><text class="lane-title" x="60" y="82">① Inputs · from Phase III, I &amp; researcher</text>
+            <rect class="lane-bg" x="40" y="188" width="1300" height="146" rx="10"/><text class="lane-title" x="60" y="214">② Lexical / MWU &amp; timing feature workers</text>
+            <rect class="lane-bg" x="40" y="356" width="1300" height="88" rx="10"/><text class="lane-title" x="60" y="382">③ Human review gates · optional MFA support</text>
+            <rect class="lane-bg" x="40" y="466" width="1300" height="130" rx="10"/><text class="lane-title" x="60" y="492">④ Outputs</text>
+            <rect class="lane-bg" x="40" y="618" width="1300" height="84" rx="10"/><text class="lane-title" x="60" y="644">⑤ Handoff</text>
+
+            <!-- inputs -->
+            <rect class="node node-artifact" x="66" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="66" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="86" y="112">Transcripts</text><text class="body" x="86" y="131">TIDY (lexical) · RAW</text><text class="from-tag" x="86" y="148">↤ Phase III</text>
+            <rect class="node node-ui" x="318" y="86" width="212" height="70" rx="8"/><rect class="accent-ui" x="318" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="338" y="112">MWU definitions</text><text class="body" x="338" y="131">MWU list / AntConc rules</text><text class="ext-tag" x="338" y="148">↤ researcher</text>
+            <rect class="node node-ui" x="570" y="86" width="212" height="70" rx="8"/><rect class="accent-ui" x="570" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="590" y="112">AS-unit segmentation</text><text class="body" x="590" y="131">clause boundaries</text><text class="ext-tag" x="590" y="148">↤ researcher</text>
+            <rect class="node node-artifact" x="822" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="822" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="842" y="112">Reviewed pauses</text><text class="body" x="842" y="131">sounding-silence</text><text class="from-tag" x="842" y="148">↤ Phase I</text>
+
+            <!-- workers: lexical / MWU is the core -->
+            <rect class="node node-worker" x="66" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="66" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="86" y="244">Lexical features</text><text class="body" x="86" y="265">TAALES · TAALED</text><text class="body" x="86" y="282">diversity · sophistication</text>
+            <rect class="node node-worker" x="318" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="318" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="338" y="244">MWU / lexical bundles</text><text class="body" x="338" y="265">AntConc · MI · range</text><text class="body" x="338" y="282">Wood &amp; Appel refine</text>
+            <rect class="node node-worker" x="570" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="570" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="590" y="244">Tag clause / AS-units</text><text class="body" x="590" y="265">manual (primary) or</text><text class="body" x="590" y="282">rule-suggested</text>
+            <rect class="node node-worker" x="822" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="822" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="842" y="244">Classify pauses</text><text class="body" x="842" y="265">≥ 0.25 s → mid / end-clause</text><text class="body" x="842" y="282">between-turn</text>
+            <rect class="node node-worker" x="1074" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="1074" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="1094" y="244">Rate metrics</text><text class="body" x="1094" y="265">syllable nuclei + phonation</text><text class="body" x="1094" y="282">articulation · speech rate</text>
+
+            <!-- review gates + optional MFA support (in column gap, no arrow crosses it) -->
+            <rect class="node node-review" x="66" y="372" width="212" height="56" rx="8"/><rect class="accent-review" x="66" y="372" width="6" height="56" rx="3"/>
+            <text class="small-title" x="86" y="397">Lexical / MWU check</text><text class="body" x="86" y="416">agreement vs gold sample</text>
+            <rect class="node node-review" x="570" y="372" width="212" height="56" rx="8"/><rect class="accent-review" x="570" y="372" width="6" height="56" rx="3"/>
+            <text class="small-title" x="590" y="397">Confirm clauses</text><text class="body" x="590" y="416">approve AS-unit boundaries</text>
+            <rect class="node node-warn dashbox" x="952" y="368" width="280" height="64" rx="8"/><rect class="accent-warn" x="952" y="368" width="6" height="64" rx="3"/>
+            <text class="small-title" x="972" y="391">Optional · MFA alignment</text><text class="body" x="972" y="409">word timing — supports pause /</text><text class="body" x="972" y="424">rate; also a Phase V dependency</text>
+
+            <!-- outputs -->
+            <rect class="node node-artifact" x="66" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="66" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="86" y="524">Lexical / diversity</text><text class="body" x="86" y="543">TAALES · TAALED</text><text class="mono" x="86" y="562">taales_features.csv</text>
+            <rect class="node node-artifact" x="318" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="318" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="338" y="524">MWU bundle tables</text><text class="body" x="338" y="543">long bundles · MI · range</text><text class="mono" x="338" y="562">mwu_extracts.csv</text>
+            <rect class="node node-artifact" x="570" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="570" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="590" y="524">Clause segments</text><text class="body" x="590" y="543">AS-unit boundaries</text><text class="mono" x="590" y="562">clause_segments.json</text>
+            <rect class="node node-artifact" x="822" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="822" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="842" y="524">Pause location</text><text class="body" x="842" y="543">classified positions</text><text class="mono" x="842" y="562">pause_location.json</text>
+            <rect class="node node-artifact" x="1074" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="1074" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="1094" y="524">Rate metrics</text><text class="body" x="1094" y="543">articulation · speech</text><text class="mono" x="1094" y="562">rate_metrics.json</text>
+
+            <!-- handoff -->
+            <rect class="node node-success" x="430" y="636" width="500" height="54" rx="8"/><rect class="accent-success" x="430" y="636" width="6" height="54" rx="3"/>
+            <text class="title" x="454" y="660">Lexical / MWU · clause · pause · rate</text><text class="to-tag" x="454" y="678">→ Phase V (database synthesis)</text>
+
+            <!-- arrows -->
+            <path class="arrow arrow-artifact" d="M172 156 L172 218"/>
+            <path class="arrow arrow-ui" d="M424 156 L424 218"/>
+            <path class="arrow arrow-ui" d="M676 156 L676 218"/>
+            <path class="arrow arrow-artifact" d="M928 156 L928 218"/>
+            <path class="arrow arrow-worker" d="M278 267 L318 267"/>
+            <path class="arrow arrow-worker" d="M530 267 L570 267"/>
+            <path class="arrow arrow-worker" d="M782 267 L822 267"/>
+            <path class="arrow arrow-worker" d="M1034 267 L1074 267"/>
+            <path class="arrow arrow-review" d="M172 316 L172 372"/>
+            <path class="arrow arrow-review" d="M172 428 L172 498"/>
+            <path class="arrow arrow-worker" d="M424 316 L424 498"/>
+            <path class="arrow arrow-review" d="M676 316 L676 372"/>
+            <path class="arrow arrow-review" d="M676 428 L676 498"/>
+            <path class="arrow arrow-worker" d="M928 316 L928 498"/>
+            <path class="arrow arrow-worker" d="M1180 316 L1180 498"/>
+            <path class="arrow arrow-worker dash" d="M1000 368 C1000 344 970 332 952 322"/>
+            <path class="arrow arrow-success" d="M590 576 C560 604 600 616 660 636"/>
+            <path class="arrow arrow-success" d="M676 576 L690 636"/>
+          </svg>
+        </div>
+
+        <!-- ===================== PHASE V ===================== -->
+        <div class="view" data-phase="4">
+          <svg class="diagram" viewBox="0 0 1360 740" role="img" aria-label="Phase V database synthesis and research export workflow">
+            <rect x="18" y="20" width="1324" height="700" rx="12" fill="#f8fafc"/>
+            <rect class="lane-bg" x="40" y="56" width="1300" height="112" rx="10"/><text class="lane-title" x="60" y="82">① Inputs · all upstream phases + researcher</text>
+            <rect class="lane-bg" x="40" y="188" width="1300" height="146" rx="10"/><text class="lane-title" x="60" y="214">② Synthesis &amp; validation workers</text>
+            <rect class="lane-bg" x="40" y="356" width="1300" height="88" rx="10"/><text class="lane-title" x="60" y="382">③ Final human review gate</text>
+            <rect class="lane-bg" x="40" y="466" width="1300" height="130" rx="10"/><text class="lane-title" x="60" y="492">④ Deliverables</text>
+            <rect class="lane-bg" x="40" y="618" width="1300" height="84" rx="10"/><text class="lane-title" x="60" y="644">⑤ Destinations</text>
+
+            <!-- inputs -->
+            <rect class="node node-artifact" x="66" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="66" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="86" y="112">Reviewed TextGrid</text><text class="body" x="86" y="131">timeline ground truth</text><text class="from-tag" x="86" y="148">↤ Phase I</text>
+            <rect class="node node-artifact" x="318" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="318" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="338" y="112">Duration summaries</text><text class="body" x="338" y="131">0.25 s + 0.35 s</text><text class="from-tag" x="338" y="148">↤ Phase II</text>
+            <rect class="node node-artifact" x="570" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="570" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="590" y="112">Transcripts</text><text class="body" x="590" y="131">RAW · TIDY</text><text class="from-tag" x="590" y="148">↤ Phase III</text>
+            <rect class="node node-artifact" x="822" y="86" width="212" height="70" rx="8"/><rect class="accent-artifact" x="822" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="842" y="112">Alignment + features</text><text class="body" x="842" y="131">words · pauses · rates · MWU</text><text class="from-tag" x="842" y="148">↤ Phase IV</text>
+            <rect class="node node-ui" x="1074" y="86" width="212" height="70" rx="8"/><rect class="accent-ui" x="1074" y="86" width="6" height="70" rx="3"/>
+            <text class="small-title" x="1094" y="112">Metadata workbook</text><text class="body" x="1094" y="131">CEFR · L1 · TOEFL · gold</text><text class="ext-tag" x="1094" y="148">↤ researcher</text>
+
+            <!-- workers -->
+            <rect class="node node-worker" x="66" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="66" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="86" y="244">Merge to long format</text><text class="body" x="86" y="265">one row per observation</text><text class="body" x="86" y="282">both thresholds kept</text>
+            <rect class="node node-worker" x="318" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="318" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="338" y="244">Map pauses → AS-units</text><text class="body" x="338" y="265">within / between / turn</text><text class="body" x="338" y="282">attach metadata · flag QC</text>
+            <rect class="node node-worker" x="570" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="570" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="590" y="244">Build workbook + matrix</text><text class="body" x="590" y="265">7 sheets · tidy CSV / parquet</text><text class="mono" x="590" y="281">export-research-excel</text>
+            <rect class="node node-worker" x="822" y="218" width="212" height="98" rx="8"/><rect class="accent-worker" x="822" y="218" width="6" height="98" rx="3"/>
+            <text class="small-title" x="842" y="244">Validate + codebook</text><text class="body" x="842" y="265">gold compare κ / α</text><text class="body" x="842" y="282">dictionary · method log</text>
+
+            <!-- review -->
+            <rect class="node node-review" x="570" y="372" width="212" height="56" rx="8"/><rect class="accent-review" x="570" y="372" width="6" height="56" rx="3"/>
+            <text class="small-title" x="590" y="397">Final sign-off gate</text><text class="body" x="590" y="416">approve sheets · metrics · params</text>
+
+            <!-- deliverables -->
+            <rect class="node node-success" x="66" y="498" width="212" height="78" rx="8"/><rect class="accent-success" x="66" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="86" y="524">Research workbook</text><text class="body" x="86" y="543">7 sheets · traceable</text><text class="mono" x="86" y="562">research_export.xlsx</text>
+            <rect class="node node-success" x="318" y="498" width="212" height="78" rx="8"/><rect class="accent-success" x="318" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="338" y="524">Analysis matrix</text><text class="body" x="338" y="543">long-format · 1 row / obs</text><text class="mono" x="338" y="562">analysis_matrix.csv</text>
+            <rect class="node node-artifact" x="570" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="570" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="590" y="524">Codebook · validation</text><text class="body" x="590" y="543">dictionary · κ / α report</text><text class="mono" x="590" y="562">validation_report.json</text>
+            <rect class="node node-artifact" x="822" y="498" width="212" height="78" rx="8"/><rect class="accent-artifact" x="822" y="498" width="6" height="78" rx="3"/>
+            <text class="small-title" x="842" y="524">Complete method log</text><text class="body" x="842" y="543">full audit trail</text><text class="body" x="842" y="562">all tool versions</text>
+
+            <!-- destinations -->
+            <rect class="node node-success" x="66" y="636" width="460" height="54" rx="8"/><rect class="accent-success" x="66" y="636" width="6" height="54" rx="3"/>
+            <text class="title" x="90" y="660">Publication / archive</text><text class="to-tag" x="90" y="678">workbook + codebook → research record</text>
+            <rect class="node node-success" x="570" y="636" width="464" height="54" rx="8"/><rect class="accent-success" x="570" y="636" width="6" height="54" rx="3"/>
+            <text class="title" x="594" y="660">R / Python modeling</text><text class="to-tag" x="594" y="678">analysis matrix → mixed-effects models (out of scope)</text>
+
+            <!-- arrows -->
+            <path class="arrow arrow-artifact" d="M172 156 L172 218"/>
+            <path class="arrow arrow-artifact" d="M424 156 L424 218"/>
+            <path class="arrow arrow-artifact" d="M676 156 L676 218"/>
+            <path class="arrow arrow-artifact" d="M928 156 L928 218"/>
+            <path class="arrow arrow-ui" d="M1180 156 C1180 184 1010 196 952 218"/>
+            <path class="arrow arrow-worker" d="M278 267 L318 267"/>
+            <path class="arrow arrow-worker" d="M530 267 L570 267"/>
+            <path class="arrow arrow-worker" d="M782 267 L822 267"/>
+            <path class="arrow arrow-worker" d="M172 316 L172 498"/>
+            <path class="arrow arrow-worker" d="M424 316 L424 498"/>
+            <path class="arrow arrow-review" d="M676 316 L676 372"/>
+            <path class="arrow arrow-review" d="M676 428 L676 498"/>
+            <path class="arrow arrow-worker" d="M928 316 L928 498"/>
+            <path class="arrow arrow-success" d="M172 576 L172 636"/>
+            <path class="arrow arrow-success" d="M424 576 C424 600 360 614 300 636"/>
+            <path class="arrow arrow-success" d="M676 576 C676 600 720 614 770 636"/>
+          </svg>
+        </div>
+
+      </section>
+
+      <div class="legend" aria-label="Legend">
+        <span><i class="dot ui"></i>Input config / UI</span>
+        <span><i class="dot worker"></i>Automation worker</span>
+        <span><i class="dot artifact"></i>Data artifact</span>
+        <span><i class="dot review"></i>Human review gate</span>
+        <span><i class="dot success"></i>Output / handoff</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PHASES = [
+      { roman:'I', accent:'#0f766e', kicker:'Phase I', name:'Speaker Diarization & Voice Isolation',
+        title:'Phase I — Speaker Diarization & Voice Isolation',
+        layer:'L1a', lcolor:'#0f766e',
+        sub:'One group recording becomes a reviewed speaker / timing TextGrid plus one muted-mirror WAV per speaker; a mandatory Praat review produces the baseline every later phase reads from. Expected speaker count is configurable (default 3 for the current corpus). The 6-tier schema is an internal review aid, not a client deliverable.',
+        tag:['INPUT','Group recording (16 kHz mono · configurable speaker count, default 3)','OUTPUT','Reviewed TextGrid + muted-mirror WAVs → Phase II & III'] },
+      { roman:'II', accent:'#2563eb', kicker:'Phase II', name:'Multi-Threshold Pause & Duration Analysis',
+        title:'Phase II — Multi-Threshold Pause & Duration Analysis',
+        layer:'L1b', lcolor:'#0d9488',
+        sub:'Praat generates threshold TextGrids at 0.25 s and 0.35 s; a Praat review / validation gate (with gold-sample check) is cleared before durations are computed into per-speaker tables for the final export.',
+        tag:['INPUT','Reviewed TextGrid + muted-mirror WAVs (Phase I)','OUTPUT','Reviewed threshold TextGrids + duration summary → Phase V'] },
+      { roman:'III', accent:'#7c3aed', kicker:'Phase III', name:'Transcript Splitting & Unit Extraction',
+        title:'Phase III — Transcript Splitting & Unit Extraction',
+        layer:'Layer 2', lcolor:'#2563eb',
+        sub:'The reviewed speaker and transcript content is split into per-speaker verbatim and tidy transcripts, an utterance-unit list, and a ready-to-align corpus.',
+        tag:['INPUT','Reviewed speaker + transcript (Phase I)','OUTPUT','utterance_units.json + corpus → Phase IV'] },
+      { roman:'IV', accent:'#b45309', kicker:'Phase IV', name:'Lexical / MWU Feature Extraction',
+        title:'Phase IV — Lexical / MWU Feature Extraction',
+        layer:'Layer 2 + optional MFA add-on', lcolor:'#2563eb',
+        sub:'TAALES / TAALED / AntConc extract lexical and multiword-unit features; workers also classify pauses by clause position and compute speech-rate metrics. Forced alignment (MFA) is optional support for word timing — not the Phase IV deliverable.',
+        tag:['INPUT','Transcripts (III), MWU defs & AS-units (researcher), pauses (I)','OUTPUT','Lexical / MWU · clause · pause · rate tables → Phase V'] },
+      { roman:'V', accent:'#15803d', kicker:'Phase V', name:'Database Synthesis & Research Export',
+        title:'Phase V — Database Synthesis & Research Export',
+        layer:'Layer 3', lcolor:'#6d28d9',
+        sub:'Every upstream artifact plus researcher metadata is merged into a long-format research workbook and an analysis-ready matrix, validated against gold samples and signed off for publication. Early merge sits in Layer 2; full validation, reporting and sign-off are Layer 3.',
+        tag:['INPUT','All upstream outputs + metadata workbook (researcher)','OUTPUT','Research workbook .xlsx + analysis matrix .csv'] }
+    ];
+
+    const navEl = document.getElementById('nav');
+    const views = [...document.querySelectorAll('.view')];
+    const docTitle = document.getElementById('docTitle');
+    const docSub = document.getElementById('docSub');
+    const docTag = document.getElementById('docTag');
+
+    PHASES.forEach((p, i) => {
+      const b = document.createElement('button');
+      b.className = 'nav-item';
+      b.style.setProperty('--accent', p.accent);
+      b.innerHTML =
+        '<span class="roman">' + p.roman + '</span>' +
+        '<span class="nav-meta"><span class="nav-kicker">' + p.kicker + '</span>' +
+        '<span class="nav-title">' + p.name + '</span></span>';
+      b.addEventListener('click', () => select(i));
+      navEl.appendChild(b);
+    });
+
+    function select(idx) {
+      const p = PHASES[idx];
+      [...navEl.children].forEach((c, i) => c.classList.toggle('active', i === idx));
+      views.forEach((v, i) => v.classList.toggle('active', i === idx));
+      docTitle.textContent = p.title;
+      docSub.textContent = p.sub;
+      document.documentElement.style.setProperty('--accent', p.accent);
+      docTag.style.setProperty('--accent', p.accent);
+      docTag.innerHTML =
+        '<strong>QUOTE TIER</strong><span class="layer-pill" style="background:' + p.lcolor + '">' + p.layer + '</span>' +
+        '<strong style="margin-top:8px">INPUT</strong>' + p.tag[1] +
+        '<strong style="margin-top:8px">OUTPUT</strong>' + p.tag[3];
+      location.hash = 'phase-' + p.roman;
+    }
+
+    const startRoman = (location.hash.replace('#phase-', '') || 'I').toUpperCase();
+    const startIdx = PHASES.findIndex(p => p.roman === startRoman);
+    select(startIdx === -1 ? 0 : startIdx);
+  </script>
+</body>
+</html>

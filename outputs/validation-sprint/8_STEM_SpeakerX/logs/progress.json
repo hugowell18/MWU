@@ -1,0 +1,44 @@
+{
+  "started_at": "2026-06-21T14:39:04.015Z",
+  "phase": "all",
+  "done": true,
+  "ok": true,
+  "readiness": "ready",
+  "steps": [
+    {
+      "key": "i",
+      "phase": "i",
+      "label": "Phase I",
+      "desc": "Diarization & isolation",
+      "state": "skipped"
+    },
+    {
+      "key": "ii",
+      "phase": "ii",
+      "label": "Phase II",
+      "desc": "Pause & duration",
+      "state": "passed"
+    },
+    {
+      "key": "iii",
+      "phase": "iii",
+      "label": "Phase III",
+      "desc": "Transcript split",
+      "state": "passed"
+    },
+    {
+      "key": "iv",
+      "phase": "iv",
+      "label": "Phase IV",
+      "desc": "Lexical / MWU (placeholders)",
+      "state": "placeholder"
+    },
+    {
+      "key": "v",
+      "phase": "v",
+      "label": "Phase V",
+      "desc": "Matrix",
+      "state": "passed"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-06-21T14:39:04.015Z",
+  "finished_at": "2026-06-21T14:39:15.182Z",
+  "node": "v26.3.1",
+  "phase": "all",
+  "praat": {
+    "available": true,
+    "binary": "/Applications/Praat.app/Contents/MacOS/Praat",
+    "version": "Praat 6.4.67 (May 21 2026)"
+  },
+  "thresholds_sec": [
+    0.25,
+    0.35,
+    0.5
+  ],
+  "tolerances": {
+    "duration": 0.001,
+    "boundary": 0.001,
+    "articulation": 0.001
+  },
+  "log": [
+    "phase II gold replay: passed (Script 2 method=praat)",
+    "phase III: ASR (AssemblyAI) 318w → TIDY 314w vs standard 321w · WER 7.5% · removed 4 fillers · passed"
+  ]
+}

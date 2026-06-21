@@ -1,0 +1,52 @@
+{
+  "suite": "ui",
+  "passed": 10,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "Console HTML served with mount node",
+      "status": "passed"
+    },
+    {
+      "name": "API serves a real report (gold passed, 0.35 no-gold, Phase I skipped)",
+      "status": "passed"
+    },
+    {
+      "name": "Built bundle renders required panels (checklist/config/stepper/table/artifacts)",
+      "status": "passed"
+    },
+    {
+      "name": "Interactive flow present: upload UI + empty-on-load + 8 status states",
+      "status": "passed"
+    },
+    {
+      "name": "Single Run Validation lights the phase pipeline (I→II→III→IV→V) then completes",
+      "status": "passed"
+    },
+    {
+      "name": "Phase II email fidelity: Script 1/2, 200 s window, Scale times, calculate_segment_durations, diagnostic",
+      "status": "passed"
+    },
+    {
+      "name": "0.35 never marked gold pass",
+      "status": "passed"
+    },
+    {
+      "name": "Phase I shows skipped (monologue) in bundle",
+      "status": "passed"
+    },
+    {
+      "name": "Desktop screenshot saved (> 10 KB)",
+      "status": "passed"
+    },
+    {
+      "name": "Mobile screenshot saved (> 10 KB)",
+      "status": "passed"
+    }
+  ],
+  "screenshots": {
+    "desktop": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/test-results/screenshots/validation-console-desktop.png",
+    "mobile": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/test-results/screenshots/validation-console-mobile.png"
+  },
+  "generated_at": "2026-06-21T14:25:38.947Z"
+}

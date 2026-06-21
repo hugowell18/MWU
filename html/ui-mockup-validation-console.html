@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MWU Fluency Pipeline — Portal & Console (UI mockup)</title>
+  <style>
+    :root{
+      --slate-50:#f8fafc; --slate-100:#f1f5f9; --slate-200:#e2e8f0; --slate-300:#cbd5e1;
+      --slate-400:#94a3b8; --slate-500:#64748b; --slate-600:#475569; --slate-700:#334155;
+      --slate-800:#1e293b; --slate-900:#0f172a;
+      --blue-50:#eff6ff; --blue-100:#dbeafe; --blue-200:#bfdbfe; --blue-600:#2563eb; --blue-700:#1d4ed8;
+      --green-50:#f0fdf4; --green-100:#dcfce7; --green-200:#bbf7d0; --green-600:#16a34a; --green-700:#15803d;
+      --amber-50:#fffbeb; --amber-100:#fef3c7; --amber-200:#fde68a; --amber-600:#d97706; --amber-700:#b45309; --amber-900:#78350f;
+      --purple-50:#faf5ff; --purple-600:#9333ea;
+      --red-50:#fef2f2; --red-600:#dc2626;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--slate-50);color:var(--slate-900);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5}
+    ::selection{background:var(--blue-100);color:var(--blue-900)}
+    .icon{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .icon-sm{width:14px;height:14px} .icon-lg{width:22px;height:22px} .icon-xl{width:30px;height:30px}
+
+    /* nav */
+    nav{position:sticky;top:0;z-index:50;height:64px;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--slate-200)}
+    .nav-inner{max-width:1200px;margin:0 auto;height:100%;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+    .brand .sq{width:32px;height:32px;border-radius:9px;background:var(--blue-600);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px}
+    .brand .wm{font-size:19px;font-weight:800;letter-spacing:-.02em;color:var(--slate-800)}
+    .brand .wm span{color:var(--blue-600)}
+    .tabs{display:flex;gap:4px}
+    .tab{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--slate-600);background:transparent;border:0;cursor:pointer}
+    .tab:hover{background:var(--slate-100);color:var(--blue-600)}
+    .tab.active{background:var(--blue-50);color:var(--blue-600)}
+    .avatar{width:30px;height:30px;border-radius:999px;background:var(--blue-600);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+
+    .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+    .view{display:none}.view.active{display:block}
+
+    /* ============ HOME (preserves original LDT hero) ============ */
+    .hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:56px 0 8px}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:999px;background:var(--blue-50);color:var(--blue-700);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--blue-100);margin-bottom:22px}
+    .ping{position:relative;display:inline-flex;width:8px;height:8px}
+    .ping b{position:absolute;inline-size:100%;block-size:100%;border-radius:999px;background:#60a5fa;opacity:.75;animation:ping 1.4s cubic-bezier(0,0,.2,1) infinite}
+    .ping i{position:relative;width:8px;height:8px;border-radius:999px;background:var(--blue-600)}
+    @keyframes ping{75%,100%{transform:scale(2);opacity:0}}
+    .hero h1{margin:0 0 22px;font-size:54px;line-height:1.08;font-weight:800;letter-spacing:-.03em;color:var(--slate-900)}
+    .hero h1 .u{color:var(--blue-600);text-decoration:underline;text-decoration-color:var(--blue-200);text-decoration-thickness:8px;text-underline-offset:4px}
+    .hero .lede{font-size:18px;color:var(--slate-600);line-height:1.6;max-width:560px;margin:0 0 30px}
+    .cta{display:flex;gap:16px;margin-bottom:34px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:12px;font-weight:700;cursor:pointer;border:0;font-size:15px}
+    .btn-lg{padding:15px 28px}
+    .btn-primary{background:var(--blue-600);color:#fff;box-shadow:0 10px 22px rgba(37,99,235,.25)}
+    .btn-primary:hover{background:var(--blue-700)}
+    .btn-outline{background:#fff;color:var(--slate-700);border:2px solid var(--slate-200)}
+    .btn-outline:hover{background:var(--slate-50);border-color:var(--slate-300)}
+    .callout{display:flex;align-items:center;gap:18px;padding:16px;background:var(--amber-50);border:1px solid var(--amber-100);border-radius:12px;max-width:560px}
+    .callout .ci{color:var(--amber-600);flex:0 0 auto}
+    .callout .ct{font-size:13.5px;color:var(--amber-900);line-height:1.45}
+    .callout .ct b{font-weight:800}
+
+    .hero-card{position:relative}
+    .preview{position:relative;border-radius:18px;overflow:hidden;border:4px solid #fff;box-shadow:0 30px 60px rgba(15,23,42,.22);aspect-ratio:16/10;
+      background:linear-gradient(135deg,#1e293b,#0f172a)}
+    .preview .winbar{display:flex;gap:6px;padding:14px}
+    .preview .winbar i{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.25)}
+    .preview .mini{padding:4px 18px 18px;display:flex;flex-direction:column;gap:8px}
+    .preview .mini .row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:9px 11px;color:#cbd5e1;font-size:12px;font-weight:600}
+    .preview .mini .row .n{width:18px;height:18px;border-radius:6px;display:grid;place-items:center;font-size:10px;font-weight:800;color:#fff;background:rgba(255,255,255,.18)}
+    .preview .mini .row.on{background:rgba(37,99,235,.22);border-color:rgba(96,165,250,.4);color:#fff}
+    .preview .mini .row.on .n{background:var(--blue-600)}
+    .preview .lbl{position:absolute;left:18px;bottom:16px;color:#fff}
+    .preview .lbl .k{font-size:10px;text-transform:uppercase;letter-spacing:.18em;opacity:.8;margin:0}
+    .preview .lbl .v{font-size:16px;font-weight:800;margin:2px 0 0}
+    .blob{position:absolute;border-radius:999px;filter:blur(60px);z-index:-1}
+    .blob.a{top:-26px;right:-26px;width:130px;height:130px;background:var(--blue-100);opacity:.6}
+    .blob.b{bottom:-40px;left:-40px;width:190px;height:190px;background:var(--slate-200);opacity:.5}
+    .floatcard{position:absolute;bottom:-30px;right:-26px;background:#fff;padding:18px;border-radius:16px;box-shadow:0 20px 40px rgba(15,23,42,.16);border:1px solid var(--slate-100);width:210px}
+    .floatcard .top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    .floatcard .ic{width:38px;height:38px;border-radius:9px;background:var(--green-50);color:var(--green-600);display:grid;place-items:center}
+    .floatcard .k{font-size:11px;color:var(--slate-500);font-weight:600}
+    .floatcard .v{font-size:19px;font-weight:800;color:var(--slate-900)}
+    .floatcard .bar{height:7px;background:var(--slate-100);border-radius:999px;overflow:hidden}
+    .floatcard .bar i{display:block;height:100%;width:100%;background:var(--green-500,#22c55e)}
+
+    .features{margin:84px 0 60px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+    .feature{background:#fff;padding:30px;border-radius:18px;border:1px solid var(--slate-100);transition:border-color .15s,box-shadow .15s}
+    .feature:hover{border-color:var(--blue-200);box-shadow:0 14px 30px rgba(15,23,42,.07)}
+    .feature .fi{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;margin-bottom:22px}
+    .fi-blue{background:var(--blue-50);color:var(--blue-600)} .fi-green{background:var(--green-50);color:var(--green-600)} .fi-purple{background:var(--purple-50);color:var(--purple-600)}
+    .feature h3{margin:0 0 10px;font-size:19px;font-weight:800;color:var(--slate-900)}
+    .feature p{margin:0;color:var(--slate-500);font-size:13.5px;line-height:1.6}
+
+    /* ============ CONSOLE ============ */
+    .console-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:26px 0 18px}
+    .console-head h2{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em}
+    .console-head .sub{margin:6px 0 0;color:var(--slate-500);font-size:13.5px}
+    .crumb{display:flex;align-items:center;gap:7px;color:var(--slate-400);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px}
+
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:700;border:1px solid transparent;white-space:nowrap}
+    .pill-green{background:var(--green-50);color:var(--green-700);border-color:var(--green-200)}
+    .pill-amber{background:var(--amber-50);color:var(--amber-700);border-color:var(--amber-200)}
+    .pill-blue{background:var(--blue-50);color:var(--blue-700);border-color:var(--blue-100)}
+    .pill-slate{background:var(--slate-100);color:var(--slate-600);border-color:var(--slate-200)}
+
+    .layout{display:grid;grid-template-columns:262px 1fr;gap:22px;padding-bottom:56px;align-items:start}
+    .side{position:sticky;top:84px;background:#fff;border:1px solid var(--slate-200);border-radius:14px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 28px rgba(15,23,42,.05);padding:14px}
+    .side .st{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--slate-400);padding:6px 8px 10px}
+    .pnav{display:flex;flex-direction:column;gap:4px}
+    .pitem{position:relative;display:grid;grid-template-columns:30px 1fr;gap:11px;align-items:center;width:100%;text-align:left;border:1px solid transparent;border-radius:10px;background:transparent;padding:10px;cursor:pointer;font-family:inherit;color:inherit}
+    .pitem:hover{background:var(--slate-50)}
+    .pitem.active{background:#fff;border-color:var(--slate-200);box-shadow:0 6px 16px rgba(15,23,42,.07)}
+    .pitem.active::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;background:var(--blue-600)}
+    .pitem.locked{opacity:.55;cursor:not-allowed}
+    .pnum{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:12px;background:var(--slate-100);color:var(--slate-500);border:1px solid var(--slate-200)}
+    .pitem.active .pnum{background:var(--blue-600);color:#fff;border-color:transparent}
+    .pitem.done .pnum{background:var(--green-600);color:#fff;border-color:transparent}
+    .pmeta .pn{font-size:13px;font-weight:700;line-height:1.25}
+    .pmeta .ps{font-size:11px;color:var(--slate-400);margin-top:2px;display:flex;align-items:center;gap:4px}
+    .scope-note{margin-top:12px;padding:11px;border-top:1px dashed var(--slate-200);font-size:11.5px;color:var(--slate-500);line-height:1.5}
+
+    .panel{min-width:0}
+    .phase{display:none}.phase.active{display:block}
+    .phead{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .phead h3{margin:0;font-size:18px;font-weight:800;letter-spacing:-.01em}
+    .phead .ph-no{width:34px;height:34px;border-radius:9px;background:var(--blue-600);color:#fff;display:grid;place-items:center;font-weight:800}
+
+    .card{background:#fff;border:1px solid var(--slate-200);border-radius:14px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 28px rgba(15,23,42,.05);margin-bottom:16px}
+    .card-h{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--slate-100)}
+    .card-h .ci{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:var(--blue-50);color:var(--blue-600)}
+    .card-h h4{margin:0;font-size:14.5px;font-weight:700}
+    .card-h .hint{margin-left:auto;font-size:12px;color:var(--slate-400)}
+    .card-b{padding:16px 18px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+
+    .frow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--slate-100)}
+    .frow:last-child{border-bottom:0}
+    .frow .fi{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;flex:0 0 auto}
+    .fi-audio{background:#eef2ff;color:#4f46e5}.fi-grid{background:var(--green-50);color:var(--green-600)}
+    .fi-txt{background:var(--slate-100);color:var(--slate-500)}.fi-xls{background:var(--amber-50);color:var(--amber-600)}
+    .frow .fname{font-weight:600;font-size:13px}.frow .fmeta{font-size:11.5px;color:var(--slate-400);margin-top:1px}
+    .frow .fstatus{margin-left:auto}
+    .kv{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--slate-100);font-size:13px}
+    .kv:last-child{border-bottom:0}.kv .k{color:var(--slate-500)}.kv .v{font-weight:650;color:var(--slate-800)}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--slate-700)}
+    .btn-sm{padding:9px 15px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;border:1px solid transparent}
+    .btn-sm.p{background:var(--blue-600);color:#fff}.btn-sm.p:hover{background:var(--blue-700)}
+    .btn-sm.g{background:#fff;color:var(--slate-700);border-color:var(--slate-200)}.btn-sm.g:hover{background:var(--slate-50)}
+
+    .steps{display:flex;gap:10px;flex-wrap:wrap}
+    .step{flex:1 1 140px;min-width:140px;border:1px solid var(--slate-200);border-radius:10px;padding:12px}
+    .step .stp{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700}
+    .step .sdp{margin-top:6px;font-size:11px;color:var(--slate-400)}
+    .step.done .stp{color:var(--green-700)}
+    .dotnum{width:20px;height:20px;border-radius:999px;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;background:var(--green-600)}
+    .dotnum.pending{background:#fff;color:var(--slate-500);border:1.5px solid var(--slate-300)}
+    .banner-ready{background:linear-gradient(90deg,var(--blue-50),rgba(239,246,255,.2));border-color:var(--blue-100)}
+    .banner-ready .bi{background:var(--blue-600)} .banner-ready h5{color:var(--blue-700)}
+    .subhdr{display:flex;align-items:center;gap:8px;margin:2px 0 12px;font-size:13px;font-weight:700;color:var(--slate-700)}
+    .subhdr .tagm{font-size:11px;font-weight:700;color:var(--slate-400);text-transform:uppercase;letter-spacing:.05em}
+
+    .banner{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:10px;background:linear-gradient(90deg,var(--green-50),rgba(240,253,244,.2));border:1px solid var(--green-200);margin-bottom:16px}
+    .banner .bi{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:var(--green-600);color:#fff;flex:0 0 auto}
+    .banner h5{margin:0;font-size:14.5px;font-weight:800;color:var(--green-700)}
+    .banner p{margin:3px 0 0;font-size:12.5px;color:var(--slate-500)}
+
+    table{width:100%;border-collapse:collapse}
+    th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--slate-400);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--slate-200)}
+    td{padding:11px 12px;border-bottom:1px solid var(--slate-100);font-size:13px}
+    td.num{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:var(--slate-700)}
+    tr:last-child td{border-bottom:0}
+    .ok{display:inline-flex;align-items:center;gap:5px;color:var(--green-700);font-weight:700;font-size:12.5px}
+    .none{display:inline-flex;align-items:center;gap:5px;color:var(--slate-400);font-weight:600;font-size:12.5px}
+    .sec-label{display:flex;align-items:center;gap:8px;margin:18px 0 8px;font-size:12.5px;font-weight:700;color:var(--slate-500)}
+
+    .arow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--slate-100)}
+    .arow:last-child{border-bottom:0}
+    .arow .an{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:var(--slate-700)}
+    .arow .am{font-size:11.5px;color:var(--slate-400);margin-left:8px}
+    .arow .ad{margin-left:auto;color:var(--blue-600);display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;cursor:pointer}
+    .note{font-size:12px;color:var(--slate-400);margin-top:10px}
+
+    .locked-card{background:#fff;border:1px dashed var(--slate-300);border-radius:14px;padding:36px;text-align:center}
+    .locked-card .lk{width:56px;height:56px;border-radius:14px;background:var(--slate-100);color:var(--slate-400);display:grid;place-items:center;margin:0 auto 16px}
+    .locked-card h4{margin:0 0 8px;font-size:17px;font-weight:800}
+    .locked-card p{margin:0 auto;color:var(--slate-500);font-size:13.5px;max-width:520px;line-height:1.6}
+    .future{margin-top:18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:left}
+    .future .fb{border:1px solid var(--slate-200);border-radius:10px;padding:12px;background:var(--slate-50)}
+    .future .fb h6{margin:0 0 6px;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--slate-400)}
+    .future .fb p{margin:0;font-size:12px;color:var(--slate-600);line-height:1.5}
+
+    .mock-flag{position:fixed;bottom:14px;right:14px;background:var(--slate-900);color:#fff;font-size:11px;font-weight:700;padding:7px 12px;border-radius:999px;opacity:.85;z-index:60}
+    @media(max-width:980px){.hero,.features,.grid2,.future{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.side{position:static}}
+  </style>
+</head>
+<body>
+  <!-- ===================== TOP NAV ===================== -->
+  <nav>
+    <div class="nav-inner">
+      <div class="brand" onclick="showView('home')">
+        <div class="sq">M</div>
+        <div class="wm">MWU <span>Pipeline</span></div>
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-tab="home" onclick="showView('home')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></svg>Overview</button>
+        <button class="tab" data-tab="console" onclick="showView('console')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M9 17v-6M15 17V7M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg>Console</button>
+        <button class="tab" data-tab="docs" onclick="showView('console')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>Docs</button>
+      </div>
+      <div class="avatar">H</div>
+    </div>
+  </nav>
+
+  <!-- ===================== HOME (original LDT hero, reskinned) ===================== -->
+  <section id="view-home" class="view active">
+    <div class="wrap">
+      <div class="hero">
+        <div>
+          <div class="badge"><span class="ping"><b></b><i></i></span>MWU Pipeline · Validation Sprint Ready</div>
+          <h1>L2 Dialogic Fluency<br><span class="u">Research Pipeline</span></h1>
+          <p class="lede">A phase-based, human-verifiable workflow that turns multi-party conversation recordings into publication-ready fluency and multi-word-unit data — Praat-compatible, parameter-transparent, review-gated at every step.</p>
+          <div class="cta">
+            <button class="btn btn-lg btn-primary" onclick="enterConsole()">
+              <svg class="icon-lg" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Enter Console</button>
+            <button class="btn btn-lg btn-outline" onclick="enterConsole()">
+              <svg class="icon-lg" viewBox="0 0 24 24" style="stroke:#2563eb"><path d="m5 3 14 9-14 9V3Z"/></svg>View Workflow</button>
+          </div>
+          <div class="callout">
+            <svg class="icon-xl ci" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <div class="ct"><b>Current run:</b> Validation Sprint on the SpeakerX <b>monologue</b> benchmark. Phase I (diarization &amp; isolation) is out of scope for this single-speaker sample — the sprint operates from Phase II.</div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="blob a"></div><div class="blob b"></div>
+          <div class="preview">
+            <div class="winbar"><i></i><i></i><i></i></div>
+            <div class="mini">
+              <div class="row"><span class="n">I</span>Diarization &amp; Isolation · skipped</div>
+              <div class="row on"><span class="n">II</span>Pause &amp; Duration · ready</div>
+              <div class="row"><span class="n">III</span>Transcript Split</div>
+              <div class="row"><span class="n">V</span>Synthesis &amp; Export</div>
+            </div>
+            <div class="lbl"><p class="k">Workflow Console</p><p class="v">Phase II–V · SpeakerX</p></div>
+          </div>
+          <div class="floatcard">
+            <div class="top">
+              <div class="ic" style="background:var(--blue-50);color:var(--blue-600)"><svg class="icon-lg" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h18M9 3v18"/></svg></div>
+              <div><div class="k">Gold targets loaded</div><div class="v">5 replay metrics</div></div>
+            </div>
+            <div class="bar"><i style="width:100%;background:#93c5fd"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="features">
+        <div class="feature"><div class="fi fi-blue"><svg class="icon-lg" viewBox="0 0 24 24"><path d="M9 17v-6M15 17V7M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg></div>
+          <h3>Phase Runner</h3><p>Run Phase I–V independently, each with visible status, configuration, review gate, and downloadable artifacts — never one opaque "process everything" button.</p></div>
+        <div class="feature"><div class="fi fi-green"><svg class="icon-lg" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h18M9 3v18"/></svg></div>
+          <h3>Praat Automation</h3><p>Dual-threshold (0.25 / 0.35 s) pause and duration analysis on reviewed speaker tracks, producing Praat-compatible TextGrids and reproducible method logs.</p></div>
+        <div class="feature"><div class="fi fi-purple"><svg class="icon-lg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg></div>
+          <h3>Gold Validation</h3><p>Every phase is measured against a human gold standard — counts, durations, and κ reported before any output is treated as analysis-ready.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONSOLE ===================== -->
+  <section id="view-console" class="view">
+    <div class="wrap">
+      <div class="console-head">
+        <div>
+          <div class="crumb"><span>Console</span>
+            <svg class="icon-sm" viewBox="0 0 24 24" style="stroke:#94a3b8"><path d="m9 18 6-6-6-6"/></svg>
+            <span>Validation Sprint</span></div>
+          <h2>Validation Sprint — SpeakerX monologue benchmark</h2>
+          <p class="sub">Operate the workflow phase by phase. Phase I is skipped for this single-speaker sample; the sprint runs Phase II–III and a Phase V skeleton.</p>
+        </div>
+        <span class="pill pill-slate"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M12 8v4l3 2M3 12a9 9 0 1 0 9-9 9 9 0 0 0-9 9Z"/></svg>Ready to run</span>
+      </div>
+
+      <div class="layout">
+        <!-- left phase menu -->
+        <aside class="side">
+          <div class="st">Workflow phases</div>
+          <div class="pnav">
+            <button class="pitem locked" disabled>
+              <span class="pnum">I</span>
+              <span class="pmeta"><span class="pn">Diarization &amp; Isolation</span><span class="ps"><svg class="icon-sm" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>skipped · monologue</span></span></button>
+            <button class="pitem active" data-phase="2" onclick="selectPhase(2)">
+              <span class="pnum">II</span>
+              <span class="pmeta"><span class="pn">Pause &amp; Duration</span><span class="ps">ready · gold replay</span></span></button>
+            <button class="pitem" data-phase="3" onclick="selectPhase(3)">
+              <span class="pnum">III</span>
+              <span class="pmeta"><span class="pn">Transcript Split</span><span class="ps">validation · split test</span></span></button>
+            <button class="pitem locked" disabled>
+              <span class="pnum">IV</span>
+              <span class="pmeta"><span class="pn">Lexical / MWU</span><span class="ps"><svg class="icon-sm" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Layer 2 · not in sprint</span></span></button>
+            <button class="pitem" data-phase="5" onclick="selectPhase(5)">
+              <span class="pnum">V</span>
+              <span class="pmeta"><span class="pn">Synthesis &amp; Export</span><span class="ps">validation · matrix skeleton</span></span></button>
+          </div>
+          <div class="scope-note">This sprint operates <b>Phase II–III</b> and a <b>Phase V</b> skeleton. Phase I and IV are present in the full product but out of scope for the monologue benchmark.</div>
+        </aside>
+
+        <!-- main panel -->
+        <div class="panel">
+
+          <!-- ===== PHASE I (locked) ===== -->
+          <div class="phase" data-phase="1">
+            <div class="phead"><span class="ph-no">I</span><h3>Diarization &amp; Voice Isolation</h3><span class="pill pill-slate">skipped</span></div>
+            <div class="locked-card">
+              <div class="lk"><svg class="icon-xl" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <h4>Skipped for the monologue benchmark</h4>
+              <p>The SpeakerX sample is a single speaker, so there is nothing to diarize or isolate. In the full product, this phase turns a group recording into N muted-mirror WAVs and a draft review TextGrid before Phase II.</p>
+              <div class="future">
+                <div class="fb"><h6>Input (future)</h6><p>Group recording · configurable speaker count (default 3)</p></div>
+                <div class="fb"><h6>Process (future)</h6><p>AI diarization → per-speaker muted-mirror WAV → draft TextGrid</p></div>
+                <div class="fb"><h6>Output (future)</h6><p>Reviewed TextGrid + N WAVs → Phase II &amp; III</p></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PHASE II (active) → maps to React <ValidationConsole> ===== -->
+          <div class="phase active" data-phase="2">
+            <div class="phead"><span class="ph-no">II</span><h3>Multi-Threshold Pause &amp; Duration Analysis</h3><span class="pill pill-slate">ready to run</span></div>
+
+            <div class="grid2">
+              <!-- <FileChecklist> -->
+              <div class="card">
+                <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></div><h4>Benchmark inputs</h4><span class="hint">SpeakerX · sample</span></div>
+                <div class="card-b">
+                  <div class="frow"><div class="fi fi-audio"><svg class="icon" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6M21 19a2 2 0 0 1-2 2h-3v-7h3zM3 19a2 2 0 0 0 2 2h3v-7H3z"/></svg></div><div><div class="fname">8_STEM_SpeakerX_checked_and_pruned.wav</div><div class="fmeta">audio · 30.8 MB · mono · 183.2 s</div></div><span class="fstatus pill pill-green">ready</span></div>
+                  <div class="frow"><div class="fi fi-grid"><svg class="icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h18M9 3v18"/></svg></div><div><div class="fname">8 STEM SpeakerX.TextGrid</div><div class="fmeta">expert segmentation · gold replay input</div></div><span class="fstatus pill pill-green">gold</span></div>
+                  <div class="frow"><div class="fi fi-xls"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13l4 5M12 13l-4 5"/></svg></div><div><div class="fname">Example fluency measures … SpeakerX.xlsx</div><div class="fmeta">gold baseline · col B (Xu, IELTS 8)</div></div><span class="fstatus pill pill-amber">baseline</span></div>
+                  <p class="note">Workbook holds 3 monologues (SpeakerX / Y / Z). This run targets SpeakerX only — the wav we hold.</p>
+                </div>
+              </div>
+              <!-- parameters -->
+              <div class="card">
+                <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></div><h4>Parameters</h4><span class="hint">editable · no code change</span></div>
+                <div class="card-b">
+                  <div class="kv"><span class="k">Pause thresholds</span><span class="v" style="display:flex;gap:6px"><span class="pill pill-blue">0.25 s · gold</span><span class="pill pill-amber">0.35 s · no-gold</span></span></div>
+                  <div class="kv"><span class="k">Gold silence detection</span><span class="v">min pause ≈ 0.247 s</span></div>
+                  <div class="kv"><span class="k">Praat window size</span><span class="v">200 s</span></div>
+                  <div class="kv"><span class="k">Praat binary</span><span class="v mono">/Applications/Praat.app…</span></div>
+                  <div style="margin-top:14px;display:flex;gap:10px"><button class="btn-sm p"><svg class="icon-sm" viewBox="0 0 24 24"><path d="m5 3 14 9-14 9V3Z"/></svg>Run validation</button><button class="btn-sm g" disabled style="opacity:.5">Re-run</button></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <RunStepper> — pending / ready state -->
+            <div class="card">
+              <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h4>Run pipeline</h4><span class="hint">not run yet</span></div>
+              <div class="card-b"><div class="steps">
+                <div class="step"><div class="stp"><span class="dotnum pending">1</span>Load benchmark</div><div class="sdp">wav · TextGrid · xlsx</div></div>
+                <div class="step"><div class="stp"><span class="dotnum pending">2</span>Gold replay</div><div class="sdp">recompute from expert TextGrid</div></div>
+                <div class="step"><div class="stp"><span class="dotnum pending">3</span>Generate drafts</div><div class="sdp">Praat @ 0.25 / 0.35</div></div>
+                <div class="step"><div class="stp"><span class="dotnum pending">4</span>Compare vs baseline</div><div class="sdp">col B (Xu)</div></div>
+                <div class="step"><div class="stp"><span class="dotnum pending">5</span>Write matrix + report</div><div class="sdp">artifacts</div></div>
+              </div></div>
+            </div>
+
+            <!-- ===== BLOCK A — Gold Replay → <MetricComparisonTable> ===== -->
+            <div class="card">
+              <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg></div><h4>Gold replay</h4><span class="hint">recompute from expert TextGrid → match the workbook</span></div>
+              <div class="card-b">
+                <div class="banner banner-ready"><div class="bi"><svg class="icon" viewBox="0 0 24 24"><path d="m5 3 14 9-14 9V3Z"/></svg></div>
+                  <div><h5>Ready to run — 5 gold targets loaded</h5><p>Holds the expert segmentation fixed and reproduces the published SpeakerX numbers. Status fills in only after a real run.</p></div></div>
+                <table>
+                  <thead><tr><th>Metric (deterministic, in scope)</th><th>SpeakerX gold</th><th>Our output</th><th>Δ</th><th>Tolerance</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td>Total audio duration (s)</td><td class="num">183.179</td><td class="num">—</td><td class="num">—</td><td>≤ 0.001</td><td><span class="none">awaiting run</span></td></tr>
+                    <tr><td>Speaking time (s)</td><td class="num">133.197</td><td class="num">—</td><td class="num">—</td><td>≤ 0.001</td><td><span class="none">awaiting run</span></td></tr>
+                    <tr><td>Total silent pausing time (s)</td><td class="num">49.983</td><td class="num">—</td><td class="num">—</td><td>≤ 0.001</td><td><span class="none">awaiting run</span></td></tr>
+                    <tr><td>No. of silent pauses</td><td class="num">60</td><td class="num">—</td><td class="num">—</td><td>exact</td><td><span class="none">awaiting run</span></td></tr>
+                    <tr><td>Mean silent pause (s)</td><td class="num">0.833</td><td class="num">—</td><td class="num">—</td><td>≤ 0.001</td><td><span class="none">awaiting run</span></td></tr>
+                  </tbody>
+                </table>
+                <div class="sec-label"><svg class="icon-sm" viewBox="0 0 24 24" style="stroke:#d97706"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg>Gold present but needs Layer 2 conventions — not reproducible in the deterministic sprint</div>
+                <table>
+                  <thead><tr><th>Metric (needs conventions)</th><th>SpeakerX gold</th><th>Blocker</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td>No. of syllables</td><td class="num">535</td><td>de Jong &amp; Wempe syllable script</td><td><span class="none">out of sprint</span></td></tr>
+                    <tr><td>Articulation rate (syll/min)</td><td class="num">240.997</td><td>syllable count + rate def</td><td><span class="none">out of sprint</span></td></tr>
+                    <tr><td>Mid-clause pauses (within ASU)</td><td class="num">37</td><td>AS-unit segmentation rules</td><td><span class="none">out of sprint</span></td></tr>
+                    <tr><td>End-clause pauses (between ASU)</td><td class="num">23</td><td>AS-unit segmentation rules</td><td><span class="none">out of sprint</span></td></tr>
+                    <tr><td>Total repairs</td><td class="num">1</td><td>repair coding convention</td><td><span class="none">out of sprint</span></td></tr>
+                  </tbody>
+                </table>
+                <p class="note">Gold uses one threshold (min pause ≈ 0.247 s, count = 60). At ≥ 0.35 s the same segmentation yields 49 pauses, but the workbook has no separate 0.35 s gold column. Workbook labels "phonation time" = total audio and "articulation rate" in syll/min — to be reconciled with PRD §5 before sign-off.</p>
+              </div>
+            </div>
+
+            <!-- ===== BLOCK B — Generated Drafts ===== -->
+            <div class="card">
+              <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><h4>Generated drafts</h4><span class="hint">our Praat segmentation from audio</span></div>
+              <div class="card-b">
+                <table>
+                  <thead><tr><th>Draft output</th><th>Source</th><th>Gold check</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td class="mono">generated_0.25.TextGrid</td><td>Praat silence @ 0.25 s</td><td>boundary agreement vs expert TextGrid</td><td><span class="none">awaiting run</span></td></tr>
+                    <tr><td class="mono">generated_0.35.TextGrid</td><td>Praat silence @ 0.35 s</td><td>no gold reference</td><td><span class="none">no gold</span></td></tr>
+                  </tbody>
+                </table>
+                <p class="note">Drafts are new pipeline output — they test our segmentation, not the arithmetic. Only the 0.25 s draft has an expert segmentation to diff against; 0.35 s is reported only.</p>
+              </div>
+            </div>
+
+            <!-- <ArtifactDownloads> -->
+            <div class="card">
+              <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></div><h4>Artifacts</h4><span class="hint">generated after run</span></div>
+              <div class="card-b">
+                <div class="arow"><svg class="icon" viewBox="0 0 24 24" style="stroke:#2563eb"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg><span class="an">gold_replay_durations.csv</span><span class="am">recomputed metrics, SpeakerX</span><span class="ad"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>download</span></div>
+                <div class="arow"><svg class="icon" viewBox="0 0 24 24" style="stroke:#2563eb"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg><span class="an">speakerx_025_baseline_comparison.json</span><span class="am">metric-by-metric vs workbook</span><span class="ad"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>download</span></div>
+                <div class="arow"><svg class="icon" viewBox="0 0 24 24" style="stroke:#16a34a"><path d="M3 3h18v18H3zM3 9h18M9 3v18"/></svg><span class="an">generated_0.25.TextGrid</span><span class="am">draft segmentation</span><span class="ad"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>download</span></div>
+                <div class="arow"><svg class="icon" viewBox="0 0 24 24" style="stroke:#16a34a"><path d="M3 3h18v18H3zM3 9h18M9 3v18"/></svg><span class="an">generated_0.35.TextGrid</span><span class="am">draft segmentation · no gold</span><span class="ad"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>download</span></div>
+                <div class="arow"><svg class="icon" viewBox="0 0 24 24" style="stroke:#d97706"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg><span class="an">validation_matrix_speakerx.xlsx</span><span class="am">long-format matrix + provenance</span><span class="ad"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>download</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PHASE III (transcript split test) ===== -->
+          <div class="phase" data-phase="3">
+            <div class="phead"><span class="ph-no">III</span><h3>Transcript Splitting &amp; Unit Extraction</h3><span class="pill pill-blue">split test</span></div>
+            <div class="grid2">
+              <div class="card">
+                <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div><h4>Input</h4></div>
+                <div class="card-b"><div class="frow"><div class="fi fi-txt"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></div><div><div class="fname">8 STEM SpeakerX … pruned.txt</div><div class="fmeta">expert transcript · 2 KB</div></div><span class="fstatus pill pill-green">ready</span></div>
+                  <p class="note">Single speaker — no diarization boundaries to resolve; this validates the RAW/TIDY split rules only.</p></div>
+              </div>
+              <div class="card">
+                <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h4>Run</h4></div>
+                <div class="card-b"><div class="steps">
+                  <div class="step"><div class="stp"><span class="dotnum pending">1</span>Parse</div><div class="sdp">tokens</div></div>
+                  <div class="step"><div class="stp"><span class="dotnum pending">2</span>RAW-TIMING</div><div class="sdp">verbatim</div></div>
+                  <div class="step"><div class="stp"><span class="dotnum pending">3</span>TIDY-PHRASE</div><div class="sdp">cleaned</div></div>
+                </div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></div><h4>Outputs</h4></div>
+              <div class="card-b">
+                <div class="arow"><svg class="icon" viewBox="0 0 24 24" style="stroke:#64748b"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg><span class="an">SpeakerX_RAW-TIMING.txt</span><span class="am">fillers / repairs kept</span><span class="ad"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>download</span></div>
+                <div class="arow"><svg class="icon" viewBox="0 0 24 24" style="stroke:#64748b"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg><span class="an">SpeakerX_TIDY-PHRASE.txt</span><span class="am">non-lexical fillers removed</span><span class="ad"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>download</span></div>
+                <p class="note">Acceptance: RAW reconciles 1:1 with the expert transcript; TIDY removes only the agreed non-lexical tokens.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PHASE IV (locked) ===== -->
+          <div class="phase" data-phase="4">
+            <div class="phead"><span class="ph-no">IV</span><h3>Lexical / MWU Feature Extraction</h3><span class="pill pill-slate">Layer 2</span></div>
+            <div class="locked-card">
+              <div class="lk"><svg class="icon-xl" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <h4>Not in the Validation Sprint</h4>
+              <p>Lexical/MWU extraction (TAALES · TAALED · AntConc) is Layer 2. It depends on signed-off MWU definitions and AS-unit rules, so it is out of scope for the deterministic sprint — shown here only to keep the full-product structure visible.</p>
+              <div class="future">
+                <div class="fb"><h6>Input (Layer 2)</h6><p>TIDY transcripts · MWU defs · AS-unit rules</p></div>
+                <div class="fb"><h6>Process (Layer 2)</h6><p>TAALES / TAALED / AntConc · clause &amp; pause classification</p></div>
+                <div class="fb"><h6>Output (Layer 2)</h6><p>Lexical / MWU · pause-location · rate tables → Phase V</p></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PHASE V (matrix skeleton) ===== -->
+          <div class="phase" data-phase="5">
+            <div class="phead"><span class="ph-no">V</span><h3>Database Synthesis &amp; Export</h3><span class="pill pill-blue">matrix skeleton</span></div>
+            <div class="card">
+              <div class="card-h"><div class="ci"><svg class="icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18"/></svg></div><h4>Matrix skeleton</h4><span class="hint">long-format draft</span></div>
+              <div class="card-b">
+                <p class="note" style="margin-top:0">Assembles Phase II durations + Phase III text into the long-format column structure — the schema only, to prove the final matrix shape. Full synthesis (metadata merge, validation, codebook) is Layer 3.</p>
+                <table>
+                  <thead><tr><th>recording_id</th><th>speaker_id</th><th>threshold</th><th>pause_count</th><th>silent_pausing_s</th><th>speaking_s</th><th>review_status</th></tr></thead>
+                  <tbody>
+                    <tr><td class="num">8_STEM_SpeakerX</td><td class="num">SpeakerX</td><td class="num">0.25</td><td class="num">60</td><td class="num">49.983</td><td class="num">133.197</td><td><span class="pill pill-green" style="padding:2px 8px">gold</span></td></tr>
+                    <tr><td class="num">8_STEM_SpeakerX</td><td class="num">SpeakerX</td><td class="num">0.35</td><td class="num">49</td><td class="num">—</td><td class="num">133.197</td><td><span class="pill pill-amber" style="padding:2px 8px">no-gold</span></td></tr>
+                  </tbody>
+                </table>
+                <div style="margin-top:14px"><span class="arow" style="border:0;padding:0"><svg class="icon" viewBox="0 0 24 24" style="stroke:#2563eb"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg><span class="an">SpeakerX_matrix_skeleton.csv</span><span class="ad"><svg class="icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>download</span></span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mock-flag">UI mockup · static preview</div>
+
+  <script>
+    function showView(name){
+      document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+      document.getElementById('view-'+name).classList.add('active');
+      document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
+      window.scrollTo({top:0});
+    }
+    function enterConsole(){ showView('console'); selectPhase(2); }
+    function selectPhase(n){
+      document.querySelectorAll('.pitem').forEach(p=>p.classList.toggle('active', p.dataset.phase==String(n)));
+      document.querySelectorAll('.phase').forEach(p=>p.classList.toggle('active', p.dataset.phase==String(n)));
+    }
+  </script>
+</body>
+</html>

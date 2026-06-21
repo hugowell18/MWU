@@ -1,0 +1,28 @@
+{
+  "suite": "integration",
+  "passed": 5,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "Full Sprint Run: output tree + report + 0.25 pass + 0.35 no-gold + Phase I skipped + no Y/Z",
+      "status": "passed"
+    },
+    {
+      "name": "Missing input -> blocked, names the missing file",
+      "status": "passed"
+    },
+    {
+      "name": "Corrupted TextGrid (dropped interval) -> gold replay FAILS, not pass",
+      "status": "passed"
+    },
+    {
+      "name": "Praat unavailable -> drafts blocked, gold replay still passes, readiness ready_with_caveats",
+      "status": "passed"
+    },
+    {
+      "name": "Threshold array [0.2,0.25,0.35] runs without crash",
+      "status": "passed"
+    }
+  ],
+  "generated_at": "2026-06-21T14:36:13.492Z"
+}

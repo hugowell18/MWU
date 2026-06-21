@@ -1,0 +1,10 @@
+# Script 1 (silences.praat) — 2026-06-21T14:39:04.015Z
+binary: /Applications/Praat.app/Contents/MacOS/Praat
+available: true
+window_size: 200
+threshold 0.25: OK :: /Applications/Praat.app/Contents/MacOS/Praat --run /Users/nedved/Tool/Workspace/MWU/MWU/scripts/validation-sprint/praat/silences.praat /Users/nedved/Tool/Workspace/MWU/MWU/sample/8_STEM_SpeakerX_checked_and_pruned.wav /Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/generated.TextGrid 0.25 -25 0.1 100 200 none
+  OK threshold=0.25 window=200 nwin=1 xmax=183.1792290249433 intervals=195 invalid=0
+threshold 0.35: OK :: /Applications/Praat.app/Contents/MacOS/Praat --run /Users/nedved/Tool/Workspace/MWU/MWU/scripts/validation-sprint/praat/silences.praat /Users/nedved/Tool/Workspace/MWU/MWU/sample/8_STEM_SpeakerX_checked_and_pruned.wav /Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/generated.TextGrid 0.35 -25 0.1 100 200 none
+  OK threshold=0.35 window=200 nwin=1 xmax=183.1792290249433 intervals=142 invalid=0
+threshold 0.5: OK :: /Applications/Praat.app/Contents/MacOS/Praat --run /Users/nedved/Tool/Workspace/MWU/MWU/scripts/validation-sprint/praat/silences.praat /Users/nedved/Tool/Workspace/MWU/MWU/sample/8_STEM_SpeakerX_checked_and_pruned.wav /Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/generated.TextGrid 0.5 -25 0.1 100 200 none
+  OK threshold=0.5 window=200 nwin=1 xmax=183.1792290249433 intervals=112 invalid=0

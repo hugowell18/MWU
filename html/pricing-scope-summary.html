@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MWU Fluency Pipeline - Delivery Scope Summary</title>
+  <style>
+    :root {
+      --page: #f6f8fb;
+      --ink: #172033;
+      --muted: #5f6b7d;
+      --line: #d7dee8;
+      --paper: #ffffff;
+      --sprint: #475569;
+      --l1: #0f766e;
+      --l1b: #0d9488;
+      --l2: #2563eb;
+      --l3: #6d28d9;
+      --warn: #b45309;
+      --shadow: 0 18px 42px rgba(23, 32, 51, 0.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.86), rgba(246,248,251,0.96)),
+        radial-gradient(circle at 16% 0%, rgba(15,118,110,0.12), transparent 34%),
+        radial-gradient(circle at 88% 8%, rgba(37,99,235,0.12), transparent 30%),
+        var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .shell {
+      width: min(1180px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 34px 0 46px;
+    }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 26px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      max-width: 880px;
+    }
+    .lede {
+      margin: 16px 0 0;
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .summary-card {
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--l1);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.94);
+      box-shadow: var(--shadow);
+      padding: 18px 18px 16px;
+    }
+    .summary-card b { display: block; margin-bottom: 6px; font-size: 13px; }
+    .summary-card p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.55; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .tier {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--paper);
+      box-shadow: 0 12px 30px rgba(23,32,51,0.07);
+    }
+    .tier-label {
+      padding: 18px 16px;
+      color: #fff;
+      background: var(--accent);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 184px;
+    }
+    .tier-label span {
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      font-weight: 800;
+      opacity: .86;
+    }
+    .tier-label strong {
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+    .tier-body {
+      padding: 18px 20px 20px;
+    }
+    .tier-body h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+    .tier-body p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 13.5px;
+    }
+    .cols {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .box {
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      background: #fbfdff;
+      padding: 12px;
+      min-height: 124px;
+    }
+    .box h3 {
+      margin: 0 0 8px;
+      font-size: 11px;
+      letter-spacing: .9px;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .box ul {
+      margin: 0;
+      padding-left: 16px;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.48;
+    }
+    .box li { margin: 0 0 5px; }
+    .notice {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .notice-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.94);
+      box-shadow: 0 12px 30px rgba(23,32,51,0.07);
+      padding: 18px;
+    }
+    .notice-card h2 {
+      margin: 0 0 9px;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+    .notice-card p, .notice-card li {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .notice-card ul { margin: 0; padding-left: 18px; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border: 1px solid #e2e8f0;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      background: #fff;
+      margin: 2px 6px 8px 0;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
+    @media (max-width: 980px) {
+      header, .notice { grid-template-columns: 1fr; }
+      .tier { grid-template-columns: 1fr; }
+      .tier-label { min-height: auto; gap: 20px; }
+      .cols { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .cols { grid-template-columns: 1fr; }
+      .shell { width: min(100% - 26px, 1180px); padding-top: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <p class="eyebrow">Commercial scope proposal</p>
+        <h1>Delivery plan for the MWU Fluency Pipeline</h1>
+        <p class="lede">The research workflow runs from Phase I to Phase V. The commercial delivery should be separated into a small Validation Sprint and layered delivery tiers, so each commitment has a clear acceptance gate, dependency boundary, and risk profile.</p>
+      </div>
+      <aside class="summary-card">
+        <b>Recommended path</b>
+        <p>Start with the monologue benchmark, then fund the highest-labor annotation layer, then add research analysis and final reporting only after definitions and gold standards are signed off.</p>
+      </aside>
+    </header>
+
+    <section class="grid" aria-label="Delivery tiers">
+      <article class="tier" style="--accent: var(--sprint)">
+        <div class="tier-label"><span>Pre-layer</span><strong>VS</strong></div>
+        <div class="tier-body">
+          <h2>Validation Sprint - monologue benchmark</h2>
+          <p>Purpose: prove that the software can reproduce the provided expert Praat/TextGrid/Excel baseline before committing to the real multilogue pipeline.</p>
+          <div class="cols">
+            <div class="box">
+              <h3>Covers</h3>
+              <ul>
+                <li>Phase II gold replay</li>
+                <li>Phase III transcript split test</li>
+                <li>Phase V matrix skeleton</li>
+                <li>Net-new local WebUI validation console</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Deliverables</h3>
+              <ul>
+                <li>Input manifest and method log</li>
+                <li>0.25 / 0.35 threshold artifacts</li>
+                <li>RAW and TIDY transcript files</li>
+                <li>Validation report and matrix skeleton</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Acceptance</h3>
+              <ul>
+                <li>Pause count matches exactly</li>
+                <li>Key durations match within 0.001 s</li>
+                <li>0.25 SpeakerX matrix matches baseline</li>
+                <li>0.35 clearly marked as no-gold</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Boundary</h3>
+              <ul>
+                <li>Monologue only</li>
+                <li>No diarization validation</li>
+                <li>No final lexical/MWU analysis</li>
+                <li>Deductible only within agreed window</li>
+              </ul>
+            </div>
+          </div>
+          <p style="margin-top:14px">Workbook check: the supplied SpeakerX workbook has no separate 0.35 threshold gold columns; 0.35 is generated for schema and process verification only until the research team supplies a matching gold baseline.</p>
+        </div>
+      </article>
+
+      <article class="tier" style="--accent: var(--l1)">
+        <div class="tier-label"><span>Layer 1a</span><strong>L1a</strong></div>
+        <div class="tier-body">
+          <h2>AI diarization and speaker isolation</h2>
+          <p>Purpose: process real multilogue recordings by proposing speaker turns and producing per-speaker muted-mirror audio for later Praat processing.</p>
+          <div class="cols">
+            <div class="box">
+              <h3>Covers</h3>
+              <ul>
+                <li>Phase I</li>
+                <li>Configurable speaker count</li>
+                <li>AI speaker diarization</li>
+                <li>Muted-mirror WAV generation</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Deliverables</h3>
+              <ul>
+                <li>Diarization JSON</li>
+                <li>Per-speaker audio files</li>
+                <li>Review TextGrid draft</li>
+                <li>Correction-rate report</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Acceptance</h3>
+              <ul>
+                <li>Measured against client gold cuts</li>
+                <li>Speaker error and edit rate reported</li>
+                <li>Overlaps and uncertainty surfaced</li>
+                <li>Human correction remains expected</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Risk</h3>
+              <ul>
+                <li>Probabilistic AI component</li>
+                <li>Sprint does not validate this layer</li>
+                <li>Depends on real multilogue samples</li>
+                <li>Overlapping speech may require manual correction</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tier" style="--accent: var(--l1b)">
+        <div class="tier-label"><span>Layer 1b</span><strong>L1b</strong></div>
+        <div class="tier-body">
+          <h2>Deterministic Praat automation</h2>
+          <p>Purpose: reduce the most repetitive Praat pause-boundary and duration-calculation work with configurable, reviewable, Praat-compatible outputs.</p>
+          <div class="cols">
+            <div class="box">
+              <h3>Covers</h3>
+              <ul>
+                <li>Phase II core</li>
+                <li>Configurable pause thresholds</li>
+                <li>Praat CLI / TextGrid generation</li>
+                <li>Duration calculations</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Deliverables</h3>
+              <ul>
+                <li>Threshold-specific TextGrids</li>
+                <li>Segment duration tables</li>
+                <li>Review-ready artifacts</li>
+                <li>Parameter and version logs</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Acceptance</h3>
+              <ul>
+                <li>Full unsegmented timeline preserved</li>
+                <li>Gold-sample count and duration error reported</li>
+                <li>Parameters adjustable without code changes</li>
+                <li>Manual Praat review remains final</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Risk</h3>
+              <ul>
+                <li>Deterministic and controllable</li>
+                <li>Calculation chain tested in Sprint</li>
+                <li>Does not depend on cloud ASR</li>
+                <li>Still needs human review of difficult acoustic cases</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tier" style="--accent: var(--l2)">
+        <div class="tier-label"><span>Layer 2</span><strong>L2</strong></div>
+        <div class="tier-body">
+          <h2>Research analysis expansion</h2>
+          <p>Purpose: add the transcript, AS-unit, pause-location, lexical and MWU analysis needed to answer the research questions, once definitions are stable.</p>
+          <div class="cols">
+            <div class="box">
+              <h3>Covers</h3>
+              <ul>
+                <li>Phase III</li>
+                <li>Phase IV</li>
+                <li>Early Phase V integration</li>
+                <li>Optional word-level alignment add-on</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Deliverables</h3>
+              <ul>
+                <li>RAW-TIMING and TIDY-PHRASE files</li>
+                <li>AS-unit / clause mapping tables</li>
+                <li>Lexical and MWU feature tables</li>
+                <li>Pause-location features</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Start condition</h3>
+              <ul>
+                <li>AS-unit rules signed off</li>
+                <li>MWU definition signed off</li>
+                <li>Syllable / repair coding rules signed off</li>
+                <li>Gold examples supplied</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>MFA boundary</h3>
+              <ul>
+                <li>Base scope uses reviewed silence and clause boundaries</li>
+                <li>MFA adds word-level timing precision</li>
+                <li>MFA is separately quoted and validated</li>
+                <li>No word-level claim without alignment evidence</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tier" style="--accent: var(--l3)">
+        <div class="tier-label"><span>Layer 3</span><strong>L3</strong></div>
+        <div class="tier-body">
+          <h2>Final matrix and reporting system</h2>
+          <p>Purpose: turn reviewed outputs and research features into a stable final workbook, codebook, validation package and reporting workflow.</p>
+          <div class="cols">
+            <div class="box">
+              <h3>Covers</h3>
+              <ul>
+                <li>Full Phase V</li>
+                <li>Cross-phase synthesis</li>
+                <li>Final export schema</li>
+                <li>Reporting workflow</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Deliverables</h3>
+              <ul>
+                <li>Research workbook</li>
+                <li>Analysis matrix CSV/XLSX</li>
+                <li>Codebook and method log</li>
+                <li>Validation dashboard/report</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Acceptance</h3>
+              <ul>
+                <li>Schema signed off</li>
+                <li>Gold validation reported</li>
+                <li>Traceability from source to metric</li>
+                <li>Publication/archive package complete</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Boundary</h3>
+              <ul>
+                <li>Statistical modeling is separate</li>
+                <li>Final research interpretation remains researcher-owned</li>
+                <li>Requires stable upstream outputs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="notice" aria-label="Scope guardrails">
+      <article class="notice-card">
+        <h2>Claims boundary</h2>
+        <p><span class="tag"><i class="dot" style="--accent: var(--sprint)"></i>Validation Sprint</span><span class="tag"><i class="dot" style="--accent: var(--l1)"></i>Layer 1a risk</span></p>
+        <ul>
+          <li>The sprint validates the deterministic calculation chain, not AI speaker diarization.</li>
+          <li>AI diarization must be validated later against multilogue gold samples, with correction/error rates reported.</li>
+          <li>Praat-reviewed TextGrid files remain the final research evidence, not unreviewed AI output.</li>
+        </ul>
+      </article>
+      <article class="notice-card">
+        <h2>Client inputs required</h2>
+        <p><span class="tag"><i class="dot" style="--accent: var(--l2)"></i>Definitions sign-off</span><span class="tag"><i class="dot" style="--accent: var(--l3)"></i>Gold standards</span></p>
+        <ul>
+          <li>For L1a: multilogue audio plus manual speaker-isolation gold examples.</li>
+          <li>For L2: AS-unit rules, MWU definition, syllable/repair coding rules, and gold examples.</li>
+          <li>For word-level pause/MWU claims: optional forced-alignment scope and alignment validation target.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

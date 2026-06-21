@@ -1,0 +1,30 @@
+{
+  "status": "placeholder_ready",
+  "tools": [
+    "TAALES",
+    "TAALED",
+    "AntConc"
+  ],
+  "note": "Text variables are placeholders for this validation run; no TAALES/TAALED/AntConc values are fabricated.",
+  "columns": [
+    "TAALES_Word_Frequency_Mean",
+    "TAALES_Lexical_Decision_Mean",
+    "TAALES_MWU_Proportion_Top30k",
+    "TAALED_MTLD",
+    "TAALED_MATTR",
+    "AntConc_LB4_Count",
+    "AntConc_LB_Range",
+    "AntConc_LB_MI_Mean"
+  ],
+  "values": {
+    "TAALES_Word_Frequency_Mean": "pending_not_implemented",
+    "TAALES_Lexical_Decision_Mean": "pending_not_implemented",
+    "TAALES_MWU_Proportion_Top30k": "pending_not_implemented",
+    "TAALED_MTLD": "pending_not_implemented",
+    "TAALED_MATTR": "pending_not_implemented",
+    "AntConc_LB4_Count": "pending_not_implemented",
+    "AntConc_LB_Range": "pending_not_implemented",
+    "AntConc_LB_MI_Mean": "pending_not_implemented"
+  },
+  "ran_at": "2026-06-21T14:39:04.015Z"
+}

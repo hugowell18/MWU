@@ -1,0 +1,89 @@
+{
+  "threshold": 0.25,
+  "script2_method": "praat",
+  "status": "passed",
+  "baseline": {
+    "speaker": "SpeakerX",
+    "column": "B",
+    "sheets": [
+      "Durations",
+      "Fluency measures"
+    ],
+    "total_audio": 183.1792290249431,
+    "phonation_time": 183.1792290249431,
+    "speaking_time": 133.19652983384842,
+    "speaking_min": 2.2199421638974735,
+    "syllables": 535,
+    "silent_pauses": 60,
+    "mean_silent_pause": 0.8330449865182448,
+    "total_silent_pausing": 49.98269919109469,
+    "mid_clause": 37,
+    "end_clause": 23,
+    "repairs": 1,
+    "articulation_rate": 240.99726952377873,
+    "has_035_gold": false
+  },
+  "computed": {
+    "total_duration": 183.17922902494303,
+    "interval_count": 121,
+    "sounding_count": 61,
+    "silent_count": 60,
+    "invalid_count": 0,
+    "total_sounding": 133.19652983384802,
+    "total_silent": 49.98269919109502,
+    "total_invalid": 0,
+    "mean_silent": 0.8330449865182504,
+    "min_silent": 0.246806991476,
+    "max_silent": 2.806399928598
+  },
+  "rows": [
+    {
+      "metric": "No. of silent pauses",
+      "ours": 60,
+      "gold": 60,
+      "delta": 0,
+      "tolerance": "exact",
+      "pass": true
+    },
+    {
+      "metric": "Total audio duration (s)",
+      "ours": 183.17922902494303,
+      "gold": 183.1792290249431,
+      "delta": 8.526512829121202e-14,
+      "tolerance": "<= 0.001",
+      "pass": true
+    },
+    {
+      "metric": "Speaking time (s)",
+      "ours": 133.19652983384802,
+      "gold": 133.19652983384842,
+      "delta": 3.979039320256561e-13,
+      "tolerance": "<= 0.001",
+      "pass": true
+    },
+    {
+      "metric": "Total silent pausing (s)",
+      "ours": 49.98269919109502,
+      "gold": 49.98269919109469,
+      "delta": 3.339550858072471e-13,
+      "tolerance": "<= 0.001",
+      "pass": true
+    },
+    {
+      "metric": "Mean silent pause (s)",
+      "ours": 0.8330449865182504,
+      "gold": 0.8330449865182448,
+      "delta": 5.662137425588298e-15,
+      "tolerance": "<= 0.001",
+      "pass": true
+    },
+    {
+      "metric": "Articulation rate (syll/min)",
+      "ours": 240.99726952377947,
+      "gold": 240.99726952377873,
+      "delta": 7.389644451905042e-13,
+      "tolerance": "<= 0.001",
+      "pass": true
+    }
+  ]
+}

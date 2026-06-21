@@ -58,6 +58,12 @@
       },
       "scripts": {
             "dev": "vite",
-            "build": "vite build"
+            "build": "vite build",
+            "sprint:run": "node scripts/validation-sprint/run-sprint.mjs",
+            "sprint:test": "node tests/validation-sprint/run-tests.mjs",
+            "sprint:build-ui": "vite build --config vite.validation.config.mjs",
+            "sprint:serve": "node scripts/validation-sprint/server.mjs",
+            "sprint:ui-test": "node tests/validation-sprint/ui-tests.mjs",
+            "sprint:finalize": "node scripts/validation-sprint/finalize-report.mjs"
       }
 }

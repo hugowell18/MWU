@@ -1,0 +1,120 @@
+{
+  "suite": "unit",
+  "passed": 28,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "TextGrid parser: tier count = 1",
+      "status": "passed"
+    },
+    {
+      "name": "TextGrid parser: tier name = silences",
+      "status": "passed"
+    },
+    {
+      "name": "TextGrid parser: interval count = 121",
+      "status": "passed"
+    },
+    {
+      "name": "TextGrid parser: sounding count = 61",
+      "status": "passed"
+    },
+    {
+      "name": "TextGrid parser: silent count = 60",
+      "status": "passed"
+    },
+    {
+      "name": "TextGrid parser: total sounding = 133.19652983384853",
+      "status": "passed"
+    },
+    {
+      "name": "TextGrid parser: total silent = 49.98269919109479",
+      "status": "passed"
+    },
+    {
+      "name": "TextGrid parser: total duration = 183.1792290249433",
+      "status": "passed"
+    },
+    {
+      "name": "No export-time refilter: silent < 0.25s still counted (min ~0.2468, count stays 60)",
+      "status": "passed"
+    },
+    {
+      "name": "Excel reader: sheets are Durations + Fluency measures",
+      "status": "passed"
+    },
+    {
+      "name": "Excel reader: SpeakerX col B values read (60 pauses, 535 syllables)",
+      "status": "passed"
+    },
+    {
+      "name": "Excel reader: no 0.35 gold threshold columns",
+      "status": "passed"
+    },
+    {
+      "name": "Comparator: exact silent count match = 60",
+      "status": "passed"
+    },
+    {
+      "name": "Comparator: all duration deltas <= 0.001 and status passed",
+      "status": "passed"
+    },
+    {
+      "name": "Comparator: corrupted count must FAIL (not silently pass)",
+      "status": "passed"
+    },
+    {
+      "name": "Comparator: corrupted duration (+0.01s) must FAIL",
+      "status": "passed"
+    },
+    {
+      "name": "Threshold config: thresholds_sec is an array",
+      "status": "passed"
+    },
+    {
+      "name": "Threshold config: [0.25,0.35] dir names",
+      "status": "passed"
+    },
+    {
+      "name": "Threshold config: [0.2,0.25,0.35] handled without assuming exactly two",
+      "status": "passed"
+    },
+    {
+      "name": "Transcript splitter: RAW + TIDY non-empty + log",
+      "status": "passed"
+    },
+    {
+      "name": "Transcript: RAW reproduces the standard transcript (100% word agreement)",
+      "status": "passed"
+    },
+    {
+      "name": "Transcript: removes fillers but KEEPS exact repetitions (TIDY)",
+      "status": "passed"
+    },
+    {
+      "name": "Transcript: preserves X placeholders",
+      "status": "passed"
+    },
+    {
+      "name": "Matrix compiler: 0.25 + 0.35 + Phase IV columns in order; 0.35 not \"matched\"",
+      "status": "passed"
+    },
+    {
+      "name": "Matrix compiler: no fabricated AS-unit values (pending)",
+      "status": "passed"
+    },
+    {
+      "name": "Config: praat window_size default = 200",
+      "status": "passed"
+    },
+    {
+      "name": "Summary: sounding/silent/INVALID label contract (invalid counted)",
+      "status": "passed"
+    },
+    {
+      "name": "Script 2 parity: real calculate_segment_durations.praat == CLI equivalent (silent=60)",
+      "status": "passed"
+    }
+  ],
+  "generated_at": "2026-06-21T14:36:13.491Z"
+}
