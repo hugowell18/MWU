@@ -1,6 +1,7 @@
 // UI tests: assert the built console + served report satisfy the status rules, and that screenshots exist.
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { OUT_DIR, ROOT } from '../../scripts/validation-sprint/config.mjs';
 
@@ -23,10 +24,95 @@ const assert = (c, m) => {
   if (!c) throw new Error(m);
 };
 
+async function canReach(base) {
+  try {
+    const res = await fetch(`${base}/`);
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function waitForServer(base, timeoutMs = 10000) {
+  const started = Date.now();
+  while (Date.now() - started < timeoutMs) {
+    if (await canReach(base)) return true;
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  return false;
+}
+
+async function ensureServer(port, base) {
+  if (await canReach(base)) return null;
+
+  const child = spawn(process.execPath, ['scripts/validation-sprint/server.mjs', '--port', String(port)], {
+    cwd: ROOT,
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+
+  let serverLog = '';
+  child.stdout.on('data', (chunk) => { serverLog += chunk.toString(); });
+  child.stderr.on('data', (chunk) => { serverLog += chunk.toString(); });
+
+  if (await waitForServer(base)) return child;
+
+  child.kill();
+  throw new Error(`validation server did not start on ${base}${serverLog ? `\n${serverLog}` : ''}`);
+}
+
+function findBrowser() {
+  const candidates = [
+    process.env.BROWSER_BIN,
+    path.join(process.env['ProgramFiles(x86)'] || '', 'Microsoft/Edge/Application/msedge.exe'),
+    path.join(process.env.ProgramFiles || '', 'Microsoft/Edge/Application/msedge.exe'),
+    path.join(process.env.LOCALAPPDATA || '', 'Microsoft/Edge/Application/msedge.exe'),
+    path.join(process.env.ProgramFiles || '', 'Google/Chrome/Application/chrome.exe'),
+    path.join(process.env['ProgramFiles(x86)'] || '', 'Google/Chrome/Application/chrome.exe'),
+    path.join(process.env.LOCALAPPDATA || '', 'Google/Chrome/Application/chrome.exe'),
+  ].filter(Boolean);
+  return candidates.find((p) => fs.existsSync(p));
+}
+
+function runProcess(file, args, timeoutMs = 20000) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(file, args, { stdio: ['ignore', 'pipe', 'pipe'] });
+    let stderr = '';
+    const timer = setTimeout(() => {
+      child.kill();
+      reject(new Error(`timed out: ${file}`));
+    }, timeoutMs);
+    child.stderr.on('data', (chunk) => { stderr += chunk.toString(); });
+    child.on('error', (error) => {
+      clearTimeout(timer);
+      reject(error);
+    });
+    child.on('exit', (code) => {
+      clearTimeout(timer);
+      code === 0 ? resolve() : reject(new Error(`${path.basename(file)} exited ${code}${stderr ? `: ${stderr}` : ''}`));
+    });
+  });
+}
+
+async function ensureScreenshot(base, file, width, height) {
+  if (fs.existsSync(file) && fs.statSync(file).size > 10000) return;
+  const browser = findBrowser();
+  assert(browser, 'no Edge/Chrome executable found for headless screenshot');
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  await runProcess(browser, [
+    '--headless=new',
+    '--disable-gpu',
+    '--hide-scrollbars',
+    `--window-size=${width},${height}`,
+    `--screenshot=${file}`,
+    `${base}/`,
+  ]);
+}
+
 async function main() {
   console.log('UI TESTS');
   const port = process.env.VC_PORT || 4173;
   const base = `http://localhost:${port}`;
+  const ownedServer = await ensureServer(port, base);
 
   let report = null;
   await t('Console HTML served with mount node', async () => {
@@ -92,7 +178,12 @@ async function main() {
     assert(report.phase_ii.praat_window_sec === 200, `window not 200: ${report.phase_ii.praat_window_sec}`);
     assert(report.phase_ii.scale_times, 'no scale_times in report');
     assert(Array.isArray(report.phase_ii.script1) && Array.isArray(report.phase_ii.script2), 'no script1/script2 arrays');
-    assert(report.phase_ii.generated_vs_expert_025, 'no generated_vs_expert diagnostic');
+    if (report.phase_ii.generated_vs_expert_025) {
+      assert(report.phase_ii.generated_vs_expert_025.status === 'diagnostic', 'generated_vs_expert is not diagnostic');
+    } else {
+      assert(report.praat && report.praat.available === false, 'no generated_vs_expert diagnostic although Praat is available');
+      assert(report.phase_ii.thresholds.every((x) => x.status === 'blocked'), 'missing diagnostic should only happen when generated drafts are blocked');
+    }
     assert(JSON.stringify(report.phase_ii.label_contract) === JSON.stringify(['sounding', 'silent', 'invalid']), 'label contract wrong');
   });
 
@@ -109,10 +200,12 @@ async function main() {
 
   await t('Desktop screenshot saved (> 10 KB)', async () => {
     const f = path.join(SHOTS, 'validation-console-desktop.png');
+    await ensureScreenshot(base, f, 1440, 1100);
     assert(fs.existsSync(f) && fs.statSync(f).size > 10000, 'desktop screenshot missing/small');
   });
   await t('Mobile screenshot saved (> 10 KB)', async () => {
     const f = path.join(SHOTS, 'validation-console-mobile.png');
+    await ensureScreenshot(base, f, 390, 1100);
     assert(fs.existsSync(f) && fs.statSync(f).size > 10000, 'mobile screenshot missing/small');
   });
 
@@ -130,6 +223,7 @@ async function main() {
   fs.mkdirSync(path.join(OUT_DIR, 'test-results'), { recursive: true });
   fs.writeFileSync(path.join(OUT_DIR, 'test-results', 'ui-test-results.json'), JSON.stringify(summary, null, 2));
   console.log(`\nUI: ${summary.passed} passed / ${summary.failed} failed`);
+  if (ownedServer) ownedServer.kill();
   process.exit(summary.failed === 0 ? 0 : 1);
 }
 
