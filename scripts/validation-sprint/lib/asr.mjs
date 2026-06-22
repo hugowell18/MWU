@@ -1,11 +1,14 @@
-// Real speech recognition for Phase III validation — AssemblyAI (reuses the repo's proven flow).
-// Used to produce an INDEPENDENT transcript of the .wav, then compare it to the client's standard.
+// AssemblyAI adapter for Phase III validation.
+// Default behavior is a real AssemblyAI API run through the repo's shared script.
+// Set ASSEMBLYAI_SOURCE=cache or cache-first only when an offline replay is needed.
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
-const BASE_URL = 'https://api.assemblyai.com';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '../../..');
+const TRANSCRIBE_SCRIPT = path.join(ROOT, 'scripts', 'assemblyai-transcribe-test.mjs');
 
 export function loadEnv(envPath = '.env') {
   const p = path.resolve(envPath);
@@ -30,99 +33,112 @@ export function getApiKey() {
   return k;
 }
 
-async function parseJson(res, ctx) {
-  const text = await res.text();
-  let body;
-  try {
-    body = text ? JSON.parse(text) : {};
-  } catch {
-    body = { raw: text };
+function stemForAudio(wav) {
+  return path.basename(wav, path.extname(wav));
+}
+
+function tokenCount(text) {
+  return (String(text || '').match(/\S+/g) || []).length;
+}
+
+function normalizeResult(result, { source, path: sourcePath, fallbackModel = 'unknown' } = {}) {
+  const text = result.text || '';
+  const words = Array.isArray(result.words)
+    ? result.words
+    : Array.from({ length: Number(result.word_count) || tokenCount(text) }, () => ({}));
+  return {
+    id: result.id || null,
+    text,
+    words,
+    audio_duration: result.audio_duration,
+    confidence: result.confidence,
+    model: result.speech_model || result.model || fallbackModel,
+    source,
+    source_path: sourcePath,
+  };
+}
+
+function readJsonIfPresent(file) {
+  if (!file || !fs.existsSync(file)) return null;
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function readCachedTranscript({ cacheJson, cacheText, cacheDir, wav, models }) {
+  const candidates = [];
+  if (cacheJson) candidates.push(cacheJson);
+  if (cacheDir && wav) candidates.push(path.join(cacheDir, `${stemForAudio(wav)}.assemblyai.raw.json`));
+
+  for (const file of candidates) {
+    const json = readJsonIfPresent(file);
+    if (json && json.text) return normalizeResult(json, { source: 'cached_assemblyai_json', path: file, fallbackModel: models?.[0] });
   }
-  if (!res.ok) throw new Error(`${ctx} HTTP ${res.status}: ${JSON.stringify(body).slice(0, 300)}`);
-  return body;
-}
 
-function uploadWithCurl(wav, key) {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'aai-up-'));
-  const cfg = path.join(dir, 'curl.conf');
-  const esc = (s) => String(s).replaceAll('\\', '\\\\').replaceAll('"', '\\"');
-  try {
-    fs.writeFileSync(cfg, [`url = "${BASE_URL}/v2/upload"`, 'request = POST', `header = "authorization: ${esc(key)}"`, 'header = "Content-Type: application/octet-stream"', `data-binary = "@${esc(wav)}"`, 'http1.1', 'silent', 'show-error', 'fail-with-body'].join('\n') + '\n', { mode: 0o600 });
-    const r = spawnSync('curl', ['--config', cfg], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
-    if (r.status !== 0) throw new Error(`curl upload exit ${r.status}: ${r.stderr || r.stdout}`);
-    return JSON.parse(r.stdout);
-  } finally {
-    fs.rmSync(dir, { recursive: true, force: true });
+  if (cacheText && fs.existsSync(cacheText)) {
+    const text = fs.readFileSync(cacheText, 'utf8').trim();
+    if (text) return normalizeResult({ text }, { source: 'cached_assemblyai_text', path: cacheText, fallbackModel: models?.[0] });
   }
+  return null;
 }
 
-// Compress to a small mp3 before upload (same speech → same transcript, but a tiny upload).
-function compressForUpload(wav, log) {
-  try {
-    const out = path.join(os.tmpdir(), `sprint-asr-${process.pid}-${Date.now()}.mp3`);
-    const r = spawnSync('ffmpeg', ['-y', '-i', wav, '-ac', '1', '-ar', '16000', '-b:a', '64k', out], { encoding: 'utf8' });
-    if (r.status === 0 && fs.existsSync(out)) {
-      if (log) log(`compressed to mp3 (${(fs.statSync(out).size / 1e6).toFixed(2)} MB) for upload`);
-      return { path: out, cleanup: () => fs.rmSync(out, { force: true }) };
-    }
-  } catch {
-    /* ffmpeg missing → upload original */
-  }
-  return { path: wav, cleanup: () => {} };
-}
-
-async function uploadAudio(wav, key) {
-  let body;
-  try {
-    const res = await fetch(`${BASE_URL}/v2/upload`, {
-      method: 'POST',
-      headers: { authorization: key, 'Content-Type': 'application/octet-stream', 'Content-Length': String(fs.statSync(wav).size) },
-      body: fs.readFileSync(wav),
-    });
-    body = await parseJson(res, 'Upload');
-  } catch {
-    body = uploadWithCurl(wav, key);
-  }
-  if (!body.upload_url) throw new Error('upload returned no upload_url');
-  return body.upload_url;
-}
-
-async function submit(uploadUrl, key, models) {
-  const res = await fetch(`${BASE_URL}/v2/transcript`, {
-    method: 'POST',
-    headers: { authorization: key, 'Content-Type': 'application/json' },
-    // disfluencies:true keeps uh/um etc. so RAW-TIMING is truly verbatim (TIDY then removes them).
-    body: JSON.stringify({ audio_url: uploadUrl, speech_models: models, language_code: 'en', speaker_labels: false, disfluencies: true }),
-  });
-  const body = await parseJson(res, 'Submit');
-  if (!body.id) throw new Error('submit returned no id');
-  return body.id;
-}
-
-async function poll(id, key, pollMs, log) {
-  for (let n = 1; ; n++) {
-    const res = await fetch(`${BASE_URL}/v2/transcript/${id}`, { headers: { authorization: key } });
-    const body = await parseJson(res, 'Poll');
-    if (log) log(`[asr poll ${n}] ${body.status}`);
-    if (body.status === 'completed') return body;
-    if (body.status === 'error') throw new Error(`AssemblyAI error: ${body.error}`);
-    await new Promise((r) => setTimeout(r, pollMs));
-  }
-}
-
-// Transcribe a wav with AssemblyAI → { text, words, audio_duration, confidence, id }
-export async function transcribe(wav, { apiKey, models = ['universal-3-pro', 'universal-2'], pollMs = 3000, log } = {}) {
+function runExistingAssemblyAiScript(wav, { apiKey, outDir, speakersExpected, pollMs, models, log }) {
   if (!apiKey) throw new Error('no ASSEMBLYAI_API_KEY');
-  const compact = compressForUpload(wav, log);
-  let uploadUrl;
-  try {
-    uploadUrl = await uploadAudio(compact.path, apiKey);
-  } finally {
-    compact.cleanup();
+  if (!fs.existsSync(TRANSCRIBE_SCRIPT)) throw new Error(`AssemblyAI script missing: ${TRANSCRIBE_SCRIPT}`);
+
+  fs.mkdirSync(outDir, { recursive: true });
+  const args = [
+    TRANSCRIBE_SCRIPT,
+    '--audio', wav,
+    '--out-dir', outDir,
+    '--speakers', String(speakersExpected),
+    '--poll-ms', String(pollMs),
+    '--model', models[0] || 'universal-3-pro',
+  ];
+  if (models[1]) args.push('--fallback-model', models[1]);
+
+  const res = spawnSync(process.execPath, args, {
+    cwd: ROOT,
+    encoding: 'utf8',
+    timeout: 10 * 60 * 1000,
+    maxBuffer: 64 * 1024 * 1024,
+    env: { ...process.env, ASSEMBLYAI_API_KEY: apiKey },
+  });
+  if (log && res.stdout) for (const line of res.stdout.trim().split(/\r?\n/).filter(Boolean)) log(`[assemblyai script] ${line}`);
+  if (log && res.stderr) for (const line of res.stderr.trim().split(/\r?\n/).filter(Boolean)) log(`[assemblyai script stderr] ${line}`);
+  if (res.error) throw res.error;
+  if (res.status !== 0) throw new Error(`assemblyai script exit ${res.status}: ${res.stderr || res.stdout}`);
+
+  const rawPath = path.join(outDir, `${stemForAudio(wav)}.assemblyai.raw.json`);
+  const raw = readJsonIfPresent(rawPath);
+  if (!raw || !raw.text) throw new Error(`assemblyai script did not write usable raw JSON: ${rawPath}`);
+  return normalizeResult(raw, { source: 'assemblyai_api', path: rawPath, fallbackModel: models?.[0] });
+}
+
+// Transcribe a wav with AssemblyAI or reuse cached output when explicitly requested.
+// Default: real provider run. ASSEMBLYAI_SOURCE=cache/cache-first enables offline replay.
+export async function transcribe(wav, {
+  apiKey,
+  models = ['universal-3-pro', 'universal-2'],
+  pollMs = 3000,
+  speakersExpected = 1,
+  cacheJson,
+  cacheText,
+  cacheDir,
+  forceApi = false,
+  log,
+} = {}) {
+  const sourceMode = process.env.ASSEMBLYAI_SOURCE || 'api';
+  const preferCache = !forceApi && (sourceMode === 'cache' || sourceMode === 'cache-first');
+  const outDir = cacheDir || path.join(path.dirname(cacheJson || wav), 'assemblyai-cache');
+
+  if (preferCache) {
+    const cached = readCachedTranscript({ cacheJson, cacheText, cacheDir: outDir, wav, models });
+    if (cached) {
+      if (log) log(`using cached AssemblyAI result: ${cached.source_path}`);
+      return cached;
+    }
+    if (sourceMode === 'cache') throw new Error('no cached AssemblyAI result available');
   }
-  if (log) log('uploaded to AssemblyAI');
-  const id = await submit(uploadUrl, apiKey, models);
-  if (log) log(`transcript submitted: ${id}`);
-  const r = await poll(id, apiKey, pollMs, log);
-  return { id: r.id, text: r.text || '', words: r.words || [], audio_duration: r.audio_duration, confidence: r.confidence, model: (r.speech_model || models[0]) };
+
+  if (log) log(`running existing AssemblyAI script: ${path.relative(ROOT, TRANSCRIBE_SCRIPT)}`);
+  return runExistingAssemblyAiScript(wav, { apiKey, outDir, speakersExpected, pollMs, models, log });
 }

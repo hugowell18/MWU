@@ -1,5 +1,5 @@
 // Validation Sprint orchestrator — PHASE-AWARE. Each phase runs independently.
-// Usage: node run-sprint.mjs [--phase ii|iii|v|all] [--thresholds 0.25,0.35] [--no-praat] [--strict] [--progress <file>]
+// Usage: node run-sprint.mjs [--phase ii|iii|v|all] [--thresholds 0.25,0.35] [--no-praat] [--no-asr] [--force-asr] [--strict] [--progress <file>]
 import path from 'node:path';
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
@@ -9,7 +9,7 @@ import { readBaseline } from './lib/excel-baseline.mjs';
 import { compare } from './lib/comparator.mjs';
 import { runScript1, praatAvailable } from './lib/praat.mjs';
 import { segmentDurations } from './lib/script2.mjs';
-import { splitTranscript, validateAgainstMaster } from './lib/transcript-split.mjs';
+import { splitTranscript } from './lib/transcript-split.mjs';
 import { transcribe, getApiKey } from './lib/asr.mjs';
 import { wer } from './lib/wer.mjs';
 import { buildMatrix } from './lib/matrix.mjs';
@@ -35,12 +35,13 @@ const PHASE_STEPS = {
 };
 
 function parseArgs(argv) {
-  const a = { phase: 'all', thresholds: [...CONFIG.thresholds_sec], noPraat: false, strict: false, progress: null };
+  const a = { phase: 'all', thresholds: [...CONFIG.thresholds_sec], noPraat: false, noAsr: false, forceAsr: false, strict: false, progress: null };
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === '--phase') a.phase = argv[++i];
     else if (argv[i] === '--thresholds') a.thresholds = argv[++i].split(',').map(Number);
     else if (argv[i] === '--no-praat') a.noPraat = true;
     else if (argv[i] === '--no-asr') a.noAsr = true;
+    else if (argv[i] === '--force-asr') a.forceAsr = true;
     else if (argv[i] === '--strict') a.strict = true;
     else if (argv[i] === '--progress') a.progress = argv[++i];
   }
@@ -281,17 +282,59 @@ async function main() {
     const p3 = path.join(OUT_DIR, 'phase-iii');
     const rawFile = path.join(p3, `${RECORDING_ID}_RAW-TIMING.txt`);
     const tidyFile = path.join(p3, `${RECORDING_ID}_TIDY-PHRASE.txt`);
+    const asrRawFile = path.join(p3, 'assemblyai_RAW-TIMING.txt');
+    const asrTidyFile = path.join(p3, 'assemblyai_TIDY-PHRASE.txt');
+    const asrTranscriptFile = path.join(p3, 'assemblyai_transcript.txt');
+    const asrResultFile = path.join(p3, 'assemblyai_result.json');
+    const shouldAttemptAsr = !args.noAsr && inputPresent('wav');
+    const asrSourceMode = process.env.ASSEMBLYAI_SOURCE || 'api';
+    const preserveAsrCache = shouldAttemptAsr && !args.forceAsr && (asrSourceMode === 'cache' || asrSourceMode === 'cache-first');
+    for (const stale of [
+      rawFile,
+      tidyFile,
+      asrRawFile,
+      asrTidyFile,
+      ...(preserveAsrCache ? [] : [asrTranscriptFile, asrResultFile]),
+      path.join(p3, 'assemblyai_split_report.json'),
+      path.join(p3, 'transcript_split_report.json'),
+      path.join(p3, 'transcript_validation.json'),
+      path.join(OUT_DIR, 'logs', 'asr_run.log'),
+    ]) fs.rmSync(stale, { force: true });
+
+    // Required Phase III output: split the human-checked client transcript into RAW/TIDY.
+    const clientSplit = splitTranscript(masterText, CONFIG.fillers);
+    writeText(rawFile, clientSplit.raw);
+    writeText(tidyFile, clientSplit.tidy);
+    writeJson(path.join(p3, 'transcript_split_report.json'), { source: 'client_standard_transcript', ...clientSplit.report });
 
     // Real ASR (AssemblyAI) on the .wav when a key is configured — else honest split-only.
     const apiKey = args.noAsr ? null : getApiKey();
     let asr = null;
     let asrError = null;
-    if (apiKey && inputPresent('wav')) {
+    if (shouldAttemptAsr) {
       const asrLog = [`# ASR run (AssemblyAI) — ${startedAt}`];
       try {
-        asr = await transcribe(INPUTS.wav, { apiKey, pollMs: 3000, log: (m) => asrLog.push(m) });
-        writeText(path.join(p3, 'assemblyai_transcript.txt'), (asr.text || '') + '\n');
-        writeJson(path.join(p3, 'assemblyai_result.json'), { id: asr.id, model: asr.model, audio_duration: asr.audio_duration, confidence: asr.confidence, word_count: asr.words.length, text: asr.text });
+        asr = await transcribe(INPUTS.wav, {
+          apiKey,
+          pollMs: 3000,
+          speakersExpected: 1,
+          cacheJson: asrResultFile,
+          cacheText: asrTranscriptFile,
+          cacheDir: path.join(p3, 'assemblyai-cache'),
+          forceApi: args.forceAsr,
+          log: (m) => asrLog.push(m),
+        });
+        writeText(asrTranscriptFile, (asr.text || '') + '\n');
+        writeJson(asrResultFile, {
+          id: asr.id,
+          model: asr.model,
+          audio_duration: asr.audio_duration,
+          confidence: asr.confidence,
+          word_count: asr.words.length,
+          text: asr.text,
+          source: asr.source,
+          source_path: asr.source_path,
+        });
       } catch (e) {
         asrError = e.message;
         asrLog.push('ERROR: ' + e.message);
@@ -299,53 +342,60 @@ async function main() {
       writeText(path.join(OUT_DIR, 'logs', 'asr_run.log'), asrLog.join('\n') + '\n');
     }
 
-    // RAW/TIDY source = the AI transcript when we have it, else the provided transcript.
-    const sourceText = asr ? asr.text : masterText;
-    const split = splitTranscript(sourceText, CONFIG.fillers);
-    writeText(rawFile, split.raw);
-    writeText(tidyFile, split.tidy);
-    writeJson(path.join(p3, 'transcript_split_report.json'), split.report);
-
     if (asr) {
+      const asrSplit = splitTranscript(asr.text, CONFIG.fillers);
+      const split = clientSplit;
+      writeText(rawFile, split.raw);
+      writeText(tidyFile, split.tidy);
+      writeJson(path.join(p3, 'transcript_split_report.json'), split.report);
+      writeText(asrRawFile, asrSplit.raw);
+      writeText(asrTidyFile, asrSplit.tidy);
+      writeJson(path.join(p3, 'assemblyai_split_report.json'), { source: 'assemblyai_asr', ...asrSplit.report });
       // REAL validation: our CLEANED AI transcript (TIDY) vs the client's cleaned standard (WER).
       // RAW keeps disfluencies, so we compare like-for-like (both cleaned).
-      const w = wer(split.tidy, masterText);
+      const w = wer(asrSplit.tidy, clientSplit.tidy);
       const status = w.wer <= 0.15 ? 'passed' : w.wer <= 0.35 ? 'passed_with_diff' : 'failed';
       writeJson(path.join(p3, 'transcript_validation.json'), {
-        method: 'assemblyai', compared: 'TIDY (cleaned ASR) vs client standard', model: asr.model, audio_duration: asr.audio_duration, asr_confidence: asr.confidence,
-        wer: w, cleaning_index: split.report.cleaning_index, repetitions_kept: split.report.repetitions,
+        method: 'assemblyai', compared: 'AssemblyAI TIDY vs client TIDY', model: asr.model, audio_duration: asr.audio_duration, asr_confidence: asr.confidence,
+        asr_source: asr.source, asr_source_path: asr.source_path,
+        wer: w, client_cleaning_index: clientSplit.report.cleaning_index, asr_cleaning_index: asrSplit.report.cleaning_index,
+        client_repetitions_kept: clientSplit.report.repetitions, asr_repetitions_kept: asrSplit.report.repetitions,
       });
       report.phase_iii = {
         status: status === 'failed' ? 'failed' : 'passed', ran_at: startedAt, raw_file: rawFile, tidy_file: tidyFile,
-        transcription: 'assemblyai (real ASR on the .wav, disfluencies kept)',
-        asr: { model: asr.model, words: asr.words.length, confidence: asr.confidence, audio_duration: asr.audio_duration },
-        validation: { method: 'assemblyai', compared: 'TIDY vs standard', status, ...w },
+        source: 'client_standard_transcript',
+        transcription: 'client standard transcript split; assemblyai compared separately',
+        asr: { model: asr.model, words: asr.words.length, confidence: asr.confidence, audio_duration: asr.audio_duration, source: asr.source, source_path: asr.source_path },
+        asr_raw_file: asrRawFile, asr_tidy_file: asrTidyFile,
+        validation: { method: 'assemblyai', compared: 'AssemblyAI TIDY vs client TIDY', status, asr_source: asr.source, asr_source_path: asr.source_path, ...w },
         raw_words: split.report.raw_words, tidy_words: split.report.tidy_words,
         fillers_removed: split.report.fillers_removed, repetitions_kept: split.report.repetitions_kept, x_placeholders: split.report.x_placeholders,
         cleaning_index: split.report.cleaning_index.slice(0, 80), diff: split.report.diff.slice(0, 1200), repetitions: split.report.repetitions.slice(0, 50),
         transforms: split.report.transforms, log: split.report.log,
+        asr_raw_words: asrSplit.report.raw_words, asr_tidy_words: asrSplit.report.tidy_words,
+        asr_fillers_removed: asrSplit.report.fillers_removed, asr_repetitions_kept: asrSplit.report.repetitions_kept,
       };
-      log.push(`phase III: ASR (AssemblyAI) ${asr.words.length}w → TIDY ${split.report.tidy_words}w vs standard ${w.reference_words}w · WER ${(w.wer * 100).toFixed(1)}% · removed ${split.report.fillers_removed} fillers · ${status}`);
+      log.push(`phase III: client TIDY ${clientSplit.report.tidy_words}w; AssemblyAI TIDY ${asrSplit.report.tidy_words}w; WER ${(w.wer * 100).toFixed(1)}%; edits ${w.edits} (S=${w.substitutions}, D=${w.deletions}, I=${w.insertions}); ${status}`);
       await markPhase('iii', status === 'failed' ? 'blocked' : 'passed');
     } else {
-      // Honest fallback — NO speech recognition ran. Not a validation; split integrity only.
-      const tv = validateAgainstMaster(split.raw, masterText);
       writeJson(path.join(p3, 'transcript_validation.json'), {
         method: 'split_only', reason: asrError || 'no ASSEMBLYAI_API_KEY',
-        split_integrity: { ...tv, kind: 'lossless_split_check' }, cleaning_index: split.report.cleaning_index, repetitions_kept: split.report.repetitions,
+        client_split: { raw_words: clientSplit.report.raw_words, tidy_words: clientSplit.report.tidy_words, fillers_removed: clientSplit.report.fillers_removed },
+        note: 'Client standard transcript was split into RAW-TIMING and TIDY-PHRASE. AssemblyAI comparison was skipped.',
       });
       report.phase_iii = {
         status: 'split_only', ran_at: startedAt, raw_file: rawFile, tidy_file: tidyFile,
+        source: 'client_standard_transcript',
         transcription: asrError ? `assemblyai failed: ${asrError}` : 'none — no ASSEMBLYAI_API_KEY (set it in .env to run real ASR)',
-        note: 'No speech recognition ran. RAW is a verbatim copy of the provided transcript; this is split-only, NOT an ASR-vs-standard validation.',
-        split_integrity: { ...tv, kind: 'lossless_split_check' },
-        raw_words: split.report.raw_words, tidy_words: split.report.tidy_words,
-        fillers_removed: split.report.fillers_removed, repetitions_kept: split.report.repetitions_kept, x_placeholders: split.report.x_placeholders,
-        cleaning_index: split.report.cleaning_index.slice(0, 80), diff: split.report.diff.slice(0, 1200), repetitions: split.report.repetitions.slice(0, 50),
-        transforms: split.report.transforms, log: split.report.log,
+        note: 'Client standard transcript was split into RAW-TIMING and TIDY-PHRASE. AssemblyAI comparison is optional and was skipped for this run.',
+        asr_status: 'skipped',
+        raw_words: clientSplit.report.raw_words, tidy_words: clientSplit.report.tidy_words,
+        fillers_removed: clientSplit.report.fillers_removed, repetitions_kept: clientSplit.report.repetitions_kept, x_placeholders: clientSplit.report.x_placeholders,
+        cleaning_index: clientSplit.report.cleaning_index.slice(0, 80), diff: clientSplit.report.diff.slice(0, 1200), repetitions: clientSplit.report.repetitions.slice(0, 50),
+        transforms: clientSplit.report.transforms, log: clientSplit.report.log,
       };
-      limitations.push('Phase III: ASR skipped (no ASSEMBLYAI_API_KEY) — split-only run, not an AI-vs-standard transcription check.');
-      log.push(`phase III: split-only (no ASR) · RAW ${split.report.raw_words}w / TIDY ${split.report.tidy_words}w`);
+      limitations.push('Phase III: AssemblyAI comparison skipped (no ASSEMBLYAI_API_KEY or ASR failure); client transcript split still completed.');
+      log.push(`phase III: client split only - RAW ${clientSplit.report.raw_words}w / TIDY ${clientSplit.report.tidy_words}w; AssemblyAI comparison skipped`);
       await markPhase('iii', 'generated_no_gold');
     }
   }
@@ -420,6 +470,8 @@ async function main() {
     ...args.thresholds.flatMap((t) => A(`script2_summary_${t}.json`, path.join(OUT_DIR, 'phase-ii', thresholdDirName(t), 'script2_summary.json'), 'durations')),
     ...A(`${RECORDING_ID}_RAW-TIMING.txt`, path.join(OUT_DIR, 'phase-iii', `${RECORDING_ID}_RAW-TIMING.txt`), 'transcript'),
     ...A(`${RECORDING_ID}_TIDY-PHRASE.txt`, path.join(OUT_DIR, 'phase-iii', `${RECORDING_ID}_TIDY-PHRASE.txt`), 'transcript'),
+    ...A('assemblyai_RAW-TIMING.txt', path.join(OUT_DIR, 'phase-iii', 'assemblyai_RAW-TIMING.txt'), 'transcript'),
+    ...A('assemblyai_TIDY-PHRASE.txt', path.join(OUT_DIR, 'phase-iii', 'assemblyai_TIDY-PHRASE.txt'), 'transcript'),
     ...A('transcript_validation.json', path.join(OUT_DIR, 'phase-iii', 'transcript_validation.json'), 'comparison'),
     ...A('assemblyai_transcript.txt', path.join(OUT_DIR, 'phase-iii', 'assemblyai_transcript.txt'), 'transcript'),
     ...A('asr_run.log', path.join(OUT_DIR, 'logs', 'asr_run.log'), 'log'),
@@ -473,7 +525,14 @@ function renderReportMd(report) {
       L.push('');
     }
   } else if (report.phase_ii) L.push(`## Phase II — ${report.phase_ii.status}: ${report.phase_ii.reason || ''}`, '');
-  if (report.phase_iii) L.push(`## Phase III — ${report.phase_iii.status}`, `- RAW ${report.phase_iii.raw_words ?? '—'}w / TIDY ${report.phase_iii.tidy_words ?? '—'}w`, '');
+  if (report.phase_iii) {
+    const p3 = report.phase_iii;
+    const line = `- Client RAW ${p3.raw_words ?? '—'}w / Client TIDY ${p3.tidy_words ?? '—'}w`;
+    const asrLine = p3.validation?.method === 'assemblyai'
+      ? `- AssemblyAI comparison: WER ${((p3.validation.wer || 0) * 100).toFixed(1)}%, agreement ${((p3.validation.word_agreement || 0) * 100).toFixed(1)}%`
+      : '- AssemblyAI comparison: skipped';
+    L.push(`## Phase III — ${p3.status}`, line, asrLine, '');
+  }
   if (report.phase_v) L.push(`## Phase V — ${report.phase_v.status}`, report.phase_v.columns ? `- columns: ${report.phase_v.columns.length}` : `- ${report.phase_v.reason || ''}`, '');
   L.push('## Limitations');
   for (const lim of report.limitations) L.push(`- ${lim}`);

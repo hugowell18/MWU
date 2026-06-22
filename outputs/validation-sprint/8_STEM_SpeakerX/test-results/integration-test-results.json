@@ -1,10 +1,14 @@
 {
   "suite": "integration",
-  "passed": 5,
+  "passed": 6,
   "failed": 0,
   "cases": [
     {
       "name": "Full Sprint Run: output tree + report + 0.25 pass + 0.35 no-gold + Phase I skipped + no Y/Z",
+      "status": "passed"
+    },
+    {
+      "name": "No ASR -> client RAW/TIDY generated, AssemblyAI RAW/TIDY skipped",
       "status": "passed"
     },
     {
@@ -24,5 +28,5 @@
       "status": "passed"
     }
   ],
-  "generated_at": "2026-06-21T14:36:13.492Z"
+  "generated_at": "2026-06-22T03:15:29.966Z"
 }

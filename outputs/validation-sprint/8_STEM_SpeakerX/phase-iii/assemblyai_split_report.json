@@ -1,9 +1,10 @@
 {
+  "source": "assemblyai_asr",
   "speakers": 1,
-  "raw_words": 321,
-  "tidy_words": 321,
+  "raw_words": 312,
+  "tidy_words": 312,
   "fillers_removed": 0,
-  "repetitions_kept": 2,
+  "repetitions_kept": 1,
   "x_placeholders": 0,
   "cleaning_index": [],
   "diff": [
@@ -112,7 +113,7 @@
       "op": "keep"
     },
     {
-      "w": "I",
+      "w": "I'd",
       "op": "keep"
     },
     {
@@ -136,7 +137,7 @@
       "op": "keep"
     },
     {
-      "w": "six",
+      "w": "6",
       "op": "keep"
     },
     {
@@ -196,7 +197,7 @@
       "op": "keep"
     },
     {
-      "w": "conclusion",
+      "w": "conclusion,",
       "op": "keep"
     },
     {
@@ -229,10 +230,6 @@
     },
     {
       "w": "with,",
-      "op": "keep"
-    },
-    {
-      "w": "and",
       "op": "keep"
     },
     {
@@ -304,7 +301,7 @@
       "op": "keep"
     },
     {
-      "w": "Then",
+      "w": "The",
       "op": "keep"
     },
     {
@@ -496,7 +493,7 @@
       "op": "keep"
     },
     {
-      "w": "texture",
+      "w": "texture,",
       "op": "keep"
     },
     {
@@ -520,11 +517,11 @@
       "op": "keep"
     },
     {
-      "w": "Okay.",
+      "w": "Okay,",
       "op": "keep"
     },
     {
-      "w": "So",
+      "w": "so",
       "op": "keep"
     },
     {
@@ -588,11 +585,7 @@
       "op": "keep"
     },
     {
-      "w": "and",
-      "op": "keep"
-    },
-    {
-      "w": "these,",
+      "w": "with",
       "op": "keep"
     },
     {
@@ -600,11 +593,7 @@
       "op": "keep"
     },
     {
-      "w": "characteristics.",
-      "op": "keep"
-    },
-    {
-      "w": "And",
+      "w": "characteristics",
       "op": "keep"
     },
     {
@@ -628,11 +617,11 @@
       "op": "keep"
     },
     {
-      "w": "parts.",
+      "w": "parts",
       "op": "keep"
     },
     {
-      "w": "In",
+      "w": "in",
       "op": "keep"
     },
     {
@@ -780,7 +769,7 @@
       "op": "keep"
     },
     {
-      "w": "particles.",
+      "w": "articles.",
       "op": "keep"
     },
     {
@@ -852,7 +841,7 @@
       "op": "keep"
     },
     {
-      "w": "prepared",
+      "w": "prepare",
       "op": "keep"
     },
     {
@@ -860,7 +849,7 @@
       "op": "keep"
     },
     {
-      "w": "vectors",
+      "w": "textures",
       "op": "keep"
     },
     {
@@ -960,11 +949,7 @@
       "op": "keep"
     },
     {
-      "w": "And",
-      "op": "keep"
-    },
-    {
-      "w": "this",
+      "w": "This",
       "op": "keep"
     },
     {
@@ -984,11 +969,19 @@
       "op": "keep"
     },
     {
-      "w": "UVA.",
+      "w": "Yu",
       "op": "keep"
     },
     {
-      "w": "And",
+      "w": "Hua",
+      "op": "keep"
+    },
+    {
+      "w": "Zhang,",
+      "op": "keep"
+    },
+    {
+      "w": "and",
       "op": "keep"
     },
     {
@@ -1028,11 +1021,7 @@
       "op": "keep"
     },
     {
-      "w": "Well",
-      "op": "keep"
-    },
-    {
-      "w": "first",
+      "w": "First",
       "op": "keep"
     },
     {
@@ -1040,7 +1029,7 @@
       "op": "keep"
     },
     {
-      "w": "all",
+      "w": "all,",
       "op": "keep"
     },
     {
@@ -1056,15 +1045,11 @@
       "op": "keep"
     },
     {
-      "w": "friction",
+      "w": "frictionless",
       "op": "keep"
     },
     {
-      "w": "where",
-      "op": "keep"
-    },
-    {
-      "w": "a",
+      "w": "wheel",
       "op": "keep"
     },
     {
@@ -1084,7 +1069,7 @@
       "op": "keep"
     },
     {
-      "w": "five",
+      "w": "5",
       "op": "keep"
     },
     {
@@ -1136,7 +1121,7 @@
       "op": "keep"
     },
     {
-      "w": "node",
+      "w": "no",
       "op": "keep"
     },
     {
@@ -1152,7 +1137,7 @@
       "op": "keep"
     },
     {
-      "w": "five",
+      "w": "5",
       "op": "keep"
     },
     {
@@ -1196,11 +1181,11 @@
       "op": "keep"
     },
     {
-      "w": "that",
+      "w": "that,",
       "op": "keep"
     },
     {
-      "w": "she",
+      "w": "he",
       "op": "keep"
     },
     {
@@ -1208,19 +1193,11 @@
       "op": "keep"
     },
     {
-      "w": "a",
-      "op": "keep"
-    },
-    {
-      "w": "phonetic",
+      "w": "finite",
       "op": "keep"
     },
     {
       "w": "element",
-      "op": "keep"
-    },
-    {
-      "w": "in",
       "op": "keep"
     },
     {
@@ -1244,10 +1221,6 @@
       "op": "keep"
     },
     {
-      "w": "a",
-      "op": "keep"
-    },
-    {
       "w": "method",
       "op": "keep"
     },
@@ -1261,14 +1234,6 @@
     },
     {
       "w": "approximation",
-      "op": "keep"
-    },
-    {
-      "w": "to",
-      "op": "keep"
-    },
-    {
-      "w": "simul",
       "op": "keep"
     },
     {
@@ -1294,12 +1259,8 @@
   ],
   "repetitions": [
     {
-      "phrase": "these",
+      "phrase": "method",
       "kind": "word"
-    },
-    {
-      "phrase": "a method",
-      "kind": "bigram"
     }
   ],
   "transforms": 6,
@@ -1307,7 +1268,7 @@
     "separated speakers: SpeakerX",
     "concatenated turns per speaker",
     "removed 0 non-lexical tokens",
-    "preserved 2 exact repetition(s)",
+    "preserved 1 exact repetition(s)",
     "preserved 0 X placeholder(s)",
     "no non-lexical fillers/laughter present in this transcript"
   ]

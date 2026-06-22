@@ -1,7 +1,7 @@
 {
   "method": "praat",
   "script": "calculate_segment_durations.praat",
-  "command": "/Applications/Praat.app/Contents/MacOS/Praat --run /Users/nedved/Tool/Workspace/MWU/MWU/scripts/validation-sprint/praat/calculate_segment_durations.praat /Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/generated.TextGrid silences /Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/script2_raw.txt",
+  "command": "C:\\Users\\yyang.DELOITTEML\\AppData\\Local\\Microsoft\\WinGet\\Packages\\UniversityOfAmsterdam.praat_Microsoft.Winget.Source_8wekyb3d8bbwe\\Praat.exe --run C:\\Workspace\\MWU-1\\scripts\\validation-sprint\\praat\\calculate_segment_durations.praat C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.25\\generated.TextGrid silences C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.25\\script2_raw.txt",
   "segments": [
     {
       "label": "silent",

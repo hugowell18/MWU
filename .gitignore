@@ -1,5 +1,6 @@
 /node_modules/
 /build/
+outputs/**/assemblyai-cache/
 
 # macOS
 .DS_Store

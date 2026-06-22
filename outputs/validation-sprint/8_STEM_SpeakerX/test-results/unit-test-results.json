@@ -1,6 +1,6 @@
 {
   "suite": "unit",
-  "passed": 28,
+  "passed": 29,
   "failed": 0,
   "cases": [
     {
@@ -96,6 +96,10 @@
       "status": "passed"
     },
     {
+      "name": "WER alignment: exposes substitution, deletion, and insertion operations",
+      "status": "passed"
+    },
+    {
       "name": "Matrix compiler: 0.25 + 0.35 + Phase IV columns in order; 0.35 not \"matched\"",
       "status": "passed"
     },
@@ -116,5 +120,5 @@
       "status": "passed"
     }
   ],
-  "generated_at": "2026-06-21T14:36:13.491Z"
+  "generated_at": "2026-06-22T03:15:29.965Z"
 }

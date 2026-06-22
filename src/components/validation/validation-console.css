@@ -265,6 +265,9 @@ body{margin:0;background:var(--slate-50);color:var(--slate-900);
 /* RAW → TIDY word diff */
 .vc-diff{font-size:13px;line-height:1.95;color:var(--slate-700);max-height:300px;overflow:auto;background:var(--slate-50);border:1px solid var(--slate-200);border-radius:10px;padding:14px}
 .vc-diff-rm{color:#dc2626;text-decoration:line-through;background:#fee2e2;border-radius:3px;padding:0 3px;font-weight:600}
+.vc-diff-sub{color:#92400e;background:#fef3c7;border-radius:3px;padding:0 3px;font-weight:650}
+.vc-diff-del{color:#b91c1c;text-decoration:line-through;background:#fee2e2;border-radius:3px;padding:0 3px;font-weight:650}
+.vc-diff-ins{color:#1d4ed8;background:#dbeafe;border-radius:3px;padding:0 3px;font-weight:650}
 
 /* upload checklist */
 .vc-sample-toggle{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--slate-600);cursor:pointer}

@@ -18,11 +18,42 @@ export function wer(hypText, refText) {
     }
   }
   const edits = dp[n][m];
+  const alignment = [];
+  let substitutions = 0;
+  let deletions = 0;
+  let insertions = 0;
+  let i = n;
+  let j = m;
+  while (i > 0 || j > 0) {
+    if (i > 0 && j > 0 && r[i - 1] === h[j - 1] && dp[i][j] === dp[i - 1][j - 1]) {
+      alignment.push({ op: 'match', ref: r[i - 1], hyp: h[j - 1] });
+      i--;
+      j--;
+    } else if (i > 0 && j > 0 && dp[i][j] === dp[i - 1][j - 1] + 1) {
+      alignment.push({ op: 'substitute', ref: r[i - 1], hyp: h[j - 1] });
+      substitutions++;
+      i--;
+      j--;
+    } else if (i > 0 && dp[i][j] === dp[i - 1][j] + 1) {
+      alignment.push({ op: 'delete', ref: r[i - 1], hyp: '' });
+      deletions++;
+      i--;
+    } else {
+      alignment.push({ op: 'insert', ref: '', hyp: h[j - 1] });
+      insertions++;
+      j--;
+    }
+  }
+  alignment.reverse();
   return {
     reference_words: n,
     hypothesis_words: m,
     edits,
+    substitutions,
+    deletions,
+    insertions,
     wer: n ? edits / n : 0,
     word_agreement: n ? Math.max(0, 1 - edits / n) : 1,
+    alignment,
   };
 }

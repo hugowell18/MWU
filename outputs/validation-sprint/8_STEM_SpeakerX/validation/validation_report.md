@@ -1,6 +1,6 @@
 # Validation Sprint — 8_STEM_SpeakerX
 
-- Run: 2026-06-21T14:39:04.015Z
+- Run: 2026-06-22T03:14:10.055Z
 - Phase I: **skipped** (monologue)
 - Praat: available
 - Readiness: **ready**
@@ -20,17 +20,15 @@
 |---|---|---|---:|
 | 0.25 | gold | generated | 98 |
 | 0.35 | generated_no_gold | generated_no_gold | 71 |
-| 0.5 | generated_no_gold | generated_no_gold | 56 |
 
 ## Phase III — passed
-- RAW 318w / TIDY 314w
+- Client RAW 321w / Client TIDY 321w
+- AssemblyAI comparison: WER 8.7%, agreement 91.3%
 
 ## Phase V — passed
 - columns: 26
 
 ## Limitations
-- Phase IV (TAALES/TAALED/AntConc) text variables are placeholders — not computed for this validation sprint.
-- Matrix AS-unit (between/within) and Phase IV (TAALES/TAALED/AntConc) columns are pending_not_implemented — Layer 2.
 - Workbook articulation rate is syllables/min and "phonation time" = total audio; differs from PRD §5 — reconcile before sign-off.
 
 ## Tests

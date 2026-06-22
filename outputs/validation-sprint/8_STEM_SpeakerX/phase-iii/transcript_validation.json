@@ -1,42 +1,1654 @@
 {
   "method": "assemblyai",
-  "compared": "TIDY (cleaned ASR) vs client standard",
+  "compared": "AssemblyAI TIDY vs client TIDY",
   "model": "universal-3-pro",
   "audio_duration": 184,
-  "asr_confidence": 0.930531,
+  "asr_confidence": 0.9350529,
+  "asr_source": "assemblyai_api",
+  "asr_source_path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\assemblyai-cache\\8_STEM_SpeakerX_checked_and_pruned.assemblyai.raw.json",
   "wer": {
     "reference_words": 321,
-    "hypothesis_words": 315,
-    "edits": 24,
-    "wer": 0.07476635514018691,
-    "word_agreement": 0.9252336448598131
+    "hypothesis_words": 312,
+    "edits": 28,
+    "substitutions": 15,
+    "deletions": 11,
+    "insertions": 2,
+    "wer": 0.08722741433021806,
+    "word_agreement": 0.9127725856697819,
+    "alignment": [
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "topic",
+        "hyp": "topic"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "my",
+        "hyp": "my"
+      },
+      {
+        "op": "match",
+        "ref": "report",
+        "hyp": "report"
+      },
+      {
+        "op": "match",
+        "ref": "is",
+        "hyp": "is"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "influence",
+        "hyp": "influence"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "surface",
+        "hyp": "surface"
+      },
+      {
+        "op": "match",
+        "ref": "texture",
+        "hyp": "texture"
+      },
+      {
+        "op": "match",
+        "ref": "on",
+        "hyp": "on"
+      },
+      {
+        "op": "match",
+        "ref": "mechanical",
+        "hyp": "mechanical"
+      },
+      {
+        "op": "match",
+        "ref": "surface",
+        "hyp": "surface"
+      },
+      {
+        "op": "match",
+        "ref": "friction",
+        "hyp": "friction"
+      },
+      {
+        "op": "match",
+        "ref": "which",
+        "hyp": "which"
+      },
+      {
+        "op": "match",
+        "ref": "closely",
+        "hyp": "closely"
+      },
+      {
+        "op": "match",
+        "ref": "related",
+        "hyp": "related"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "my",
+        "hyp": "my"
+      },
+      {
+        "op": "match",
+        "ref": "future",
+        "hyp": "future"
+      },
+      {
+        "op": "match",
+        "ref": "study",
+        "hyp": "study"
+      },
+      {
+        "op": "match",
+        "ref": "so",
+        "hyp": "so"
+      },
+      {
+        "op": "match",
+        "ref": "let's",
+        "hyp": "let's"
+      },
+      {
+        "op": "match",
+        "ref": "begin",
+        "hyp": "begin"
+      },
+      {
+        "op": "match",
+        "ref": "today",
+        "hyp": "today"
+      },
+      {
+        "op": "substitute",
+        "ref": "i",
+        "hyp": "i'd"
+      },
+      {
+        "op": "match",
+        "ref": "like",
+        "hyp": "like"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "introduce",
+        "hyp": "introduce"
+      },
+      {
+        "op": "match",
+        "ref": "it",
+        "hyp": "it"
+      },
+      {
+        "op": "match",
+        "ref": "from",
+        "hyp": "from"
+      },
+      {
+        "op": "substitute",
+        "ref": "six",
+        "hyp": "6"
+      },
+      {
+        "op": "match",
+        "ref": "aspects",
+        "hyp": "aspects"
+      },
+      {
+        "op": "match",
+        "ref": "they",
+        "hyp": "they"
+      },
+      {
+        "op": "match",
+        "ref": "are",
+        "hyp": "are"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "introduction",
+        "hyp": "introduction"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "background",
+        "hyp": "background"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "development",
+        "hyp": "development"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "advantages",
+        "hyp": "advantages"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "limitations",
+        "hyp": "limitations"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "conclusion",
+        "hyp": "conclusion"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "list",
+        "hyp": "list"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "references",
+        "hyp": "references"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "begin",
+        "hyp": "begin"
+      },
+      {
+        "op": "match",
+        "ref": "with",
+        "hyp": "with"
+      },
+      {
+        "op": "delete",
+        "ref": "and",
+        "hyp": ""
+      },
+      {
+        "op": "match",
+        "ref": "just",
+        "hyp": "just"
+      },
+      {
+        "op": "match",
+        "ref": "as",
+        "hyp": "as"
+      },
+      {
+        "op": "match",
+        "ref": "its",
+        "hyp": "its"
+      },
+      {
+        "op": "match",
+        "ref": "name",
+        "hyp": "name"
+      },
+      {
+        "op": "match",
+        "ref": "implies",
+        "hyp": "implies"
+      },
+      {
+        "op": "match",
+        "ref": "mechanical",
+        "hyp": "mechanical"
+      },
+      {
+        "op": "match",
+        "ref": "friction",
+        "hyp": "friction"
+      },
+      {
+        "op": "match",
+        "ref": "is",
+        "hyp": "is"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "friction",
+        "hyp": "friction"
+      },
+      {
+        "op": "match",
+        "ref": "generated",
+        "hyp": "generated"
+      },
+      {
+        "op": "match",
+        "ref": "by",
+        "hyp": "by"
+      },
+      {
+        "op": "match",
+        "ref": "relative",
+        "hyp": "relative"
+      },
+      {
+        "op": "match",
+        "ref": "motion",
+        "hyp": "motion"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "mechanical",
+        "hyp": "mechanical"
+      },
+      {
+        "op": "match",
+        "ref": "parts",
+        "hyp": "parts"
+      },
+      {
+        "op": "substitute",
+        "ref": "then",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "friction",
+        "hyp": "friction"
+      },
+      {
+        "op": "match",
+        "ref": "leads",
+        "hyp": "leads"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "wear",
+        "hyp": "wear"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "tear",
+        "hyp": "tear"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "nearly",
+        "hyp": "nearly"
+      },
+      {
+        "op": "match",
+        "ref": "80",
+        "hyp": "80"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "failures",
+        "hyp": "failures"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "mechanical",
+        "hyp": "mechanical"
+      },
+      {
+        "op": "match",
+        "ref": "parts",
+        "hyp": "parts"
+      },
+      {
+        "op": "match",
+        "ref": "worldwide",
+        "hyp": "worldwide"
+      },
+      {
+        "op": "match",
+        "ref": "are",
+        "hyp": "are"
+      },
+      {
+        "op": "match",
+        "ref": "caused",
+        "hyp": "caused"
+      },
+      {
+        "op": "match",
+        "ref": "by",
+        "hyp": "by"
+      },
+      {
+        "op": "match",
+        "ref": "it",
+        "hyp": "it"
+      },
+      {
+        "op": "match",
+        "ref": "therefore",
+        "hyp": "therefore"
+      },
+      {
+        "op": "match",
+        "ref": "in",
+        "hyp": "in"
+      },
+      {
+        "op": "match",
+        "ref": "mechanical",
+        "hyp": "mechanical"
+      },
+      {
+        "op": "match",
+        "ref": "manufacturing",
+        "hyp": "manufacturing"
+      },
+      {
+        "op": "match",
+        "ref": "some",
+        "hyp": "some"
+      },
+      {
+        "op": "match",
+        "ref": "methods",
+        "hyp": "methods"
+      },
+      {
+        "op": "match",
+        "ref": "are",
+        "hyp": "are"
+      },
+      {
+        "op": "match",
+        "ref": "usually",
+        "hyp": "usually"
+      },
+      {
+        "op": "match",
+        "ref": "used",
+        "hyp": "used"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "reduce",
+        "hyp": "reduce"
+      },
+      {
+        "op": "match",
+        "ref": "friction",
+        "hyp": "friction"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "you",
+        "hyp": "you"
+      },
+      {
+        "op": "match",
+        "ref": "can",
+        "hyp": "can"
+      },
+      {
+        "op": "match",
+        "ref": "see",
+        "hyp": "see"
+      },
+      {
+        "op": "match",
+        "ref": "some",
+        "hyp": "some"
+      },
+      {
+        "op": "match",
+        "ref": "examples",
+        "hyp": "examples"
+      },
+      {
+        "op": "match",
+        "ref": "here",
+        "hyp": "here"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "one",
+        "hyp": "one"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "them",
+        "hyp": "them"
+      },
+      {
+        "op": "match",
+        "ref": "is",
+        "hyp": "is"
+      },
+      {
+        "op": "match",
+        "ref": "a",
+        "hyp": "a"
+      },
+      {
+        "op": "match",
+        "ref": "technology",
+        "hyp": "technology"
+      },
+      {
+        "op": "match",
+        "ref": "called",
+        "hyp": "called"
+      },
+      {
+        "op": "match",
+        "ref": "surface",
+        "hyp": "surface"
+      },
+      {
+        "op": "match",
+        "ref": "texture",
+        "hyp": "texture"
+      },
+      {
+        "op": "match",
+        "ref": "which",
+        "hyp": "which"
+      },
+      {
+        "op": "match",
+        "ref": "is",
+        "hyp": "is"
+      },
+      {
+        "op": "match",
+        "ref": "our",
+        "hyp": "our"
+      },
+      {
+        "op": "match",
+        "ref": "focus",
+        "hyp": "focus"
+      },
+      {
+        "op": "match",
+        "ref": "today",
+        "hyp": "today"
+      },
+      {
+        "op": "match",
+        "ref": "okay",
+        "hyp": "okay"
+      },
+      {
+        "op": "match",
+        "ref": "so",
+        "hyp": "so"
+      },
+      {
+        "op": "match",
+        "ref": "surface",
+        "hyp": "surface"
+      },
+      {
+        "op": "match",
+        "ref": "texture",
+        "hyp": "texture"
+      },
+      {
+        "op": "match",
+        "ref": "is",
+        "hyp": "is"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "use",
+        "hyp": "use"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "physical",
+        "hyp": "physical"
+      },
+      {
+        "op": "match",
+        "ref": "or",
+        "hyp": "or"
+      },
+      {
+        "op": "match",
+        "ref": "chemical",
+        "hyp": "chemical"
+      },
+      {
+        "op": "match",
+        "ref": "methods",
+        "hyp": "methods"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "prepare",
+        "hyp": "prepare"
+      },
+      {
+        "op": "match",
+        "ref": "some",
+        "hyp": "some"
+      },
+      {
+        "op": "match",
+        "ref": "microstructure",
+        "hyp": "microstructure"
+      },
+      {
+        "op": "match",
+        "ref": "arrays",
+        "hyp": "arrays"
+      },
+      {
+        "op": "delete",
+        "ref": "and",
+        "hyp": ""
+      },
+      {
+        "op": "substitute",
+        "ref": "these",
+        "hyp": "with"
+      },
+      {
+        "op": "match",
+        "ref": "these",
+        "hyp": "these"
+      },
+      {
+        "op": "match",
+        "ref": "characteristics",
+        "hyp": "characteristics"
+      },
+      {
+        "op": "delete",
+        "ref": "and",
+        "hyp": ""
+      },
+      {
+        "op": "match",
+        "ref": "on",
+        "hyp": "on"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "surface",
+        "hyp": "surface"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "mechanical",
+        "hyp": "mechanical"
+      },
+      {
+        "op": "match",
+        "ref": "parts",
+        "hyp": "parts"
+      },
+      {
+        "op": "match",
+        "ref": "in",
+        "hyp": "in"
+      },
+      {
+        "op": "match",
+        "ref": "order",
+        "hyp": "order"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "obtain",
+        "hyp": "obtain"
+      },
+      {
+        "op": "match",
+        "ref": "special",
+        "hyp": "special"
+      },
+      {
+        "op": "match",
+        "ref": "surface",
+        "hyp": "surface"
+      },
+      {
+        "op": "match",
+        "ref": "lubrication",
+        "hyp": "lubrication"
+      },
+      {
+        "op": "match",
+        "ref": "performance",
+        "hyp": "performance"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "when",
+        "hyp": "when"
+      },
+      {
+        "op": "match",
+        "ref": "it",
+        "hyp": "it"
+      },
+      {
+        "op": "match",
+        "ref": "comes",
+        "hyp": "comes"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "its",
+        "hyp": "its"
+      },
+      {
+        "op": "match",
+        "ref": "principles",
+        "hyp": "principles"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "summarize",
+        "hyp": "summarize"
+      },
+      {
+        "op": "match",
+        "ref": "it",
+        "hyp": "it"
+      },
+      {
+        "op": "match",
+        "ref": "in",
+        "hyp": "in"
+      },
+      {
+        "op": "match",
+        "ref": "my",
+        "hyp": "my"
+      },
+      {
+        "op": "match",
+        "ref": "own",
+        "hyp": "own"
+      },
+      {
+        "op": "match",
+        "ref": "words",
+        "hyp": "words"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "most",
+        "hyp": "most"
+      },
+      {
+        "op": "match",
+        "ref": "important",
+        "hyp": "important"
+      },
+      {
+        "op": "match",
+        "ref": "point",
+        "hyp": "point"
+      },
+      {
+        "op": "match",
+        "ref": "is",
+        "hyp": "is"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "surface",
+        "hyp": "surface"
+      },
+      {
+        "op": "match",
+        "ref": "texture",
+        "hyp": "texture"
+      },
+      {
+        "op": "match",
+        "ref": "can",
+        "hyp": "can"
+      },
+      {
+        "op": "match",
+        "ref": "also",
+        "hyp": "also"
+      },
+      {
+        "op": "match",
+        "ref": "store",
+        "hyp": "store"
+      },
+      {
+        "op": "match",
+        "ref": "lubricants",
+        "hyp": "lubricants"
+      },
+      {
+        "op": "match",
+        "ref": "while",
+        "hyp": "while"
+      },
+      {
+        "op": "match",
+        "ref": "collecting",
+        "hyp": "collecting"
+      },
+      {
+        "op": "match",
+        "ref": "abrasive",
+        "hyp": "abrasive"
+      },
+      {
+        "op": "substitute",
+        "ref": "particles",
+        "hyp": "articles"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "then",
+        "hyp": "then"
+      },
+      {
+        "op": "match",
+        "ref": "it",
+        "hyp": "it"
+      },
+      {
+        "op": "match",
+        "ref": "comes",
+        "hyp": "comes"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "research",
+        "hyp": "research"
+      },
+      {
+        "op": "match",
+        "ref": "background",
+        "hyp": "background"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "surface",
+        "hyp": "surface"
+      },
+      {
+        "op": "match",
+        "ref": "texture",
+        "hyp": "texture"
+      },
+      {
+        "op": "match",
+        "ref": "a",
+        "hyp": "a"
+      },
+      {
+        "op": "match",
+        "ref": "scholar",
+        "hyp": "scholar"
+      },
+      {
+        "op": "match",
+        "ref": "named",
+        "hyp": "named"
+      },
+      {
+        "op": "match",
+        "ref": "hamilton",
+        "hyp": "hamilton"
+      },
+      {
+        "op": "match",
+        "ref": "first",
+        "hyp": "first"
+      },
+      {
+        "op": "match",
+        "ref": "adapted",
+        "hyp": "adapted"
+      },
+      {
+        "op": "substitute",
+        "ref": "prepared",
+        "hyp": "prepare"
+      },
+      {
+        "op": "match",
+        "ref": "surface",
+        "hyp": "surface"
+      },
+      {
+        "op": "substitute",
+        "ref": "vectors",
+        "hyp": "textures"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "successfully",
+        "hyp": "successfully"
+      },
+      {
+        "op": "match",
+        "ref": "it",
+        "hyp": "it"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "nowadays",
+        "hyp": "nowadays"
+      },
+      {
+        "op": "match",
+        "ref": "many",
+        "hyp": "many"
+      },
+      {
+        "op": "match",
+        "ref": "scholars",
+        "hyp": "scholars"
+      },
+      {
+        "op": "match",
+        "ref": "are",
+        "hyp": "are"
+      },
+      {
+        "op": "match",
+        "ref": "attempting",
+        "hyp": "attempting"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "apply",
+        "hyp": "apply"
+      },
+      {
+        "op": "match",
+        "ref": "this",
+        "hyp": "this"
+      },
+      {
+        "op": "match",
+        "ref": "technology",
+        "hyp": "technology"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "mechanical",
+        "hyp": "mechanical"
+      },
+      {
+        "op": "match",
+        "ref": "surfaces",
+        "hyp": "surfaces"
+      },
+      {
+        "op": "match",
+        "ref": "okay",
+        "hyp": "okay"
+      },
+      {
+        "op": "match",
+        "ref": "now",
+        "hyp": "now"
+      },
+      {
+        "op": "match",
+        "ref": "it's",
+        "hyp": "it's"
+      },
+      {
+        "op": "match",
+        "ref": "time",
+        "hyp": "time"
+      },
+      {
+        "op": "match",
+        "ref": "for",
+        "hyp": "for"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "discussion",
+        "hyp": "discussion"
+      },
+      {
+        "op": "match",
+        "ref": "part",
+        "hyp": "part"
+      },
+      {
+        "op": "delete",
+        "ref": "and",
+        "hyp": ""
+      },
+      {
+        "op": "match",
+        "ref": "this",
+        "hyp": "this"
+      },
+      {
+        "op": "match",
+        "ref": "is",
+        "hyp": "is"
+      },
+      {
+        "op": "match",
+        "ref": "an",
+        "hyp": "an"
+      },
+      {
+        "op": "match",
+        "ref": "experiment",
+        "hyp": "experiment"
+      },
+      {
+        "op": "match",
+        "ref": "from",
+        "hyp": "from"
+      },
+      {
+        "op": "insert",
+        "ref": "",
+        "hyp": "yu"
+      },
+      {
+        "op": "insert",
+        "ref": "",
+        "hyp": "hua"
+      },
+      {
+        "op": "substitute",
+        "ref": "uva",
+        "hyp": "zhang"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "let's",
+        "hyp": "let's"
+      },
+      {
+        "op": "match",
+        "ref": "take",
+        "hyp": "take"
+      },
+      {
+        "op": "match",
+        "ref": "a",
+        "hyp": "a"
+      },
+      {
+        "op": "match",
+        "ref": "look",
+        "hyp": "look"
+      },
+      {
+        "op": "match",
+        "ref": "at",
+        "hyp": "at"
+      },
+      {
+        "op": "match",
+        "ref": "how",
+        "hyp": "how"
+      },
+      {
+        "op": "match",
+        "ref": "he",
+        "hyp": "he"
+      },
+      {
+        "op": "match",
+        "ref": "did",
+        "hyp": "did"
+      },
+      {
+        "op": "match",
+        "ref": "it",
+        "hyp": "it"
+      },
+      {
+        "op": "delete",
+        "ref": "well",
+        "hyp": ""
+      },
+      {
+        "op": "match",
+        "ref": "first",
+        "hyp": "first"
+      },
+      {
+        "op": "match",
+        "ref": "of",
+        "hyp": "of"
+      },
+      {
+        "op": "match",
+        "ref": "all",
+        "hyp": "all"
+      },
+      {
+        "op": "match",
+        "ref": "he",
+        "hyp": "he"
+      },
+      {
+        "op": "match",
+        "ref": "established",
+        "hyp": "established"
+      },
+      {
+        "op": "match",
+        "ref": "a",
+        "hyp": "a"
+      },
+      {
+        "op": "delete",
+        "ref": "friction",
+        "hyp": ""
+      },
+      {
+        "op": "substitute",
+        "ref": "where",
+        "hyp": "frictionless"
+      },
+      {
+        "op": "substitute",
+        "ref": "a",
+        "hyp": "wheel"
+      },
+      {
+        "op": "match",
+        "ref": "model",
+        "hyp": "model"
+      },
+      {
+        "op": "match",
+        "ref": "then",
+        "hyp": "then"
+      },
+      {
+        "op": "match",
+        "ref": "he",
+        "hyp": "he"
+      },
+      {
+        "op": "match",
+        "ref": "added",
+        "hyp": "added"
+      },
+      {
+        "op": "substitute",
+        "ref": "five",
+        "hyp": "5"
+      },
+      {
+        "op": "match",
+        "ref": "different",
+        "hyp": "different"
+      },
+      {
+        "op": "match",
+        "ref": "textures",
+        "hyp": "textures"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "the",
+        "hyp": "the"
+      },
+      {
+        "op": "match",
+        "ref": "model",
+        "hyp": "model"
+      },
+      {
+        "op": "match",
+        "ref": "in",
+        "hyp": "in"
+      },
+      {
+        "op": "match",
+        "ref": "order",
+        "hyp": "order"
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "make",
+        "hyp": "make"
+      },
+      {
+        "op": "match",
+        "ref": "a",
+        "hyp": "a"
+      },
+      {
+        "op": "match",
+        "ref": "comparison",
+        "hyp": "comparison"
+      },
+      {
+        "op": "match",
+        "ref": "between",
+        "hyp": "between"
+      },
+      {
+        "op": "substitute",
+        "ref": "node",
+        "hyp": "no"
+      },
+      {
+        "op": "match",
+        "ref": "texture",
+        "hyp": "texture"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "those",
+        "hyp": "those"
+      },
+      {
+        "op": "substitute",
+        "ref": "five",
+        "hyp": "5"
+      },
+      {
+        "op": "match",
+        "ref": "different",
+        "hyp": "different"
+      },
+      {
+        "op": "match",
+        "ref": "textures",
+        "hyp": "textures"
+      },
+      {
+        "op": "match",
+        "ref": "you",
+        "hyp": "you"
+      },
+      {
+        "op": "match",
+        "ref": "can",
+        "hyp": "can"
+      },
+      {
+        "op": "match",
+        "ref": "see",
+        "hyp": "see"
+      },
+      {
+        "op": "match",
+        "ref": "their",
+        "hyp": "their"
+      },
+      {
+        "op": "match",
+        "ref": "different",
+        "hyp": "different"
+      },
+      {
+        "op": "match",
+        "ref": "arrangements",
+        "hyp": "arrangements"
+      },
+      {
+        "op": "match",
+        "ref": "and",
+        "hyp": "and"
+      },
+      {
+        "op": "match",
+        "ref": "after",
+        "hyp": "after"
+      },
+      {
+        "op": "match",
+        "ref": "that",
+        "hyp": "that"
+      },
+      {
+        "op": "substitute",
+        "ref": "she",
+        "hyp": "he"
+      },
+      {
+        "op": "match",
+        "ref": "studied",
+        "hyp": "studied"
+      },
+      {
+        "op": "delete",
+        "ref": "a",
+        "hyp": ""
+      },
+      {
+        "op": "substitute",
+        "ref": "phonetic",
+        "hyp": "finite"
+      },
+      {
+        "op": "match",
+        "ref": "element",
+        "hyp": "element"
+      },
+      {
+        "op": "delete",
+        "ref": "in",
+        "hyp": ""
+      },
+      {
+        "op": "match",
+        "ref": "analysis",
+        "hyp": "analysis"
+      },
+      {
+        "op": "match",
+        "ref": "which",
+        "hyp": "which"
+      },
+      {
+        "op": "match",
+        "ref": "is",
+        "hyp": "is"
+      },
+      {
+        "op": "match",
+        "ref": "a",
+        "hyp": "a"
+      },
+      {
+        "op": "match",
+        "ref": "method",
+        "hyp": "method"
+      },
+      {
+        "op": "delete",
+        "ref": "a",
+        "hyp": ""
+      },
+      {
+        "op": "match",
+        "ref": "method",
+        "hyp": "method"
+      },
+      {
+        "op": "match",
+        "ref": "using",
+        "hyp": "using"
+      },
+      {
+        "op": "match",
+        "ref": "mathematical",
+        "hyp": "mathematical"
+      },
+      {
+        "op": "match",
+        "ref": "approximation",
+        "hyp": "approximation"
+      },
+      {
+        "op": "delete",
+        "ref": "to",
+        "hyp": ""
+      },
+      {
+        "op": "delete",
+        "ref": "simul",
+        "hyp": ""
+      },
+      {
+        "op": "match",
+        "ref": "to",
+        "hyp": "to"
+      },
+      {
+        "op": "match",
+        "ref": "simulate",
+        "hyp": "simulate"
+      },
+      {
+        "op": "match",
+        "ref": "real",
+        "hyp": "real"
+      },
+      {
+        "op": "match",
+        "ref": "physical",
+        "hyp": "physical"
+      },
+      {
+        "op": "match",
+        "ref": "systems",
+        "hyp": "systems"
+      }
+    ]
   },
-  "cleaning_index": [
+  "client_cleaning_index": [],
+  "asr_cleaning_index": [],
+  "client_repetitions_kept": [
     {
-      "token": "Uh,",
-      "kind": "filler",
-      "action": "removed"
+      "phrase": "these",
+      "kind": "word"
     },
-    {
-      "token": "uh,",
-      "kind": "filler",
-      "action": "removed"
-    },
-    {
-      "token": "um,",
-      "kind": "filler",
-      "action": "removed"
-    },
-    {
-      "token": "uh,",
-      "kind": "filler",
-      "action": "removed"
-    }
-  ],
-  "repetitions_kept": [
     {
       "phrase": "a method",
       "kind": "bigram"
+    }
+  ],
+  "asr_repetitions_kept": [
+    {
+      "phrase": "method",
+      "kind": "word"
     }
   ]
 }

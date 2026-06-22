@@ -2,7 +2,7 @@
   "sprint": "validation-sprint",
   "recording_id": "8_STEM_SpeakerX",
   "speaker": "SpeakerX",
-  "generated_at": "2026-06-21T14:39:04.015Z",
+  "generated_at": "2026-06-22T03:14:10.055Z",
   "phase_i": {
     "status": "skipped",
     "reason": "monologue — single speaker"
@@ -26,8 +26,8 @@
       "name": "8 STEM SpeakerX checked and pruned.txt",
       "role": "transcript",
       "present": true,
-      "bytes": 1968,
-      "sha256": "1e31f199f2f6e27b266fe951ce5bdef666af7b943591ab0dc9093ee7e7ddda79"
+      "bytes": 1970,
+      "sha256": "0bf8cd9b3ce52098751ac9dcffcc1474d07113cb0c1eaabd95ff044639a09679"
     },
     {
       "name": "Example fluency measures calculations SpeakerX.xlsx",
@@ -40,8 +40,7 @@
   "config": {
     "thresholds_sec": [
       0.25,
-      0.35,
-      0.5
+      0.35
     ],
     "tolerances": {
       "duration": 0.001,
@@ -53,11 +52,11 @@
   "praat": {
     "available": true,
     "status": "ok",
-    "binary": "/Applications/Praat.app/Contents/MacOS/Praat"
+    "binary": "C:\\Users\\yyang.DELOITTEML\\AppData\\Local\\Microsoft\\WinGet\\Packages\\UniversityOfAmsterdam.praat_Microsoft.Winget.Source_8wekyb3d8bbwe\\Praat.exe"
   },
   "phase_ii": {
     "status": "passed",
-    "ran_at": "2026-06-21T14:39:04.015Z",
+    "ran_at": "2026-06-22T03:10:27.360Z",
     "praat_window_sec": 200,
     "scale_times": "applied_single_window_full_wav",
     "label_contract": [
@@ -70,7 +69,7 @@
       {
         "threshold": 0.25,
         "kind": "gold",
-        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/generated.TextGrid",
+        "textgrid": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.25\\generated.TextGrid",
         "praat_window_sec": 200,
         "label_contract": [
           "sounding",
@@ -83,20 +82,7 @@
       {
         "threshold": 0.35,
         "kind": "generated_no_gold",
-        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/generated.TextGrid",
-        "praat_window_sec": 200,
-        "label_contract": [
-          "sounding",
-          "silent",
-          "invalid"
-        ],
-        "status": "generated",
-        "scale_times": "applied_single_window_full_wav"
-      },
-      {
-        "threshold": 0.5,
-        "kind": "generated_no_gold",
-        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/generated.TextGrid",
+        "textgrid": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.35\\generated.TextGrid",
         "praat_window_sec": 200,
         "label_contract": [
           "sounding",
@@ -111,7 +97,7 @@
       {
         "threshold": 0.25,
         "method": "praat",
-        "summary_json": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/script2_summary.json",
+        "summary_json": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.25\\script2_summary.json",
         "totals": {
           "total_duration": 183.17922902494408,
           "interval_count": 195,
@@ -129,7 +115,7 @@
       {
         "threshold": 0.35,
         "method": "praat",
-        "summary_json": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/script2_summary.json",
+        "summary_json": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.35\\script2_summary.json",
         "totals": {
           "total_duration": 183.17922902494402,
           "interval_count": 142,
@@ -141,24 +127,6 @@
           "total_invalid": 0,
           "mean_silent": 0.9182199227108732,
           "min_silent": 0.352,
-          "max_silent": 2.96
-        }
-      },
-      {
-        "threshold": 0.5,
-        "method": "praat",
-        "summary_json": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/script2_summary.json",
-        "totals": {
-          "total_duration": 183.17922902494405,
-          "interval_count": 112,
-          "sounding_count": 56,
-          "silent_count": 56,
-          "invalid_count": 0,
-          "total_sounding": 124.09761451247205,
-          "total_silent": 59.081614512471994,
-          "total_invalid": 0,
-          "mean_silent": 1.055028830579857,
-          "min_silent": 0.504,
           "max_silent": 2.96
         }
       }
@@ -265,7 +233,7 @@
         "threshold": 0.25,
         "kind": "gold",
         "status": "generated",
-        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/generated.TextGrid",
+        "textgrid": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.25\\generated.TextGrid",
         "full_timeline_ok": true,
         "durations": {
           "total_duration": 183.17922902494408,
@@ -285,7 +253,7 @@
         "threshold": 0.35,
         "kind": "generated_no_gold",
         "status": "generated_no_gold",
-        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/generated.TextGrid",
+        "textgrid": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.35\\generated.TextGrid",
         "full_timeline_ok": true,
         "durations": {
           "total_duration": 183.17922902494402,
@@ -300,78 +268,1664 @@
           "min_silent": 0.352,
           "max_silent": 2.96
         }
-      },
-      {
-        "threshold": 0.5,
-        "kind": "generated_no_gold",
-        "status": "generated_no_gold",
-        "textgrid": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/generated.TextGrid",
-        "full_timeline_ok": true,
-        "durations": {
-          "total_duration": 183.17922902494405,
-          "interval_count": 112,
-          "sounding_count": 56,
-          "silent_count": 56,
-          "invalid_count": 0,
-          "total_sounding": 124.09761451247205,
-          "total_silent": 59.081614512471994,
-          "total_invalid": 0,
-          "mean_silent": 1.055028830579857,
-          "min_silent": 0.504,
-          "max_silent": 2.96
-        }
       }
     ]
   },
   "phase_iii": {
     "status": "passed",
-    "ran_at": "2026-06-21T14:39:04.015Z",
-    "raw_file": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_RAW-TIMING.txt",
-    "tidy_file": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_TIDY-PHRASE.txt",
-    "transcription": "assemblyai (real ASR on the .wav, disfluencies kept)",
+    "ran_at": "2026-06-22T03:14:10.055Z",
+    "raw_file": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\8_STEM_SpeakerX_RAW-TIMING.txt",
+    "tidy_file": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\8_STEM_SpeakerX_TIDY-PHRASE.txt",
+    "source": "client_standard_transcript",
+    "transcription": "client standard transcript split; assemblyai compared separately",
     "asr": {
       "model": "universal-3-pro",
-      "words": 318,
-      "confidence": 0.930531,
-      "audio_duration": 184
+      "words": 312,
+      "confidence": 0.9350529,
+      "audio_duration": 184,
+      "source": "assemblyai_api",
+      "source_path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\assemblyai-cache\\8_STEM_SpeakerX_checked_and_pruned.assemblyai.raw.json"
     },
+    "asr_raw_file": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\assemblyai_RAW-TIMING.txt",
+    "asr_tidy_file": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\assemblyai_TIDY-PHRASE.txt",
     "validation": {
       "method": "assemblyai",
-      "compared": "TIDY vs standard",
+      "compared": "AssemblyAI TIDY vs client TIDY",
       "status": "passed",
+      "asr_source": "assemblyai_api",
+      "asr_source_path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\assemblyai-cache\\8_STEM_SpeakerX_checked_and_pruned.assemblyai.raw.json",
       "reference_words": 321,
-      "hypothesis_words": 315,
-      "edits": 24,
-      "wer": 0.07476635514018691,
-      "word_agreement": 0.9252336448598131
+      "hypothesis_words": 312,
+      "edits": 28,
+      "substitutions": 15,
+      "deletions": 11,
+      "insertions": 2,
+      "wer": 0.08722741433021806,
+      "word_agreement": 0.9127725856697819,
+      "alignment": [
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "topic",
+          "hyp": "topic"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "my",
+          "hyp": "my"
+        },
+        {
+          "op": "match",
+          "ref": "report",
+          "hyp": "report"
+        },
+        {
+          "op": "match",
+          "ref": "is",
+          "hyp": "is"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "influence",
+          "hyp": "influence"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "surface",
+          "hyp": "surface"
+        },
+        {
+          "op": "match",
+          "ref": "texture",
+          "hyp": "texture"
+        },
+        {
+          "op": "match",
+          "ref": "on",
+          "hyp": "on"
+        },
+        {
+          "op": "match",
+          "ref": "mechanical",
+          "hyp": "mechanical"
+        },
+        {
+          "op": "match",
+          "ref": "surface",
+          "hyp": "surface"
+        },
+        {
+          "op": "match",
+          "ref": "friction",
+          "hyp": "friction"
+        },
+        {
+          "op": "match",
+          "ref": "which",
+          "hyp": "which"
+        },
+        {
+          "op": "match",
+          "ref": "closely",
+          "hyp": "closely"
+        },
+        {
+          "op": "match",
+          "ref": "related",
+          "hyp": "related"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "my",
+          "hyp": "my"
+        },
+        {
+          "op": "match",
+          "ref": "future",
+          "hyp": "future"
+        },
+        {
+          "op": "match",
+          "ref": "study",
+          "hyp": "study"
+        },
+        {
+          "op": "match",
+          "ref": "so",
+          "hyp": "so"
+        },
+        {
+          "op": "match",
+          "ref": "let's",
+          "hyp": "let's"
+        },
+        {
+          "op": "match",
+          "ref": "begin",
+          "hyp": "begin"
+        },
+        {
+          "op": "match",
+          "ref": "today",
+          "hyp": "today"
+        },
+        {
+          "op": "substitute",
+          "ref": "i",
+          "hyp": "i'd"
+        },
+        {
+          "op": "match",
+          "ref": "like",
+          "hyp": "like"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "introduce",
+          "hyp": "introduce"
+        },
+        {
+          "op": "match",
+          "ref": "it",
+          "hyp": "it"
+        },
+        {
+          "op": "match",
+          "ref": "from",
+          "hyp": "from"
+        },
+        {
+          "op": "substitute",
+          "ref": "six",
+          "hyp": "6"
+        },
+        {
+          "op": "match",
+          "ref": "aspects",
+          "hyp": "aspects"
+        },
+        {
+          "op": "match",
+          "ref": "they",
+          "hyp": "they"
+        },
+        {
+          "op": "match",
+          "ref": "are",
+          "hyp": "are"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "introduction",
+          "hyp": "introduction"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "background",
+          "hyp": "background"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "development",
+          "hyp": "development"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "advantages",
+          "hyp": "advantages"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "limitations",
+          "hyp": "limitations"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "conclusion",
+          "hyp": "conclusion"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "list",
+          "hyp": "list"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "references",
+          "hyp": "references"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "begin",
+          "hyp": "begin"
+        },
+        {
+          "op": "match",
+          "ref": "with",
+          "hyp": "with"
+        },
+        {
+          "op": "delete",
+          "ref": "and",
+          "hyp": ""
+        },
+        {
+          "op": "match",
+          "ref": "just",
+          "hyp": "just"
+        },
+        {
+          "op": "match",
+          "ref": "as",
+          "hyp": "as"
+        },
+        {
+          "op": "match",
+          "ref": "its",
+          "hyp": "its"
+        },
+        {
+          "op": "match",
+          "ref": "name",
+          "hyp": "name"
+        },
+        {
+          "op": "match",
+          "ref": "implies",
+          "hyp": "implies"
+        },
+        {
+          "op": "match",
+          "ref": "mechanical",
+          "hyp": "mechanical"
+        },
+        {
+          "op": "match",
+          "ref": "friction",
+          "hyp": "friction"
+        },
+        {
+          "op": "match",
+          "ref": "is",
+          "hyp": "is"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "friction",
+          "hyp": "friction"
+        },
+        {
+          "op": "match",
+          "ref": "generated",
+          "hyp": "generated"
+        },
+        {
+          "op": "match",
+          "ref": "by",
+          "hyp": "by"
+        },
+        {
+          "op": "match",
+          "ref": "relative",
+          "hyp": "relative"
+        },
+        {
+          "op": "match",
+          "ref": "motion",
+          "hyp": "motion"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "mechanical",
+          "hyp": "mechanical"
+        },
+        {
+          "op": "match",
+          "ref": "parts",
+          "hyp": "parts"
+        },
+        {
+          "op": "substitute",
+          "ref": "then",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "friction",
+          "hyp": "friction"
+        },
+        {
+          "op": "match",
+          "ref": "leads",
+          "hyp": "leads"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "wear",
+          "hyp": "wear"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "tear",
+          "hyp": "tear"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "nearly",
+          "hyp": "nearly"
+        },
+        {
+          "op": "match",
+          "ref": "80",
+          "hyp": "80"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "failures",
+          "hyp": "failures"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "mechanical",
+          "hyp": "mechanical"
+        },
+        {
+          "op": "match",
+          "ref": "parts",
+          "hyp": "parts"
+        },
+        {
+          "op": "match",
+          "ref": "worldwide",
+          "hyp": "worldwide"
+        },
+        {
+          "op": "match",
+          "ref": "are",
+          "hyp": "are"
+        },
+        {
+          "op": "match",
+          "ref": "caused",
+          "hyp": "caused"
+        },
+        {
+          "op": "match",
+          "ref": "by",
+          "hyp": "by"
+        },
+        {
+          "op": "match",
+          "ref": "it",
+          "hyp": "it"
+        },
+        {
+          "op": "match",
+          "ref": "therefore",
+          "hyp": "therefore"
+        },
+        {
+          "op": "match",
+          "ref": "in",
+          "hyp": "in"
+        },
+        {
+          "op": "match",
+          "ref": "mechanical",
+          "hyp": "mechanical"
+        },
+        {
+          "op": "match",
+          "ref": "manufacturing",
+          "hyp": "manufacturing"
+        },
+        {
+          "op": "match",
+          "ref": "some",
+          "hyp": "some"
+        },
+        {
+          "op": "match",
+          "ref": "methods",
+          "hyp": "methods"
+        },
+        {
+          "op": "match",
+          "ref": "are",
+          "hyp": "are"
+        },
+        {
+          "op": "match",
+          "ref": "usually",
+          "hyp": "usually"
+        },
+        {
+          "op": "match",
+          "ref": "used",
+          "hyp": "used"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "reduce",
+          "hyp": "reduce"
+        },
+        {
+          "op": "match",
+          "ref": "friction",
+          "hyp": "friction"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "you",
+          "hyp": "you"
+        },
+        {
+          "op": "match",
+          "ref": "can",
+          "hyp": "can"
+        },
+        {
+          "op": "match",
+          "ref": "see",
+          "hyp": "see"
+        },
+        {
+          "op": "match",
+          "ref": "some",
+          "hyp": "some"
+        },
+        {
+          "op": "match",
+          "ref": "examples",
+          "hyp": "examples"
+        },
+        {
+          "op": "match",
+          "ref": "here",
+          "hyp": "here"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "one",
+          "hyp": "one"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "them",
+          "hyp": "them"
+        },
+        {
+          "op": "match",
+          "ref": "is",
+          "hyp": "is"
+        },
+        {
+          "op": "match",
+          "ref": "a",
+          "hyp": "a"
+        },
+        {
+          "op": "match",
+          "ref": "technology",
+          "hyp": "technology"
+        },
+        {
+          "op": "match",
+          "ref": "called",
+          "hyp": "called"
+        },
+        {
+          "op": "match",
+          "ref": "surface",
+          "hyp": "surface"
+        },
+        {
+          "op": "match",
+          "ref": "texture",
+          "hyp": "texture"
+        },
+        {
+          "op": "match",
+          "ref": "which",
+          "hyp": "which"
+        },
+        {
+          "op": "match",
+          "ref": "is",
+          "hyp": "is"
+        },
+        {
+          "op": "match",
+          "ref": "our",
+          "hyp": "our"
+        },
+        {
+          "op": "match",
+          "ref": "focus",
+          "hyp": "focus"
+        },
+        {
+          "op": "match",
+          "ref": "today",
+          "hyp": "today"
+        },
+        {
+          "op": "match",
+          "ref": "okay",
+          "hyp": "okay"
+        },
+        {
+          "op": "match",
+          "ref": "so",
+          "hyp": "so"
+        },
+        {
+          "op": "match",
+          "ref": "surface",
+          "hyp": "surface"
+        },
+        {
+          "op": "match",
+          "ref": "texture",
+          "hyp": "texture"
+        },
+        {
+          "op": "match",
+          "ref": "is",
+          "hyp": "is"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "use",
+          "hyp": "use"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "physical",
+          "hyp": "physical"
+        },
+        {
+          "op": "match",
+          "ref": "or",
+          "hyp": "or"
+        },
+        {
+          "op": "match",
+          "ref": "chemical",
+          "hyp": "chemical"
+        },
+        {
+          "op": "match",
+          "ref": "methods",
+          "hyp": "methods"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "prepare",
+          "hyp": "prepare"
+        },
+        {
+          "op": "match",
+          "ref": "some",
+          "hyp": "some"
+        },
+        {
+          "op": "match",
+          "ref": "microstructure",
+          "hyp": "microstructure"
+        },
+        {
+          "op": "match",
+          "ref": "arrays",
+          "hyp": "arrays"
+        },
+        {
+          "op": "delete",
+          "ref": "and",
+          "hyp": ""
+        },
+        {
+          "op": "substitute",
+          "ref": "these",
+          "hyp": "with"
+        },
+        {
+          "op": "match",
+          "ref": "these",
+          "hyp": "these"
+        },
+        {
+          "op": "match",
+          "ref": "characteristics",
+          "hyp": "characteristics"
+        },
+        {
+          "op": "delete",
+          "ref": "and",
+          "hyp": ""
+        },
+        {
+          "op": "match",
+          "ref": "on",
+          "hyp": "on"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "surface",
+          "hyp": "surface"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "mechanical",
+          "hyp": "mechanical"
+        },
+        {
+          "op": "match",
+          "ref": "parts",
+          "hyp": "parts"
+        },
+        {
+          "op": "match",
+          "ref": "in",
+          "hyp": "in"
+        },
+        {
+          "op": "match",
+          "ref": "order",
+          "hyp": "order"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "obtain",
+          "hyp": "obtain"
+        },
+        {
+          "op": "match",
+          "ref": "special",
+          "hyp": "special"
+        },
+        {
+          "op": "match",
+          "ref": "surface",
+          "hyp": "surface"
+        },
+        {
+          "op": "match",
+          "ref": "lubrication",
+          "hyp": "lubrication"
+        },
+        {
+          "op": "match",
+          "ref": "performance",
+          "hyp": "performance"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "when",
+          "hyp": "when"
+        },
+        {
+          "op": "match",
+          "ref": "it",
+          "hyp": "it"
+        },
+        {
+          "op": "match",
+          "ref": "comes",
+          "hyp": "comes"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "its",
+          "hyp": "its"
+        },
+        {
+          "op": "match",
+          "ref": "principles",
+          "hyp": "principles"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "summarize",
+          "hyp": "summarize"
+        },
+        {
+          "op": "match",
+          "ref": "it",
+          "hyp": "it"
+        },
+        {
+          "op": "match",
+          "ref": "in",
+          "hyp": "in"
+        },
+        {
+          "op": "match",
+          "ref": "my",
+          "hyp": "my"
+        },
+        {
+          "op": "match",
+          "ref": "own",
+          "hyp": "own"
+        },
+        {
+          "op": "match",
+          "ref": "words",
+          "hyp": "words"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "most",
+          "hyp": "most"
+        },
+        {
+          "op": "match",
+          "ref": "important",
+          "hyp": "important"
+        },
+        {
+          "op": "match",
+          "ref": "point",
+          "hyp": "point"
+        },
+        {
+          "op": "match",
+          "ref": "is",
+          "hyp": "is"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "surface",
+          "hyp": "surface"
+        },
+        {
+          "op": "match",
+          "ref": "texture",
+          "hyp": "texture"
+        },
+        {
+          "op": "match",
+          "ref": "can",
+          "hyp": "can"
+        },
+        {
+          "op": "match",
+          "ref": "also",
+          "hyp": "also"
+        },
+        {
+          "op": "match",
+          "ref": "store",
+          "hyp": "store"
+        },
+        {
+          "op": "match",
+          "ref": "lubricants",
+          "hyp": "lubricants"
+        },
+        {
+          "op": "match",
+          "ref": "while",
+          "hyp": "while"
+        },
+        {
+          "op": "match",
+          "ref": "collecting",
+          "hyp": "collecting"
+        },
+        {
+          "op": "match",
+          "ref": "abrasive",
+          "hyp": "abrasive"
+        },
+        {
+          "op": "substitute",
+          "ref": "particles",
+          "hyp": "articles"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "then",
+          "hyp": "then"
+        },
+        {
+          "op": "match",
+          "ref": "it",
+          "hyp": "it"
+        },
+        {
+          "op": "match",
+          "ref": "comes",
+          "hyp": "comes"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "research",
+          "hyp": "research"
+        },
+        {
+          "op": "match",
+          "ref": "background",
+          "hyp": "background"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "surface",
+          "hyp": "surface"
+        },
+        {
+          "op": "match",
+          "ref": "texture",
+          "hyp": "texture"
+        },
+        {
+          "op": "match",
+          "ref": "a",
+          "hyp": "a"
+        },
+        {
+          "op": "match",
+          "ref": "scholar",
+          "hyp": "scholar"
+        },
+        {
+          "op": "match",
+          "ref": "named",
+          "hyp": "named"
+        },
+        {
+          "op": "match",
+          "ref": "hamilton",
+          "hyp": "hamilton"
+        },
+        {
+          "op": "match",
+          "ref": "first",
+          "hyp": "first"
+        },
+        {
+          "op": "match",
+          "ref": "adapted",
+          "hyp": "adapted"
+        },
+        {
+          "op": "substitute",
+          "ref": "prepared",
+          "hyp": "prepare"
+        },
+        {
+          "op": "match",
+          "ref": "surface",
+          "hyp": "surface"
+        },
+        {
+          "op": "substitute",
+          "ref": "vectors",
+          "hyp": "textures"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "successfully",
+          "hyp": "successfully"
+        },
+        {
+          "op": "match",
+          "ref": "it",
+          "hyp": "it"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "nowadays",
+          "hyp": "nowadays"
+        },
+        {
+          "op": "match",
+          "ref": "many",
+          "hyp": "many"
+        },
+        {
+          "op": "match",
+          "ref": "scholars",
+          "hyp": "scholars"
+        },
+        {
+          "op": "match",
+          "ref": "are",
+          "hyp": "are"
+        },
+        {
+          "op": "match",
+          "ref": "attempting",
+          "hyp": "attempting"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "apply",
+          "hyp": "apply"
+        },
+        {
+          "op": "match",
+          "ref": "this",
+          "hyp": "this"
+        },
+        {
+          "op": "match",
+          "ref": "technology",
+          "hyp": "technology"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "mechanical",
+          "hyp": "mechanical"
+        },
+        {
+          "op": "match",
+          "ref": "surfaces",
+          "hyp": "surfaces"
+        },
+        {
+          "op": "match",
+          "ref": "okay",
+          "hyp": "okay"
+        },
+        {
+          "op": "match",
+          "ref": "now",
+          "hyp": "now"
+        },
+        {
+          "op": "match",
+          "ref": "it's",
+          "hyp": "it's"
+        },
+        {
+          "op": "match",
+          "ref": "time",
+          "hyp": "time"
+        },
+        {
+          "op": "match",
+          "ref": "for",
+          "hyp": "for"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "discussion",
+          "hyp": "discussion"
+        },
+        {
+          "op": "match",
+          "ref": "part",
+          "hyp": "part"
+        },
+        {
+          "op": "delete",
+          "ref": "and",
+          "hyp": ""
+        },
+        {
+          "op": "match",
+          "ref": "this",
+          "hyp": "this"
+        },
+        {
+          "op": "match",
+          "ref": "is",
+          "hyp": "is"
+        },
+        {
+          "op": "match",
+          "ref": "an",
+          "hyp": "an"
+        },
+        {
+          "op": "match",
+          "ref": "experiment",
+          "hyp": "experiment"
+        },
+        {
+          "op": "match",
+          "ref": "from",
+          "hyp": "from"
+        },
+        {
+          "op": "insert",
+          "ref": "",
+          "hyp": "yu"
+        },
+        {
+          "op": "insert",
+          "ref": "",
+          "hyp": "hua"
+        },
+        {
+          "op": "substitute",
+          "ref": "uva",
+          "hyp": "zhang"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "let's",
+          "hyp": "let's"
+        },
+        {
+          "op": "match",
+          "ref": "take",
+          "hyp": "take"
+        },
+        {
+          "op": "match",
+          "ref": "a",
+          "hyp": "a"
+        },
+        {
+          "op": "match",
+          "ref": "look",
+          "hyp": "look"
+        },
+        {
+          "op": "match",
+          "ref": "at",
+          "hyp": "at"
+        },
+        {
+          "op": "match",
+          "ref": "how",
+          "hyp": "how"
+        },
+        {
+          "op": "match",
+          "ref": "he",
+          "hyp": "he"
+        },
+        {
+          "op": "match",
+          "ref": "did",
+          "hyp": "did"
+        },
+        {
+          "op": "match",
+          "ref": "it",
+          "hyp": "it"
+        },
+        {
+          "op": "delete",
+          "ref": "well",
+          "hyp": ""
+        },
+        {
+          "op": "match",
+          "ref": "first",
+          "hyp": "first"
+        },
+        {
+          "op": "match",
+          "ref": "of",
+          "hyp": "of"
+        },
+        {
+          "op": "match",
+          "ref": "all",
+          "hyp": "all"
+        },
+        {
+          "op": "match",
+          "ref": "he",
+          "hyp": "he"
+        },
+        {
+          "op": "match",
+          "ref": "established",
+          "hyp": "established"
+        },
+        {
+          "op": "match",
+          "ref": "a",
+          "hyp": "a"
+        },
+        {
+          "op": "delete",
+          "ref": "friction",
+          "hyp": ""
+        },
+        {
+          "op": "substitute",
+          "ref": "where",
+          "hyp": "frictionless"
+        },
+        {
+          "op": "substitute",
+          "ref": "a",
+          "hyp": "wheel"
+        },
+        {
+          "op": "match",
+          "ref": "model",
+          "hyp": "model"
+        },
+        {
+          "op": "match",
+          "ref": "then",
+          "hyp": "then"
+        },
+        {
+          "op": "match",
+          "ref": "he",
+          "hyp": "he"
+        },
+        {
+          "op": "match",
+          "ref": "added",
+          "hyp": "added"
+        },
+        {
+          "op": "substitute",
+          "ref": "five",
+          "hyp": "5"
+        },
+        {
+          "op": "match",
+          "ref": "different",
+          "hyp": "different"
+        },
+        {
+          "op": "match",
+          "ref": "textures",
+          "hyp": "textures"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "the",
+          "hyp": "the"
+        },
+        {
+          "op": "match",
+          "ref": "model",
+          "hyp": "model"
+        },
+        {
+          "op": "match",
+          "ref": "in",
+          "hyp": "in"
+        },
+        {
+          "op": "match",
+          "ref": "order",
+          "hyp": "order"
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "make",
+          "hyp": "make"
+        },
+        {
+          "op": "match",
+          "ref": "a",
+          "hyp": "a"
+        },
+        {
+          "op": "match",
+          "ref": "comparison",
+          "hyp": "comparison"
+        },
+        {
+          "op": "match",
+          "ref": "between",
+          "hyp": "between"
+        },
+        {
+          "op": "substitute",
+          "ref": "node",
+          "hyp": "no"
+        },
+        {
+          "op": "match",
+          "ref": "texture",
+          "hyp": "texture"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "those",
+          "hyp": "those"
+        },
+        {
+          "op": "substitute",
+          "ref": "five",
+          "hyp": "5"
+        },
+        {
+          "op": "match",
+          "ref": "different",
+          "hyp": "different"
+        },
+        {
+          "op": "match",
+          "ref": "textures",
+          "hyp": "textures"
+        },
+        {
+          "op": "match",
+          "ref": "you",
+          "hyp": "you"
+        },
+        {
+          "op": "match",
+          "ref": "can",
+          "hyp": "can"
+        },
+        {
+          "op": "match",
+          "ref": "see",
+          "hyp": "see"
+        },
+        {
+          "op": "match",
+          "ref": "their",
+          "hyp": "their"
+        },
+        {
+          "op": "match",
+          "ref": "different",
+          "hyp": "different"
+        },
+        {
+          "op": "match",
+          "ref": "arrangements",
+          "hyp": "arrangements"
+        },
+        {
+          "op": "match",
+          "ref": "and",
+          "hyp": "and"
+        },
+        {
+          "op": "match",
+          "ref": "after",
+          "hyp": "after"
+        },
+        {
+          "op": "match",
+          "ref": "that",
+          "hyp": "that"
+        },
+        {
+          "op": "substitute",
+          "ref": "she",
+          "hyp": "he"
+        },
+        {
+          "op": "match",
+          "ref": "studied",
+          "hyp": "studied"
+        },
+        {
+          "op": "delete",
+          "ref": "a",
+          "hyp": ""
+        },
+        {
+          "op": "substitute",
+          "ref": "phonetic",
+          "hyp": "finite"
+        },
+        {
+          "op": "match",
+          "ref": "element",
+          "hyp": "element"
+        },
+        {
+          "op": "delete",
+          "ref": "in",
+          "hyp": ""
+        },
+        {
+          "op": "match",
+          "ref": "analysis",
+          "hyp": "analysis"
+        },
+        {
+          "op": "match",
+          "ref": "which",
+          "hyp": "which"
+        },
+        {
+          "op": "match",
+          "ref": "is",
+          "hyp": "is"
+        },
+        {
+          "op": "match",
+          "ref": "a",
+          "hyp": "a"
+        },
+        {
+          "op": "match",
+          "ref": "method",
+          "hyp": "method"
+        },
+        {
+          "op": "delete",
+          "ref": "a",
+          "hyp": ""
+        },
+        {
+          "op": "match",
+          "ref": "method",
+          "hyp": "method"
+        },
+        {
+          "op": "match",
+          "ref": "using",
+          "hyp": "using"
+        },
+        {
+          "op": "match",
+          "ref": "mathematical",
+          "hyp": "mathematical"
+        },
+        {
+          "op": "match",
+          "ref": "approximation",
+          "hyp": "approximation"
+        },
+        {
+          "op": "delete",
+          "ref": "to",
+          "hyp": ""
+        },
+        {
+          "op": "delete",
+          "ref": "simul",
+          "hyp": ""
+        },
+        {
+          "op": "match",
+          "ref": "to",
+          "hyp": "to"
+        },
+        {
+          "op": "match",
+          "ref": "simulate",
+          "hyp": "simulate"
+        },
+        {
+          "op": "match",
+          "ref": "real",
+          "hyp": "real"
+        },
+        {
+          "op": "match",
+          "ref": "physical",
+          "hyp": "physical"
+        },
+        {
+          "op": "match",
+          "ref": "systems",
+          "hyp": "systems"
+        }
+      ]
     },
-    "raw_words": 318,
-    "tidy_words": 314,
-    "fillers_removed": 4,
-    "repetitions_kept": 1,
+    "raw_words": 321,
+    "tidy_words": 321,
+    "fillers_removed": 0,
+    "repetitions_kept": 2,
     "x_placeholders": 0,
-    "cleaning_index": [
-      {
-        "token": "Uh,",
-        "kind": "filler",
-        "action": "removed"
-      },
-      {
-        "token": "uh,",
-        "kind": "filler",
-        "action": "removed"
-      },
-      {
-        "token": "um,",
-        "kind": "filler",
-        "action": "removed"
-      },
-      {
-        "token": "uh,",
-        "kind": "filler",
-        "action": "removed"
-      }
-    ],
+    "cleaning_index": [],
     "diff": [
       {
         "w": "The",
@@ -474,16 +2028,11 @@
         "op": "keep"
       },
       {
-        "w": "Uh,",
-        "op": "remove",
-        "kind": "filler"
-      },
-      {
-        "w": "today",
+        "w": "Today",
         "op": "keep"
       },
       {
-        "w": "I'd",
+        "w": "I",
         "op": "keep"
       },
       {
@@ -507,7 +2056,7 @@
         "op": "keep"
       },
       {
-        "w": "6",
+        "w": "six",
         "op": "keep"
       },
       {
@@ -567,7 +2116,7 @@
         "op": "keep"
       },
       {
-        "w": "conclusion,",
+        "w": "conclusion",
         "op": "keep"
       },
       {
@@ -603,9 +2152,8 @@
         "op": "keep"
       },
       {
-        "w": "uh,",
-        "op": "remove",
-        "kind": "filler"
+        "w": "and",
+        "op": "keep"
       },
       {
         "w": "just",
@@ -676,7 +2224,7 @@
         "op": "keep"
       },
       {
-        "w": "The",
+        "w": "Then",
         "op": "keep"
       },
       {
@@ -868,7 +2416,7 @@
         "op": "keep"
       },
       {
-        "w": "texture,",
+        "w": "texture",
         "op": "keep"
       },
       {
@@ -892,11 +2440,11 @@
         "op": "keep"
       },
       {
-        "w": "Okay,",
+        "w": "Okay.",
         "op": "keep"
       },
       {
-        "w": "so",
+        "w": "So",
         "op": "keep"
       },
       {
@@ -952,20 +2500,19 @@
         "op": "keep"
       },
       {
-        "w": "Microstructure",
+        "w": "microstructure",
         "op": "keep"
       },
       {
-        "w": "arrays,",
+        "w": "arrays",
         "op": "keep"
       },
       {
-        "w": "um,",
-        "op": "remove",
-        "kind": "filler"
+        "w": "and",
+        "op": "keep"
       },
       {
-        "w": "with",
+        "w": "these,",
         "op": "keep"
       },
       {
@@ -973,7 +2520,11 @@
         "op": "keep"
       },
       {
-        "w": "characteristics",
+        "w": "characteristics.",
+        "op": "keep"
+      },
+      {
+        "w": "And",
         "op": "keep"
       },
       {
@@ -997,11 +2548,11 @@
         "op": "keep"
       },
       {
-        "w": "parts",
+        "w": "parts.",
         "op": "keep"
       },
       {
-        "w": "in",
+        "w": "In",
         "op": "keep"
       },
       {
@@ -1149,7 +2700,7 @@
         "op": "keep"
       },
       {
-        "w": "articles.",
+        "w": "particles.",
         "op": "keep"
       },
       {
@@ -1221,7 +2772,7 @@
         "op": "keep"
       },
       {
-        "w": "prepare",
+        "w": "prepared",
         "op": "keep"
       },
       {
@@ -1229,7 +2780,7 @@
         "op": "keep"
       },
       {
-        "w": "textures",
+        "w": "vectors",
         "op": "keep"
       },
       {
@@ -1241,11 +2792,11 @@
         "op": "keep"
       },
       {
-        "w": "it,",
+        "w": "it.",
         "op": "keep"
       },
       {
-        "w": "and",
+        "w": "And",
         "op": "keep"
       },
       {
@@ -1353,19 +2904,11 @@
         "op": "keep"
       },
       {
-        "w": "Yu",
+        "w": "UVA.",
         "op": "keep"
       },
       {
-        "w": "Hua",
-        "op": "keep"
-      },
-      {
-        "w": "Zhang,",
-        "op": "keep"
-      },
-      {
-        "w": "and",
+        "w": "And",
         "op": "keep"
       },
       {
@@ -1405,7 +2948,11 @@
         "op": "keep"
       },
       {
-        "w": "First",
+        "w": "Well",
+        "op": "keep"
+      },
+      {
+        "w": "first",
         "op": "keep"
       },
       {
@@ -1413,7 +2960,7 @@
         "op": "keep"
       },
       {
-        "w": "all,",
+        "w": "all",
         "op": "keep"
       },
       {
@@ -1429,13 +2976,12 @@
         "op": "keep"
       },
       {
-        "w": "friction-aware,",
+        "w": "friction",
         "op": "keep"
       },
       {
-        "w": "uh,",
-        "op": "remove",
-        "kind": "filler"
+        "w": "where",
+        "op": "keep"
       },
       {
         "w": "a",
@@ -1458,7 +3004,7 @@
         "op": "keep"
       },
       {
-        "w": "5",
+        "w": "five",
         "op": "keep"
       },
       {
@@ -1510,7 +3056,7 @@
         "op": "keep"
       },
       {
-        "w": "no",
+        "w": "node",
         "op": "keep"
       },
       {
@@ -1526,7 +3072,7 @@
         "op": "keep"
       },
       {
-        "w": "5",
+        "w": "five",
         "op": "keep"
       },
       {
@@ -1570,11 +3116,11 @@
         "op": "keep"
       },
       {
-        "w": "that,",
+        "w": "that",
         "op": "keep"
       },
       {
-        "w": "he",
+        "w": "she",
         "op": "keep"
       },
       {
@@ -1582,11 +3128,19 @@
         "op": "keep"
       },
       {
-        "w": "finite",
+        "w": "a",
+        "op": "keep"
+      },
+      {
+        "w": "phonetic",
         "op": "keep"
       },
       {
         "w": "element",
+        "op": "keep"
+      },
+      {
+        "w": "in",
         "op": "keep"
       },
       {
@@ -1634,6 +3188,14 @@
         "op": "keep"
       },
       {
+        "w": "simul",
+        "op": "keep"
+      },
+      {
+        "w": "to",
+        "op": "keep"
+      },
+      {
         "w": "simulate",
         "op": "keep"
       },
@@ -1652,18 +3214,27 @@
     ],
     "repetitions": [
       {
+        "phrase": "these",
+        "kind": "word"
+      },
+      {
         "phrase": "a method",
         "kind": "bigram"
       }
     ],
-    "transforms": 5,
+    "transforms": 6,
     "log": [
       "separated speakers: SpeakerX",
       "concatenated turns per speaker",
-      "removed 4 non-lexical tokens",
-      "preserved 1 exact repetition(s)",
-      "preserved 0 X placeholder(s)"
-    ]
+      "removed 0 non-lexical tokens",
+      "preserved 2 exact repetition(s)",
+      "preserved 0 X placeholder(s)",
+      "no non-lexical fillers/laughter present in this transcript"
+    ],
+    "asr_raw_words": 312,
+    "asr_tidy_words": 312,
+    "asr_fillers_removed": 0,
+    "asr_repetitions_kept": 1
   },
   "phase_iv": {
     "status": "placeholder_ready",
@@ -1686,9 +3257,9 @@
   },
   "phase_v": {
     "status": "passed",
-    "ran_at": "2026-06-21T14:39:04.015Z",
-    "xlsx": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.xlsx",
-    "csv": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.csv",
+    "ran_at": "2026-06-22T03:10:27.360Z",
+    "xlsx": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-v\\validation_matrix_speakerx.xlsx",
+    "csv": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-v\\validation_matrix_speakerx.csv",
     "columns": [
       "recording_id",
       "speaker_id",
@@ -1749,112 +3320,112 @@
   "artifacts": [
     {
       "name": "gold_script2_segment_durations.csv",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/gold_script2_segment_durations.csv",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\validation\\gold_script2_segment_durations.csv",
       "kind": "durations"
     },
     {
       "name": "speakerx_025_baseline_comparison.json",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/speakerx_025_baseline_comparison.json",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\validation\\speakerx_025_baseline_comparison.json",
       "kind": "comparison"
     },
     {
       "name": "generated_vs_expert_025.json",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/generated_vs_expert_025.json",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\validation\\generated_vs_expert_025.json",
       "kind": "comparison"
     },
     {
       "name": "generated_0.25.TextGrid",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/generated.TextGrid",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.25\\generated.TextGrid",
       "kind": "textgrid"
     },
     {
       "name": "generated_0.35.TextGrid",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/generated.TextGrid",
-      "kind": "textgrid"
-    },
-    {
-      "name": "generated_0.5.TextGrid",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/generated.TextGrid",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.35\\generated.TextGrid",
       "kind": "textgrid"
     },
     {
       "name": "script2_summary_0.25.json",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.25/script2_summary.json",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.25\\script2_summary.json",
       "kind": "durations"
     },
     {
       "name": "script2_summary_0.35.json",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.35/script2_summary.json",
-      "kind": "durations"
-    },
-    {
-      "name": "script2_summary_0.5.json",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-ii/threshold_0.5/script2_summary.json",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-ii\\threshold_0.35\\script2_summary.json",
       "kind": "durations"
     },
     {
       "name": "8_STEM_SpeakerX_RAW-TIMING.txt",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_RAW-TIMING.txt",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\8_STEM_SpeakerX_RAW-TIMING.txt",
       "kind": "transcript"
     },
     {
       "name": "8_STEM_SpeakerX_TIDY-PHRASE.txt",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_TIDY-PHRASE.txt",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\8_STEM_SpeakerX_TIDY-PHRASE.txt",
+      "kind": "transcript"
+    },
+    {
+      "name": "assemblyai_RAW-TIMING.txt",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\assemblyai_RAW-TIMING.txt",
+      "kind": "transcript"
+    },
+    {
+      "name": "assemblyai_TIDY-PHRASE.txt",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\assemblyai_TIDY-PHRASE.txt",
       "kind": "transcript"
     },
     {
       "name": "transcript_validation.json",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/transcript_validation.json",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\transcript_validation.json",
       "kind": "comparison"
     },
     {
       "name": "assemblyai_transcript.txt",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/assemblyai_transcript.txt",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iii\\assemblyai_transcript.txt",
       "kind": "transcript"
     },
     {
       "name": "asr_run.log",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/logs/asr_run.log",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\logs\\asr_run.log",
       "kind": "log"
     },
     {
       "name": "validation_matrix_speakerx.xlsx",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.xlsx",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-v\\validation_matrix_speakerx.xlsx",
       "kind": "matrix"
     },
     {
       "name": "validation_matrix_speakerx.csv",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.csv",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-v\\validation_matrix_speakerx.csv",
       "kind": "matrix"
     },
     {
       "name": "text_variable_placeholders.json",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iv/text_variable_placeholders.json",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\phase-iv\\text_variable_placeholders.json",
       "kind": "placeholder"
     },
     {
       "name": "praat_script1_run.log",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/logs/praat_script1_run.log",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\logs\\praat_script1_run.log",
       "kind": "log"
     },
     {
       "name": "praat_script2_run.log",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/logs/praat_script2_run.log",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\logs\\praat_script2_run.log",
       "kind": "log"
     },
     {
       "name": "validation_report.json",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/validation_report.json",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\validation\\validation_report.json",
       "kind": "report"
     },
     {
       "name": "validation_report.md",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/validation/validation_report.md",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\validation\\validation_report.md",
       "kind": "report"
     },
     {
       "name": "method_log.json",
-      "path": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/logs/method_log.json",
+      "path": "C:\\Workspace\\MWU-1\\outputs\\validation-sprint\\8_STEM_SpeakerX\\logs\\method_log.json",
       "kind": "log"
     }
   ],
@@ -1875,8 +3446,6 @@
   },
   "readiness": "ready",
   "limitations": [
-    "Phase IV (TAALES/TAALED/AntConc) text variables are placeholders — not computed for this validation sprint.",
-    "Matrix AS-unit (between/within) and Phase IV (TAALES/TAALED/AntConc) columns are pending_not_implemented — Layer 2.",
     "Workbook articulation rate is syllables/min and \"phonation time\" = total audio; differs from PRD §5 — reconcile before sign-off."
   ]
 }

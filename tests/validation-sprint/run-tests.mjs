@@ -15,6 +15,7 @@ import { compare } from '../../scripts/validation-sprint/lib/comparator.mjs';
 import { praatAvailable } from '../../scripts/validation-sprint/lib/praat.mjs';
 import { segmentDurations } from '../../scripts/validation-sprint/lib/script2.mjs';
 import { splitTranscript, validateAgainstMaster } from '../../scripts/validation-sprint/lib/transcript-split.mjs';
+import { wer } from '../../scripts/validation-sprint/lib/wer.mjs';
 import { buildMatrix, matrixColumns } from '../../scripts/validation-sprint/lib/matrix.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -136,6 +137,14 @@ async function unit() {
     const s = splitTranscript('the X part and uh the next X here', CONFIG.fillers);
     assert((s.tidy.match(/\bX\b/g) || []).length === 2, 'X placeholders not preserved');
   });
+  t('WER alignment: exposes substitution, deletion, and insertion operations', () => {
+    const sub = wer('alpha vector', 'alpha texture');
+    const del = wer('alpha gamma', 'alpha beta gamma');
+    const ins = wer('alpha beta extra', 'alpha beta');
+    assert(sub.substitutions === 1 && sub.alignment.some((x) => x.op === 'substitute' && x.ref === 'texture' && x.hyp === 'vector'), 'missing substitution alignment');
+    assert(del.deletions === 1 && del.alignment.some((x) => x.op === 'delete' && x.ref === 'beta'), 'missing deletion alignment');
+    assert(ins.insertions === 1 && ins.alignment.some((x) => x.op === 'insert' && x.hyp === 'extra'), 'missing insertion alignment');
+  });
 
   t('Matrix compiler: 0.25 + 0.35 + Phase IV columns in order; 0.35 not "matched"', () => {
     const m = buildMatrix({ recordingId: 'X', speaker: 'SpeakerX', replay025: agg, generated035: agg, syllables: 535 });
@@ -209,6 +218,24 @@ function integration() {
     // no SpeakerY/Z artifacts anywhere
     const all = listFiles(OUT_DIR);
     assert(!all.some((f) => /SpeakerY|SpeakerZ/i.test(f)), 'SpeakerY/Z artifact found');
+  });
+
+  t('No ASR -> client RAW/TIDY generated, AssemblyAI RAW/TIDY skipped', () => {
+    const out = fs.mkdtempSync(path.join(os.tmpdir(), 'sprint-noasr-'));
+    const r = runSprint({ SPRINT_OUT_DIR: out });
+    assert(r.status === 0, `exit ${r.status}: ${r.stderr}`);
+    const rep = JSON.parse(readText(path.join(out, 'validation', 'validation_report.json')));
+    assert(rep.phase_iii.status === 'split_only', `status=${rep.phase_iii.status}`);
+    const raw = path.join(out, 'phase-iii', `${CONFIG.recording_id}_RAW-TIMING.txt`);
+    const tidy = path.join(out, 'phase-iii', `${CONFIG.recording_id}_TIDY-PHRASE.txt`);
+    const asrRaw = path.join(out, 'phase-iii', 'assemblyai_RAW-TIMING.txt');
+    const asrTidy = path.join(out, 'phase-iii', 'assemblyai_TIDY-PHRASE.txt');
+    assert(fs.existsSync(raw), 'client RAW-TIMING should exist without ASR');
+    assert(fs.existsSync(tidy), 'client TIDY-PHRASE should exist without ASR');
+    assert(!fs.existsSync(asrRaw), 'AssemblyAI RAW-TIMING should not exist without ASR');
+    assert(!fs.existsSync(asrTidy), 'AssemblyAI TIDY-PHRASE should not exist without ASR');
+    assert((rep.artifacts || []).some((a) => a.name === `${CONFIG.recording_id}_RAW-TIMING.txt`), 'client RAW should be listed as artifact');
+    assert(!(rep.artifacts || []).some((a) => /^assemblyai_.*(RAW|TIDY)/.test(a.name)), 'AssemblyAI RAW/TIDY should not be listed without ASR');
   });
 
   // 2. Missing file failure -> blocked
