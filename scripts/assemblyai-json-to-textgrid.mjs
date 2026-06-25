@@ -35,6 +35,7 @@ function parseArgs(argv) {
     wordMergeGapSeconds: 0.25,
     wordPaddingSeconds: 0.03,
     minWordSeconds: 0.05,
+    durationSeconds: null,
     ...defaultVadOptions(),
   };
 
@@ -92,6 +93,9 @@ function parseArgs(argv) {
     } else if (arg === "--min-word-seconds" && next) {
       args.minWordSeconds = Number(next);
       i += 1;
+    } else if (arg === "--duration-seconds" && next) {
+      args.durationSeconds = Number(next);
+      i += 1;
     } else if (arg === "--frame-ms" && next) {
       args.frameMs = Number(next);
       i += 1;
@@ -137,6 +141,7 @@ function parseArgs(argv) {
     wordMergeGapSeconds: args.wordMergeGapSeconds,
     wordPaddingSeconds: args.wordPaddingSeconds,
     minWordSeconds: args.minWordSeconds,
+    ...(args.durationSeconds == null ? {} : { durationSeconds: args.durationSeconds }),
     praatMinimumPitchHz: args.praatMinimumPitchHz,
     praatTimeStepSeconds: args.praatTimeStepSeconds,
     praatSilenceThresholdDb: args.praatSilenceThresholdDb,
@@ -186,6 +191,7 @@ Options:
   --word-merge-gap-seconds <number>    Merge word speech segments across short gaps. Default: 0.25
   --word-padding-seconds <number>      Pad word speech segments before merging. Default: 0.03
   --min-word-seconds <number>          Minimum duration for zero-length words. Default: 0.05
+  --duration-seconds <number>          Override TextGrid duration, usually local WAV duration.
 
 Acoustic VAD options:
   --frame-ms <number>                  RMS frame size. Default: 20
@@ -379,13 +385,19 @@ function normalizeSoundingLabel(value) {
   return "silence";
 }
 
-function normalizeUtterances(result) {
+function normalizeUtterances(result, durationOverride = null) {
   const rawDuration = Number(result.audio_duration);
   const utterances = Array.isArray(result.utterances) ? result.utterances : [];
   const maxUtteranceEnd = utterances.reduce((maxEnd, utterance) => {
     return Math.max(maxEnd, secondsFromMs(utterance.end ?? 0));
   }, 0);
-  const duration = Number.isFinite(rawDuration) && rawDuration > 0 ? rawDuration : maxUtteranceEnd;
+  const forcedDuration = Number(durationOverride);
+  const duration =
+    Number.isFinite(forcedDuration) && forcedDuration > 0
+      ? forcedDuration
+      : Number.isFinite(rawDuration) && rawDuration > 0
+        ? rawDuration
+        : maxUtteranceEnd;
 
   const normalized = utterances
     .map((utterance, index) => {
@@ -697,7 +709,7 @@ function main() {
   const inputPath = resolve(args.input);
   const outputPath = resolve(args.output);
   const result = readAssemblyAiJson(inputPath);
-  const { duration, utterances } = normalizeUtterances(result);
+  const { duration, utterances } = normalizeUtterances(result, args.durationSeconds);
 
   const praatIntervals = runPraatSilenceDetection(resolve(args.audio), duration, args);
   const localVad = computeLocalAcousticVad(resolve(args.audio), args);

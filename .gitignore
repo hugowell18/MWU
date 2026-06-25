@@ -1,6 +1,11 @@
 /node_modules/
 /build/
+/build-validation/
+.venv-pyannote/
 outputs/**/assemblyai-cache/
+outputs/
+sample/Multilogue*.wav
+scripts/__pycache__/
 
 # macOS
 .DS_Store

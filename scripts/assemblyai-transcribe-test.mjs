@@ -52,6 +52,8 @@ function parseArgs(argv) {
     pollMs: 3000,
     model: "universal-3-pro",
     fallbackModel: "universal-2",
+    uploadMethod: "node",
+    disfluencies: true,
   };
 
   for (let i = 2; i < argv.length; i += 1) {
@@ -75,6 +77,11 @@ function parseArgs(argv) {
     } else if (arg === "--fallback-model" && next) {
       args.fallbackModel = next;
       i += 1;
+    } else if (arg === "--upload-method" && next) {
+      args.uploadMethod = next;
+      i += 1;
+    } else if (arg === "--no-disfluencies") {
+      args.disfluencies = false;
     } else if (arg === "--help" || arg === "-h") {
       printHelp();
       process.exit(0);
@@ -89,6 +96,9 @@ function parseArgs(argv) {
   if (!Number.isFinite(args.pollMs) || args.pollMs < 1000) {
     throw new Error("--poll-ms must be at least 1000");
   }
+  if (!["node", "curl"].includes(args.uploadMethod)) {
+    throw new Error("--upload-method must be node or curl");
+  }
   return args;
 }
 
@@ -102,7 +112,10 @@ Options:
   --speakers <number>       Expected speaker count. Default: 3
   --model <name>            Primary AssemblyAI model. Default: universal-3-pro
   --fallback-model <name>   Fallback model. Default: universal-2
+  --upload-method <node|curl>
+                            Upload implementation. Default: node
   --poll-ms <ms>            Poll interval. Default: 3000
+  --no-disfluencies         Disable disfluency preservation. Default keeps disfluencies.
 `);
 }
 
@@ -129,10 +142,18 @@ async function parseJsonResponse(response, context) {
   return body;
 }
 
-async function uploadAudio(audioPath, apiKey) {
+async function uploadAudio(audioPath, apiKey, uploadMethod = "node") {
   const stats = statSync(audioPath);
   const audioBuffer = readFileSync(audioPath);
   let body;
+
+  if (uploadMethod === "curl") {
+    body = uploadAudioWithCurl(audioPath, apiKey);
+    if (!body.upload_url) {
+      throw new Error(`Upload response did not include upload_url: ${JSON.stringify(body)}`);
+    }
+    return body.upload_url;
+  }
 
   try {
     const response = await fetch(`${BASE_URL}/v2/upload`, {
@@ -210,6 +231,7 @@ async function submitTranscript(uploadUrl, apiKey, config) {
     language_code: "en",
     speaker_labels: true,
     speakers_expected: config.speakersExpected,
+    disfluencies: config.disfluencies,
   };
 
   const response = await fetch(`${BASE_URL}/v2/transcript`, {
@@ -309,9 +331,11 @@ async function main() {
   console.log(`Size: ${(stats.size / 1024 / 1024).toFixed(2)} MB`);
   console.log(`Speakers expected: ${args.speakersExpected}`);
   console.log(`Models: ${args.model}${args.fallbackModel ? `, ${args.fallbackModel}` : ""}`);
+  console.log(`Upload method: ${args.uploadMethod}`);
+  console.log(`Disfluencies: ${args.disfluencies ? "true" : "false"}`);
 
   console.log("Uploading audio to AssemblyAI...");
-  const uploadUrl = await uploadAudio(audioPath, apiKey);
+  const uploadUrl = await uploadAudio(audioPath, apiKey, args.uploadMethod);
   console.log("Upload complete.");
 
   console.log("Submitting transcription job...");
