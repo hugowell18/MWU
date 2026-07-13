@@ -1,6 +1,6 @@
 {
   "suite": "unit",
-  "passed": 29,
+  "passed": 30,
   "failed": 0,
   "cases": [
     {
@@ -118,7 +118,11 @@
     {
       "name": "Script 2 parity: real calculate_segment_durations.praat == CLI equivalent (silent=60)",
       "status": "passed"
+    },
+    {
+      "name": "Script 1 multilogue handoff: headerless invalid TSV covers exact ranges with no blank intervals",
+      "status": "passed"
     }
   ],
-  "generated_at": "2026-06-22T03:15:29.965Z"
+  "generated_at": "2026-07-13T16:07:33.576Z"
 }

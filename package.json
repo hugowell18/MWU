@@ -37,6 +37,7 @@
             "embla-carousel-react": "^8.6.0",
             "hono": "*",
             "input-otp": "^1.4.2",
+            "jszip": "^3.10.1",
             "lucide-react": "^0.487.0",
             "motion": "*",
             "next-themes": "^0.4.6",
@@ -65,6 +66,7 @@
             "sprint:serve": "node scripts/validation-sprint/server.mjs",
             "sprint:ui-test": "node tests/validation-sprint/ui-tests.mjs",
             "sprint:finalize": "node scripts/validation-sprint/finalize-report.mjs",
-            "phase1:pyannote:test": "node tests/phase1-remote-diarization/run-tests.mjs"
+            "phase1:pyannote:test": "node tests/phase1-remote-diarization/run-tests.mjs",
+            "l1b:test": "node tests/l1b/run-tests.mjs"
       }
 }

@@ -14,6 +14,12 @@ const RUN_SPRINT = path.join(__dirname, 'run-sprint.mjs');
 const REPORT = path.join(OUT_DIR, 'validation', 'validation_report.json');
 const UPLOAD_DIR = path.join(ROOT, 'outputs', 'validation-sprint', '_uploads');
 const PROGRESS = path.join(OUT_DIR, 'logs', 'progress.json');
+const RUN_L1B = path.join(ROOT, 'scripts', 'l1b', 'run-l1b.mjs');
+const MULTILOGUE_OUT = path.join(ROOT, 'outputs', 'multilogue-validation');
+const L1B_OUT = path.join(ROOT, 'outputs', 'l1b');
+const L1B_PROGRESS = path.join(L1B_OUT, 'progress.json');
+const L1B_LATEST = path.join(L1B_OUT, 'latest.json');
+const FINALIZE_L1B = path.join(ROOT, 'scripts', 'l1b', 'finalize-reviewed.mjs');
 
 // canonical filenames the pipeline expects, keyed by upload role
 const ROLE_FILE = {
@@ -32,9 +38,12 @@ const MIME = {
   '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json',
   '.svg': 'image/svg+xml', '.map': 'application/json', '.txt': 'text/plain', '.csv': 'text/csv',
   '.TextGrid': 'text/plain', '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '.wav': 'audio/wav',
+  '.zip': 'application/zip', '.tsv': 'text/tab-separated-values',
 };
 
 let currentRun = null; // { child, running }
+let currentL1bRun = null;
+let currentL1bFinalize = null;
 
 function send(res, code, body, type = 'application/json') {
   res.writeHead(code, { 'Content-Type': type, 'Access-Control-Allow-Origin': '*' });
@@ -56,6 +65,143 @@ function serveStatic(res, urlPath) {
     return send(res, 404, 'not found', 'text/plain');
   }
   send(res, 200, fs.readFileSync(file), MIME[path.extname(file)] || 'application/octet-stream');
+}
+
+function sanitize(value) {
+  return String(value ?? 'unknown').replace(/[^A-Za-z0-9._-]+/g, '_').replace(/^_+|_+$/g, '') || 'unknown';
+}
+
+function rebaseRepoPath(value) {
+  if (typeof value !== 'string' || !path.isAbsolute(value)) return value;
+  const normalized = value.replace(/\\/g, '/');
+  for (const marker of ['/sample/', '/outputs/', '/scripts/', '/tests/', '/build-validation/']) {
+    const index = normalized.indexOf(marker);
+    if (index >= 0) return path.join(ROOT, ...normalized.slice(index + 1).split('/'));
+  }
+  return value;
+}
+
+function rebaseReportPaths(value) {
+  if (Array.isArray(value)) return value.map(rebaseReportPaths);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, rebaseReportPaths(child)]));
+  }
+  return rebaseRepoPath(value);
+}
+
+function walkFiles(dir, output = []) {
+  if (!fs.existsSync(dir)) return output;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const file = path.join(dir, entry.name);
+    if (entry.isDirectory()) walkFiles(file, output);
+    else output.push(file);
+  }
+  return output;
+}
+
+function l1aManifestSummary(file) {
+  try {
+    const manifest = JSON.parse(fs.readFileSync(file, 'utf8'));
+    const handoff = manifest.phase_ii_handoff;
+    const inputs = Array.isArray(handoff?.inputs) ? handoff.inputs : [];
+    const filesReady = inputs.length > 0 && inputs.every((input) => fs.existsSync(rebaseRepoPath(input.wav)) && fs.existsSync(rebaseRepoPath(input.invalid_intervals_tsv)));
+    const source = rebaseRepoPath(manifest.source_audio || file);
+    return {
+      path: file,
+      name: path.basename(file),
+      recording_id: sanitize(path.basename(source, path.extname(source))),
+      source_audio: path.basename(source),
+      generated_at: manifest.generated_at || fs.statSync(file).mtime.toISOString(),
+      duration_seconds: manifest.duration_seconds,
+      source: manifest.source,
+      overlap: manifest.overlap || null,
+      ready: !!handoff?.ready && filesReady,
+      label_contract: handoff?.expected_labels || [],
+      speakers: inputs.map((input) => {
+        const wav = rebaseRepoPath(input.wav || '');
+        const invalid = rebaseRepoPath(input.invalid_intervals_tsv || '');
+        return {
+          speaker: String(input.speaker || '').replace(/^speaker_/, ''),
+          wav_name: path.basename(wav),
+          invalid_name: path.basename(invalid),
+          wav_ready: fs.existsSync(wav),
+          invalid_ready: fs.existsSync(invalid),
+        };
+      }),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function listL1aRuns() {
+  return walkFiles(MULTILOGUE_OUT)
+    .filter((file) => /phase1_manifest\.json$/i.test(file))
+    .map(l1aManifestSummary)
+    .filter(Boolean)
+    .sort((a, b) => String(b.generated_at).localeCompare(String(a.generated_at)));
+}
+
+function latestL1bContext() {
+  try {
+    const pointer = JSON.parse(fs.readFileSync(L1B_LATEST, 'utf8'));
+    const reportPath = path.resolve(rebaseRepoPath(pointer.report || ''));
+    if (!reportPath.startsWith(path.resolve(L1B_OUT)) || !fs.existsSync(reportPath)) return null;
+    return { reportPath, outDir: path.dirname(reportPath), report: JSON.parse(fs.readFileSync(reportPath, 'utf8')) };
+  } catch {
+    return null;
+  }
+}
+
+function readLatestL1bReport() {
+  const context = latestL1bContext();
+  return context ? JSON.stringify(rebaseReportPaths(context.report)) : null;
+}
+
+function reviewedTextGridName(report, job) {
+  const threshold = Number(job.threshold).toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
+  return `${sanitize(report.recording_id)}_${sanitize(job.speaker)}_${threshold}s.TextGrid`;
+}
+
+function l1bReviewContract() {
+  const context = latestL1bContext();
+  if (!context || context.report.status !== 'ready_for_praat_review') return null;
+  const reviewsDir = path.join(context.outDir, 'reviewed-inputs');
+  const finalDir = path.join(context.outDir, 'reviewed-final');
+  const finalReportPath = path.join(finalDir, 'l1b_final_report.json');
+  const progressPath = path.join(finalDir, 'progress.json');
+  const required = (context.report.jobs || []).map((job) => {
+    const name = reviewedTextGridName(context.report, job);
+    const uploadPath = path.join(reviewsDir, name);
+    return {
+      key: `${job.speaker}-${job.threshold}`,
+      speaker: job.speaker,
+      threshold: job.threshold,
+      target_name: name,
+      draft_path: job.textgrid,
+      draft_name: path.basename(job.textgrid || ''),
+      upload_path: uploadPath,
+      uploaded: fs.existsSync(uploadPath),
+      bytes: fs.existsSync(uploadPath) ? fs.statSync(uploadPath).size : 0,
+    };
+  });
+  let finalReport = null;
+  let progress = null;
+  try { finalReport = JSON.parse(fs.readFileSync(finalReportPath, 'utf8')); } catch { /* no final run yet */ }
+  try { progress = JSON.parse(fs.readFileSync(progressPath, 'utf8')); } catch { /* no final run yet */ }
+  return {
+    draft_report: context.reportPath,
+    draft_status: context.report.status,
+    recording_id: context.report.recording_id,
+    reviews_dir: reviewsDir,
+    final_dir: finalDir,
+    required,
+    uploaded: required.filter((item) => item.uploaded).length,
+    total: required.length,
+    ready_to_finalize: required.length > 0 && required.every((item) => item.uploaded),
+    final_report: finalReport,
+    progress,
+  };
 }
 
 const server = http.createServer(async (req, res) => {
@@ -94,6 +240,7 @@ const server = http.createServer(async (req, res) => {
       const ths = [...new Set(body.thresholds.map(Number).filter((n) => n > 0 && n < 5))];
       if (ths.length) runArgs.push('--thresholds', ths.join(','));
     }
+    if (body.noAsr === true) runArgs.push('--no-asr');
     const child = spawn('node', runArgs, {
       env: { ...process.env, SPRINT_SAMPLE_DIR: sampleDir }, stdio: 'ignore',
     });
@@ -111,7 +258,123 @@ const server = http.createServer(async (req, res) => {
   // ---- report ----
   if (u.pathname === '/api/report') {
     if (!fs.existsSync(REPORT)) return send(res, 200, JSON.stringify({ readiness: 'idle' }));
-    return send(res, 200, fs.readFileSync(REPORT));
+    return send(res, 200, JSON.stringify(rebaseReportPaths(JSON.parse(fs.readFileSync(REPORT, 'utf8')))));
+  }
+
+  // ---- L1b input: latest valid Phase-I handoff plus any other discovered runs ----
+  if (u.pathname === '/api/l1b/input') {
+    const runs = listL1aRuns();
+    const selected = runs.find((run) => run.ready) || runs[0] || null;
+    return send(res, 200, JSON.stringify({ ready: !!selected?.ready, selected, runs }));
+  }
+
+  // ---- start deterministic L1b Praat extraction from a Phase-I manifest ----
+  if (u.pathname === '/api/l1b/run' && req.method === 'POST') {
+    if (currentL1bRun?.running) return send(res, 409, JSON.stringify({ error: 'an L1b run is already in progress' }));
+    const body = JSON.parse((await readBody(req)).toString() || '{}');
+    const runs = listL1aRuns();
+    const fallback = runs.find((run) => run.ready);
+    const requested = path.resolve(body.manifest || fallback?.path || '');
+    if (!requested.startsWith(path.resolve(MULTILOGUE_OUT)) || !fs.existsSync(requested)) {
+      return send(res, 400, JSON.stringify({ error: 'no valid L1a Phase-I manifest is available' }));
+    }
+    const chosen = l1aManifestSummary(requested);
+    if (!chosen?.ready) return send(res, 400, JSON.stringify({ error: 'selected L1a handoff is not ready' }));
+
+    const thresholds = [...new Set((Array.isArray(body.thresholds) ? body.thresholds : [0.25, 0.35])
+      .map(Number).filter((value) => value > 0 && value < 5))].sort((a, b) => a - b);
+    if (!thresholds.length) return send(res, 400, JSON.stringify({ error: 'at least one valid threshold is required' }));
+
+    const runId = `run-${new Date().toISOString().replace(/[:.]/g, '-').replace('T', '_').replace('Z', '')}`;
+    const out = path.join(L1B_OUT, chosen.recording_id, runId);
+    fs.mkdirSync(L1B_OUT, { recursive: true });
+    fs.writeFileSync(L1B_PROGRESS, JSON.stringify({ done: false, status: 'starting', jobs: [], updated_at: new Date().toISOString() }));
+    const args = [RUN_L1B, '--manifest', requested, '--out', out, '--thresholds', thresholds.join(','), '--progress', L1B_PROGRESS, '--latest-pointer', L1B_LATEST];
+    const child = spawn('node', args, { cwd: ROOT, env: { ...process.env }, stdio: 'ignore' });
+    currentL1bRun = { child, running: true, out, manifest: requested };
+    child.on('exit', () => { currentL1bRun.running = false; });
+    return send(res, 200, JSON.stringify({ ok: true, started: true, run_id: runId, recording_id: chosen.recording_id, thresholds }));
+  }
+
+  if (u.pathname === '/api/l1b/status') {
+    if (!fs.existsSync(L1B_PROGRESS)) return send(res, 200, JSON.stringify({ idle: true, done: false, status: 'idle', jobs: [] }));
+    return send(res, 200, fs.readFileSync(L1B_PROGRESS));
+  }
+
+  if (u.pathname === '/api/l1b/report') {
+    const report = readLatestL1bReport();
+    return report ? send(res, 200, report) : send(res, 200, JSON.stringify({ status: 'idle' }));
+  }
+
+  // ---- reviewed TextGrid gate: upload six Praat-reviewed grids before final duration calculation ----
+  if (u.pathname === '/api/l1b/review') {
+    const contract = l1bReviewContract();
+    return contract ? send(res, 200, JSON.stringify(contract)) : send(res, 200, JSON.stringify({ status: 'idle', required: [] }));
+  }
+
+  if (u.pathname === '/api/l1b/review-upload' && req.method === 'POST') {
+    const contract = l1bReviewContract();
+    if (!contract) return send(res, 400, JSON.stringify({ error: 'no L1b draft is ready for review' }));
+    const key = u.searchParams.get('key');
+    const item = contract.required.find((candidate) => candidate.key === key);
+    if (!item) return send(res, 400, JSON.stringify({ error: 'unknown speaker-threshold review slot' }));
+    const buf = await readBody(req);
+    if (buf.length < 100 || !/TextGrid|ooTextFile/.test(buf.subarray(0, Math.min(buf.length, 500)).toString('utf8'))) {
+      return send(res, 400, JSON.stringify({ error: 'uploaded file is not a Praat TextGrid' }));
+    }
+    fs.mkdirSync(contract.reviews_dir, { recursive: true });
+    fs.writeFileSync(item.upload_path, buf);
+    return send(res, 200, JSON.stringify({ ok: true, key, target_name: item.target_name, bytes: buf.length }));
+  }
+
+  if (u.pathname === '/api/l1b/finalize' && req.method === 'POST') {
+    if (currentL1bFinalize?.running) return send(res, 409, JSON.stringify({ error: 'L1b reviewed finalization is already running' }));
+    const contract = l1bReviewContract();
+    if (!contract) return send(res, 400, JSON.stringify({ error: 'no L1b draft is ready for finalization' }));
+    const body = JSON.parse((await readBody(req)).toString() || '{}');
+    const reviewer = String(body.reviewer || '').trim();
+    if (body.confirmed !== true) return send(res, 400, JSON.stringify({ error: 'Praat review confirmation is required' }));
+    if (!reviewer) return send(res, 400, JSON.stringify({ error: 'reviewer or rater ID is required' }));
+    if (!contract.ready_to_finalize) {
+      return send(res, 400, JSON.stringify({ error: `all reviewed TextGrids are required (${contract.uploaded}/${contract.total} uploaded)` }));
+    }
+    fs.mkdirSync(contract.final_dir, { recursive: true });
+    const progressPath = path.join(contract.final_dir, 'progress.json');
+    fs.writeFileSync(progressPath, JSON.stringify({ done: false, status: 'starting', completed: 0, total: contract.total, updated_at: new Date().toISOString() }));
+    const args = [
+      FINALIZE_L1B,
+      '--draft-report', contract.draft_report,
+      '--reviews-dir', contract.reviews_dir,
+      '--out', contract.final_dir,
+      '--reviewer', reviewer,
+      '--review-confirmed', 'true',
+      '--progress', progressPath,
+    ];
+    const child = spawn('node', args, { cwd: ROOT, env: { ...process.env }, stdio: 'ignore' });
+    currentL1bFinalize = { child, running: true, out: contract.final_dir };
+    child.on('exit', () => { currentL1bFinalize.running = false; });
+    return send(res, 200, JSON.stringify({ ok: true, started: true, total: contract.total }));
+  }
+
+  if (u.pathname === '/api/l1b/finalize-status') {
+    const contract = l1bReviewContract();
+    if (!contract?.progress) return send(res, 200, JSON.stringify({ status: 'idle', done: false }));
+    return send(res, 200, JSON.stringify(contract.progress));
+  }
+
+  if (u.pathname === '/api/l1b/final-report') {
+    const contract = l1bReviewContract();
+    return contract?.final_report ? send(res, 200, JSON.stringify(contract.final_report)) : send(res, 200, JSON.stringify({ status: 'idle' }));
+  }
+
+  if (u.pathname === '/api/l1b/file') {
+    const p = path.resolve(u.searchParams.get('path') || '');
+    if (!p.startsWith(path.resolve(L1B_OUT)) || !fs.existsSync(p)) return send(res, 404, 'forbidden', 'text/plain');
+    res.writeHead(200, {
+      'Content-Type': MIME[path.extname(p)] || 'application/octet-stream',
+      'Content-Disposition': `attachment; filename="${path.basename(p)}"`,
+    });
+    return res.end(fs.readFileSync(p));
   }
 
   // ---- download an artifact (sandboxed to OUT_DIR) ----

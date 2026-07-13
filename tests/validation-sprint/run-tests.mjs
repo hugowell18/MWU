@@ -12,7 +12,7 @@ import { parseTextGrid } from '../../scripts/validation-sprint/lib/textgrid.mjs'
 import { findTier, aggregate, segmentsFromTier, summarize } from '../../scripts/validation-sprint/lib/durations.mjs';
 import { readBaseline } from '../../scripts/validation-sprint/lib/excel-baseline.mjs';
 import { compare } from '../../scripts/validation-sprint/lib/comparator.mjs';
-import { praatAvailable } from '../../scripts/validation-sprint/lib/praat.mjs';
+import { praatAvailable, runScript1 } from '../../scripts/validation-sprint/lib/praat.mjs';
 import { segmentDurations } from '../../scripts/validation-sprint/lib/script2.mjs';
 import { splitTranscript, validateAgainstMaster } from '../../scripts/validation-sprint/lib/transcript-split.mjs';
 import { wer } from '../../scripts/validation-sprint/lib/wer.mjs';
@@ -179,6 +179,35 @@ async function unit() {
     assert(a.silent_count === 60 && b.silent_count === 60, `counts ${a.silent_count}/${b.silent_count}`);
     assert(Math.abs(a.total_silent - b.total_silent) < 1e-9, `total_silent parity ${Math.abs(a.total_silent - b.total_silent)}`);
     assert(Math.abs(a.total_sounding - 133.19652983384853) < 1e-3, 'praat sounding != gold');
+  });
+  t('Script 1 multilogue handoff: headerless invalid TSV covers exact ranges with no blank intervals', () => {
+    if (!praatAvailable()) { return; } // skipped where Praat absent
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'sprint-invalid-'));
+    try {
+      const invalidPath = path.join(tmp, 'invalid_intervals.tsv');
+      const outGrid = path.join(tmp, 'generated.TextGrid');
+      fs.writeFileSync(invalidPath, '1.000000\t2.000000\n3.250000\t4.500000\n');
+      const result = runScript1(INPUTS.wav, outGrid, 0.25, CONFIG.praat, invalidPath);
+      assert(result.ok, `Praat Script 1 failed: ${result.stderr || result.stdout}`);
+
+      const generated = parseTextGrid(readText(outGrid));
+      const generatedTier = findTier(generated, 'silences');
+      const segments = segmentsFromTier(generatedTier);
+      const labels = new Set(segments.map((segment) => segment.label));
+      assert(!labels.has(''), 'boundary insertion created blank intervals');
+      assert([...labels].every((label) => ['sounding', 'silent', 'invalid'].includes(label)), `unexpected labels: ${[...labels].join(',')}`);
+
+      const generatedSummary = summarize(segments);
+      near(generatedSummary.total_duration, 183.1792290249433, TOL, 'full timeline coverage');
+      near(generatedSummary.total_invalid, 2.25, TOL, 'invalid duration');
+      assert(generatedSummary.min_silent >= 0.25 - 1e-6, `sub-threshold silent remainder: ${generatedSummary.min_silent}`);
+      const boundarySet = new Set(segments.flatMap((segment) => [segment.start.toFixed(6), segment.end.toFixed(6)]));
+      for (const boundary of ['1.000000', '2.000000', '3.250000', '4.500000']) {
+        assert(boundarySet.has(boundary), `missing exact invalid boundary ${boundary}`);
+      }
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
   });
 
   return summary();

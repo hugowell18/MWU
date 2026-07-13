@@ -136,6 +136,45 @@ async function main() {
       assert(src.includes(marker), `missing panel "${marker}"`);
   });
 
+  await t('L1b validation is grouped by input, settings, execution, results and deliverables', async () => {
+    const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
+    const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');
+    for (const marker of ['Input from L1a', 'Phase I handoff', 'Pause thresholds', 'L1a to L1b pipeline', 'Results by speaker', 'Download L1b package'])
+      assert(src.includes(marker), `missing L1b section "${marker}"`);
+    assert(/api\/l1b\/input/.test(src) && /api\/l1b\/run/.test(src) && /api\/l1b\/status/.test(src) && /api\/l1b\/report/.test(src), 'L1b API wiring missing');
+  });
+
+  await t('L1b delivers PoC outputs without an in-console human review gate', async () => {
+    const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
+    const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');
+    for (const marker of ['L1b PoC outputs ready', 'L1b PoC package', 'Duration diagnostics', 'Method record', 'TextGrids by speaker'])
+      assert(src.includes(marker), `missing direct L1b output "${marker}"`);
+    for (const removed of ['Mandatory human gate', 'Praat review / validation', 'Finalize reviewed L1b outputs', 'Reviewed deliverables'])
+      assert(!src.includes(removed), `obsolete review UI remains: "${removed}"`);
+    for (const endpoint of ['review-upload', 'finalize', 'finalize-status'])
+      assert(!src.includes(`/api/l1b/${endpoint}`), `obsolete review endpoint remains in the UI: ${endpoint}`);
+  });
+
+  await t('L1b lives inside Validation Sprint, while Phase II remains workflow preview only', async () => {
+    const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
+    const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');
+    const appSource = fs.readFileSync(path.join(ROOT, 'src/components/validation/ValidationApp.tsx'), 'utf8');
+    for (const marker of ['Two benchmark runs, one validation workspace', 'SpeakerX monologue baseline', 'Multilogue L1a → L1b'])
+      assert(src.includes(marker), `missing Validation Sprint route "${marker}"`);
+    assert(appSource.includes("sel === 'validation' ?") && appSource.includes('<ValidationSprint'), 'Validation Sprint is not the executable entry');
+    assert(!/sel === 'ii'\s*\?\s*\(\s*<L1bRunner/.test(appSource), 'L1b is still mounted in the real Phase II menu');
+  });
+
+  await t('L1b API exposes the real Phase-I handoff and latest six-TextGrid report', async () => {
+    const input = await (await fetch(`${base}/api/l1b/input`)).json();
+    assert(input.ready, 'L1a handoff is not ready');
+    assert(input.selected.speakers.length === 3, `speaker count=${input.selected.speakers.length}`);
+    const l1b = await (await fetch(`${base}/api/l1b/report`)).json();
+    assert(l1b.status === 'ready_for_praat_review', `L1b status=${l1b.status}`);
+    assert(l1b.qa.jobs_total === 6 && l1b.qa.jobs_passed === 6, JSON.stringify(l1b.qa));
+    assert(l1b.artifacts.filter((artifact) => artifact.group === 'textgrids').length === 6, 'L1b does not expose six TextGrids');
+  });
+
   await t('Interactive flow present: validation HP + upload UI + empty-on-load + 8 status states', async () => {
     const assets = fs.readdirSync(path.join(BUILD, 'assets'));
     const js = fs.readFileSync(path.join(BUILD, 'assets', assets.find((f) => f.endsWith('.js'))), 'utf8');
@@ -144,18 +183,18 @@ async function main() {
     assert(js.includes('Run Validation'), 'no single Run Validation control');
     assert(js.includes('Pipeline progress'), 'no pipeline progress');
     assert(js.includes('L2 fluency and multiword-unit research') && js.includes('Five-stage research workflow'), 'MWU validation homepage missing');
-    assert(js.includes('Open Validation Console') && js.includes('Run SpeakerX Benchmark'), 'homepage validation CTAs missing');
+    assert(js.includes('Open L1b validation') && js.includes('Run SpeakerX Benchmark'), 'homepage validation CTAs missing');
     assert(js.includes('Workflow phases'), 'phase sidebar missing');
     assert(!/Run Phase II/.test(js), 'per-phase Run buttons should be gone (single Validation entry)');
     assert(js.includes('Use SpeakerX sample') || js.includes('Benchmark inputs'), 'no upload UI');
     assert(/api\/run/.test(js) && /api\/status/.test(js) && /api\/upload/.test(js), 'missing run/status/upload wiring');
     // the 8 status states are defined as CSS classes (JS builds the class name dynamically)
-    for (const s of ['passed', 'failed', 'running', 'generated_no_gold', 'pending_gold', 'blocked', 'ready', 'idle'])
+    for (const s of ['passed', 'failed', 'running', 'generated_no_gold', 'pending_gold', 'blocked', 'ready', 'idle', 'ready_for_praat_review'])
       assert(css.includes(`vc-s-${s}`), `missing status state vc-s-${s}`);
   });
 
   await t('Single Run Validation lights the phase pipeline (I→II→III→IV→V) then completes', async () => {
-    await fetch(`${base}/api/run`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ phase: 'all', useSample: true }) });
+    await fetch(`${base}/api/run`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ phase: 'all', useSample: true, noAsr: true }) });
     let keys = new Set();
     let done = false;
     for (let i = 0; i < 50 && !done; i++) {

@@ -11,6 +11,7 @@ const LABEL: Record<string, string> = {
   pending_gold: 'pending gold',
   blocked: 'blocked',
   skipped: 'skipped',
+  ready_for_praat_review: 'ready for Praat review',
 };
 
 export function StatusBadge({ state }: { state: string }) {

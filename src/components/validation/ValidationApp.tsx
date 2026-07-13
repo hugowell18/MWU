@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ValidationRunner } from './ValidationConsole';
+import { L1bRunner } from './L1bRunner';
 import { StatusBadge } from './StatusBadge';
 
 // Validation app shell: homepage hero + Console with a left phase sidebar.
@@ -15,16 +16,16 @@ const Lock = (
 
 const PHASES = [
   {
-    key: 'i', roman: 'I', name: 'Diarization & Isolation', side: 'skipped',
-    sub: 'skipped · monologue', locked: true,
+    key: 'i', roman: 'I', name: 'Diarization & Isolation', side: 'ready',
+    sub: 'Layer 1a · workflow scope', locked: false,
     io: ['Group recording · speaker count (default 3)', 'AI diarization → muted-mirror WAVs → draft TextGrid', 'Reviewed TextGrid + WAVs → Phase II & III'],
-    note: 'Skipped for this single-speaker validation sample — there is nothing to diarize. This is where a multilogue recording is isolated in the production workflow.',
+    note: 'L1a produces the N speaker-specific muted-mirror WAVs, invalid-interval inputs and Phase I manifest consumed directly by L1b.',
   },
   {
-    key: 'ii', roman: 'II', name: 'Pause & Duration', side: 'validated',
-    sub: 'validated in this sprint',
+    key: 'ii', roman: 'II', name: 'Pause & Duration', side: 'ready',
+    sub: 'Layer 1b · workflow scope',
     io: ['Reviewed TextGrid · muted-mirror WAVs', 'Script 1 (200 s window + Scale times) → Script 2 calculate_segment_durations.praat', '0.25 / 0.35 TextGrids + duration tables'],
-    note: 'Exercised by the Validation run: gold replay vs the client workbook (exact), generated 0.25/0.35 drafts, generated-vs-expert diagnostic.',
+    note: 'The production phase reads a reviewed Phase I handoff and produces threshold-specific Praat drafts. Its current executable proof remains inside Validation Sprint, separate from the real workflow menu.',
   },
   {
     key: 'iii', roman: 'III', name: 'Transcript Split', side: 'validated',
@@ -69,13 +70,13 @@ const OVERVIEW_PHASES = [
     roman: 'I',
     title: 'Speaker Isolation',
     body: 'Separate multilogue recordings into reviewed speaker-specific audio tracks before acoustic analysis.',
-    status: 'Future multilogue module',
+    status: 'L1a sample passed quality review',
   },
   {
     roman: 'II',
     title: 'Pause & Duration',
     body: 'Run Praat-based pause extraction at configurable thresholds and calculate sounding/silent durations.',
-    status: 'Validated by SpeakerX benchmark',
+    status: 'L1b multilogue runner available',
   },
   {
     roman: 'III',
@@ -101,12 +102,22 @@ export function ValidationApp() {
   const [view, setView] = useState<'home' | 'console'>('home');
   const [sel, setSel] = useState<string>('validation');
   const [report, setReport] = useState<any>(null);
+  const [l1bInput, setL1bInput] = useState<any>(null);
+  const [l1bReport, setL1bReport] = useState<any>(null);
+  const [validationMode, setValidationMode] = useState<'speakerx' | 'l1b'>('speakerx');
   const [heroIndex, setHeroIndex] = useState(0);
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
     if (p.get('view') === 'report' || p.get('view') === 'console' || p.get('autorun')) setView('console');
+    if (p.get('phase') === 'ii') setSel('ii');
+    if (p.get('validation') === 'l1b' || p.get('module') === 'l1b') {
+      setSel('validation');
+      setValidationMode('l1b');
+    }
     fetch('/api/report').then((r) => r.json()).then((j) => setReport(j && j.readiness !== 'idle' ? j : null)).catch(() => {});
+    fetch('/api/l1b/input').then((r) => r.json()).then(setL1bInput).catch(() => {});
+    fetch('/api/l1b/report').then((r) => r.json()).then((j) => setL1bReport(j && j.status !== 'idle' ? j : null)).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -117,16 +128,24 @@ export function ValidationApp() {
     return () => window.clearInterval(timer);
   }, [view]);
 
-  function enter() {
+  useEffect(() => {
+    if (view !== 'console') return;
+    const frame = window.requestAnimationFrame(() => {
+      document.querySelector('.vc-pnav .vc-pitem.active')?.scrollIntoView({ block: 'nearest', inline: 'center' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [sel, view]);
+
+  function enter(module = 'validation', benchmark?: 'speakerx' | 'l1b') {
     setView('console');
-    setSel('validation');
+    setSel(module);
+    if (benchmark) setValidationMode(benchmark);
     window.scrollTo({ top: 0 });
   }
 
   const sideStatus = (k: string) => {
     if (!report) return null;
-    const s = k === 'ii' ? report.phase_ii : k === 'iii' ? report.phase_iii : k === 'iv' ? report.phase_iv : k === 'v' ? report.phase_v : null;
-    if (k === 'i') return 'skipped';
+    const s = k === 'iii' ? report.phase_iii : k === 'iv' ? report.phase_iv : k === 'v' ? report.phase_v : null;
     if (!s) return null;
     return s.status === 'passed' ? 'passed' : s.status === 'placeholder_ready' ? 'placeholder' : s.status;
   };
@@ -162,11 +181,11 @@ export function ValidationApp() {
               <h1>L2 fluency and multiword-unit research, built for real spoken data.</h1>
               <p className="lede">The project studies how second-language speakers use multiword sequences during spoken performance, and how those patterns relate to pause behavior, repair, and speed fluency. The software turns audio, Praat-reviewed timing, transcripts, and lexical tools into a reproducible research matrix.</p>
               <div className="vc-hero-actions">
-                <button className="vc-btn-lg vc-btn-pri" onClick={enter}>
+                <button className="vc-btn-lg vc-btn-pri" onClick={() => enter('validation', 'l1b')}>
                   <svg className="vc-icon-sm" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                  Open Validation Console
+                  Open L1b validation
                 </button>
-                <button className="vc-btn-lg vc-btn-out" onClick={enter}>
+                <button className="vc-btn-lg vc-btn-out" onClick={() => enter('validation', 'speakerx')}>
                   <svg className="vc-icon-sm" viewBox="0 0 24 24" style={{ stroke: 'var(--blue-600)' }}><path d="m5 3 14 9-14 9V3Z" /></svg>
                   Run SpeakerX Benchmark
                 </button>
@@ -243,17 +262,17 @@ export function ValidationApp() {
           <section className="vc-validation-strip">
             <div>
               <span className="vc-section-k">Current delivery</span>
-              <h2>SpeakerX validation benchmark</h2>
-              <p>The current runnable package uses the supplied monologue WAV, expert TextGrid, transcript, and workbook to prove Phase II, Phase III, Phase IV placeholders, and Phase V export before official multilogue data arrives.</p>
+              <h2>Validation benchmark + multilogue L1b</h2>
+              <p>The SpeakerX benchmark remains available for gold replay. The Phase II console now also consumes a real L1a multilogue handoff and generates the six Praat pause drafts, duration workbook and review package.</p>
             </div>
-            <button className="vc-btn-lg vc-btn-pri" onClick={enter}>Run Validation</button>
+            <button className="vc-btn-lg vc-btn-pri" onClick={() => enter('validation', 'l1b')}>Open L1b validation</button>
           </section>
         </div>
       ) : (
         <div className="vc-wrap">
           <div className="vc-console-head">
             <h2>Workflow Console</h2>
-            <p className="sub">Validation runs the SpeakerX benchmark end-to-end. Phase I–V are the workflow modules — context for now, built out next.</p>
+            <p className="sub">Run the SpeakerX benchmark or continue from a completed L1a speaker handoff into deterministic L1b Praat extraction.</p>
           </div>
           <div className="vc-layout">
             <aside className="vc-side">
@@ -263,7 +282,7 @@ export function ValidationApp() {
                   <span className="vc-pnum" style={{ background: sel === 'validation' ? 'var(--blue-600)' : undefined, color: sel === 'validation' ? '#fff' : undefined, borderColor: sel === 'validation' ? 'transparent' : undefined }}>✦</span>
                   <span>
                     <span className="vc-pn">Validation</span>
-                    <span className="vc-ps">SpeakerX benchmark</span>
+                    <span className="vc-ps">SpeakerX + multilogue</span>
                   </span>
                   <span className="vc-side-badge2">{report ? (report.readiness === 'ready' ? 'passed' : report.readiness) : 'run'}</span>
                 </button>
@@ -282,12 +301,20 @@ export function ValidationApp() {
                   </button>
                 ))}
               </div>
-              <div className="vc-scope">“Validation” runs the benchmark now. Phase I–V are workflow context for future development on this console.</div>
+              <div className="vc-scope">Executable proofs live under Validation Sprint. Phase I–V below describe the real research workflow and remain separate from benchmark runs.</div>
             </aside>
 
             <div className="panel">
               {sel === 'validation' ? (
-                <ValidationRunner />
+                <ValidationSprint
+                  mode={validationMode}
+                  onModeChange={setValidationMode}
+                  report={report}
+                  l1bInput={l1bInput}
+                  l1bReport={l1bReport}
+                  onReport={setReport}
+                  onL1bReport={setL1bReport}
+                />
               ) : (
                 <PhasePreview phase={PHASES.find((p) => p.key === sel)!} status={sideStatus(sel)} />
               )}
@@ -295,6 +322,38 @@ export function ValidationApp() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function ValidationSprint({ mode, onModeChange, report, l1bInput, l1bReport, onReport, onL1bReport }: any) {
+  const speakerXReady = report && report.readiness !== 'blocked';
+  const l1bReady = l1bReport?.status === 'ready_for_praat_review';
+
+  return (
+    <div className="vc-sprint-workspace">
+      <section className="vc-sprint-route" aria-label="Validation Sprint benchmark selector">
+        <div className="vc-sprint-route-copy">
+          <span>Validation Sprint</span>
+          <h2>Two benchmark runs, one validation workspace</h2>
+          <p>First reproduce the SpeakerX monologue baseline. Then validate the multilogue L1a-to-L1b handoff without turning either benchmark into a production workflow phase.</p>
+        </div>
+        <div className="vc-sprint-route-steps">
+          <button className={`vc-sprint-step ${mode === 'speakerx' ? 'active' : ''}`} onClick={() => onModeChange('speakerx')}>
+            <span className="vc-sprint-step-no">01</span>
+            <span><strong>SpeakerX monologue baseline</strong><small>Gold replay · Phase II–V</small></span>
+            <b className={speakerXReady ? 'ready' : ''}>{speakerXReady ? 'Passed' : 'Open'}</b>
+          </button>
+          <span className="vc-sprint-connector" aria-hidden="true">→</span>
+          <button className={`vc-sprint-step ${mode === 'l1b' ? 'active' : ''}`} onClick={() => onModeChange('l1b')}>
+            <span className="vc-sprint-step-no">02</span>
+            <span><strong>Multilogue L1a → L1b</strong><small>{l1bInput?.ready ? 'Phase I handoff ready' : 'Waiting for L1a input'}</small></span>
+            <b className={l1bReady ? 'ready' : ''}>{l1bReady ? 'Ready' : 'Open'}</b>
+          </button>
+        </div>
+      </section>
+
+      {mode === 'speakerx' ? <ValidationRunner onReport={onReport} /> : <L1bRunner onReport={onL1bReport} />}
     </div>
   );
 }

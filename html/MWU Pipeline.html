@@ -1,0 +1,1271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MWU Pipeline</title>
+  <style>
+    :root {
+      --page: #f6f8fb;
+      --ink: #172033;
+      --muted: #5e6a7d;
+      --line: #cbd5e1;
+      --shadow: 0 10px 28px rgba(23,32,51,0.06);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .top-menu {
+      position: relative;
+      z-index: 10;
+      border-bottom: 1px solid rgba(203,213,225,0.86);
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+    .top-menu-inner {
+      width: min(1520px, calc(100% - 40px));
+      min-height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .7px;
+      box-shadow: 0 8px 18px rgba(23,32,51,0.18);
+    }
+    .brand-copy { display: grid; gap: 2px; min-width: 0; }
+    .brand-title { font-size: 14px; font-weight: 800; letter-spacing: -.01em; white-space: nowrap; }
+    .brand-sub { color: var(--muted); font-size: 11.5px; line-height: 1.2; white-space: nowrap; }
+    .menu-center {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid #dbe3ee;
+      border-radius: 10px;
+      background: rgba(248,250,252,0.92);
+    }
+    .menu-link {
+      appearance: none;
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 16px;
+      border-radius: 7px;
+      background: transparent;
+      color: #475569;
+      font-size: 13px;
+      font-weight: 760;
+      transition: background .14s ease, color .14s ease, box-shadow .14s ease;
+    }
+    .menu-link:hover { background: #fff; color: var(--ink); }
+    .menu-link.active {
+      background: var(--ink);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(23,32,51,0.16);
+    }
+    .menu-status {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+      line-height: 1.35;
+      flex: 0 0 auto;
+    }
+    .menu-status strong { display: block; color: var(--ink); font-size: 12.5px; }
+    .stage {
+      height: calc(100vh - 65px);
+      min-height: 0;
+      background: var(--page);
+    }
+    .page-frame {
+      display: none;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+    .page-frame.active { display: block; }
+    @media (max-width: 720px) {
+      .top-menu-inner {
+        width: min(100% - 28px, 1520px);
+        min-height: 120px;
+        flex-wrap: wrap;
+        padding: 10px 0;
+      }
+      .brand-title, .brand-sub { white-space: normal; }
+      .menu-center { order: 3; width: 100%; }
+      .menu-link { flex: 1; }
+      .menu-status { display: none; }
+      .stage { height: calc(100vh - 121px); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-menu" aria-label="Project navigation">
+    <div class="top-menu-inner">
+      <div class="brand" aria-label="MWU Pipeline">
+        <span class="brand-mark">MWU</span>
+        <span class="brand-copy">
+          <span class="brand-title">MWU Pipeline</span>
+          <span class="brand-sub">Workflow + commercial proposal</span>
+        </span>
+      </div>
+      <div class="menu-center" role="tablist" aria-label="MWU Pipeline sections">
+        <button class="menu-link active" type="button" data-page="workflow" role="tab" aria-selected="true">Workflow</button>
+        <button class="menu-link" type="button" data-page="proposal" role="tab" aria-selected="false">Proposal</button>
+      </div>
+      <div class="menu-status"><strong id="statusTitle">Five-phase atlas</strong><span id="statusSub">Phase I-V delivery flow</span></div>
+    </div>
+  </nav>
+
+  <main class="stage">
+    <iframe class="page-frame active" id="workflowFrame" title="Five-phase workflow" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;MWU Fluency Pipeline — Five-Phase Workflow&lt;/title&gt;
+  &lt;style&gt;
+    :root {
+      --page: #f6f8fb;
+      --ink: #172033;
+      --muted: #5e6a7d;
+      --line: #cbd5e1;
+      --ui: #0f766e;
+      --worker: #6d28d9;
+      --review: #b42318;
+      --artifact: #2563eb;
+      --success: #15803d;
+      --warn: #d97706;
+      --sprint: #475569;
+      --shadow: 0 16px 38px rgba(23, 32, 51, 0.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.82), rgba(246,248,251,0.94)),
+        radial-gradient(circle at 25% 0%, rgba(15,118,110,0.12), transparent 32%),
+        radial-gradient(circle at 80% 15%, rgba(37,99,235,0.12), transparent 30%),
+        var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .shell {
+      display: grid;
+      grid-template-columns: 286px minmax(0, 1fr);
+      gap: 24px;
+      width: min(1520px, calc(100% - 40px));
+      margin: 0 auto; padding: 26px 0 36px;
+      align-items: start;
+    }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar {
+      position: sticky; top: 26px;
+      border: 1px solid var(--line); border-radius: 12px;
+      background: rgba(255,255,255,0.96); box-shadow: var(--shadow);
+      padding: 22px 18px;
+    }
+    .eyebrow { font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .sidebar h2 { margin: 8px 0 2px; font-size: 18px; line-height: 1.2; }
+    .sidebar .lede {
+      margin: 8px 0 18px; font-size: 12px; color: var(--muted); line-height: 1.5;
+      padding-bottom: 16px; border-bottom: 1px solid #e6eaf1;
+    }
+    .nav { display: flex; flex-direction: column; gap: 4px; }
+    .nav-item {
+      position: relative; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: center;
+      width: 100%; text-align: left; cursor: pointer;
+      border: 1px solid transparent; border-radius: 9px; background: transparent;
+      padding: 11px 12px 11px 10px; color: inherit; font-family: inherit;
+      transition: background .14s ease, border-color .14s ease;
+    }
+    .nav-item:hover { background: #f4f6fa; }
+    .nav-item.active { background: #fff; border-color: var(--line); box-shadow: 0 6px 18px rgba(23,32,51,0.08); }
+    .nav-item.active::before {
+      content: &quot;&quot;; position: absolute; left: -18px; top: 9px; bottom: 9px;
+      width: 4px; border-radius: 0 4px 4px 0; background: var(--accent, var(--ink));
+    }
+    .roman {
+      width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px;
+      border: 1px solid var(--line); font-weight: 800; font-size: 13px; color: var(--muted);
+      background: #fbfdff; font-variant: small-caps;
+    }
+    .nav-item.active .roman { color: #fff; border-color: transparent; background: var(--accent, var(--ink)); }
+    .nav-meta { min-width: 0; display: block; }
+    .nav-kicker { display: block; font-size: 10.5px; letter-spacing: .6px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .nav-item.active .nav-kicker { color: var(--accent, var(--ink)); }
+    .nav-title { display: block; font-size: 13px; font-weight: 650; line-height: 1.3; margin-top: 2px; color: var(--ink); }
+    .layers { margin-top: 18px; padding-top: 15px; border-top: 1px solid #e6eaf1; }
+    .layers .eyebrow { margin-bottom: 9px; }
+    .layer-row { display: grid; grid-template-columns: 42px 1fr; gap: 9px; align-items: start; font-size: 11px; color: var(--muted); line-height: 1.4; margin-bottom: 8px; }
+    .layer-row b { color: var(--ink); font-weight: 650; }
+    .lchip { display: inline-grid; place-items: center; width: 42px; height: 20px; border-radius: 6px; font-size: 10.5px; font-weight: 800; color: #fff; }
+    .lchip.vs { background: var(--sprint); }
+    .lchip.l1 { background: #0f766e; }
+    .lchip.l1b { background: #0d9488; }
+    .lchip.l2 { background: #2563eb; }
+    .lchip.l3 { background: #6d28d9; }
+    .layer-note {
+      margin: 12px 0 0; padding: 10px 11px; border: 1px solid #e2e8f0; border-radius: 8px;
+      background: #f8fafc; color: var(--muted); font-size: 11px; line-height: 1.45;
+    }
+    .sidebar .foot { margin-top: 16px; padding-top: 14px; border-top: 1px solid #e6eaf1; font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .layer-pill { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 750; color: #fff; }
+
+    /* ---------- Main ---------- */
+    .main { min-width: 0; }
+    header.doc { display: flex; justify-content: space-between; align-items: flex-end; gap: 22px; margin-bottom: 14px; }
+    header.doc h1 { margin: 0; font-size: 25px; line-height: 1.15; letter-spacing: -0.2px; }
+    .subtitle { margin: 8px 0 0; max-width: 900px; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+    .tag {
+      flex: 0 0 auto; padding: 11px 14px; border: 1px solid var(--line);
+      border-left: 5px solid var(--accent, var(--ui)); border-radius: 8px;
+      background: rgba(255,255,255,0.92); box-shadow: var(--shadow); color: var(--muted); font-size: 12.5px; min-width: 220px; max-width: 320px;
+    }
+    .tag strong { display: block; color: var(--ink); margin-bottom: 1px; font-size: 13px; }
+    .canvas { overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: var(--shadow); }
+    svg.diagram { display: block; width: 100%; height: auto; }
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .lane-bg { fill: #fbfcff; stroke: #e4e8f0; stroke-width: 1; }
+    .lane-title { fill: #64748b; font-size: 12.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+
+    .node { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.4; filter: url(#softShadow); }
+    .node-ui { stroke: var(--ui); }
+    .node-worker { stroke: var(--worker); }
+    .node-review { stroke: var(--review); }
+    .node-artifact { stroke: var(--artifact); }
+    .node-success { stroke: var(--success); }
+    .node-warn { stroke: var(--warn); }
+    .dashbox { stroke-dasharray: 6 4; }
+    .accent-ui { fill: var(--ui); }
+    .accent-worker { fill: var(--worker); }
+    .accent-review { fill: var(--review); }
+    .accent-artifact { fill: var(--artifact); }
+    .accent-success { fill: var(--success); }
+    .accent-warn { fill: var(--warn); }
+
+    .title { fill: var(--ink); font-size: 14px; font-weight: 750; }
+    .small-title { fill: var(--ink); font-size: 12.5px; font-weight: 750; }
+    .body { fill: var(--muted); font-size: 11.5px; }
+    .tiny { fill: var(--muted); font-size: 10.5px; }
+    .from-tag { fill: var(--artifact); font-size: 10.5px; font-weight: 750; }
+    .to-tag { fill: var(--success); font-size: 10.5px; font-weight: 750; }
+    .cfg-tag { fill: var(--ui); font-size: 10.5px; font-weight: 750; }
+    .ext-tag { fill: var(--warn); font-size: 10.5px; font-weight: 750; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #334155; }
+
+    .arrow { fill: none; stroke: #94a3b8; stroke-width: 2.1; marker-end: url(#arrowHead); }
+    .arrow-ui { stroke: var(--ui); marker-end: url(#headUi); }
+    .arrow-worker { stroke: var(--worker); marker-end: url(#headWorker); }
+    .arrow-review { stroke: var(--review); marker-end: url(#headReview); }
+    .arrow-artifact { stroke: var(--artifact); marker-end: url(#headArtifact); }
+    .arrow-success { stroke: var(--success); marker-end: url(#headSuccess); }
+    .dash { stroke-dasharray: 6 5; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,0.9); }
+    .dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; background: var(--ink); }
+    .dot.ui { background: var(--ui); } .dot.worker { background: var(--worker); }
+    .dot.review { background: var(--review); } .dot.artifact { background: var(--artifact); } .dot.success { background: var(--success); }
+
+    @media (max-width: 1040px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .nav { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); gap: 8px; }
+      .nav-item.active::before { display: none; }
+      header.doc { flex-direction: column; align-items: flex-start; }
+      .canvas { overflow-x: auto; }
+      svg.diagram { min-width: 1180px; }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;svg width=&quot;0&quot; height=&quot;0&quot; style=&quot;position:absolute&quot; aria-hidden=&quot;true&quot;&gt;&lt;defs&gt;
+    &lt;filter id=&quot;softShadow&quot; x=&quot;-18%&quot; y=&quot;-18%&quot; width=&quot;136%&quot; height=&quot;136%&quot;&gt;
+      &lt;feDropShadow dx=&quot;0&quot; dy=&quot;7&quot; stdDeviation=&quot;7&quot; flood-color=&quot;#172033&quot; flood-opacity=&quot;0.12&quot;/&gt;
+    &lt;/filter&gt;
+    &lt;marker id=&quot;arrowHead&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8.5&quot; refY=&quot;5&quot; markerWidth=&quot;7&quot; markerHeight=&quot;7&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M0 0 L10 5 L0 10 z&quot; fill=&quot;#94a3b8&quot;/&gt;&lt;/marker&gt;
+    &lt;marker id=&quot;headUi&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8.5&quot; refY=&quot;5&quot; markerWidth=&quot;7&quot; markerHeight=&quot;7&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M0 0 L10 5 L0 10 z&quot; fill=&quot;#0f766e&quot;/&gt;&lt;/marker&gt;
+    &lt;marker id=&quot;headWorker&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8.5&quot; refY=&quot;5&quot; markerWidth=&quot;7&quot; markerHeight=&quot;7&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M0 0 L10 5 L0 10 z&quot; fill=&quot;#6d28d9&quot;/&gt;&lt;/marker&gt;
+    &lt;marker id=&quot;headReview&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8.5&quot; refY=&quot;5&quot; markerWidth=&quot;7&quot; markerHeight=&quot;7&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M0 0 L10 5 L0 10 z&quot; fill=&quot;#b42318&quot;/&gt;&lt;/marker&gt;
+    &lt;marker id=&quot;headArtifact&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8.5&quot; refY=&quot;5&quot; markerWidth=&quot;7&quot; markerHeight=&quot;7&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M0 0 L10 5 L0 10 z&quot; fill=&quot;#2563eb&quot;/&gt;&lt;/marker&gt;
+    &lt;marker id=&quot;headSuccess&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8.5&quot; refY=&quot;5&quot; markerWidth=&quot;7&quot; markerHeight=&quot;7&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M0 0 L10 5 L0 10 z&quot; fill=&quot;#15803d&quot;/&gt;&lt;/marker&gt;
+  &lt;/defs&gt;&lt;/svg&gt;
+
+  &lt;div class=&quot;shell&quot;&gt;
+    &lt;aside class=&quot;sidebar&quot;&gt;
+      &lt;p class=&quot;eyebrow&quot;&gt;Workflow Atlas&lt;/p&gt;
+      &lt;h2&gt;MWU Fluency Pipeline&lt;/h2&gt;
+      &lt;p class=&quot;lede&quot;&gt;Automated speech-fluency &amp;amp; multiword-unit analysis for L2 speech. The diagram shows the research phases; the quote tiers below show how the work should be contracted.&lt;/p&gt;
+      &lt;nav class=&quot;nav&quot; id=&quot;nav&quot; aria-label=&quot;Pipeline phases&quot;&gt;&lt;/nav&gt;
+      &lt;div class=&quot;layers&quot;&gt;
+        &lt;p class=&quot;eyebrow&quot;&gt;Delivery layers · quote tiers&lt;/p&gt;
+        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip vs&quot;&gt;VS&lt;/span&gt;&lt;span&gt;&lt;b&gt;Validation Sprint.&lt;/b&gt; Monologue benchmark; proves the Praat/TextGrid/Excel calculation chain only.&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l1&quot;&gt;L1a&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase I.&lt;/b&gt; AI diarization + speaker isolation; validated separately against gold cuts.&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l1b&quot;&gt;L1b&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase II.&lt;/b&gt; Deterministic Praat automation: thresholds, durations, reviewable outputs.&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l2&quot;&gt;L2&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase III–IV + early V.&lt;/b&gt; Transcript split, lexical / MWU features, pause-location metrics after definitions sign-off.&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l3&quot;&gt;L3&lt;/span&gt;&lt;span&gt;&lt;b&gt;Full Phase V / reporting.&lt;/b&gt; Final matrix, validation package, reports and archive-ready export.&lt;/span&gt;&lt;/div&gt;
+        &lt;p class=&quot;layer-note&quot;&gt;Sprint passing mainly validates the L1b calculation chain. L1a remains probabilistic and must be evaluated with the client's multilogue gold samples.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;foot&quot;&gt;Each phase runs independently, pauses on completion for human check, then hands a reviewed artifact to the next.&lt;/p&gt;
+    &lt;/aside&gt;
+
+    &lt;div class=&quot;main&quot;&gt;
+      &lt;header class=&quot;doc&quot;&gt;
+        &lt;div&gt;&lt;h1 id=&quot;docTitle&quot;&gt;&lt;/h1&gt;&lt;p class=&quot;subtitle&quot; id=&quot;docSub&quot;&gt;&lt;/p&gt;&lt;/div&gt;
+        &lt;div class=&quot;tag&quot; id=&quot;docTag&quot;&gt;&lt;/div&gt;
+      &lt;/header&gt;
+
+      &lt;section class=&quot;canvas&quot; aria-label=&quot;Phase workflow diagram&quot;&gt;
+
+        &lt;!-- ===================== PHASE I ===================== --&gt;
+        &lt;div class=&quot;view&quot; data-phase=&quot;0&quot;&gt;
+          &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase I diarization and voice isolation workflow&quot;&gt;
+            &lt;rect x=&quot;18&quot; y=&quot;20&quot; width=&quot;1324&quot; height=&quot;700&quot; rx=&quot;12&quot; fill=&quot;#f8fafc&quot;/&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs &amp;amp; sources&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Automation workers&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;382&quot;&gt;③ Human review gate&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Reviewed outputs&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;618&quot; width=&quot;1300&quot; height=&quot;84&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;644&quot;&gt;⑤ Handoff&lt;/text&gt;
+
+            &lt;!-- inputs --&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Raw group audio&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;One group recording&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ from recording source&lt;/text&gt;
+            &lt;rect class=&quot;node node-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Run metadata&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;Group ID · speaker names&lt;/text&gt;&lt;text class=&quot;cfg-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;count: configurable · default 3&lt;/text&gt;
+
+            &lt;!-- workers --&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Audio preflight&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;Validate &amp;amp; normalize&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;282&quot;&gt;ffmpeg → 16 kHz mono&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Diarization + ASR&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;AssemblyAI: speaker turns&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;+ verbatim transcript&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Silence detection&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;Praat CLI + local VAD&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;sounding-silence layers&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Assemble draft&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;Review TextGrid (draft) +&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;N muted-mirror WAVs&lt;/text&gt;
+
+            &lt;!-- review --&gt;
+            &lt;rect class=&quot;node node-review&quot; x=&quot;430&quot; y=&quot;372&quot; width=&quot;500&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;430&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;452&quot; y=&quot;397&quot;&gt;Praat manual review gate&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;452&quot; y=&quot;416&quot;&gt;Correct silence, speaker &amp;amp; transcript; resolve all review flags&lt;/text&gt;
+            &lt;rect class=&quot;node node-warn&quot; x=&quot;1074&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-warn&quot; x=&quot;1074&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;397&quot;&gt;Gold-sample check&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;416&quot;&gt;error / correction rate&lt;/text&gt;
+
+            &lt;!-- outputs --&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Reviewed TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;speaker + timing · accepted&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;{audio}.reviewed.TextGrid&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;N muted-mirror WAVs&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;per-speaker isolated&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;{audio}_{speaker}.wav&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Diarization JSON&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;turns · timestamps&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;confidence scores&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Method log&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;provider · params&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;model versions&lt;/text&gt;
+
+            &lt;!-- handoff --&gt;
+            &lt;rect class=&quot;node node-success&quot; x=&quot;300&quot; y=&quot;636&quot; width=&quot;760&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;300&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;title&quot; x=&quot;324&quot; y=&quot;660&quot;&gt;Reviewed baseline&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;324&quot; y=&quot;678&quot;&gt;→ Phase II (pause metrics) &amp;amp; Phase III (unit extraction)&lt;/text&gt;
+
+            &lt;!-- arrows --&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-ui&quot; d=&quot;M424 156 L424 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M278 267 L318 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M530 267 L570 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M782 267 L822 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M928 316 C928 348 760 352 700 372&quot;/&gt;
+            &lt;path class=&quot;arrow dash&quot; d=&quot;M930 400 L1074 400&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M640 428 C520 452 250 470 172 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M660 428 C560 458 460 472 424 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M700 428 C690 456 680 472 676 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M740 428 C800 456 880 472 928 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M320 576 C300 600 360 614 470 636&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M676 576 L676 636&quot;/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+
+        &lt;!-- ===================== PHASE II ===================== --&gt;
+        &lt;div class=&quot;view&quot; data-phase=&quot;1&quot;&gt;
+          &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase II multi-threshold pause and duration analysis workflow&quot;&gt;
+            &lt;rect x=&quot;18&quot; y=&quot;20&quot; width=&quot;1324&quot; height=&quot;700&quot; rx=&quot;12&quot; fill=&quot;#f8fafc&quot;/&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs · from Phase I &amp;amp; configuration&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Praat segmentation workers&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;382&quot;&gt;③ Praat review / validation gate&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Duration calculation &amp;amp; outputs&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;618&quot; width=&quot;1300&quot; height=&quot;84&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;644&quot;&gt;⑤ Handoff&lt;/text&gt;
+
+            &lt;!-- inputs --&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Reviewed TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;silence + speaker (reviewed)&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ from Phase I&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Muted-mirror WAVs&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;per-speaker tracks (N)&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;↤ from Phase I&lt;/text&gt;
+            &lt;rect class=&quot;node node-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;112&quot;&gt;Threshold config&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;131&quot;&gt;0.25 s + 0.35 s · 200 s&lt;/text&gt;&lt;text class=&quot;cfg-tag&quot; x=&quot;590&quot; y=&quot;148&quot;&gt;locked parameters&lt;/text&gt;
+
+            &lt;!-- workers: segmentation only (no duration numbers yet) --&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Load baseline&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;read reviewed silence&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;282&quot;&gt;+ per-speaker WAVs&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Generate 0.25 s TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;Praat silence segmentation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;at 0.25 s threshold&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Generate 0.35 s TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;Praat silence segmentation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;at 0.35 s threshold&lt;/text&gt;
+
+            &lt;!-- review / validation gate (real human gate) --&gt;
+            &lt;rect class=&quot;node node-review&quot; x=&quot;318&quot; y=&quot;372&quot; width=&quot;464&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;318&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;340&quot; y=&quot;397&quot;&gt;Praat review / validation gate&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;340&quot; y=&quot;416&quot;&gt;verify threshold segmentation · gold-sample check (count / duration error per threshold)&lt;/text&gt;
+
+            &lt;!-- outputs: durations computed AFTER review --&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;0.25 s TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;reviewed segmentation&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;{audio}_0.25s.TextGrid&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;0.35 s TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;reviewed segmentation&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;{audio}_0.35s.TextGrid&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Duration summary&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;computed post-review&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;duration_summary.xlsx&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Per-pause / method log&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;per-pause table · params&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;version · window 200 s&lt;/text&gt;
+
+            &lt;!-- handoff --&gt;
+            &lt;rect class=&quot;node node-success&quot; x=&quot;430&quot; y=&quot;636&quot; width=&quot;500&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;430&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;title&quot; x=&quot;454&quot; y=&quot;660&quot;&gt;Duration tables&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;454&quot; y=&quot;678&quot;&gt;→ Phase V (research export &amp;amp; synthesis)&lt;/text&gt;
+
+            &lt;!-- arrows --&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M424 156 L424 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-ui&quot; d=&quot;M676 156 L676 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M278 267 L318 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M530 267 L570 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M424 316 L424 372&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M676 316 L676 372&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M520 428 C420 452 230 470 172 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M540 428 C470 456 440 472 424 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M560 428 C620 456 660 472 676 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M600 428 C760 454 860 472 928 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M590 576 C560 600 600 616 660 636&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M676 576 L700 636&quot;/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+
+        &lt;!-- ===================== PHASE III ===================== --&gt;
+        &lt;div class=&quot;view&quot; data-phase=&quot;2&quot;&gt;
+          &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase III transcript splitting and unit extraction workflow&quot;&gt;
+            &lt;rect x=&quot;18&quot; y=&quot;20&quot; width=&quot;1324&quot; height=&quot;700&quot; rx=&quot;12&quot; fill=&quot;#f8fafc&quot;/&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs · from Phase I&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Splitting workers · Node + ffmpeg&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;382&quot;&gt;③ Human review gate&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Outputs&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;618&quot; width=&quot;1300&quot; height=&quot;84&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;644&quot;&gt;⑤ Handoff&lt;/text&gt;
+
+            &lt;!-- inputs --&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Reviewed TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;speaker + transcript (reviewed)&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ from Phase I&lt;/text&gt;
+            &lt;rect class=&quot;node node-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Conventions&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;filler / repair markers · “X”&lt;/text&gt;&lt;text class=&quot;cfg-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;project settings&lt;/text&gt;
+
+            &lt;!-- workers --&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Parse intervals&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;speaker text per turn&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;281&quot;&gt;extract-reviewed-units&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Split two variants&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;RAW-TIMING (verbatim)&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;TIDY-PHRASE (cleaned)&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Flag overlaps&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;unknown speaker,&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;boundary-spanning phrases&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Prepare MFA corpus&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;clip audio + .lab + manifest&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;842&quot; y=&quot;281&quot;&gt;prepare-mfa-corpus&lt;/text&gt;
+
+            &lt;!-- review --&gt;
+            &lt;rect class=&quot;node node-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;397&quot;&gt;Resolve boundary flags&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;416&quot;&gt;confirm uncertain splits&lt;/text&gt;
+
+            &lt;!-- outputs --&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Utterance units&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;timing · flags · allowed&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;utterance_units.json&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;RAW / TIDY transcripts&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;per-speaker text&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;*_RAW / *_TIDY.txt&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Unresolved report&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;overlaps · boundary doubt&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;for researcher review&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;MFA corpus&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;.lab files + audio clips&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;mfa-corpus-manifest&lt;/text&gt;
+
+            &lt;!-- handoff --&gt;
+            &lt;rect class=&quot;node node-success&quot; x=&quot;300&quot; y=&quot;636&quot; width=&quot;760&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;300&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;title&quot; x=&quot;324&quot; y=&quot;660&quot;&gt;Corpus + units &amp;amp; transcripts&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;324&quot; y=&quot;678&quot;&gt;→ Phase IV alignment &amp;amp; lexical · transcripts also → Phase V&lt;/text&gt;
+
+            &lt;!-- arrows --&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-ui&quot; d=&quot;M424 156 L424 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M278 267 L318 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M530 267 L570 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M782 267 L822 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M172 316 L172 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M424 316 L424 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M676 316 L676 372&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M676 428 L676 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M928 316 L928 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M172 576 C150 604 360 616 470 636&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M676 576 L690 636&quot;/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+
+        &lt;!-- ===================== PHASE IV ===================== --&gt;
+        &lt;div class=&quot;view&quot; data-phase=&quot;3&quot;&gt;
+          &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase IV lexical and MWU feature extraction workflow&quot;&gt;
+            &lt;rect x=&quot;18&quot; y=&quot;20&quot; width=&quot;1324&quot; height=&quot;700&quot; rx=&quot;12&quot; fill=&quot;#f8fafc&quot;/&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs · from Phase III, I &amp;amp; researcher&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Lexical / MWU &amp;amp; timing feature workers&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;368&quot;&gt;③ Human review gates · optional MFA support&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Outputs&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;618&quot; width=&quot;1300&quot; height=&quot;84&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;644&quot;&gt;⑤ Handoff&lt;/text&gt;
+
+            &lt;!-- inputs --&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Transcripts&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;TIDY (lexical) · RAW&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ Phase III&lt;/text&gt;
+            &lt;rect class=&quot;node node-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;MWU definitions&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;MWU list / AntConc rules&lt;/text&gt;&lt;text class=&quot;ext-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;↤ researcher&lt;/text&gt;
+            &lt;rect class=&quot;node node-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;112&quot;&gt;AS-unit segmentation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;131&quot;&gt;clause boundaries&lt;/text&gt;&lt;text class=&quot;ext-tag&quot; x=&quot;590&quot; y=&quot;148&quot;&gt;↤ researcher&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;112&quot;&gt;Reviewed pauses&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;131&quot;&gt;sounding-silence&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;842&quot; y=&quot;148&quot;&gt;↤ Phase I&lt;/text&gt;
+
+            &lt;!-- workers: lexical / MWU is the core --&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Lexical features&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;TAALES · TAALED&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;282&quot;&gt;diversity · sophistication&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;MWU / lexical bundles&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;AntConc · MI · range&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;Wood &amp;amp; Appel refine&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Tag clause / AS-units&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;manual (primary) or&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;rule-suggested&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Classify pauses&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;≥ 0.25 s → mid / end-clause&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;between-turn&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;1074&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;1074&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;244&quot;&gt;Rate metrics&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;265&quot;&gt;syllable nuclei + phonation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;282&quot;&gt;articulation · speech rate&lt;/text&gt;
+
+            &lt;!-- review gates + optional MFA support (in column gap, no arrow crosses it) --&gt;
+            &lt;rect class=&quot;node node-review&quot; x=&quot;66&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;66&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;397&quot;&gt;Lexical / MWU check&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;416&quot;&gt;agreement vs gold sample&lt;/text&gt;
+            &lt;rect class=&quot;node node-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;397&quot;&gt;Confirm clauses&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;416&quot;&gt;approve AS-unit boundaries&lt;/text&gt;
+            &lt;rect class=&quot;node node-warn dashbox&quot; x=&quot;952&quot; y=&quot;368&quot; width=&quot;280&quot; height=&quot;64&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-warn&quot; x=&quot;952&quot; y=&quot;368&quot; width=&quot;6&quot; height=&quot;64&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;972&quot; y=&quot;391&quot;&gt;Optional · MFA alignment&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;972&quot; y=&quot;409&quot;&gt;word timing — supports pause /&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;972&quot; y=&quot;424&quot;&gt;rate; also a Phase V dependency&lt;/text&gt;
+
+            &lt;!-- outputs --&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Lexical / diversity&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;TAALES · TAALED&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;taales_features.csv&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;MWU bundle tables&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;long bundles · MI · range&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;mwu_extracts.csv&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Clause segments&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;AS-unit boundaries&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;clause_segments.json&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Pause location&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;classified positions&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;pause_location.json&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;1074&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;1074&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;524&quot;&gt;Rate metrics&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;543&quot;&gt;articulation · speech&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;1094&quot; y=&quot;562&quot;&gt;rate_metrics.json&lt;/text&gt;
+
+            &lt;!-- handoff --&gt;
+            &lt;rect class=&quot;node node-success&quot; x=&quot;430&quot; y=&quot;636&quot; width=&quot;500&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;430&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;title&quot; x=&quot;454&quot; y=&quot;660&quot;&gt;Lexical / MWU · clause · pause · rate&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;454&quot; y=&quot;678&quot;&gt;→ Phase V (database synthesis)&lt;/text&gt;
+
+            &lt;!-- arrows --&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-ui&quot; d=&quot;M424 156 L424 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-ui&quot; d=&quot;M676 156 L676 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M928 156 L928 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M278 267 L318 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M530 267 L570 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M782 267 L822 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M1034 267 L1074 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M172 316 L172 372&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M172 428 L172 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M424 316 L424 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M676 316 L676 372&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M676 428 L676 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M928 316 L928 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M1180 316 L1180 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker dash&quot; d=&quot;M1000 368 C1000 344 970 332 952 322&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M590 576 C560 604 600 616 660 636&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M676 576 L690 636&quot;/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+
+        &lt;!-- ===================== PHASE V ===================== --&gt;
+        &lt;div class=&quot;view&quot; data-phase=&quot;4&quot;&gt;
+          &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase V database synthesis and research export workflow&quot;&gt;
+            &lt;rect x=&quot;18&quot; y=&quot;20&quot; width=&quot;1324&quot; height=&quot;700&quot; rx=&quot;12&quot; fill=&quot;#f8fafc&quot;/&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs · all upstream phases + researcher&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Synthesis &amp;amp; validation workers&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;382&quot;&gt;③ Final human review gate&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Deliverables&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;618&quot; width=&quot;1300&quot; height=&quot;84&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;626&quot;&gt;⑤ Destinations&lt;/text&gt;
+
+            &lt;!-- inputs --&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Reviewed TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;timeline ground truth&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ Phase I&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Duration summaries&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;0.25 s + 0.35 s&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;↤ Phase II&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;112&quot;&gt;Transcripts&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;131&quot;&gt;RAW · TIDY&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;590&quot; y=&quot;148&quot;&gt;↤ Phase III&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;112&quot;&gt;Alignment + features&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;131&quot;&gt;words · pauses · rates · MWU&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;842&quot; y=&quot;148&quot;&gt;↤ Phase IV&lt;/text&gt;
+            &lt;rect class=&quot;node node-ui&quot; x=&quot;1074&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;1074&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;112&quot;&gt;Metadata workbook&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;131&quot;&gt;CEFR · L1 · TOEFL · gold&lt;/text&gt;&lt;text class=&quot;ext-tag&quot; x=&quot;1094&quot; y=&quot;148&quot;&gt;↤ researcher&lt;/text&gt;
+
+            &lt;!-- workers --&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Merge to long format&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;one row per observation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;282&quot;&gt;both thresholds kept&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Map pauses → AS-units&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;within / between / turn&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;attach metadata · flag QC&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Build workbook + matrix&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;7 sheets · tidy CSV / parquet&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;281&quot;&gt;export-research-excel&lt;/text&gt;
+            &lt;rect class=&quot;node node-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Validate + codebook&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;gold compare κ / α&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;dictionary · method log&lt;/text&gt;
+
+            &lt;!-- review --&gt;
+            &lt;rect class=&quot;node node-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;397&quot;&gt;Final sign-off gate&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;416&quot;&gt;approve sheets · metrics · params&lt;/text&gt;
+
+            &lt;!-- deliverables --&gt;
+            &lt;rect class=&quot;node node-success&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Research workbook&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;7 sheets · traceable&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;research_export.xlsx&lt;/text&gt;
+            &lt;rect class=&quot;node node-success&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;Analysis matrix&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;long-format · 1 row / obs&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;analysis_matrix.csv&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Codebook · validation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;dictionary · κ / α report&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;validation_report.json&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Complete method log&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;full audit trail&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;all tool versions&lt;/text&gt;
+
+            &lt;!-- destinations --&gt;
+            &lt;rect class=&quot;node node-success&quot; x=&quot;66&quot; y=&quot;636&quot; width=&quot;460&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;66&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;title&quot; x=&quot;90&quot; y=&quot;660&quot;&gt;Publication / archive&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;90&quot; y=&quot;678&quot;&gt;workbook + codebook → research record&lt;/text&gt;
+            &lt;rect class=&quot;node node-success&quot; x=&quot;570&quot; y=&quot;636&quot; width=&quot;464&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;570&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;title&quot; x=&quot;594&quot; y=&quot;660&quot;&gt;R / Python modeling&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;594&quot; y=&quot;678&quot;&gt;analysis matrix → mixed-effects models (out of scope)&lt;/text&gt;
+
+            &lt;!-- arrows --&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M424 156 L424 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M676 156 L676 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M928 156 L928 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-ui&quot; d=&quot;M1180 156 C1180 184 1010 196 952 218&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M278 267 L318 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M530 267 L570 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M782 267 L822 267&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M172 316 L172 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M424 316 L424 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M676 316 L676 372&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M676 428 L676 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M928 316 L928 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M172 576 C172 604 214 618 236 636&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M424 576 C424 600 360 614 300 636&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M676 576 C676 600 720 614 770 636&quot;/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+
+      &lt;/section&gt;
+
+      &lt;div class=&quot;legend&quot; aria-label=&quot;Legend&quot;&gt;
+        &lt;span&gt;&lt;i class=&quot;dot ui&quot;&gt;&lt;/i&gt;Input config / UI&lt;/span&gt;
+        &lt;span&gt;&lt;i class=&quot;dot worker&quot;&gt;&lt;/i&gt;Automation worker&lt;/span&gt;
+        &lt;span&gt;&lt;i class=&quot;dot artifact&quot;&gt;&lt;/i&gt;Data artifact&lt;/span&gt;
+        &lt;span&gt;&lt;i class=&quot;dot review&quot;&gt;&lt;/i&gt;Human review gate&lt;/span&gt;
+        &lt;span&gt;&lt;i class=&quot;dot success&quot;&gt;&lt;/i&gt;Output / handoff&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    const PHASES = [
+      { roman:'I', accent:'#0f766e', kicker:'Phase I', name:'Speaker Diarization &amp; Voice Isolation',
+        title:'Phase I — Speaker Diarization &amp; Voice Isolation',
+        layer:'L1a', lcolor:'#0f766e',
+        sub:'One group recording becomes a reviewed speaker / timing TextGrid plus one muted-mirror WAV per speaker; a mandatory Praat review produces the baseline every later phase reads from. Expected speaker count is configurable (default 3 for the current corpus). The 6-tier schema is an internal review aid, not a client deliverable.',
+        tag:['INPUT','Group recording (16 kHz mono · configurable speaker count, default 3)','OUTPUT','Reviewed TextGrid + muted-mirror WAVs → Phase II &amp; III'] },
+      { roman:'II', accent:'#2563eb', kicker:'Phase II', name:'Multi-Threshold Pause &amp; Duration Analysis',
+        title:'Phase II — Multi-Threshold Pause &amp; Duration Analysis',
+        layer:'L1b', lcolor:'#0d9488',
+        sub:'Praat generates threshold TextGrids at 0.25 s and 0.35 s; a Praat review / validation gate (with gold-sample check) is cleared before durations are computed into per-speaker tables for the final export.',
+        tag:['INPUT','Reviewed TextGrid + muted-mirror WAVs (Phase I)','OUTPUT','Reviewed threshold TextGrids + duration summary → Phase V'] },
+      { roman:'III', accent:'#7c3aed', kicker:'Phase III', name:'Transcript Splitting &amp; Unit Extraction',
+        title:'Phase III — Transcript Splitting &amp; Unit Extraction',
+        layer:'Layer 2', lcolor:'#2563eb',
+        sub:'The reviewed speaker and transcript content is split into per-speaker verbatim and tidy transcripts, an utterance-unit list, and a ready-to-align corpus.',
+        tag:['INPUT','Reviewed speaker + transcript (Phase I)','OUTPUT','utterance_units.json + corpus → Phase IV'] },
+      { roman:'IV', accent:'#b45309', kicker:'Phase IV', name:'Lexical / MWU Feature Extraction',
+        title:'Phase IV — Lexical / MWU Feature Extraction',
+        layer:'Layer 2 + optional MFA add-on', lcolor:'#2563eb',
+        sub:'TAALES / TAALED / AntConc extract lexical and multiword-unit features; workers also classify pauses by clause position and compute speech-rate metrics. Forced alignment (MFA) is optional support for word timing — not the Phase IV deliverable.',
+        tag:['INPUT','Transcripts (III), MWU defs &amp; AS-units (researcher), pauses (I)','OUTPUT','Lexical / MWU · clause · pause · rate tables → Phase V'] },
+      { roman:'V', accent:'#15803d', kicker:'Phase V', name:'Database Synthesis &amp; Research Export',
+        title:'Phase V — Database Synthesis &amp; Research Export',
+        layer:'Layer 3', lcolor:'#6d28d9',
+        sub:'Every upstream artifact plus researcher metadata is merged into a long-format research workbook and an analysis-ready matrix, validated against gold samples and signed off for publication. Early merge sits in Layer 2; full validation, reporting and sign-off are Layer 3.',
+        tag:['INPUT','All upstream outputs + metadata workbook (researcher)','OUTPUT','Research workbook .xlsx + analysis matrix .csv'] }
+    ];
+
+    const navEl = document.getElementById('nav');
+    const views = [...document.querySelectorAll('.view')];
+    const docTitle = document.getElementById('docTitle');
+    const docSub = document.getElementById('docSub');
+    const docTag = document.getElementById('docTag');
+
+    PHASES.forEach((p, i) =&gt; {
+      const b = document.createElement('button');
+      b.className = 'nav-item';
+      b.style.setProperty('--accent', p.accent);
+      b.innerHTML =
+        '&lt;span class=&quot;roman&quot;&gt;' + p.roman + '&lt;/span&gt;' +
+        '&lt;span class=&quot;nav-meta&quot;&gt;&lt;span class=&quot;nav-kicker&quot;&gt;' + p.kicker + '&lt;/span&gt;' +
+        '&lt;span class=&quot;nav-title&quot;&gt;' + p.name + '&lt;/span&gt;&lt;/span&gt;';
+      b.addEventListener('click', () =&gt; select(i));
+      navEl.appendChild(b);
+    });
+
+    function select(idx) {
+      const p = PHASES[idx];
+      [...navEl.children].forEach((c, i) =&gt; c.classList.toggle('active', i === idx));
+      views.forEach((v, i) =&gt; v.classList.toggle('active', i === idx));
+      docTitle.textContent = p.title;
+      docSub.textContent = p.sub;
+      document.documentElement.style.setProperty('--accent', p.accent);
+      docTag.style.setProperty('--accent', p.accent);
+      docTag.innerHTML =
+        '&lt;strong&gt;QUOTE TIER&lt;/strong&gt;&lt;span class=&quot;layer-pill&quot; style=&quot;background:' + p.lcolor + '&quot;&gt;' + p.layer + '&lt;/span&gt;' +
+        '&lt;strong style=&quot;margin-top:8px&quot;&gt;INPUT&lt;/strong&gt;' + p.tag[1] +
+        '&lt;strong style=&quot;margin-top:8px&quot;&gt;OUTPUT&lt;/strong&gt;' + p.tag[3];
+      location.hash = 'phase-' + p.roman;
+    }
+
+    const startRoman = (location.hash.replace('#phase-', '') || 'I').toUpperCase();
+    const startIdx = PHASES.findIndex(p =&gt; p.roman === startRoman);
+    select(startIdx === -1 ? 0 : startIdx);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+    <iframe class="page-frame" id="proposalFrame" title="Pricing scope proposal" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;MWU Fluency Pipeline - Delivery Scope Summary&lt;/title&gt;
+  &lt;style&gt;
+    :root {
+      --page: #f6f8fb;
+      --ink: #172033;
+      --muted: #5f6b7d;
+      --line: #d7dee8;
+      --paper: #ffffff;
+      --sprint: #475569;
+      --l1: #0f766e;
+      --l1b: #0d9488;
+      --l2: #2563eb;
+      --l3: #6d28d9;
+      --warn: #b45309;
+      --shadow: 0 18px 42px rgba(23, 32, 51, 0.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.86), rgba(246,248,251,0.96)),
+        radial-gradient(circle at 16% 0%, rgba(15,118,110,0.12), transparent 34%),
+        radial-gradient(circle at 88% 8%, rgba(37,99,235,0.12), transparent 30%),
+        var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .shell {
+      width: min(1180px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 34px 0 46px;
+    }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 26px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      max-width: 880px;
+    }
+    .lede {
+      margin: 16px 0 0;
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .summary-card {
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--l1);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.94);
+      box-shadow: var(--shadow);
+      padding: 18px 18px 16px;
+    }
+    .summary-card b { display: block; margin-bottom: 6px; font-size: 13px; }
+    .summary-card p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.55; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .tier {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--paper);
+      box-shadow: 0 12px 30px rgba(23,32,51,0.07);
+    }
+    .tier-label {
+      padding: 18px 16px;
+      color: #fff;
+      background: var(--accent);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 184px;
+    }
+    .tier-label span {
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      font-weight: 800;
+      opacity: .86;
+    }
+    .tier-label strong {
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+    .tier-body {
+      padding: 18px 20px 20px;
+    }
+    .tier-body h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+    .tier-body p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 13.5px;
+    }
+    .cols {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .box {
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      background: #fbfdff;
+      padding: 12px;
+      min-height: 124px;
+    }
+    .box h3 {
+      margin: 0 0 8px;
+      font-size: 11px;
+      letter-spacing: .9px;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .box ul {
+      margin: 0;
+      padding-left: 16px;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.48;
+    }
+    .box li { margin: 0 0 5px; }
+    .notice {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .notice-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.94);
+      box-shadow: 0 12px 30px rgba(23,32,51,0.07);
+      padding: 18px;
+    }
+    .notice-card h2 {
+      margin: 0 0 9px;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+    .notice-card p, .notice-card li {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .notice-card ul { margin: 0; padding-left: 18px; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border: 1px solid #e2e8f0;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      background: #fff;
+      margin: 2px 6px 8px 0;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
+    @media (max-width: 980px) {
+      header, .notice { grid-template-columns: 1fr; }
+      .tier { grid-template-columns: 1fr; }
+      .tier-label { min-height: auto; gap: 20px; }
+      .cols { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .cols { grid-template-columns: 1fr; }
+      .shell { width: min(100% - 26px, 1180px); padding-top: 22px; }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;main class=&quot;shell&quot;&gt;
+    &lt;header&gt;
+      &lt;div&gt;
+        &lt;p class=&quot;eyebrow&quot;&gt;Commercial scope proposal&lt;/p&gt;
+        &lt;h1&gt;Delivery plan for the MWU Fluency Pipeline&lt;/h1&gt;
+        &lt;p class=&quot;lede&quot;&gt;The research workflow runs from Phase I to Phase V. The commercial delivery should be separated into a small Validation Sprint and layered delivery tiers, so each commitment has a clear acceptance gate, dependency boundary, and risk profile.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;aside class=&quot;summary-card&quot;&gt;
+        &lt;b&gt;Recommended path&lt;/b&gt;
+        &lt;p&gt;Start with the monologue benchmark, then fund the highest-labor annotation layer, then add research analysis and final reporting only after definitions and gold standards are signed off.&lt;/p&gt;
+      &lt;/aside&gt;
+    &lt;/header&gt;
+
+    &lt;section class=&quot;grid&quot; aria-label=&quot;Delivery tiers&quot;&gt;
+      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--sprint)&quot;&gt;
+        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Pre-layer&lt;/span&gt;&lt;strong&gt;VS&lt;/strong&gt;&lt;/div&gt;
+        &lt;div class=&quot;tier-body&quot;&gt;
+          &lt;h2&gt;Validation Sprint - monologue benchmark&lt;/h2&gt;
+          &lt;p&gt;Purpose: prove that the software can reproduce the provided expert Praat/TextGrid/Excel baseline before committing to the real multilogue pipeline.&lt;/p&gt;
+          &lt;div class=&quot;cols&quot;&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Covers&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Phase II gold replay&lt;/li&gt;
+                &lt;li&gt;Phase III transcript split test&lt;/li&gt;
+                &lt;li&gt;Phase V matrix skeleton&lt;/li&gt;
+                &lt;li&gt;Net-new local WebUI validation console&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Deliverables&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Input manifest and method log&lt;/li&gt;
+                &lt;li&gt;0.25 / 0.35 threshold artifacts&lt;/li&gt;
+                &lt;li&gt;RAW and TIDY transcript files&lt;/li&gt;
+                &lt;li&gt;Validation report and matrix skeleton&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Acceptance&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Pause count matches exactly&lt;/li&gt;
+                &lt;li&gt;Key durations match within 0.001 s&lt;/li&gt;
+                &lt;li&gt;0.25 SpeakerX matrix matches baseline&lt;/li&gt;
+                &lt;li&gt;0.35 clearly marked as no-gold&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Boundary&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Monologue only&lt;/li&gt;
+                &lt;li&gt;No diarization validation&lt;/li&gt;
+                &lt;li&gt;No final lexical/MWU analysis&lt;/li&gt;
+                &lt;li&gt;Deductible only within agreed window&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;p style=&quot;margin-top:14px&quot;&gt;Workbook check: the supplied SpeakerX workbook has no separate 0.35 threshold gold columns; 0.35 is generated for schema and process verification only until the research team supplies a matching gold baseline.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--l1)&quot;&gt;
+        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Layer 1a&lt;/span&gt;&lt;strong&gt;L1a&lt;/strong&gt;&lt;/div&gt;
+        &lt;div class=&quot;tier-body&quot;&gt;
+          &lt;h2&gt;AI diarization and speaker isolation&lt;/h2&gt;
+          &lt;p&gt;Purpose: process real multilogue recordings by proposing speaker turns and producing per-speaker muted-mirror audio for later Praat processing.&lt;/p&gt;
+          &lt;div class=&quot;cols&quot;&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Covers&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Phase I&lt;/li&gt;
+                &lt;li&gt;Configurable speaker count&lt;/li&gt;
+                &lt;li&gt;AI speaker diarization&lt;/li&gt;
+                &lt;li&gt;Muted-mirror WAV generation&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Deliverables&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Diarization JSON&lt;/li&gt;
+                &lt;li&gt;Per-speaker audio files&lt;/li&gt;
+                &lt;li&gt;Review TextGrid draft&lt;/li&gt;
+                &lt;li&gt;Correction-rate report&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Acceptance&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Measured against client gold cuts&lt;/li&gt;
+                &lt;li&gt;Speaker error and edit rate reported&lt;/li&gt;
+                &lt;li&gt;Overlaps and uncertainty surfaced&lt;/li&gt;
+                &lt;li&gt;Human correction remains expected&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Risk&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Probabilistic AI component&lt;/li&gt;
+                &lt;li&gt;Sprint does not validate this layer&lt;/li&gt;
+                &lt;li&gt;Depends on real multilogue samples&lt;/li&gt;
+                &lt;li&gt;Overlapping speech may require manual correction&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--l1b)&quot;&gt;
+        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Layer 1b&lt;/span&gt;&lt;strong&gt;L1b&lt;/strong&gt;&lt;/div&gt;
+        &lt;div class=&quot;tier-body&quot;&gt;
+          &lt;h2&gt;Deterministic Praat automation&lt;/h2&gt;
+          &lt;p&gt;Purpose: reduce the most repetitive Praat pause-boundary and duration-calculation work with configurable, reviewable, Praat-compatible outputs.&lt;/p&gt;
+          &lt;div class=&quot;cols&quot;&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Covers&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Phase II core&lt;/li&gt;
+                &lt;li&gt;Configurable pause thresholds&lt;/li&gt;
+                &lt;li&gt;Praat CLI / TextGrid generation&lt;/li&gt;
+                &lt;li&gt;Duration calculations&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Deliverables&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Threshold-specific TextGrids&lt;/li&gt;
+                &lt;li&gt;Segment duration tables&lt;/li&gt;
+                &lt;li&gt;Review-ready artifacts&lt;/li&gt;
+                &lt;li&gt;Parameter and version logs&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Acceptance&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Full unsegmented timeline preserved&lt;/li&gt;
+                &lt;li&gt;Gold-sample count and duration error reported&lt;/li&gt;
+                &lt;li&gt;Parameters adjustable without code changes&lt;/li&gt;
+                &lt;li&gt;Manual Praat review remains final&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Risk&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Deterministic and controllable&lt;/li&gt;
+                &lt;li&gt;Calculation chain tested in Sprint&lt;/li&gt;
+                &lt;li&gt;Does not depend on cloud ASR&lt;/li&gt;
+                &lt;li&gt;Still needs human review of difficult acoustic cases&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--l2)&quot;&gt;
+        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Layer 2&lt;/span&gt;&lt;strong&gt;L2&lt;/strong&gt;&lt;/div&gt;
+        &lt;div class=&quot;tier-body&quot;&gt;
+          &lt;h2&gt;Research analysis expansion&lt;/h2&gt;
+          &lt;p&gt;Purpose: add the transcript, AS-unit, pause-location, lexical and MWU analysis needed to answer the research questions, once definitions are stable.&lt;/p&gt;
+          &lt;div class=&quot;cols&quot;&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Covers&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Phase III&lt;/li&gt;
+                &lt;li&gt;Phase IV&lt;/li&gt;
+                &lt;li&gt;Early Phase V integration&lt;/li&gt;
+                &lt;li&gt;Optional word-level alignment add-on&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Deliverables&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;RAW-TIMING and TIDY-PHRASE files&lt;/li&gt;
+                &lt;li&gt;AS-unit / clause mapping tables&lt;/li&gt;
+                &lt;li&gt;Lexical and MWU feature tables&lt;/li&gt;
+                &lt;li&gt;Pause-location features&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Start condition&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;AS-unit rules signed off&lt;/li&gt;
+                &lt;li&gt;MWU definition signed off&lt;/li&gt;
+                &lt;li&gt;Syllable / repair coding rules signed off&lt;/li&gt;
+                &lt;li&gt;Gold examples supplied&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;MFA boundary&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Base scope uses reviewed silence and clause boundaries&lt;/li&gt;
+                &lt;li&gt;MFA adds word-level timing precision&lt;/li&gt;
+                &lt;li&gt;MFA is separately quoted and validated&lt;/li&gt;
+                &lt;li&gt;No word-level claim without alignment evidence&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+
+      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--l3)&quot;&gt;
+        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Layer 3&lt;/span&gt;&lt;strong&gt;L3&lt;/strong&gt;&lt;/div&gt;
+        &lt;div class=&quot;tier-body&quot;&gt;
+          &lt;h2&gt;Final matrix and reporting system&lt;/h2&gt;
+          &lt;p&gt;Purpose: turn reviewed outputs and research features into a stable final workbook, codebook, validation package and reporting workflow.&lt;/p&gt;
+          &lt;div class=&quot;cols&quot;&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Covers&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Full Phase V&lt;/li&gt;
+                &lt;li&gt;Cross-phase synthesis&lt;/li&gt;
+                &lt;li&gt;Final export schema&lt;/li&gt;
+                &lt;li&gt;Reporting workflow&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Deliverables&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Research workbook&lt;/li&gt;
+                &lt;li&gt;Analysis matrix CSV/XLSX&lt;/li&gt;
+                &lt;li&gt;Codebook and method log&lt;/li&gt;
+                &lt;li&gt;Validation dashboard/report&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Acceptance&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Schema signed off&lt;/li&gt;
+                &lt;li&gt;Gold validation reported&lt;/li&gt;
+                &lt;li&gt;Traceability from source to metric&lt;/li&gt;
+                &lt;li&gt;Publication/archive package complete&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;box&quot;&gt;
+              &lt;h3&gt;Boundary&lt;/h3&gt;
+              &lt;ul&gt;
+                &lt;li&gt;Statistical modeling is separate&lt;/li&gt;
+                &lt;li&gt;Final research interpretation remains researcher-owned&lt;/li&gt;
+                &lt;li&gt;Requires stable upstream outputs&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;notice&quot; aria-label=&quot;Scope guardrails&quot;&gt;
+      &lt;article class=&quot;notice-card&quot;&gt;
+        &lt;h2&gt;Claims boundary&lt;/h2&gt;
+        &lt;p&gt;&lt;span class=&quot;tag&quot;&gt;&lt;i class=&quot;dot&quot; style=&quot;--accent: var(--sprint)&quot;&gt;&lt;/i&gt;Validation Sprint&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&lt;i class=&quot;dot&quot; style=&quot;--accent: var(--l1)&quot;&gt;&lt;/i&gt;Layer 1a risk&lt;/span&gt;&lt;/p&gt;
+        &lt;ul&gt;
+          &lt;li&gt;The sprint validates the deterministic calculation chain, not AI speaker diarization.&lt;/li&gt;
+          &lt;li&gt;AI diarization must be validated later against multilogue gold samples, with correction/error rates reported.&lt;/li&gt;
+          &lt;li&gt;Praat-reviewed TextGrid files remain the final research evidence, not unreviewed AI output.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;notice-card&quot;&gt;
+        &lt;h2&gt;Client inputs required&lt;/h2&gt;
+        &lt;p&gt;&lt;span class=&quot;tag&quot;&gt;&lt;i class=&quot;dot&quot; style=&quot;--accent: var(--l2)&quot;&gt;&lt;/i&gt;Definitions sign-off&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&lt;i class=&quot;dot&quot; style=&quot;--accent: var(--l3)&quot;&gt;&lt;/i&gt;Gold standards&lt;/span&gt;&lt;/p&gt;
+        &lt;ul&gt;
+          &lt;li&gt;For L1a: multilogue audio plus manual speaker-isolation gold examples.&lt;/li&gt;
+          &lt;li&gt;For L2: AS-unit rules, MWU definition, syllable/repair coding rules, and gold examples.&lt;/li&gt;
+          &lt;li&gt;For word-level pause/MWU claims: optional forced-alignment scope and alignment validation target.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/article&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+  </main>
+
+  <script>
+    const buttons = [...document.querySelectorAll('.menu-link')];
+    const frames = {
+      workflow: document.getElementById('workflowFrame'),
+      proposal: document.getElementById('proposalFrame')
+    };
+    const statusText = {
+      workflow: ['Five-phase atlas', 'Phase I-V delivery flow'],
+      proposal: ['Scope summary', 'Pricing-stage boundaries']
+    };
+    function select(page, push = true) {
+      const next = frames[page] ? page : 'workflow';
+      buttons.forEach((button) => {
+        const active = button.dataset.page === next;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-selected', String(active));
+      });
+      Object.entries(frames).forEach(([key, frame]) => frame.classList.toggle('active', key === next));
+      document.getElementById('statusTitle').textContent = statusText[next][0];
+      document.getElementById('statusSub').textContent = statusText[next][1];
+      if (push) history.replaceState(null, '', '#' + next);
+    }
+    buttons.forEach((button) => button.addEventListener('click', () => select(button.dataset.page)));
+    select((location.hash || '#workflow').slice(1), false);
+  </script>
+</body>
+</html>

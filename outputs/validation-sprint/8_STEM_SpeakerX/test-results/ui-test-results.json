@@ -1,6 +1,6 @@
 {
   "suite": "ui",
-  "passed": 10,
+  "passed": 14,
   "failed": 0,
   "cases": [
     {
@@ -16,7 +16,23 @@
       "status": "passed"
     },
     {
-      "name": "Interactive flow present: upload UI + empty-on-load + 8 status states",
+      "name": "L1b validation is grouped by input, settings, execution, results and deliverables",
+      "status": "passed"
+    },
+    {
+      "name": "L1b delivers PoC outputs without an in-console human review gate",
+      "status": "passed"
+    },
+    {
+      "name": "L1b lives inside Validation Sprint, while Phase II remains workflow preview only",
+      "status": "passed"
+    },
+    {
+      "name": "L1b API exposes the real Phase-I handoff and latest six-TextGrid report",
+      "status": "passed"
+    },
+    {
+      "name": "Interactive flow present: validation HP + upload UI + empty-on-load + 8 status states",
       "status": "passed"
     },
     {
@@ -48,5 +64,5 @@
     "desktop": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/test-results/screenshots/validation-console-desktop.png",
     "mobile": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/test-results/screenshots/validation-console-mobile.png"
   },
-  "generated_at": "2026-06-21T14:25:38.947Z"
+  "generated_at": "2026-07-13T16:07:59.433Z"
 }

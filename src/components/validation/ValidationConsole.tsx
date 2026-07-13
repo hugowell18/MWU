@@ -18,7 +18,7 @@ const Play = (
 
 // The Validation RUNNER — this is the content of the "Validation" sidebar item inside the
 // MWU phase console (see ValidationApp). One "Run Validation" button runs the whole pipeline.
-export function ValidationRunner() {
+export function ValidationRunner({ onReport }: { onReport?: (report: any) => void } = {}) {
   const [useSample, setUseSample] = useState(false);
   const [customOn, setCustomOn] = useState(false);
   const [customVal, setCustomVal] = useState('0.5');
@@ -31,7 +31,9 @@ export function ValidationRunner() {
 
   async function loadReport() {
     const rep = await (await fetch('/api/report')).json().catch(() => null);
-    setReport(rep && rep.readiness !== 'idle' ? rep : null);
+    const usable = rep && rep.readiness !== 'idle' ? rep : null;
+    setReport(usable);
+    if (usable) onReport?.(usable);
     return rep;
   }
   useEffect(() => {

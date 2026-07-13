@@ -1,5 +1,5 @@
 {
-  "started_at": "2026-06-22T03:10:27.360Z",
+  "started_at": "2026-07-13T16:07:55.583Z",
   "phase": "all",
   "done": true,
   "ok": true,
@@ -24,7 +24,7 @@
       "phase": "iii",
       "label": "Phase III",
       "desc": "Transcript split",
-      "state": "passed"
+      "state": "generated_no_gold"
     },
     {
       "key": "iv",
