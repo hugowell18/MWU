@@ -129,27 +129,58 @@ export function computeLocalAcousticVad(audioPath, userOptions = {}) {
   const options = { ...defaultVadOptions(), ...userOptions };
   validateOptions(options);
 
-  const wav = readPcmWav(audioPath);
-  const frames = computeRmsFrames(wav.samples, wav.sampleRate, options);
-  const threshold = estimateThreshold(frames.map((frame) => frame.db), options);
-  const rawSounding = framesToSoundingSegments(frames, threshold, options);
-  const sounding = smoothSoundingSegments(rawSounding, wav.duration, options);
-  const intervals = buildSpeechSilenceIntervals(wav.duration, sounding);
+  const prepared = prepareLocalAcousticVad(audioPath, options);
+  return computeLocalAcousticVadFromPrepared(prepared, options);
+}
 
+export function prepareLocalAcousticVad(audioPath, userOptions = {}) {
+  const options = { ...defaultVadOptions(), ...userOptions };
+  validateOptions(options);
+  const wav = readPcmWav(audioPath);
   return {
     audio_path: resolve(audioPath),
-    duration_seconds: round(wav.duration, 6),
+    duration_seconds: wav.duration,
     sample_rate: wav.sampleRate,
     channels: wav.channels,
+    frame_ms: options.frameMs,
+    hop_ms: options.hopMs,
+    frames: computeRmsFrames(wav.samples, wav.sampleRate, options),
+  };
+}
+
+export function computeLocalAcousticVadFromPrepared(prepared, userOptions = {}) {
+  const options = { ...defaultVadOptions(), ...userOptions };
+  validateOptions(options);
+  if (!prepared || !Array.isArray(prepared.frames) || !(Number(prepared.duration_seconds) > 0)) {
+    throw new Error("Prepared VAD input is invalid");
+  }
+  if (Number(prepared.frame_ms) !== Number(options.frameMs) || Number(prepared.hop_ms) !== Number(options.hopMs)) {
+    throw new Error("Prepared VAD frameMs/hopMs do not match the requested options");
+  }
+
+  const threshold = estimateThreshold(prepared.frames.map((frame) => frame.db), options);
+  const rawSounding = framesToSoundingSegments(prepared.frames, threshold, options);
+  const sounding = smoothSoundingSegments(rawSounding, Number(prepared.duration_seconds), options);
+  const intervals = buildSpeechSilenceIntervals(Number(prepared.duration_seconds), sounding);
+
+  return {
+    audio_path: prepared.audio_path,
+    duration_seconds: round(Number(prepared.duration_seconds), 6),
+    sample_rate: prepared.sample_rate,
+    channels: prepared.channels,
     method: {
       name: "local_acoustic_vad",
       feature: "frame_rms_dbfs",
       threshold_dbfs: round(threshold.thresholdDb, 3),
       noise_floor_dbfs: round(threshold.noiseFloorDb, 3),
       peak_dbfs: round(threshold.peakDb, 3),
+      threshold_controller: threshold.controller,
+      threshold_components_dbfs: Object.fromEntries(
+        Object.entries(threshold.components).map(([key, value]) => [key, round(value, 3)]),
+      ),
       options,
       note:
-        "Draft acoustic sounding/silence intervals. Chris must verify/correct boundaries in Praat before final analysis.",
+        "Draft acoustic sounding/silence intervals. A researcher must verify/correct boundaries in Praat before final analysis.",
     },
     intervals,
   };
@@ -277,19 +308,22 @@ function computeRmsFrames(samples, sampleRate, options) {
   return frames;
 }
 
-function estimateThreshold(frameDbs, options) {
+export function estimateThreshold(frameDbs, options) {
   if (frameDbs.length === 0) {
     throw new Error("Cannot estimate VAD threshold from an empty audio file");
   }
 
   const noiseFloorDb = percentile(frameDbs, options.noisePercentile);
   const peakDb = Math.max(...frameDbs);
-  const thresholdDb = Math.max(
-    noiseFloorDb + options.thresholdMarginDb,
-    peakDb - options.relativeThresholdDb,
-    options.minThresholdDb,
-  );
-  return { thresholdDb, noiseFloorDb, peakDb };
+  const components = {
+    noise_margin: noiseFloorDb + options.thresholdMarginDb,
+    peak_relative: peakDb - options.relativeThresholdDb,
+    absolute_minimum: options.minThresholdDb,
+  };
+  const thresholdDb = Math.max(...Object.values(components));
+  const controller = Object.entries(components)
+    .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))[0][0];
+  return { thresholdDb, noiseFloorDb, peakDb, components, controller };
 }
 
 function framesToSoundingSegments(frames, threshold, options) {

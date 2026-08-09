@@ -1,6 +1,6 @@
 # Validation Sprint — 8_STEM_SpeakerX
 
-- Run: 2026-07-13T16:07:55.583Z
+- Run: 2026-08-09T14:29:21.255Z
 - Phase I: **skipped** (monologue)
 - Praat: available
 - Readiness: **ready**

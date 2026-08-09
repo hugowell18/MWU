@@ -136,43 +136,42 @@ async function main() {
       assert(src.includes(marker), `missing panel "${marker}"`);
   });
 
-  await t('L1b validation is grouped by input, settings, execution, results and deliverables', async () => {
+  await t('Multilogue v2 validation is grouped by input, pipeline, thresholds, evidence and package', async () => {
     const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
     const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');
-    for (const marker of ['Input from L1a', 'Phase I handoff', 'Pause thresholds', 'L1a to L1b pipeline', 'Results by speaker', 'Download L1b package'])
-      assert(src.includes(marker), `missing L1b section "${marker}"`);
-    assert(/api\/l1b\/input/.test(src) && /api\/l1b\/run/.test(src) && /api\/l1b\/status/.test(src) && /api\/l1b\/report/.test(src), 'L1b API wiring missing');
+    for (const marker of ['Multilogue04 v2', 'Input', 'Pipeline', 'P025', 'P035', 'Evidence & limitations', 'Download package'])
+      assert(src.includes(marker), `missing v2 section "${marker}"`);
+    assert(/api\/multilogue-v2\/input/.test(src) && /api\/multilogue-v2\/run/.test(src)
+      && /api\/multilogue-v2\/status/.test(src) && /api\/multilogue-v2\/report/.test(src), 'v2 API wiring missing');
   });
 
-  await t('L1b delivers PoC outputs without an in-console human review gate', async () => {
+  await t('Multilogue v2 exposes draft evidence without a final or human-gate action', async () => {
     const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
     const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');
-    for (const marker of ['L1b PoC outputs ready', 'L1b PoC package', 'Duration diagnostics', 'Method record', 'TextGrids by speaker'])
-      assert(src.includes(marker), `missing direct L1b output "${marker}"`);
+    for (const marker of ['Draft integration evidence', 'Accuracy', 'Awaiting research team', 'Research categories'])
+      assert(src.includes(marker), `missing draft boundary "${marker}"`);
     for (const removed of ['Mandatory human gate', 'Praat review / validation', 'Finalize reviewed L1b outputs', 'Reviewed deliverables'])
       assert(!src.includes(removed), `obsolete review UI remains: "${removed}"`);
-    for (const endpoint of ['review-upload', 'finalize', 'finalize-status'])
-      assert(!src.includes(`/api/l1b/${endpoint}`), `obsolete review endpoint remains in the UI: ${endpoint}`);
+    assert(!src.includes('/api/multilogue-v2/finalize'), 'v2 finalization endpoint leaked into UI');
   });
 
-  await t('L1b lives inside Validation Sprint, while Phase II remains workflow preview only', async () => {
+  await t('Multilogue v2 lives inside Validation Sprint, while Phase II remains workflow preview only', async () => {
     const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
     const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');
     const appSource = fs.readFileSync(path.join(ROOT, 'src/components/validation/ValidationApp.tsx'), 'utf8');
-    for (const marker of ['Two benchmark runs, one validation workspace', 'SpeakerX monologue baseline', 'Multilogue L1a → L1b'])
+    for (const marker of ['Two benchmark runs, one validation workspace', 'SpeakerX monologue baseline', 'Multilogue04 v2'])
       assert(src.includes(marker), `missing Validation Sprint route "${marker}"`);
     assert(appSource.includes("sel === 'validation' ?") && appSource.includes('<ValidationSprint'), 'Validation Sprint is not the executable entry');
-    assert(!/sel === 'ii'\s*\?\s*\(\s*<L1bRunner/.test(appSource), 'L1b is still mounted in the real Phase II menu');
+    assert(!/sel === 'ii'\s*\?\s*\(\s*<MultilogueV2Runner/.test(appSource), 'v2 runner is mounted in the real Phase II menu');
   });
 
-  await t('L1b API exposes the real Phase-I handoff and latest six-TextGrid report', async () => {
-    const input = await (await fetch(`${base}/api/l1b/input`)).json();
-    assert(input.ready, 'L1a handoff is not ready');
-    assert(input.selected.speakers.length === 3, `speaker count=${input.selected.speakers.length}`);
-    const l1b = await (await fetch(`${base}/api/l1b/report`)).json();
-    assert(l1b.status === 'ready_for_praat_review', `L1b status=${l1b.status}`);
-    assert(l1b.qa.jobs_total === 6 && l1b.qa.jobs_passed === 6, JSON.stringify(l1b.qa));
-    assert(l1b.artifacts.filter((artifact) => artifact.group === 'textgrids').length === 6, 'L1b does not expose six TextGrids');
+  await t('Multilogue v2 API exposes local input and two six-tier draft thresholds', async () => {
+    const input = await (await fetch(`${base}/api/multilogue-v2/input`)).json();
+    assert(input.ready, 'v2 local input is not ready');
+    const reportV2 = await (await fetch(`${base}/api/multilogue-v2/report`)).json();
+    assert(reportV2.status === 'ready_draft', `v2 status=${reportV2.status}`);
+    assert(reportV2.accuracy === 'unavailable', `v2 accuracy=${reportV2.accuracy}`);
+    assert(reportV2.thresholds.length === 2 && reportV2.thresholds.every((item) => item.praat.passed), 'two Praat-readable thresholds absent');
   });
 
   await t('Interactive flow present: validation HP + upload UI + empty-on-load + 8 status states', async () => {
@@ -183,7 +182,7 @@ async function main() {
     assert(js.includes('Run Validation'), 'no single Run Validation control');
     assert(js.includes('Pipeline progress'), 'no pipeline progress');
     assert(js.includes('L2 fluency and multiword-unit research') && js.includes('Five-stage research workflow'), 'MWU validation homepage missing');
-    assert(js.includes('Open L1b validation') && js.includes('Run SpeakerX Benchmark'), 'homepage validation CTAs missing');
+    assert(js.includes('Open multilogue validation') && js.includes('Run SpeakerX Benchmark'), 'homepage validation CTAs missing');
     assert(js.includes('Workflow phases'), 'phase sidebar missing');
     assert(!/Run Phase II/.test(js), 'per-phase Run buttons should be gone (single Validation entry)');
     assert(js.includes('Use SpeakerX sample') || js.includes('Benchmark inputs'), 'no upload UI');

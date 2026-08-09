@@ -1,0 +1,42 @@
+{
+  "suite": "multilogue-v2-stage1-adapter",
+  "passed": 8,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "builds an explicit bijective provider mapping with provenance",
+      "status": "pass"
+    },
+    {
+      "name": "assigns words and applies only the controlled filled-pause rule",
+      "status": "pass"
+    },
+    {
+      "name": "keeps a zero-overlap word unresolved instead of trusting its provider label",
+      "status": "pass"
+    },
+    {
+      "name": "preserves non-word attributed activity as unknown review evidence",
+      "status": "pass"
+    },
+    {
+      "name": "clips intersecting intervals and rejects wholly out-of-range evidence",
+      "status": "pass"
+    },
+    {
+      "name": "produces input that the deterministic core can consume",
+      "status": "pass"
+    },
+    {
+      "name": "contains no network client or provider SDK path",
+      "status": "pass"
+    },
+    {
+      "name": "runs the local cache-only integration path on a generic fixture",
+      "status": "pass"
+    }
+  ],
+  "failures": [],
+  "fixture_policy": "synthetic_generic_only",
+  "network_calls_performed": false
+}

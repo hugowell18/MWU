@@ -20,6 +20,12 @@ const L1B_OUT = path.join(ROOT, 'outputs', 'l1b');
 const L1B_PROGRESS = path.join(L1B_OUT, 'progress.json');
 const L1B_LATEST = path.join(L1B_OUT, 'latest.json');
 const FINALIZE_L1B = path.join(ROOT, 'scripts', 'l1b', 'finalize-reviewed.mjs');
+const MULTILOGUE_V2_RECORDING = 'Multilogue04_C_Level30_D1G4';
+const MULTILOGUE_V2_DEFAULT_OUT = path.join(ROOT, 'outputs', 'multilogue-v2-poc', MULTILOGUE_V2_RECORDING);
+const MULTILOGUE_V2_OUT = path.resolve(process.env.MWU_V2_POC_ROOT || MULTILOGUE_V2_DEFAULT_OUT);
+const MULTILOGUE_V2_RUNNER = path.join(ROOT, 'scripts', 'multilogue-v2', 'run-validation-poc.mjs');
+const MULTILOGUE_V2_PROGRESS = path.join(MULTILOGUE_V2_OUT, 'delivery', 'progress.json');
+const MULTILOGUE_V2_REPORT = path.join(MULTILOGUE_V2_OUT, 'delivery', 'ui-report.json');
 
 // canonical filenames the pipeline expects, keyed by upload role
 const ROLE_FILE = {
@@ -44,6 +50,7 @@ const MIME = {
 let currentRun = null; // { child, running }
 let currentL1bRun = null;
 let currentL1bFinalize = null;
+let currentMultilogueV2Run = null;
 
 function send(res, code, body, type = 'application/json') {
   res.writeHead(code, { 'Content-Type': type, 'Access-Control-Allow-Origin': '*' });
@@ -158,6 +165,40 @@ function readLatestL1bReport() {
   return context ? JSON.stringify(rebaseReportPaths(context.report)) : null;
 }
 
+function readMultilogueV2Report() {
+  try {
+    return JSON.parse(fs.readFileSync(MULTILOGUE_V2_REPORT, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function multilogueV2InputStatus() {
+  const required = [
+    path.join(ROOT, 'sample', 'Multilogue04_C_Level30 D1G4.wav'),
+    path.join(ROOT, 'outputs', 'multilogue-validation', MULTILOGUE_V2_RECORDING, 'pyannote-remote', `${MULTILOGUE_V2_RECORDING}.pyannote.remote.raw_turns.json`),
+    path.join(ROOT, 'outputs', 'multilogue-validation', MULTILOGUE_V2_RECORDING, 'assemblyai', `${MULTILOGUE_V2_RECORDING}.16k_mono.assemblyai.raw.json`),
+  ];
+  return {
+    ready: required.every((file) => fs.existsSync(file)),
+    recording_name: 'Multilogue04_C_Level30 D1G4.wav',
+    evidence_source: 'local_audio_and_cached_provider_artifacts',
+    external_upload_performed: false,
+    required_files_present: required.map((file) => ({ name: path.basename(file), present: fs.existsSync(file) })),
+  };
+}
+
+function resolveMultilogueV2Artifact(identifier) {
+  const report = readMultilogueV2Report();
+  if (!report || !Array.isArray(report.artifacts)) return null;
+  const artifact = report.artifacts.find((item) => item.id === identifier || item.path === identifier);
+  if (!artifact || typeof artifact.path !== 'string' || path.isAbsolute(artifact.path) || artifact.path.includes('..')) return null;
+  const file = path.resolve(MULTILOGUE_V2_OUT, artifact.path);
+  const root = path.resolve(MULTILOGUE_V2_OUT);
+  if (!file.startsWith(`${root}${path.sep}`) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return null;
+  return { artifact, file };
+}
+
 function reviewedTextGridName(report, job) {
   const threshold = Number(job.threshold).toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
   return `${sanitize(report.recording_id)}_${sanitize(job.speaker)}_${threshold}s.TextGrid`;
@@ -259,6 +300,60 @@ const server = http.createServer(async (req, res) => {
   if (u.pathname === '/api/report') {
     if (!fs.existsSync(REPORT)) return send(res, 200, JSON.stringify({ readiness: 'idle' }));
     return send(res, 200, JSON.stringify(rebaseReportPaths(JSON.parse(fs.readFileSync(REPORT, 'utf8')))));
+  }
+
+  // ---- Multilogue04 v2: local-only Phase I -> Phase II draft validation ----
+  if (u.pathname === '/api/multilogue-v2/input' && req.method === 'GET') {
+    return send(res, 200, JSON.stringify(multilogueV2InputStatus()));
+  }
+
+  if (u.pathname === '/api/multilogue-v2/run' && req.method === 'POST') {
+    if (currentMultilogueV2Run?.running) {
+      return send(res, 409, JSON.stringify({ error: 'a Multilogue04 v2 run is already in progress' }));
+    }
+    const input = multilogueV2InputStatus();
+    if (!input.ready) return send(res, 400, JSON.stringify({ error: 'local Multilogue04 inputs are incomplete' }));
+    fs.mkdirSync(path.dirname(MULTILOGUE_V2_PROGRESS), { recursive: true });
+    fs.writeFileSync(MULTILOGUE_V2_PROGRESS, JSON.stringify({
+      contract_version: 'multilogue-v2-progress-events-v1',
+      status: 'starting',
+      done: false,
+      active_step: 'phase_i_evidence',
+      events: [],
+      steps: [],
+      updated_at: new Date().toISOString(),
+    }));
+    const child = spawn(process.execPath, [MULTILOGUE_V2_RUNNER], {
+      cwd: ROOT,
+      env: { ...process.env, MWU_V2_POC_ROOT: MULTILOGUE_V2_OUT },
+      stdio: 'ignore',
+    });
+    currentMultilogueV2Run = { child, running: true };
+    child.on('exit', () => { currentMultilogueV2Run.running = false; });
+    return send(res, 200, JSON.stringify({ ok: true, started: true, recording_id: MULTILOGUE_V2_RECORDING }));
+  }
+
+  if (u.pathname === '/api/multilogue-v2/status' && req.method === 'GET') {
+    if (!fs.existsSync(MULTILOGUE_V2_PROGRESS)) {
+      return send(res, 200, JSON.stringify({ status: 'idle', idle: true, done: false, events: [], steps: [] }));
+    }
+    return send(res, 200, fs.readFileSync(MULTILOGUE_V2_PROGRESS));
+  }
+
+  if (u.pathname === '/api/multilogue-v2/report' && req.method === 'GET') {
+    const report = readMultilogueV2Report();
+    return send(res, 200, JSON.stringify(report || { status: 'idle' }));
+  }
+
+  if (u.pathname === '/api/multilogue-v2/file' && req.method === 'GET') {
+    const resolved = resolveMultilogueV2Artifact(u.searchParams.get('path') || '');
+    if (!resolved) return send(res, 404, 'forbidden', 'text/plain');
+    res.writeHead(200, {
+      'Content-Type': MIME[path.extname(resolved.file)] || 'application/octet-stream',
+      'Content-Disposition': `attachment; filename="${path.basename(resolved.file)}"`,
+      'X-Content-Type-Options': 'nosniff',
+    });
+    return res.end(fs.readFileSync(resolved.file));
   }
 
   // ---- L1b input: latest valid Phase-I handoff plus any other discovered runs ----

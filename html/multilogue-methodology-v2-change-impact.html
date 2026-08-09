@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MWU Pipeline Multilogue Methodology v2.0 邮件总结、技术附录解析、现有 PoC 对比、变更范围与工时评估。">
+  <link rel="icon" href="data:,">
+  <title>MWU Multilogue Methodology v2.0 · Change Impact</title>
+  <style>
+    :root {
+      --paper: #f5f7fa;
+      --surface: #ffffff;
+      --ink: #17212b;
+      --muted: #5d6975;
+      --line: #d9e0e7;
+      --line-strong: #b9c5d0;
+      --blue: #2367a8;
+      --blue-soft: #e9f2fb;
+      --teal: #147d75;
+      --teal-soft: #e7f5f2;
+      --green: #2d7b55;
+      --green-soft: #eaf5ee;
+      --amber: #9a6611;
+      --amber-soft: #fff4d7;
+      --red: #a23d3a;
+      --red-soft: #fcedeb;
+      --violet: #74559a;
+      --violet-soft: #f0ebf6;
+      --magenta: #9a4d72;
+      --magenta-soft: #f8eaf1;
+      --shadow: 0 14px 34px rgba(28, 42, 56, 0.08);
+      --radius: 8px;
+      --content: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.58;
+      letter-spacing: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, a:focus-visible { outline: 3px solid rgba(35, 103, 168, 0.28); outline-offset: 3px; }
+    svg { width: 18px; height: 18px; stroke-width: 1.8; }
+    code, .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(217, 224, 231, 0.92);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+    .topbar-inner {
+      width: min(var(--content), calc(100% - 40px));
+      min-height: 66px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; text-decoration: none; }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 850;
+    }
+    .brand-copy { min-width: 0; display: grid; line-height: 1.2; }
+    .brand-copy strong { font-size: 14px; }
+    .brand-copy span { margin-top: 3px; color: var(--muted); font-size: 11.5px; }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .version {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      background: #fff;
+    }
+    .icon-button {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 13px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+    .icon-button:hover { border-color: var(--blue); color: var(--blue); }
+
+    .anchorbar {
+      border-top: 1px solid #eef1f4;
+      background: rgba(255, 255, 255, 0.98);
+    }
+    .anchorbar-inner {
+      width: min(var(--content), calc(100% - 40px));
+      min-height: 42px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .anchorbar a {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 11px;
+      border-radius: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 730;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .anchorbar a:hover, .anchorbar a.active { background: var(--blue-soft); color: var(--blue); }
+
+    .hero {
+      position: relative;
+      min-height: clamp(520px, 68vh, 680px);
+      display: grid;
+      align-items: center;
+      background-color: #eef0f1;
+      background-image: url("assets/multilogue-methodology-v2-hero.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: min(var(--content), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 72px 0 66px;
+    }
+    .hero-copy { width: min(470px, 41%); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 3px; background: var(--teal); }
+    .hero h1 {
+      max-width: 470px;
+      margin: 18px 0 16px;
+      font-size: clamp(38px, 4.7vw, 68px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+    .hero .lede {
+      max-width: 445px;
+      margin: 0;
+      color: #35414c;
+      font-size: 17px;
+      line-height: 1.62;
+    }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .hero-meta span {
+      padding: 6px 9px;
+      border: 1px solid rgba(23, 33, 43, 0.20);
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.76);
+      color: #35414c;
+      font-size: 11.5px;
+      font-weight: 750;
+    }
+
+    main { display: block; }
+    .section {
+      width: min(var(--content), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 80px 0;
+      scroll-margin-top: 116px;
+    }
+    .band { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .band .section { padding-top: 74px; padding-bottom: 74px; }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 520px);
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+    .section-number { color: var(--blue); font-size: 12px; font-weight: 850; letter-spacing: 1px; }
+    .section h2 {
+      margin: 7px 0 0;
+      max-width: 720px;
+      font-size: clamp(29px, 3.3vw, 46px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+    .section-head p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    .verdict-strip {
+      position: relative;
+      margin-top: -1px;
+      background: var(--ink);
+      color: #fff;
+    }
+    .verdict-inner {
+      width: min(var(--content), calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.45fr repeat(3, minmax(150px, 0.7fr));
+      align-items: stretch;
+    }
+    .verdict-copy, .verdict-metric { padding: 28px 24px; }
+    .verdict-copy { padding-left: 0; }
+    .verdict-copy small, .verdict-metric small { color: #aeb8c3; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+    .verdict-copy strong { display: block; margin-top: 7px; font-size: 18px; line-height: 1.35; }
+    .verdict-metric { border-left: 1px solid #3a4651; }
+    .verdict-metric strong { display: block; margin-top: 4px; font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .verdict-metric span { color: #c1cad2; font-size: 12px; }
+
+    .intent-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); background: #fff; }
+    .intent-step { min-height: 240px; padding: 26px 24px; border-right: 1px solid var(--line); }
+    .intent-step:last-child { border-right: 0; }
+    .intent-step .step-icon {
+      width: 42px; height: 42px; display: grid; place-items: center; margin-bottom: 42px;
+      border-radius: 7px; color: #fff; background: var(--step-color, var(--blue));
+    }
+    .intent-step b { display: block; margin-bottom: 6px; font-size: 12px; color: var(--step-color, var(--blue)); letter-spacing: .7px; text-transform: uppercase; }
+    .intent-step h3 { margin: 0 0 9px; font-size: 19px; line-height: 1.2; }
+    .intent-step p { margin: 0; color: var(--muted); font-size: 13px; }
+    .intent-note { margin-top: 18px; padding: 18px 20px; border-left: 4px solid var(--amber); background: var(--amber-soft); color: #5d481e; font-size: 13px; }
+
+    .brief-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); background: #fff; }
+    .brief-block { min-height: 210px; padding: 25px 26px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .brief-block:nth-child(2n) { border-right: 0; }
+    .brief-block:nth-last-child(-n+2) { border-bottom: 0; }
+    .brief-block span { color: var(--brief-color, var(--blue)); font-size: 10.5px; font-weight: 850; letter-spacing: 1px; text-transform: uppercase; }
+    .brief-block h3 { margin: 8px 0 11px; font-size: 19px; }
+    .brief-block ul { margin: 0; padding-left: 18px; }
+    .brief-block li { margin: 7px 0; color: var(--muted); font-size: 12.5px; }
+
+    .appendix-map { border: 1px solid var(--line); background: #fff; }
+    .appendix-item {
+      display: grid;
+      grid-template-columns: 92px minmax(190px, .65fr) minmax(0, 1.6fr) minmax(150px, .55fr);
+      gap: 20px;
+      align-items: start;
+      padding: 17px 20px;
+      border-bottom: 1px solid #edf0f3;
+    }
+    .appendix-item:last-child { border-bottom: 0; }
+    .appendix-item.header { background: #f2f5f8; color: #46525e; font-size: 10.5px; font-weight: 850; text-transform: uppercase; letter-spacing: .7px; }
+    .appendix-section { color: var(--blue); font-size: 11px; font-weight: 850; }
+    .appendix-item strong { font-size: 13px; line-height: 1.4; }
+    .appendix-item p { margin: 0; color: var(--muted); font-size: 12px; }
+    .appendix-effect { display: inline-flex; width: max-content; max-width: 100%; padding: 4px 7px; border-radius: 4px; background: var(--effect-soft); color: var(--effect-color); font-size: 9.5px; font-weight: 850; text-transform: uppercase; }
+
+    .comparison-table { border: 1px solid var(--line); background: #fff; }
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr) minmax(0, 1fr) 120px;
+      gap: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .comparison-row:last-child { border-bottom: 0; }
+    .comparison-row > * { padding: 15px 17px; border-right: 1px solid var(--line); }
+    .comparison-row > *:last-child { border-right: 0; }
+    .comparison-row.header { background: #eef2f5; color: #46525e; font-size: 10.5px; font-weight: 850; text-transform: uppercase; letter-spacing: .7px; }
+    .comparison-topic { font-size: 12px; font-weight: 850; }
+    .comparison-old, .comparison-new { color: var(--muted); font-size: 12px; }
+    .comparison-old code, .comparison-new code { font-size: 10.5px; }
+    .delta { display: inline-flex; width: max-content; padding: 4px 7px; border-radius: 4px; font-size: 9.5px; font-weight: 850; text-transform: uppercase; }
+    .delta.keep { background: var(--green-soft); color: var(--green); }
+    .delta.change { background: var(--amber-soft); color: var(--amber); }
+    .delta.replace { background: var(--red-soft); color: var(--red); }
+    .delta.new { background: var(--blue-soft); color: var(--blue); }
+
+    .construct-panel { border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow); }
+    .construct-top { display: grid; grid-template-columns: 1fr 1fr; }
+    .construct-side { padding: 28px; }
+    .construct-side + .construct-side { border-left: 1px solid var(--line); }
+    .construct-side .kicker { color: var(--muted); font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: 1px; }
+    .construct-side h3 { margin: 7px 0 8px; font-size: 22px; }
+    .construct-side p { margin: 0; color: var(--muted); font-size: 13px; }
+    .equation {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 20px;
+      font-size: 13px; font-weight: 780;
+    }
+    .equation .token { padding: 8px 10px; border: 1px solid var(--line); border-radius: 5px; background: #f8fafc; }
+    .equation .wrong { border-color: #e6bbb8; background: var(--red-soft); color: var(--red); }
+    .equation .right { border-color: #b8ddce; background: var(--green-soft); color: var(--green); }
+
+    .timeline { padding: 26px 28px 28px; border-top: 1px solid var(--line); }
+    .timeline-axis { display: grid; grid-template-columns: 105px repeat(12, 1fr); color: var(--muted); font-size: 10px; }
+    .timeline-axis span { padding: 0 2px 7px; text-align: center; border-bottom: 1px solid var(--line); }
+    .timeline-axis span:first-child { text-align: left; }
+    .lane { display: grid; grid-template-columns: 105px repeat(12, 1fr); min-height: 48px; align-items: stretch; border-bottom: 1px solid #edf0f3; }
+    .lane-name { display: flex; align-items: center; font-size: 12px; font-weight: 820; color: #35414c; }
+    .segment {
+      display: grid; place-items: center; margin: 6px 2px; min-width: 0;
+      border-radius: 4px; color: #fff; font-size: 10px; font-weight: 850; text-align: center;
+    }
+    .seg-s { background: var(--blue); }
+    .seg-op { background: var(--amber); }
+    .seg-pf { background: #7a8794; }
+    .seg-bc { background: var(--teal); }
+    .seg-ol { background: var(--magenta); }
+    .seg-tr { background: var(--violet); }
+    .seg-shs { background: #4f5c68; }
+    .seg-x { background: var(--red); }
+    .seg-wrong { background: repeating-linear-gradient(135deg, #a23d3a 0 8px, #bd5a56 8px 16px); }
+    .timeline-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; color: var(--muted); font-size: 11px; }
+    .timeline-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .timeline-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    .timeline-mobile { display: none; }
+
+    .compare-grid { display: grid; grid-template-columns: 1fr 72px 1fr; align-items: stretch; }
+    .compare-column { border: 1px solid var(--line); background: #fff; }
+    .compare-head { min-height: 120px; padding: 24px; border-bottom: 1px solid var(--line); }
+    .compare-head.current { border-top: 5px solid var(--red); }
+    .compare-head.target { border-top: 5px solid var(--green); }
+    .compare-head span { color: var(--muted); font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: 1px; }
+    .compare-head h3 { margin: 7px 0 4px; font-size: 22px; }
+    .compare-head p { margin: 0; color: var(--muted); font-size: 13px; }
+    .flow-stack { padding: 18px 24px 24px; }
+    .flow-node { position: relative; padding: 15px 14px 15px 50px; border-bottom: 1px solid #edf0f3; }
+    .flow-node:last-child { border-bottom: 0; }
+    .flow-node .node-num {
+      position: absolute; left: 8px; top: 14px; width: 28px; height: 28px; display: grid; place-items: center;
+      border-radius: 6px; background: var(--blue-soft); color: var(--blue); font-size: 11px; font-weight: 850;
+    }
+    .flow-node strong { display: block; font-size: 14px; }
+    .flow-node small { display: block; margin-top: 3px; color: var(--muted); font-size: 11.5px; line-height: 1.45; }
+    .compare-arrow { display: grid; place-items: center; color: var(--muted); }
+    .compare-arrow svg { width: 34px; height: 34px; }
+    .boundary-note { margin-top: 18px; padding: 18px 20px; border: 1px solid #e3b9b6; background: var(--red-soft); color: #6e2c29; }
+    .boundary-note strong { display: block; margin-bottom: 4px; }
+    .boundary-note p { margin: 0; font-size: 13px; }
+
+    .architecture {
+      display: grid;
+      grid-template-columns: 1fr 52px 1fr 52px 1fr;
+      align-items: stretch;
+    }
+    .arch-stage { min-height: 360px; padding: 26px; border: 1px solid var(--line); background: #fff; }
+    .arch-stage.stage-1 { border-top: 5px solid var(--blue); }
+    .arch-stage.stage-2 { border-top: 5px solid var(--amber); }
+    .arch-stage.stage-3 { border-top: 5px solid var(--green); }
+    .arch-stage .stage-label { color: var(--muted); font-size: 11px; font-weight: 850; letter-spacing: 1px; }
+    .arch-stage h3 { margin: 8px 0 18px; font-size: 21px; line-height: 1.2; }
+    .arch-stage ul { margin: 0; padding: 0; list-style: none; }
+    .arch-stage li { position: relative; padding: 10px 0 10px 22px; border-top: 1px solid #edf0f3; font-size: 12.5px; }
+    .arch-stage li::before { content: ""; position: absolute; left: 2px; top: 16px; width: 8px; height: 8px; border-radius: 50%; background: var(--stage-accent, var(--blue)); }
+    .arch-stage li:first-child { border-top: 0; }
+    .arch-arrow { display: grid; place-items: center; color: var(--line-strong); }
+    .arch-arrow svg { width: 28px; height: 28px; }
+    .mirror-boundary {
+      margin-top: 20px; display: grid; grid-template-columns: 180px 1fr; gap: 20px; align-items: center;
+      padding: 18px 20px; border: 1px solid #e3b9b6; background: var(--red-soft);
+    }
+    .mirror-boundary strong { color: var(--red); }
+    .mirror-boundary p { margin: 0; color: #6e2c29; font-size: 13px; }
+
+    .label-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .filter-button {
+      min-height: 40px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 6px;
+      background: #fff; color: var(--muted); font: inherit; font-size: 12px; font-weight: 780; cursor: pointer;
+    }
+    .filter-button:hover, .filter-button.active { border-color: var(--ink); background: var(--ink); color: #fff; }
+    .label-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .label-card {
+      min-height: 190px; padding: 20px; border: 1px solid var(--line); border-top: 4px solid var(--label-color); border-radius: var(--radius); background: #fff;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .label-card.is-hidden { display: none; }
+    .label-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .label-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .label-code { font-family: "SFMono-Regular", Consolas, monospace; font-size: 24px; font-weight: 900; color: var(--label-color); }
+    .label-family { font-size: 10px; font-weight: 850; color: var(--muted); text-transform: uppercase; letter-spacing: .9px; }
+    .label-card h3 { margin: 12px 0 7px; font-size: 17px; }
+    .label-card p { margin: 0; color: var(--muted); font-size: 12.5px; }
+    .label-rule { margin-top: 14px; padding-top: 12px; border-top: 1px solid #edf0f3; color: #3e4b57; font-size: 11.5px; font-weight: 700; }
+
+    .scope-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .scope-column { border: 1px solid var(--line); background: #fff; }
+    .scope-column header { min-height: 105px; padding: 20px; border-top: 5px solid var(--scope-color); border-bottom: 1px solid var(--line); }
+    .scope-column header span { color: var(--scope-color); font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: 1px; }
+    .scope-column header h3 { margin: 6px 0 0; font-size: 21px; }
+    .scope-list { margin: 0; padding: 0; list-style: none; }
+    .scope-list li { position: relative; padding: 14px 18px 14px 44px; border-bottom: 1px solid #edf0f3; font-size: 12.5px; }
+    .scope-list li:last-child { border-bottom: 0; }
+    .scope-list li svg { position: absolute; left: 17px; top: 15px; width: 16px; height: 16px; color: var(--scope-color); }
+
+    .code-map { border: 1px solid var(--line); background: #fff; }
+    .code-row {
+      display: grid; grid-template-columns: 280px minmax(0, 1.35fr) minmax(190px, .65fr); gap: 24px; align-items: center;
+      padding: 18px 20px; border-bottom: 1px solid var(--line);
+    }
+    .code-row:last-child { border-bottom: 0; }
+    .code-path { overflow-wrap: anywhere; color: var(--blue); font-size: 11.5px; font-weight: 780; }
+    .code-row p { margin: 0; color: var(--muted); font-size: 12px; }
+    .impact-meter { display: grid; grid-template-columns: 1fr 64px; gap: 10px; align-items: center; }
+    .meter-track { height: 7px; background: #e9edf1; overflow: hidden; }
+    .meter-fill { height: 100%; width: var(--impact); background: var(--impact-color); }
+    .impact-meter b { color: var(--impact-color); font-size: 10.5px; text-transform: uppercase; }
+
+    .layer-ripple { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; border: 1px solid var(--line); background: #fff; }
+    .layer-block { min-height: 255px; padding: 24px; border-right: 1px solid var(--line); border-top: 5px solid var(--layer-color); }
+    .layer-block:last-child { border-right: 0; }
+    .layer-block .layer-id { color: var(--layer-color); font-size: 12px; font-weight: 900; }
+    .layer-block h3 { margin: 7px 0 12px; font-size: 19px; }
+    .layer-block p { margin: 0; color: var(--muted); font-size: 12.5px; }
+    .layer-impact { display: inline-flex; margin-top: 18px; padding: 5px 8px; border-radius: 4px; background: var(--layer-soft); color: var(--layer-color); font-size: 10.5px; font-weight: 850; }
+
+    .effort-board { border: 1px solid var(--line); background: #fff; }
+    .effort-row { display: grid; grid-template-columns: 260px 110px 1fr; gap: 20px; align-items: center; min-height: 68px; padding: 12px 20px; border-bottom: 1px solid #edf0f3; }
+    .effort-row:last-child { border-bottom: 0; }
+    .effort-row strong { font-size: 13px; }
+    .effort-days { color: var(--blue); font-size: 13px; font-weight: 850; font-variant-numeric: tabular-nums; }
+    .range-track { position: relative; height: 16px; background: #edf1f4; }
+    .range-fill { position: absolute; top: 0; bottom: 0; left: var(--start); width: var(--width); background: var(--bar); }
+    .range-fill::after { content: attr(data-label); position: absolute; right: 6px; top: -2px; color: #fff; font-size: 10px; font-weight: 800; }
+    .effort-gates { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 18px; }
+    .gate { padding: 20px; border: 1px solid var(--line); border-top: 5px solid var(--gate-color); background: #fff; }
+    .gate span { color: var(--gate-color); font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: .7px; }
+    .gate strong { display: block; margin: 6px 0; font-size: 22px; font-variant-numeric: tabular-nums; }
+    .gate p { margin: 0; color: var(--muted); font-size: 12px; }
+
+    .decision-layout { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(300px, .75fr); gap: 18px; align-items: start; }
+    .decision-list { border: 1px solid var(--line); background: #fff; }
+    .decision-item { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: start; padding: 17px 18px; border-bottom: 1px solid #edf0f3; }
+    .decision-item:last-child { border-bottom: 0; }
+    .decision-num { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 6px; background: var(--blue-soft); color: var(--blue); font-size: 11px; font-weight: 850; }
+    .decision-item strong { display: block; font-size: 13px; }
+    .decision-item p { margin: 4px 0 0; color: var(--muted); font-size: 11.5px; }
+    .blocker { padding: 4px 7px; border-radius: 4px; font-size: 9.5px; font-weight: 850; text-transform: uppercase; }
+    .blocker.yes { background: var(--red-soft); color: var(--red); }
+    .blocker.later { background: var(--light, #edf1f4); color: var(--muted); }
+    .go-panel { position: sticky; top: 128px; padding: 24px; border: 1px solid #b9ddcd; border-top: 6px solid var(--green); background: var(--green-soft); }
+    .go-panel span { color: var(--green); font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: 1px; }
+    .go-panel h3 { margin: 7px 0 11px; font-size: 24px; line-height: 1.15; }
+    .go-panel p { margin: 0; color: #315943; font-size: 13px; }
+    .go-panel hr { margin: 18px 0; border: 0; border-top: 1px solid #b9ddcd; }
+    .go-panel b { display: block; margin-bottom: 5px; color: #315943; font-size: 12px; }
+    .go-panel small { display: block; color: #4c6d5b; font-size: 11px; line-height: 1.45; }
+
+    .sources { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+    .source-block { padding: 22px; border: 1px solid var(--line); background: #fff; }
+    .source-block h3 { margin: 0 0 12px; font-size: 16px; }
+    .source-block ul { margin: 0; padding-left: 18px; }
+    .source-block li { margin: 7px 0; color: var(--muted); font-size: 12px; }
+    .source-block code { color: var(--blue); font-size: 11px; overflow-wrap: anywhere; }
+
+    footer.site-footer { border-top: 1px solid var(--line); background: #fff; }
+    .footer-inner { width: min(var(--content), calc(100% - 40px)); min-height: 82px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 11.5px; }
+    .footer-inner strong { color: var(--ink); }
+
+    @media (max-width: 1060px) {
+      .anchorbar { overflow-x: auto; }
+      .anchorbar-inner { width: max-content; min-width: calc(100% - 40px); }
+      .hero { background-position: 55% center; }
+      .hero-copy { width: 53%; }
+      .verdict-inner { grid-template-columns: 1.2fr repeat(3, .8fr); }
+      .intent-grid { grid-template-columns: 1fr 1fr; }
+      .intent-step:nth-child(2) { border-right: 0; }
+      .intent-step:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .architecture { grid-template-columns: 1fr; gap: 12px; }
+      .arch-stage { min-height: 0; }
+      .arch-arrow { height: 34px; transform: rotate(90deg); }
+      .label-grid { grid-template-columns: 1fr 1fr; }
+      .code-row { grid-template-columns: 230px 1fr; }
+      .impact-meter { grid-column: 1 / -1; }
+      .layer-ripple { grid-template-columns: 1fr 1fr; }
+      .layer-block:nth-child(2) { border-right: 0; }
+      .layer-block:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner, .section, .hero-inner, .verdict-inner, .footer-inner { width: min(100% - 28px, var(--content)); }
+      .topbar-inner { min-height: 62px; }
+      .brand-copy span, .version { display: none; }
+      .icon-button span { display: none; }
+      .icon-button { width: 44px; justify-content: center; padding: 0; }
+      .anchorbar-inner { min-width: calc(100% - 28px); }
+      .hero { min-height: 600px; background-position: 55% center; }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        height: 500px;
+        background: rgba(255, 255, 255, 0.84);
+        border-bottom: 1px solid rgba(217, 224, 231, 0.78);
+      }
+      .hero-inner { align-self: start; padding-top: 52px; }
+      .hero-copy { width: 100%; }
+      .hero h1 { font-size: 42px; }
+      .hero .lede { max-width: 500px; font-size: 15px; }
+      .hero-meta { max-width: 310px; }
+      .verdict-inner { grid-template-columns: 1fr 1fr; }
+      .verdict-copy { grid-column: 1 / -1; padding-left: 0; }
+      .verdict-metric { border-left: 0; border-top: 1px solid #3a4651; padding: 20px 12px; }
+      .verdict-metric:nth-child(3) { border-left: 1px solid #3a4651; }
+      .verdict-metric:last-child { grid-column: 1 / -1; border-left: 0; }
+      .section { padding: 60px 0; }
+      .section-head { grid-template-columns: 1fr; gap: 14px; margin-bottom: 26px; }
+      .section h2 { font-size: 32px; }
+      .intent-grid, .brief-grid, .construct-top, .compare-grid, .scope-grid, .layer-ripple, .effort-gates, .decision-layout, .sources { grid-template-columns: 1fr; }
+      .brief-block { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .brief-block:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .brief-block:last-child { border-bottom: 0; }
+      .appendix-item { grid-template-columns: 70px 1fr; gap: 7px 14px; }
+      .appendix-item.header { display: none; }
+      .appendix-item p, .appendix-effect { grid-column: 2; }
+      .comparison-row { grid-template-columns: 108px 1fr; }
+      .comparison-row.header { display: none; }
+      .comparison-row > * { border-right: 0; border-bottom: 1px solid #edf0f3; }
+      .comparison-row > *:last-child { border-bottom: 0; }
+      .comparison-topic { grid-row: 1 / 4; border-right: 1px solid var(--line) !important; }
+      .comparison-old::before { content: "现有 PoC"; display: block; margin-bottom: 4px; color: var(--red); font-size: 9px; font-weight: 850; text-transform: uppercase; }
+      .comparison-new::before { content: "客户 v2.0"; display: block; margin-bottom: 4px; color: var(--green); font-size: 9px; font-weight: 850; text-transform: uppercase; }
+      .intent-step { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .intent-step:last-child { border-bottom: 0; }
+      .intent-step .step-icon { margin-bottom: 22px; }
+      .construct-side + .construct-side { border-left: 0; border-top: 1px solid var(--line); }
+      .timeline { display: none; }
+      .timeline-mobile { display: grid; gap: 8px; padding: 18px; border-top: 1px solid var(--line); }
+      .timeline-mobile .event { display: grid; grid-template-columns: 68px 1fr; gap: 10px; padding: 12px; background: #f8fafc; }
+      .timeline-mobile .event b { font-size: 11px; color: var(--blue); }
+      .timeline-mobile .event span { font-size: 12px; color: var(--muted); }
+      .compare-arrow { min-height: 52px; transform: rotate(90deg); }
+      .mirror-boundary { grid-template-columns: 1fr; gap: 6px; }
+      .label-grid { grid-template-columns: 1fr; }
+      .scope-column { border-radius: 0; }
+      .code-row { grid-template-columns: 1fr; gap: 8px; }
+      .impact-meter { grid-column: auto; }
+      .layer-block { border-right: 0; border-bottom: 1px solid var(--line); }
+      .layer-block:last-child { border-bottom: 0; }
+      .effort-row { grid-template-columns: 1fr auto; gap: 6px 12px; }
+      .range-track { grid-column: 1 / -1; }
+      .go-panel { position: static; }
+      .decision-item { grid-template-columns: 38px 1fr; }
+      .decision-item .blocker { grid-column: 2; width: max-content; }
+      .footer-inner { flex-direction: column; align-items: flex-start; justify-content: center; padding: 18px 0; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { min-height: 650px; background-position: 61% center; }
+      .hero::before { height: 510px; }
+      .hero-copy { width: 100%; }
+      .hero h1 { font-size: 37px; }
+      .hero .lede { max-width: 350px; }
+      .hero-meta span:nth-child(3) { display: none; }
+      .verdict-inner { grid-template-columns: 1fr; }
+      .verdict-metric, .verdict-metric:nth-child(3), .verdict-metric:last-child { grid-column: auto; border-left: 0; }
+      .label-controls { display: grid; grid-template-columns: 1fr 1fr; }
+      .filter-button { padding: 0 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+    }
+
+    @media print {
+      .topbar, .anchorbar, .icon-button, .label-controls { display: none !important; }
+      body { background: #fff; font-size: 11pt; }
+      .hero { min-height: 520px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .section, .band .section { width: 100%; padding: 36px 0; }
+      .verdict-inner, .footer-inner { width: 100%; }
+      .label-card, .scope-column, .arch-stage, .gate, .source-block { break-inside: avoid; }
+      .section { break-before: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="MWU Pipeline.html" aria-label="返回 MWU Pipeline">
+        <span class="brand-mark">MWU</span>
+        <span class="brand-copy"><strong>Methodology v2.0</strong><span>Multilogue change impact assessment</span></span>
+      </a>
+      <div class="top-actions">
+        <span class="version">30 Jul 2026 · Client appendix</span>
+        <button class="icon-button" type="button" id="printButton" aria-label="打印或保存为 PDF"><i data-lucide="printer"></i><span>Print</span></button>
+      </div>
+    </div>
+    <nav class="anchorbar" aria-label="报告章节">
+      <div class="anchorbar-inner">
+        <a href="#email-summary">邮件总结</a>
+        <a href="#appendix">文档解析</a>
+        <a href="#comparison">方案比较</a>
+        <a href="#architecture">新架构</a>
+        <a href="#impact">PoC 影响</a>
+        <a href="#effort">工时</a>
+        <a href="#decisions">结论</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Internal technical assessment</span>
+        <h1 id="page-title">Multilogue v2.0<br>技术评估</h1>
+        <p class="lede">基于客户最新邮件与 Technical Appendix：总结客户意图，拆解新技术方案，并逐项比较现有 PoC 的可复用部分、必须重构部分与新增工作。</p>
+        <div class="hero-meta">
+          <span>Client email summary</span>
+          <span>Technical Appendix v2.0</span>
+          <span>Current repo audit</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="verdict-strip" aria-label="结论摘要">
+    <div class="verdict-inner">
+      <div class="verdict-copy"><small>Executive verdict</small><strong>产品管道可复用，Multilogue measurement core 需要重构，并重新基线 SOW。</strong></div>
+      <div class="verdict-metric"><small>Scope</small><strong>Large</strong><span>正式方法学变更</span></div>
+      <div class="verdict-metric"><small>Reusable</small><strong>45–60%</strong><span>平台与接入能力</span></div>
+      <div class="verdict-metric"><small>Revised L1</small><strong>34–55d</strong><span>累计工程人日</span></div>
+    </div>
+  </section>
+
+  <main>
+      <section class="section" id="email-summary">
+      <div class="section-head">
+          <div><span class="section-number">01 · EMAIL SUMMARY</span><h2>客户邮件的完整意图</h2></div>
+          <p>邮件包含四层信息：停止指令、研究问题修正、新一轮 PoC 要求，以及后续采购判断。下面把“明确要求”和“隐含边界”分开。</p>
+      </div>
+      <div class="intent-grid">
+        <article class="intent-step" style="--step-color: var(--red)"><span class="step-icon"><i data-lucide="pause"></i></span><b>Stop</b><h3>暂停旧 binary 工作</h3><p>停止 sounding/silent 继续校准，避免工程时间与云资源投入到即将被替换的路径。</p></article>
+        <article class="intent-step" style="--step-color: var(--amber)"><span class="step-icon"><i data-lucide="split"></i></span><b>Redefine</b><h3>区分停顿的责任</h3><p>沉默可能是 own pause、listening、transition 或 shared lapse。只有 op 是核心犹豫指标。</p></article>
+        <article class="intent-step" style="--step-color: var(--blue)"><span class="step-icon"><i data-lucide="workflow"></i></span><b>Calibrate</b><h3>整段跑 Multilogue04</h3><p>三人约 260 秒后才完整活跃。短片段不足以证明 floor logic、overlap 与 FTO 工作。</p></article>
+        <article class="intent-step" style="--step-color: var(--green)"><span class="step-icon"><i data-lucide="badge-check"></i></span><b>Evaluate</b><h3>用结果决定扩大采购</h3><p>若新输出与 interactional metrics 对齐，客户才会认真考虑完整数据集的后续使用。</p></article>
+      </div>
+      <div class="intent-note"><strong>Gold 边界：</strong>客户明确说旧 binary corrections 不是九标签 ground truth。它们最多作为 boundary seed，因此旧的“80%”也不能迁移成新方案的准确率。</div>
+      <div style="height:20px"></div>
+      <div class="brief-grid">
+        <article class="brief-block" style="--brief-color:var(--blue)"><span>客户明确要求我们做</span><h3>新的完整校准运行</h3><ul><li>处理完整 Multilogue04，而不是短片段</li><li>用九分类和 persistent floor 生成可复核草稿</li><li>使用 Tier 6 标低置信区间</li><li>说明新的六层 TextGrid 是否适合当前 pipeline</li></ul></article>
+        <article class="brief-block" style="--brief-color:var(--red)"><span>客户明确要求停止</span><h3>旧 binary multilogue 校准</h3><ul><li>不要继续把 sounding/silent 当多人研究基线</li><li>不要继续用 mirror silence 代表 speaker hesitation</li><li>不要把旧修正结果当九分类 gold</li><li>不要为细分类训练重型自定义模型</li></ul></article>
+        <article class="brief-block" style="--brief-color:var(--amber)"><span>客户接受的简化</span><h3>Heuristic draft + human review</h3><ul><li>f、bc、x 可以先用启发式与概率规则</li><li>不确定项进入 flags，而不是静默猜测</li><li>研究团队继续在 Praat 人工检查</li><li>自动结果仍是 draft，不是最终研究数据</li></ul></article>
+        <article class="brief-block" style="--brief-color:var(--green)"><span>商业意图</span><h3>先看校准，再决定扩大</h3><ul><li>客户没有直接承诺完整采购</li><li>本轮结果用于判断 interactional metrics 是否可行</li><li>如果对齐良好，才会认真考虑更广数据集</li><li>因此必须先定义 measurable acceptance KPI</li></ul></article>
+      </div>
+    </section>
+
+    <div class="band">
+      <section class="section" id="appendix">
+        <div class="section-head">
+          <div><span class="section-number">02 · APPENDIX ANALYSIS</span><h2>Word 技术附录到底提出了什么</h2></div>
+          <p>这不是一份参数说明，而是一份新的 multilogue measurement specification。它从数据假设、状态机、标签、输出到验证责任，重新定义了 L1a/L1b。</p>
+        </div>
+        <div class="appendix-map">
+          <div class="appendix-item header"><span>章节</span><span>主题</span><span>核心内容</span><span>工程影响</span></div>
+          <div class="appendix-item"><span class="appendix-section">§1</span><strong>Scope 与 task boundary</strong><p>单房间麦克风、16 kHz mono、三人 group exam；一个 recording 可能包含多个 task，floor 在每个 task 开始时重置。</p><span class="appendix-effect" style="--effect-color:var(--amber);--effect-soft:var(--amber-soft)">新增输入</span></div>
+          <div class="appendix-item"><span class="appendix-section">§2</span><strong>为何不能当三段 monologue</strong><p>Listening、own pause、transition 和 lapse 在 mirror 中都表现为静音；hard masking 还会改变阈值统计并制造边界瞬态。</p><span class="appendix-effect" style="--effect-color:var(--red);--effect-soft:var(--red-soft)">否定旧核心</span></div>
+          <div class="appendix-item"><span class="appendix-section">§3–4</span><strong>九标签与参数表</strong><p>固定九类标签；P=0.25/0.35，建议 0.20；L=1.0；G=2.0；overlap≥100 ms；10 ms frame；200 s window。</p><span class="appendix-effect" style="--effect-color:var(--blue);--effect-soft:var(--blue-soft)">新配置模型</span></div>
+          <div class="appendix-item"><span class="appendix-section">§5</span><strong>Stage 1：shared timeline</strong><p>Original mix 只做一次 room sounding/silence；叠加可重叠 speaker attribution、confidence、verbatim word timing 与 artifact 分类。</p><span class="appendix-effect" style="--effect-color:var(--red);--effect-soft:var(--red-soft)">L1a/L1b 重构</span></div>
+          <div class="appendix-item"><span class="appendix-section">§6</span><strong>Stage 2：floor state machine</strong><p>R1–R5 维护 S1/S2/S3/FREE；pause 不自动释放 floor；silence 需要 lookahead 才能判断 op/tr/shs。</p><span class="appendix-effect" style="--effect-color:var(--blue);--effect-soft:var(--blue-soft)">全新模块</span></div>
+          <div class="appendix-item"><span class="appendix-section">§7–8</span><strong>Stage 3：label assignment</strong><p>speaker state × floor state 查表，再应用 ol 与 x precedence；f/bc 依赖词汇规则，不再只是声学判断。</p><span class="appendix-effect" style="--effect-color:var(--blue);--effect-soft:var(--blue-soft)">全新模块</span></div>
+          <div class="appendix-item"><span class="appendix-section">§9</span><strong>Signed FTO</strong><p>FTO=next onset−previous offset；负值是 overlap。附录同时承认自动边界不足以直接支持精细研究值，必须人工校正。</p><span class="appendix-effect" style="--effect-color:var(--amber);--effect-soft:var(--amber-soft)">高风险新增</span></div>
+          <div class="appendix-item"><span class="appendix-section">§10</span><strong>六个 worked examples</strong><p>覆盖 backchannel across pause、overlap transfer、failed bid、lapse、artifact、missed speech，可直接转为状态机单元测试。</p><span class="appendix-effect" style="--effect-color:var(--green);--effect-soft:var(--green-soft)">验收资产</span></div>
+          <div class="appendix-item"><span class="appendix-section">§11</span><strong>新输出合同</strong><p>每 task/threshold 一个 TextGrid：N 个 speaker tiers + floor + transition points + flags；另有 CSV、RTTM 和 method sidecar。</p><span class="appendix-effect" style="--effect-color:var(--red);--effect-soft:var(--red-soft)">替换交付物</span></div>
+          <div class="appendix-item"><span class="appendix-section">§12–13</span><strong>Validation 与待确认项</strong><p>研究团队负责 gold、DER、IRR、fairness、sensitivity；我们负责输出可评分 artifact、日志、flags、revision 与配置。</p><span class="appendix-effect" style="--effect-color:var(--amber);--effect-soft:var(--amber-soft)">责任边界</span></div>
+        </div>
+        <div class="intent-note"><strong>附录中最重要的自我约束：</strong>它没有声称自动系统会直接给出最终 FTO 真值。它明确要求自动预标注 + Praat 人工边界修正。这一点必须保留在 SOW 和 UI 状态中。</div>
+      </section>
+    </div>
+
+    <section class="section" id="comparison">
+      <div class="section-head">
+        <div><span class="section-number">03 · TECHNICAL COMPARISON</span><h2>现有 PoC 与客户 v2.0 的逐项比较</h2></div>
+        <p>真正的差异不在标签数量，而在测量对象、状态来源、输出单位和 transcript 依赖。</p>
+      </div>
+      <div class="comparison-table">
+        <div class="comparison-row header"><span>维度</span><span>现有 PoC</span><span>客户 v2.0</span><span>变化</span></div>
+        <div class="comparison-row"><span class="comparison-topic">测量对象</span><span class="comparison-old">每位 speaker 的 muted-mirror WAV</span><span class="comparison-new">Original mixed audio + parallel speaker activity streams</span><span><i class="delta replace">Replace</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Room silence</span><span class="comparison-old">每个 mirror 各自运行 Praat intensity</span><span class="comparison-new">只在 original mix 上计算一次 shared sounding/silence</span><span><i class="delta replace">Replace</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Speaker attribution</span><span class="comparison-old">Pyannote turns、RTTM、speaker tier，可保存 overlap</span><span class="comparison-new">继续使用，但必须保留 overlap、confidence、identity mapping、gap filling=0</span><span><i class="delta change">Extend</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Silence meaning</span><span class="comparison-old"><code>silent</code> 或被其他 speaker 覆盖为 <code>invalid</code></span><span class="comparison-new"><code>op / pf / tr / shs</code>，由 floor history 与后续事件决定</span><span><i class="delta replace">Replace</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Overlap</span><span class="comparison-old">Phase I speaker TextGrid 可表示；L1b mirror/invalid 链无法正确进入 pause metric</span><span class="comparison-new"><code>ol</code> 标在所有参与 speaker tier，并进入 signed FTO</span><span><i class="delta new">Integrate</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Floor</span><span class="comparison-old">不存在 persistent floor state</span><span class="comparison-new">R1–R5，S1/S2/S3/FREE，silence 需要 second pass</span><span><i class="delta new">New</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Transcript</span><span class="comparison-old">主要属于后续 L2 transcript processing</span><span class="comparison-new"><code>f</code> 与 <code>bc</code> 在 L1 标签阶段就需要 verbatim timed words</span><span><i class="delta change">Move earlier</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Praat 角色</span><span class="comparison-old">自动二元切分器 + 人工修正环境</span><span class="comparison-new">Shared VAD 支撑 + 九标签/FTO 的人工 review 环境；状态推理不由 Praat 完成</span><span><i class="delta change">Redefine</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">TextGrid 结构</span><span class="comparison-old">3 speakers × 2 thresholds = 6 个单 speaker 三标签 TextGrid</span><span class="comparison-new">每 task/threshold 1 个 TextGrid；三人时为 6 tiers，N 人时为 N+3 tiers</span><span><i class="delta replace">Replace</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Duration output</span><span class="comparison-old">sounding/silent/invalid total、count、mean pause</span><span class="comparison-new">九类 duration/count、floor turns、signed FTO、configuration 与 convention</span><span><i class="delta replace">Replace</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Human review</span><span class="comparison-old">按阈值修正 binary boundaries</span><span class="comparison-new">flags-guided 九标签检查；floor transfer 边界必须重点校正</span><span><i class="delta change">Expand</i></span></div>
+        <div class="comparison-row"><span class="comparison-topic">Validation</span><span class="comparison-old">SpeakerX monologue arithmetic + draft L1a/L1b visual review</span><span class="comparison-new">九标签 gold、DER decomposition、overlap/bc recall、boundary error、edit rate</span><span><i class="delta new">New KPI</i></span></div>
+      </div>
+    </section>
+
+    <div class="band">
+      <section class="section" id="failure">
+        <div class="section-head">
+          <div><span class="section-number">03A · CONCRETE EXAMPLE</span><h2>同一段“没有声音”，研究含义完全不同</h2></div>
+          <p>旧 mirror 模型只看某位 speaker 有没有能量。新方法必须同时看 room audio、所有 speaker activity，以及谁持有 floor。</p>
+        </div>
+        <div class="construct-panel">
+          <div class="construct-top">
+            <div class="construct-side">
+              <span class="kicker">Old binary interpretation</span>
+              <h3>Speaker 不出声 = pause</h3>
+              <p>把他人发言期间的 listening time 也当作该 speaker 的 silent hesitation，系统性放大 breakdown disfluency。</p>
+              <div class="equation"><span class="token">No energy</span><span>+</span><span class="token">speaker mirror</span><span>=</span><span class="token wrong">silent</span></div>
+            </div>
+            <div class="construct-side">
+              <span class="kicker">Methodology v2.0</span>
+              <h3>Silence + floor history = typed state</h3>
+              <p>同样的无声段，会根据 floor 是否持续、接下来谁说话、时长是否超过 L，分为 op / pf / tr / shs。</p>
+              <div class="equation"><span class="token">Room state</span><span>+</span><span class="token">Attribution</span><span>+</span><span class="token">Floor</span><span>=</span><span class="token right">meaning</span></div>
+            </div>
+          </div>
+          <div class="timeline" aria-label="旧方案与新方案的时间轴对比">
+            <div class="timeline-axis"><span>Timeline</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11s</span></div>
+            <div class="lane"><span class="lane-name">Room audio</span><span class="segment seg-s" style="grid-column:2/6">sounding</span><span class="segment seg-op" style="grid-column:6/8">silence</span><span class="segment seg-s" style="grid-column:8/14">sounding</span></div>
+            <div class="lane"><span class="lane-name">Speaker 1</span><span class="segment seg-s" style="grid-column:2/6">s</span><span class="segment seg-op" style="grid-column:6/8">op</span><span class="segment seg-s" style="grid-column:8/11">s</span><span class="segment seg-pf" style="grid-column:11/14">pf</span></div>
+            <div class="lane"><span class="lane-name">Speaker 2</span><span class="segment seg-pf" style="grid-column:2/5">pf</span><span class="segment seg-bc" style="grid-column:5/6">bc</span><span class="segment seg-pf" style="grid-column:6/11">pf</span><span class="segment seg-s" style="grid-column:11/14">s</span></div>
+            <div class="lane"><span class="lane-name">Old S2 mirror</span><span class="segment seg-wrong" style="grid-column:2/11">wrong: silent pause</span><span class="segment seg-s" style="grid-column:11/14">sounding</span></div>
+            <div class="lane"><span class="lane-name">Floor</span><span class="segment seg-s" style="grid-column:2/11">S1 persists</span><span class="segment seg-s" style="grid-column:11/14">S2</span></div>
+            <div class="timeline-legend"><span><i class="seg-s"></i>lexical speech</span><span><i class="seg-op"></i>own pause</span><span><i class="seg-pf"></i>partner floor</span><span><i class="seg-bc"></i>backchannel</span><span><i class="seg-wrong"></i>old false pause</span></div>
+          </div>
+          <div class="timeline-mobile">
+            <div class="event"><b>0–4s</b><span>S1 持有 floor 并发言。S2/S3 是 pf，不是 pause。</span></div>
+            <div class="event"><b>4–5s</b><span>S2 说 “mhm”，标 bc，不转移 floor，也不制造 ol。</span></div>
+            <div class="event"><b>5–7s</b><span>S1 安静后继续，整段是 S1 的 op；S2 仍为 pf。</span></div>
+            <div class="event"><b>9–11s</b><span>S1 完成，S2 接管 floor。旧 S2 mirror 会把此前 listening 错算为 silent pause。</span></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="section" id="architecture">
+      <div class="section-head">
+        <div><span class="section-number">04 · TARGET ARCHITECTURE</span><h2>新方案如何落到我们的工程里</h2></div>
+        <p>输入音频和 diarization 仍然有用，但 pause taxonomy 的证据源从 per-speaker mirror 改为 shared original timeline。</p>
+      </div>
+
+      <div class="compare-grid">
+        <article class="compare-column">
+          <header class="compare-head current"><span>Current PoC</span><h3>Mirror-first binary chain</h3><p>已交付、可监听，但不再是多人暂停测量的有效基线。</p></header>
+          <div class="flow-stack">
+            <div class="flow-node"><span class="node-num">1</span><strong>Pyannote diarization</strong><small>speaker turns / RTTM / overlap data</small></div>
+            <div class="flow-node"><span class="node-num">2</span><strong>N muted-mirror WAV</strong><small>其他区间硬置零，按 speaker 生成</small></div>
+            <div class="flow-node"><span class="node-num">3</span><strong>Praat per mirror</strong><small>每个镜像独立算 sounding / silent</small></div>
+            <div class="flow-node"><span class="node-num">4</span><strong>invalid override</strong><small>把其他 speaker 时间统一覆盖成 invalid</small></div>
+            <div class="flow-node"><span class="node-num">5</span><strong>6 binary TextGrids</strong><small>3 speakers × 0.25 / 0.35 s</small></div>
+          </div>
+        </article>
+        <div class="compare-arrow" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+        <article class="compare-column">
+          <header class="compare-head target"><span>Target v2.0</span><h3>Shared-timeline interaction chain</h3><p>将声学、speaker attribution 与互动 floor 分开，再组合成研究标签。</p></header>
+          <div class="flow-stack">
+            <div class="flow-node"><span class="node-num">1</span><strong>Original mix shared VAD</strong><small>room sounding / silence 只计算一次</small></div>
+            <div class="flow-node"><span class="node-num">2</span><strong>Parallel speaker activity</strong><small>允许 overlap，confidence 与 identity 稳定</small></div>
+            <div class="flow-node"><span class="node-num">3</span><strong>Event + lexical cues</strong><small>vocalisation / artifact / f / bc</small></div>
+            <div class="flow-node"><span class="node-num">4</span><strong>Persistent floor R1–R5</strong><small>claim / retain / transfer / free with lookahead</small></div>
+            <div class="flow-node"><span class="node-num">5</span><strong>N+3 tier TextGrid</strong><small>speaker labels / floor / FTO / flags</small></div>
+          </div>
+        </article>
+      </div>
+      <div class="boundary-note"><strong>最重要的架构边界</strong><p>Muted mirrors 继续用于监听、兼容和音节核计数；需要增加 5–10 ms fade。但 op / pf / tr / shs 不再从 mirror 的强度曲线推断。</p></div>
+
+      <div style="height:34px"></div>
+      <div class="architecture" aria-label="新三阶段架构图">
+        <article class="arch-stage stage-1" style="--stage-accent: var(--blue)"><span class="stage-label">STAGE 1</span><h3>共享时间轴与归属层</h3><ul><li>Original 16 kHz mono</li><li>10 ms room activity frames</li><li>Overlap-aware speaker streams</li><li>Verbatim timed words</li><li>Vocalisation / laughter / artifact</li></ul></article>
+        <div class="arch-arrow"><i data-lucide="chevron-right"></i></div>
+        <article class="arch-stage stage-2" style="--stage-accent: var(--amber)"><span class="stage-label">STAGE 2</span><h3>Persistent floor 状态机</h3><ul><li>S1 / S2 / S3 / FREE</li><li>R1–R5 with second pass</li><li>P = 0.25 / 0.35 / optional 0.20</li><li>L = 1.0 s, G = 2.0 s</li><li>Low-confidence propagation</li></ul></article>
+        <div class="arch-arrow"><i data-lucide="chevron-right"></i></div>
+        <article class="arch-stage stage-3" style="--stage-accent: var(--green)"><span class="stage-label">STAGE 3</span><h3>研究标签与可复核输出</h3><ul><li>N speaker tiers with nine labels</li><li>Floor interval tier</li><li>Signed FTO point tier</li><li>Flags review tier</li><li>CSV / RTTM / method log / QA</li></ul></article>
+      </div>
+      <div class="mirror-boundary"><strong>Human review 仍是最终边界</strong><p>附录自己明确：100–500 ms 级 FTO 不能从未复核 diarization 直接当最终研究值。自动层预标注，研究者在 Praat 修正转移两端边界并报告 correction cost。</p></div>
+    </section>
+
+    <div class="band">
+      <section class="section" id="labels">
+        <div class="section-head">
+          <div><span class="section-number">05 · LABEL ATLAS</span><h2>九类标签不是九个名字，而是九种统计责任</h2></div>
+          <p>过滤查看不同语义族。每个标签同时定义 Praat 中看到什么，以及哪些时间能进入 fluency 指标。</p>
+        </div>
+        <div class="label-controls" role="group" aria-label="九类标签筛选">
+          <button class="filter-button active" type="button" data-filter="all">全部</button>
+          <button class="filter-button" type="button" data-filter="production">发声</button>
+          <button class="filter-button" type="button" data-filter="interaction">互动</button>
+          <button class="filter-button" type="button" data-filter="silence">沉默</button>
+          <button class="filter-button" type="button" data-filter="exclude">排除</button>
+        </div>
+        <div class="label-grid">
+          <article class="label-card" data-family="production" style="--label-color: var(--blue)"><div class="label-top"><span class="label-code">s</span><span class="label-family">production</span></div><h3>Speaking</h3><p>Floor holder 产生可理解的 lexical speech，包括 laughter-talk。</p><div class="label-rule">计入 phonation 与 articulation rate</div></article>
+          <article class="label-card" data-family="production" style="--label-color: var(--amber)"><div class="label-top"><span class="label-code">f</span><span class="label-family">production</span></div><h3>Filled pause</h3><p>Floor holder 的 uh / um / er、鼻音或延长元音。</p><div class="label-rule">计入发声，同时作为 hesitation</div></article>
+          <article class="label-card" data-family="interaction" style="--label-color: var(--teal)"><div class="label-top"><span class="label-code">bc</span><span class="label-family">interaction</span></div><h3>Backchannel</h3><p>非 floor holder 的支持性短回应，≤3 words 并通过词表测试。</p><div class="label-rule">默认不计 listener phonation，不转移 floor</div></article>
+          <article class="label-card" data-family="interaction" style="--label-color: var(--magenta)"><div class="label-top"><span class="label-code">ol</span><span class="label-family">interaction</span></div><h3>Overlap</h3><p>至少 100 ms 的同时发言，且不是纯 backchannel。</p><div class="label-rule">参与 speaker 均标 ol，仍计入 phonation</div></article>
+          <article class="label-card" data-family="silence" style="--label-color: var(--amber)"><div class="label-top"><span class="label-code">op</span><span class="label-family">silence</span></div><h3>Own pause</h3><p>Floor holder 安静后仍保留话轮，随后本人继续。</p><div class="label-rule">核心 breakdown-fluency pause</div></article>
+          <article class="label-card" data-family="silence" style="--label-color: #6e7c88"><div class="label-top"><span class="label-code">pf</span><span class="label-family">silence</span></div><h3>Partner’s floor</h3><p>他人持有 floor 时，本 speaker 的正常 listening 状态。</p><div class="label-rule">绝不进入该 speaker 的 hesitation</div></article>
+          <article class="label-card" data-family="silence interaction" style="--label-color: var(--violet)"><div class="label-top"><span class="label-code">tr</span><span class="label-family">transition</span></div><h3>Turn-transition gap</h3><p>FREE floor 下不超过 L 的交接空档，写在所有 speaker tier。</p><div class="label-rule">归属由 between-turn convention 决定</div></article>
+          <article class="label-card" data-family="silence interaction" style="--label-color: #4f5c68"><div class="label-top"><span class="label-code">shs</span><span class="label-family">group silence</span></div><h3>Shared silence</h3><p>FREE floor 超过 L，或持续到 task 结束的 group lapse。</p><div class="label-rule">不自动归责给某位 speaker</div></article>
+          <article class="label-card" data-family="exclude" style="--label-color: var(--red)"><div class="label-top"><span class="label-code">x</span><span class="label-family">excluded</span></div><h3>Unusable section</h3><p>无词笑声、咳嗽、敲击、纸张声或背景入侵。</p><div class="label-rule">从 rate 分子和分母中移除</div></article>
+        </div>
+      </section>
+    </div>
+
+    <section class="section" id="impact">
+      <div class="section-head">
+        <div><span class="section-number">06 · POC IMPACT</span><h2>不是全仓重写，但 L1b 主合同必须替换</h2></div>
+        <p>现有基础设施、provider 接入与文件处理仍有价值。真正失效的是“mirror 作为测量对象”的研究数据合同。</p>
+      </div>
+      <div class="scope-grid">
+        <article class="scope-column" style="--scope-color: var(--green)"><header><span>Reuse</span><h3>直接保留或小改</h3></header><ul class="scope-list"><li><i data-lucide="check"></i>上传、preflight、run progress、ZIP</li><li><i data-lucide="check"></i>Pyannote / AssemblyAI provider 封装</li><li><i data-lucide="check"></i>Speaker turns / RTTM / confidence</li><li><i data-lucide="check"></i>TextGrid parser / writer / Praat CLI</li><li><i data-lucide="check"></i>WebUI 壳与部署方式</li><li><i data-lucide="check"></i>SpeakerX monologue regression</li></ul></article>
+        <article class="scope-column" style="--scope-color: var(--red)"><header><span>Replace</span><h3>必须重构的核心</h3></header><ul class="scope-list"><li><i data-lucide="replace"></i>L1a → L1b mirror/invalid handoff</li><li><i data-lucide="replace"></i>Per-mirror Praat silence taxonomy</li><li><i data-lucide="replace"></i>sounding/silent/invalid schema</li><li><i data-lucide="replace"></i>Duration workbook 与 finalizer</li><li><i data-lucide="replace"></i>Binary UI KPI 与 package contract</li><li><i data-lucide="replace"></i>六 TextGrid 旧验收测试</li></ul></article>
+        <article class="scope-column" style="--scope-color: var(--blue)"><header><span>Net new</span><h3>新增研究能力</h3></header><ul class="scope-list"><li><i data-lucide="plus"></i>Shared 10 ms timeline engine</li><li><i data-lucide="plus"></i>Persistent floor R1–R5</li><li><i data-lucide="plus"></i>f / bc / x heuristic classifier</li><li><i data-lucide="plus"></i>Nine-label rule engine</li><li><i data-lucide="plus"></i>Signed FTO + review state</li><li><i data-lucide="plus"></i>Cross-tier validator + flags</li></ul></article>
+      </div>
+
+      <div style="height:34px"></div>
+      <div class="section-head" style="margin-bottom:20px">
+        <div><span class="section-number">CODE IMPACT MAP</span><h2 style="font-size:28px">当前代码绑定在哪些旧假设上</h2></div>
+        <p>这些不是抽象风险，而是已经写进 runner、finalizer、UI 和 tests 的显式合同。</p>
+      </div>
+      <div class="code-map">
+        <div class="code-row"><code class="code-path">scripts/phase1/lib/diarization-artifacts.mjs</code><p><code>invalidIntervalsForSpeaker</code> 合并所有他人活动；<code>writeMutedMirrorWav</code> 硬置零；handoff 固定 mirror + invalid + 三标签。</p><div class="impact-meter"><span class="meter-track"><i class="meter-fill" style="--impact:78%;--impact-color:var(--red)"></i></span><b style="--impact-color:var(--red)">High</b></div></div>
+        <div class="code-row"><code class="code-path">scripts/validation-sprint/praat/silences.praat</code><p>每个输入 WAV 单独运行 <code>To TextGrid (silences)</code>，再把 invalid range 覆盖为 invalid。</p><div class="impact-meter"><span class="meter-track"><i class="meter-fill" style="--impact:82%;--impact-color:var(--red)"></i></span><b style="--impact-color:var(--red)">High</b></div></div>
+        <div class="code-row"><code class="code-path">scripts/l1b/run-l1b.mjs</code><p><code>ALLOWED_LABELS</code>、input contract、6-job 循环、summary、README、ZIP 与 QA 全部绑定旧 schema。</p><div class="impact-meter"><span class="meter-track"><i class="meter-fill" style="--impact:100%;--impact-color:var(--red)"></i></span><b style="--impact-color:var(--red)">Critical</b></div></div>
+        <div class="code-row"><code class="code-path">scripts/l1b/finalize-reviewed.mjs</code><p>只接受三标签，并要求跨阈值 invalid timeline 一致。</p><div class="impact-meter"><span class="meter-track"><i class="meter-fill" style="--impact:95%;--impact-color:var(--red)"></i></span><b style="--impact-color:var(--red)">Critical</b></div></div>
+        <div class="code-row"><code class="code-path">src/components/validation/L1bRunner.tsx</code><p>输入、KPI、结果与下载区域只理解 muted mirror、invalid、三标签和六个 TextGrid。</p><div class="impact-meter"><span class="meter-track"><i class="meter-fill" style="--impact:72%;--impact-color:var(--amber)"></i></span><b style="--impact-color:var(--amber)">Medium</b></div></div>
+        <div class="code-row"><code class="code-path">tests/l1b/run-tests.mjs</code><p>断言 6 TextGrid、三标签、invalid duration 与旧 workbook。需要换成状态机与 cross-tier fixtures。</p><div class="impact-meter"><span class="meter-track"><i class="meter-fill" style="--impact:100%;--impact-color:var(--red)"></i></span><b style="--impact-color:var(--red)">Critical</b></div></div>
+      </div>
+
+      <div style="height:34px"></div>
+      <div class="layer-ripple">
+        <article class="layer-block" style="--layer-color:var(--blue);--layer-soft:var(--blue-soft)"><span class="layer-id">L1a · Phase I</span><h3>Speaker attribution 被强化</h3><p>保留 diarization，但必须明确 overlap、confidence、identity mapping、gap filling=0 与 word-speaker linkage。</p><span class="layer-impact">中高影响</span></article>
+        <article class="layer-block" style="--layer-color:var(--red);--layer-soft:var(--red-soft)"><span class="layer-id">L1b · Phase II</span><h3>测量核心完全改变</h3><p>Praat 仍是 review 环境，但九分类推理来自 shared timeline + floor state，而不是 per-mirror intensity。</p><span class="layer-impact">极高影响</span></article>
+        <article class="layer-block" style="--layer-color:var(--teal);--layer-soft:var(--teal-soft)"><span class="layer-id">L2 · Phase III–IV</span><h3>最小 transcript 依赖前移</h3><p>f 与 bc 需要 verbatim timed words。完整 AS-unit / MWU 仍留在 L2，不能被免费吞入 L1。</p><span class="layer-impact">中高影响</span></article>
+        <article class="layer-block" style="--layer-color:var(--violet);--layer-soft:var(--violet-soft)"><span class="layer-id">L3 · Phase V</span><h3>Matrix schema 随之改变</h3><p>需要九标签、floor、FTO、pause convention 与 sensitivity outputs。旧列结构不足。</p><span class="layer-impact">中影响</span></article>
+      </div>
+    </section>
+
+    <div class="band">
+      <section class="section" id="effort">
+        <div class="section-head">
+          <div><span class="section-number">07 · EFFORT</span><h2>建议用两个交付门控制风险</h2></div>
+          <p>估算基于 1 名熟悉当前仓库的高级工程师，复用现有 Node/React/Praat 架构，不训练自定义声学模型。</p>
+        </div>
+        <div class="effort-board" aria-label="工作流人日范围">
+          <div class="effort-row"><strong>Requirements & traceability</strong><span class="effort-days">2–3 d</span><span class="range-track"><i class="range-fill" data-label="2–3" style="--start:0%;--width:18%;--bar:var(--blue)"></i></span></div>
+          <div class="effort-row"><strong>Shared timeline & attribution</strong><span class="effort-days">6–10 d</span><span class="range-track"><i class="range-fill" data-label="6–10" style="--start:7%;--width:42%;--bar:var(--teal)"></i></span></div>
+          <div class="effort-row"><strong>Event / lexical heuristics</strong><span class="effort-days">4–7 d</span><span class="range-track"><i class="range-fill" data-label="4–7" style="--start:18%;--width:31%;--bar:var(--amber)"></i></span></div>
+          <div class="effort-row"><strong>Floor state + nine labels + FTO</strong><span class="effort-days">8–12 d</span><span class="range-track"><i class="range-fill" data-label="8–12" style="--start:26%;--width:49%;--bar:var(--red)"></i></span></div>
+          <div class="effort-row"><strong>Outputs / validator / mirror fade</strong><span class="effort-days">5–8 d</span><span class="range-track"><i class="range-fill" data-label="5–8" style="--start:38%;--width:35%;--bar:var(--green)"></i></span></div>
+          <div class="effort-row"><strong>WebUI / API / package</strong><span class="effort-days">3–5 d</span><span class="range-track"><i class="range-fill" data-label="3–5" style="--start:51%;--width:24%;--bar:var(--blue)"></i></span></div>
+          <div class="effort-row"><strong>Tests + Multilogue04 calibration</strong><span class="effort-days">9–15 d</span><span class="range-track"><i class="range-fill" data-label="9–15" style="--start:60%;--width:40%;--bar:var(--violet)"></i></span></div>
+        </div>
+        <div class="effort-gates">
+          <article class="gate" style="--gate-color:var(--amber)"><span>Gate A · Calibration PoC v2</span><strong>14–22 人日</strong><p>整段 Multilogue04、九标签草稿、floor/FTO/flags、六个 worked-example 单测。约 3–5 周。</p></article>
+          <article class="gate" style="--gate-color:var(--green)"><span>Gate B · Revised L1 production</span><strong>累计 34–55 人日</strong><p>N speaker、稳定合同、validator、UI/API、批处理、审计日志与回归。约 7–11 周。</p></article>
+          <article class="gate" style="--gate-color:var(--violet)"><span>Downstream · L2 / L3</span><strong>另加 8–15 人日</strong><p>Phase IV/V 映射、matrix schema 与 sensitivity export。研究定义签字后再估。</p></article>
+        </div>
+        <div class="intent-note" style="margin-top:18px"><strong>“推倒重来”的准确说法：</strong>从产品工程看，不是，约 45–60% 平台能力可复用；从 Multilogue L1b 研究算法看，是，旧三标签测量核心与验收合同应停止扩展。</div>
+      </section>
+    </div>
+
+    <section class="section" id="decisions">
+      <div class="section-head">
+        <div><span class="section-number">08 · CONCLUSION & START CONDITIONS</span><h2>结论：不是全推倒，但必须重新基线 L1b</h2></div>
+        <p>客户附录仍留下数个会直接改变算法和 review 成本的选择。先签字，再开发。</p>
+      </div>
+      <div class="decision-layout">
+        <div class="decision-list">
+          <div class="decision-item"><span class="decision-num">01</span><div><strong>Primary diarization provider 与 model revision</strong><p>附录写 AssemblyAI，当前 PoC 主交付来自 Pyannote remote。两者可以比较，但必须指定 primary。</p></div><span class="blocker yes">Blocking</span></div>
+          <div class="decision-item"><span class="decision-num">02</span><div><strong>Overlap path</strong><p>确认输出允许同一时刻多个 speaker。若只有 exclusive output，负 FTO 必须走人工边界。</p></div><span class="blocker yes">Blocking</span></div>
+          <div class="decision-item"><span class="decision-num">03</span><div><strong>Task boundaries</strong><p>提供每个 task 的 start/end，或书面确认整段录音视为一个 task。</p></div><span class="blocker yes">Blocking</span></div>
+          <div class="decision-item"><span class="decision-num">04</span><div><strong>Primary P 与多阈值 review strategy</strong><p>只 review primary 后确定性再生其他阈值，还是每个阈值分别 review。</p></div><span class="blocker yes">Blocking</span></div>
+          <div class="decision-item"><span class="decision-num">05</span><div><strong>Verbatim timed words</strong><p>来源、filler 保留、word-speaker assignment 与 hallucination flag 规则。</p></div><span class="blocker yes">Blocking</span></div>
+          <div class="decision-item"><span class="decision-num">06</span><div><strong>Nine-label gold subset</strong><p>旧 binary corrections 只能当 boundary seed。至少需要一个新标签 representative section。</p></div><span class="blocker yes">Blocking</span></div>
+          <div class="decision-item"><span class="decision-num">07</span><div><strong>Between-turn convention</strong><p>exclude、equal split，或 short attributed / &gt;G shared；建议三种都支持 sensitivity。</p></div><span class="blocker later">Method</span></div>
+          <div class="decision-item"><span class="decision-num">08</span><div><strong>Backchannel / filler lexicon</strong><p>初始清单、日本 L1 acknowledgement token 与版本控制责任。</p></div><span class="blocker later">Method</span></div>
+          <div class="decision-item"><span class="decision-num">09</span><div><strong>Acceptance KPI</strong><p>DER、overlap recall、bc recall、boundary error、flag coverage 与 edit rate 的最低值。</p></div><span class="blocker yes">Blocking</span></div>
+          <div class="decision-item"><span class="decision-num">10</span><div><strong>3 fixed 或 configurable N</strong><p>建议 data model 支持 N，本次校准固定 3。</p></div><span class="blocker later">Product</span></div>
+        </div>
+        <aside class="go-panel">
+          <span>Recommended decision</span>
+          <h3>GO：有边界地进入 Calibration PoC v2</h3>
+          <p>冻结旧 binary multilogue 主路径，保留 monologue benchmark。先做 spec、design、tasks 与 worked-example tests，再跑完整 Multilogue04。</p>
+          <hr>
+          <b>明确不做</b><small>不继续用旧 mirror 路径追 90%；不把未复核 FTO 称为研究真值；不在 definitions 未固定时承诺 L3 matrix。</small>
+          <hr>
+          <b>SOW 建议</b><small>把 Methodology v2.0 定义为正式 change baseline。我们的范围是 pipeline outputs、logs 与可评分 artifact；研究团队负责 gold、IRR、fairness 与论文统计。</small>
+        </aside>
+      </div>
+    </section>
+
+    <div class="band">
+      <section class="section" id="sources">
+        <div class="section-head">
+          <div><span class="section-number">09 · EVIDENCE BOUNDARY</span><h2>本评估用了什么，没有声称什么</h2></div>
+          <p>这是工程范围评估，不是对附录每一篇参考文献的独立同行评议。</p>
+        </div>
+        <div class="sources">
+          <article class="source-block"><h3>需求依据</h3><ul><li>客户邮件：Updated Multilogue Methodology & Technical Appendix (Version 2.0)</li><li><code>/Users/nedved/Downloads/Technical_Appendix_Multilogues.docx</code></li><li>附录版本日期：30 July 2026</li></ul></article>
+          <article class="source-block"><h3>实现审计</h3><ul><li>Phase I diarization artifacts 与 muted-mirror 生成</li><li>L1b runner / finalizer / Praat silence script</li><li>Validation Console、artifact package 与 automated tests</li></ul></article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner"><span><strong>MWU Pipeline</strong> · Multilogue Methodology v2.0 Change Impact</span><span>Internal decision brief · 31 Jul 2026</span></div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+
+    document.getElementById('printButton').addEventListener('click', () => window.print());
+
+    const filterButtons = [...document.querySelectorAll('.filter-button')];
+    const labelCards = [...document.querySelectorAll('.label-card')];
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach((item) => item.classList.toggle('active', item === button));
+        const filter = button.dataset.filter;
+        labelCards.forEach((card) => {
+          const families = (card.dataset.family || '').split(' ');
+          card.classList.toggle('is-hidden', filter !== 'all' && !families.includes(filter));
+        });
+      });
+    });
+
+    const navLinks = [...document.querySelectorAll('.anchorbar a')];
+    const sections = navLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === '#' + visible.target.id));
+    }, { rootMargin: '-28% 0px -60% 0px', threshold: [0, 0.1, 0.35] });
+    sections.forEach((section) => observer.observe(section));
+  </script>
+</body>
+</html>

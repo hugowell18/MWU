@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ValidationRunner } from './ValidationConsole';
-import { L1bRunner } from './L1bRunner';
+import { MultilogueV2Runner } from './MultilogueV2Runner';
 import { StatusBadge } from './StatusBadge';
 
 // Validation app shell: homepage hero + Console with a left phase sidebar.
@@ -102,22 +102,22 @@ export function ValidationApp() {
   const [view, setView] = useState<'home' | 'console'>('home');
   const [sel, setSel] = useState<string>('validation');
   const [report, setReport] = useState<any>(null);
-  const [l1bInput, setL1bInput] = useState<any>(null);
-  const [l1bReport, setL1bReport] = useState<any>(null);
-  const [validationMode, setValidationMode] = useState<'speakerx' | 'l1b'>('speakerx');
+  const [multilogueInput, setMultilogueInput] = useState<any>(null);
+  const [multilogueReport, setMultilogueReport] = useState<any>(null);
+  const [validationMode, setValidationMode] = useState<'speakerx' | 'multilogue'>('speakerx');
   const [heroIndex, setHeroIndex] = useState(0);
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
     if (p.get('view') === 'report' || p.get('view') === 'console' || p.get('autorun')) setView('console');
     if (p.get('phase') === 'ii') setSel('ii');
-    if (p.get('validation') === 'l1b' || p.get('module') === 'l1b') {
+    if (['multilogue', 'multilogue-v2', 'l1b'].includes(p.get('validation') || '') || p.get('module') === 'l1b') {
       setSel('validation');
-      setValidationMode('l1b');
+      setValidationMode('multilogue');
     }
     fetch('/api/report').then((r) => r.json()).then((j) => setReport(j && j.readiness !== 'idle' ? j : null)).catch(() => {});
-    fetch('/api/l1b/input').then((r) => r.json()).then(setL1bInput).catch(() => {});
-    fetch('/api/l1b/report').then((r) => r.json()).then((j) => setL1bReport(j && j.status !== 'idle' ? j : null)).catch(() => {});
+    fetch('/api/multilogue-v2/input').then((r) => r.json()).then(setMultilogueInput).catch(() => {});
+    fetch('/api/multilogue-v2/report').then((r) => r.json()).then((j) => setMultilogueReport(j && j.status !== 'idle' ? j : null)).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -136,7 +136,7 @@ export function ValidationApp() {
     return () => window.cancelAnimationFrame(frame);
   }, [sel, view]);
 
-  function enter(module = 'validation', benchmark?: 'speakerx' | 'l1b') {
+  function enter(module = 'validation', benchmark?: 'speakerx' | 'multilogue') {
     setView('console');
     setSel(module);
     if (benchmark) setValidationMode(benchmark);
@@ -181,9 +181,9 @@ export function ValidationApp() {
               <h1>L2 fluency and multiword-unit research, built for real spoken data.</h1>
               <p className="lede">The project studies how second-language speakers use multiword sequences during spoken performance, and how those patterns relate to pause behavior, repair, and speed fluency. The software turns audio, Praat-reviewed timing, transcripts, and lexical tools into a reproducible research matrix.</p>
               <div className="vc-hero-actions">
-                <button className="vc-btn-lg vc-btn-pri" onClick={() => enter('validation', 'l1b')}>
+                <button className="vc-btn-lg vc-btn-pri" onClick={() => enter('validation', 'multilogue')}>
                   <svg className="vc-icon-sm" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                  Open L1b validation
+                  Open multilogue validation
                 </button>
                 <button className="vc-btn-lg vc-btn-out" onClick={() => enter('validation', 'speakerx')}>
                   <svg className="vc-icon-sm" viewBox="0 0 24 24" style={{ stroke: 'var(--blue-600)' }}><path d="m5 3 14 9-14 9V3Z" /></svg>
@@ -262,17 +262,17 @@ export function ValidationApp() {
           <section className="vc-validation-strip">
             <div>
               <span className="vc-section-k">Current delivery</span>
-              <h2>Validation benchmark + multilogue L1b</h2>
-              <p>The SpeakerX benchmark remains available for gold replay. The Phase II console now also consumes a real L1a multilogue handoff and generates the six Praat pause drafts, duration workbook and review package.</p>
+              <h2>Two controlled validation benchmarks</h2>
+              <p>The SpeakerX gold replay remains available. Multilogue04 v2 now exercises the local Phase I-to-II Path B draft, with separate P025 and P035 evidence packages and explicit research limitations.</p>
             </div>
-            <button className="vc-btn-lg vc-btn-pri" onClick={() => enter('validation', 'l1b')}>Open L1b validation</button>
+            <button className="vc-btn-lg vc-btn-pri" onClick={() => enter('validation', 'multilogue')}>Open multilogue validation</button>
           </section>
         </div>
       ) : (
         <div className="vc-wrap">
           <div className="vc-console-head">
             <h2>Workflow Console</h2>
-            <p className="sub">Run the SpeakerX benchmark or continue from a completed L1a speaker handoff into deterministic L1b Praat extraction.</p>
+            <p className="sub">Run the SpeakerX gold replay or the local Multilogue04 v2 Phase I-to-II draft benchmark.</p>
           </div>
           <div className="vc-layout">
             <aside className="vc-side">
@@ -310,10 +310,10 @@ export function ValidationApp() {
                   mode={validationMode}
                   onModeChange={setValidationMode}
                   report={report}
-                  l1bInput={l1bInput}
-                  l1bReport={l1bReport}
+                  multilogueInput={multilogueInput}
+                  multilogueReport={multilogueReport}
                   onReport={setReport}
-                  onL1bReport={setL1bReport}
+                  onMultilogueReport={setMultilogueReport}
                 />
               ) : (
                 <PhasePreview phase={PHASES.find((p) => p.key === sel)!} status={sideStatus(sel)} />
@@ -326,9 +326,9 @@ export function ValidationApp() {
   );
 }
 
-function ValidationSprint({ mode, onModeChange, report, l1bInput, l1bReport, onReport, onL1bReport }: any) {
+function ValidationSprint({ mode, onModeChange, report, multilogueInput, multilogueReport, onReport, onMultilogueReport }: any) {
   const speakerXReady = report && report.readiness !== 'blocked';
-  const l1bReady = l1bReport?.status === 'ready_for_praat_review';
+  const multilogueReady = multilogueReport?.status === 'ready_draft';
 
   return (
     <div className="vc-sprint-workspace">
@@ -336,7 +336,7 @@ function ValidationSprint({ mode, onModeChange, report, l1bInput, l1bReport, onR
         <div className="vc-sprint-route-copy">
           <span>Validation Sprint</span>
           <h2>Two benchmark runs, one validation workspace</h2>
-          <p>First reproduce the SpeakerX monologue baseline. Then validate the multilogue L1a-to-L1b handoff without turning either benchmark into a production workflow phase.</p>
+          <p>First reproduce the SpeakerX monologue baseline. Then exercise the Multilogue04 v2 Phase I-to-II Path B draft without turning either benchmark into a production workflow phase.</p>
         </div>
         <div className="vc-sprint-route-steps">
           <button className={`vc-sprint-step ${mode === 'speakerx' ? 'active' : ''}`} onClick={() => onModeChange('speakerx')}>
@@ -345,15 +345,15 @@ function ValidationSprint({ mode, onModeChange, report, l1bInput, l1bReport, onR
             <b className={speakerXReady ? 'ready' : ''}>{speakerXReady ? 'Passed' : 'Open'}</b>
           </button>
           <span className="vc-sprint-connector" aria-hidden="true">→</span>
-          <button className={`vc-sprint-step ${mode === 'l1b' ? 'active' : ''}`} onClick={() => onModeChange('l1b')}>
+          <button className={`vc-sprint-step ${mode === 'multilogue' ? 'active' : ''}`} onClick={() => onModeChange('multilogue')}>
             <span className="vc-sprint-step-no">02</span>
-            <span><strong>Multilogue L1a → L1b</strong><small>{l1bInput?.ready ? 'Phase I handoff ready' : 'Waiting for L1a input'}</small></span>
-            <b className={l1bReady ? 'ready' : ''}>{l1bReady ? 'Ready' : 'Open'}</b>
+            <span><strong>Multilogue04 v2</strong><small>{multilogueInput?.ready ? 'Phase I → II · Path B draft' : 'Waiting for local evidence'}</small></span>
+            <b className={multilogueReady ? 'ready' : ''}>{multilogueReady ? 'Ready' : 'Open'}</b>
           </button>
         </div>
       </section>
 
-      {mode === 'speakerx' ? <ValidationRunner onReport={onReport} /> : <L1bRunner onReport={onL1bReport} />}
+      {mode === 'speakerx' ? <ValidationRunner onReport={onReport} /> : <MultilogueV2Runner onReport={onMultilogueReport} />}
     </div>
   );
 }

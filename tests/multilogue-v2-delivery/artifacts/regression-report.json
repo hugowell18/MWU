@@ -1,0 +1,120 @@
+{
+  "suite": "G3-regression-and-build",
+  "passed": 10,
+  "failed": 1,
+  "results": [
+    {
+      "name": "G2 Path B",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 7712,
+      "counts": [
+        "20/20 tests passed"
+      ],
+      "failure_tail": []
+    },
+    {
+      "name": "G1 Stage-1 adapter",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 194,
+      "counts": [
+        "8 passed, 0 failed"
+      ],
+      "failure_tail": []
+    },
+    {
+      "name": "Phase I adapter",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 1066,
+      "counts": [
+        "11 passed / 0 failed"
+      ],
+      "failure_tail": []
+    },
+    {
+      "name": "Nine-label core",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 87,
+      "counts": [
+        "41/41 tests passed"
+      ],
+      "failure_tail": []
+    },
+    {
+      "name": "SpeakerX offline (--no-asr)",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 7500,
+      "counts": [
+        "30 passed / 0 failed",
+        "6 passed / 0 failed",
+        "UNIT: 30 passed / 0 failed",
+        "INTEGRATION: 6 passed / 0 failed"
+      ],
+      "failure_tail": []
+    },
+    {
+      "name": "G3 delivery",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 4796,
+      "counts": [
+        "13/13 tests passed"
+      ],
+      "failure_tail": []
+    },
+    {
+      "name": "Validation UI",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 4370,
+      "counts": [
+        "14 passed / 0 failed",
+        "UI: 14 passed / 0 failed"
+      ],
+      "failure_tail": []
+    },
+    {
+      "name": "Application build",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 3160,
+      "counts": [],
+      "failure_tail": []
+    },
+    {
+      "name": "Validation build",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 694,
+      "counts": [],
+      "failure_tail": []
+    },
+    {
+      "name": "Machine browser QA",
+      "status": "failed",
+      "exit_code": 1,
+      "elapsed_ms": 167,
+      "counts": [],
+      "failure_tail": [
+        "> mwu-validation-console@0.1.0 multilogue:v2:browser-qa",
+        "> node tests/multilogue-v2-delivery/run-browser-qa.mjs",
+        "",
+        "",
+        "TypeError: fetch failed"
+      ]
+    },
+    {
+      "name": "Diff hygiene",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 36,
+      "counts": [],
+      "failure_tail": []
+    }
+  ],
+  "generated_at": "2026-08-09T13:33:54.164Z"
+}

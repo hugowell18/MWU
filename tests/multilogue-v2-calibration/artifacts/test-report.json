@@ -1,0 +1,232 @@
+{
+  "suite": "multilogue-v2-p025-calibration",
+  "status": "passed",
+  "passed": 56,
+  "failed": 0,
+  "results": [
+    {
+      "name": "default VAD parameters remain unchanged",
+      "status": "passed"
+    },
+    {
+      "name": "threshold diagnostics identify the effective controller",
+      "status": "passed"
+    },
+    {
+      "name": "prepared VAD replay is bit-for-bit equivalent to direct VAD",
+      "status": "passed"
+    },
+    {
+      "name": "gold self-comparison is exact",
+      "status": "passed"
+    },
+    {
+      "name": "baseline metrics reproduce the locked exact-integration evidence",
+      "status": "passed"
+    },
+    {
+      "name": "quick calibration is non-destructive and keeps room VAD separate from six-tier selection",
+      "status": "passed"
+    },
+    {
+      "name": "v2.2 phrase fusion is local, deterministic and preserves timed word provenance",
+      "status": "passed"
+    },
+    {
+      "name": "v2.2 parent response survives Pyannote flicker and propagates a question projector to child phrases",
+      "status": "passed"
+    },
+    {
+      "name": "activity-only interaction preserves question-answer handoffs instead of treating phrase-envelope gaps as speech",
+      "status": "passed"
+    },
+    {
+      "name": "continuous backchannel child segments retain the holder and emit no floor transfer",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 evidence roles keep residual activity active but semantically unknown and floor-ineligible",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 explicit ASR backchannel never transfers floor",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3e question then Oh and same-speaker answer treats Oh as a floor-eligible response onset",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3e question then Yes and same-speaker answer treats Yes as a floor-eligible response onset",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3e isolated Yes remains bc while the current holder continues",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3e acoustic response residual alone remains floor-ineligible and cannot transfer floor",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3e confirmed acoustic residual may backdate a boundary with paired audit evidence",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3e competing explicit continuation rejects acoustic residual boundary backdating",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3c edge A keeps dual listener bc then preserves the S1>S2>S3 question-answer sequence",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3c edge B keeps the primary holder through short ending listener bc without tr",
+      "status": "passed"
+    },
+    {
+      "name": "qualified provider overlap retains an identity-tied residual only as reviewable floor-ineligible evidence",
+      "status": "passed"
+    },
+    {
+      "name": "identity-tied residual remains withheld without matching qualified overlap",
+      "status": "passed"
+    },
+    {
+      "name": "qualified overlap must cover most of an identity-tied residual before it is retained",
+      "status": "passed"
+    },
+    {
+      "name": "qualified overlap must contain the competing speaker that caused the identity tie",
+      "status": "passed"
+    },
+    {
+      "name": "overlap-corroborated listener residual cannot backdate a later floor transfer",
+      "status": "passed"
+    },
+    {
+      "name": "stage1 normalization preserves overlap-corroborated identity safety evidence",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3c residual continuity ends at the acoustic offset instead of the next event start",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3c Stage A plumbs each acoustic VAD margin into runtime evidence",
+      "status": "passed"
+    },
+    {
+      "name": "R11 speaker-local refinement retains boundaries when no stable crossing exists",
+      "status": "passed"
+    },
+    {
+      "name": "R11 speaker-local refinement applies unique onset and offset crossings",
+      "status": "passed"
+    },
+    {
+      "name": "R11 speaker-local refinement withholds an ambiguous multiple crossing",
+      "status": "passed"
+    },
+    {
+      "name": "R11 speaker-local refinement cannot cross provider turns or change speaker identity",
+      "status": "passed"
+    },
+    {
+      "name": "R13 boundary displacement policy can retain weak or directionally unsafe crossings",
+      "status": "passed"
+    },
+    {
+      "name": "R12 inserts only an internal speaker-local acoustic gap and preserves outer boundaries",
+      "status": "passed"
+    },
+    {
+      "name": "R12 rejects short, edge and cross-provider internal gaps",
+      "status": "passed"
+    },
+    {
+      "name": "R14 adds only uncovered speaker-local activity as floor-ineligible review evidence",
+      "status": "passed"
+    },
+    {
+      "name": "R14 rejects uncovered fragments below the configured duration",
+      "status": "passed"
+    },
+    {
+      "name": "R15 composer takes active topology from acoustic lane and preserves semantic floor and transitions",
+      "status": "passed"
+    },
+    {
+      "name": "composer can preserve qualified-overlap bc semantics without changing floor or transitions",
+      "status": "passed"
+    },
+    {
+      "name": "qualified-overlap backchannel evidence cannot create one-sided ol",
+      "status": "passed"
+    },
+    {
+      "name": "composer downgrades any remaining one-sided ol and flags the repair",
+      "status": "passed"
+    },
+    {
+      "name": "blind runner distinguishes dual-provider evidence from a single-provider smoke test",
+      "status": "passed"
+    },
+    {
+      "name": "blind runner pins the R32 overlap and semantic-composition policy",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 local crossing precomputation is equivalent and retains a missing side",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 overlap eligibility requires qualified or subthreshold provider evidence",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 R5 resolves same-holder, short transfer gap and long lapse retrospectively",
+      "status": "passed"
+    },
+    {
+      "name": "v2.2 residual promotion requires acoustic intersection and keeps long unknown activity out of floor claims",
+      "status": "passed"
+    },
+    {
+      "name": "v2.2 candidate adapter does not require or expose a gold runtime input",
+      "status": "passed"
+    },
+    {
+      "name": "v2.2 bounded calibration emits deterministic before-after evidence and floor-derived Tier 5",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 final staged grid is exactly 24 + 8 + 8 + 4 with locked metric ownership",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 final generator rejects Gold parameters and scorer detects hash tampering",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 scorer rejects an unindexed candidate directory",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 scorer rejects a missing indexed candidate",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 scorer rejects candidate index mutation after generation",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 scorer accepts only the exact frozen A B C D candidate sets",
+      "status": "passed"
+    },
+    {
+      "name": "v2.3 final Gate is honest, semantic ceiling is explicit and Stage D preserves frozen artifacts",
+      "status": "passed"
+    }
+  ]
+}

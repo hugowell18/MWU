@@ -1,0 +1,9 @@
+{
+  "deterministic": true,
+  "first_digest": "f422a3b28085dd74f5be16db511ebd187216b41ede8b12e46a56a5b5124fe4a8",
+  "second_digest": "f422a3b28085dd74f5be16db511ebd187216b41ede8b12e46a56a5b5124fe4a8",
+  "threshold_digests": {
+    "P250": "40d4bb7b080804058eaa95b0c69b20ea0f9ecfc1dbc37390be80d22e2b275d33",
+    "P350": "413faad7a105c6d2d069ac63fd70c534854cb9b26e858352fd4bc072ba938655"
+  }
+}

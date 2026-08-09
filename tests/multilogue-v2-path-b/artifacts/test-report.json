@@ -1,0 +1,104 @@
+{
+  "actual_gate_status": "pass",
+  "actual_thresholds": {
+    "P025": {
+      "flags_count": 2269,
+      "negative_withheld": 0,
+      "praat_passed": true,
+      "textgrid_bytes": 502401,
+      "transitions_count": 22
+    },
+    "P035": {
+      "flags_count": 2227,
+      "negative_withheld": 0,
+      "praat_passed": true,
+      "textgrid_bytes": 495153,
+      "transitions_count": 22
+    }
+  },
+  "passed": 20,
+  "suite": "multilogue-v2-path-b",
+  "tests": [
+    {
+      "name": "G2 validates, preserves and isolates initial unknown-residual flags",
+      "status": "pass"
+    },
+    {
+      "name": "G2 real cached input produces independent P025 and P035 packages",
+      "status": "pass"
+    },
+    {
+      "name": "G2 propagates real provider overlap candidates as review-only evidence",
+      "status": "pass"
+    },
+    {
+      "name": "G2 outputs exactly six valid full-coverage Praat tiers",
+      "status": "pass"
+    },
+    {
+      "name": "G2 Path B publishes no automatic negative FTO",
+      "status": "pass"
+    },
+    {
+      "name": "G2 overlap transitions publish missing FTO and retained replay evidence",
+      "status": "pass"
+    },
+    {
+      "name": "G2 CSV files preserve frozen column order and safe quoting",
+      "status": "pass"
+    },
+    {
+      "name": "G2 review strategy remains pending and is not cross-propagated",
+      "status": "pass"
+    },
+    {
+      "name": "G2 injected cross-threshold propagation evidence makes Gate fail",
+      "status": "pass"
+    },
+    {
+      "name": "G2 injected network source marker makes Gate fail",
+      "status": "pass"
+    },
+    {
+      "name": "G2 every audited processing source rejects an injected network-capability marker",
+      "status": "pass"
+    },
+    {
+      "name": "G2 replay is byte-deterministic",
+      "status": "pass"
+    },
+    {
+      "name": "G2 real draft finalization is rejected without attestation",
+      "status": "pass"
+    },
+    {
+      "name": "G2 finalizer rejects unchanged draft digest even with attestation",
+      "status": "pass"
+    },
+    {
+      "name": "G2 finalizer rejects checksum mismatch",
+      "status": "pass"
+    },
+    {
+      "name": "G2 finalizer rejects reviewed TextGrid with open Tier6 flags",
+      "status": "pass"
+    },
+    {
+      "name": "G2 finalizer rejects attested boundary contradicting reviewed floor",
+      "status": "pass"
+    },
+    {
+      "name": "G2 finalizer accepts attested synthetic positive gap FTO",
+      "status": "pass"
+    },
+    {
+      "name": "G2 finalizer accepts attested synthetic negative overlap FTO",
+      "status": "pass"
+    },
+    {
+      "name": "G2 artifacts contain no network, secret, absolute path or transcript payload",
+      "status": "pass"
+    }
+  ],
+  "total": 20
+}

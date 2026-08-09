@@ -1,0 +1,89 @@
+{
+  "duration": 5,
+  "errors": [],
+  "tier_reports": [
+    {
+      "class": "IntervalTier",
+      "ends_at_duration": true,
+      "interval_count": 8,
+      "max_gap_sec": 0,
+      "max_overlap_sec": 0,
+      "name": "S1",
+      "starts_at_zero": true,
+      "vocabulary": [
+        "f",
+        "ol",
+        "pf",
+        "s",
+        "shs",
+        "tr"
+      ]
+    },
+    {
+      "class": "IntervalTier",
+      "ends_at_duration": true,
+      "interval_count": 9,
+      "max_gap_sec": 0,
+      "max_overlap_sec": 0,
+      "name": "S2",
+      "starts_at_zero": true,
+      "vocabulary": [
+        "bc",
+        "ol",
+        "pf",
+        "s",
+        "shs",
+        "tr"
+      ]
+    },
+    {
+      "class": "IntervalTier",
+      "ends_at_duration": true,
+      "interval_count": 10,
+      "max_gap_sec": 0,
+      "max_overlap_sec": 0,
+      "name": "S3",
+      "starts_at_zero": true,
+      "vocabulary": [
+        "ol",
+        "pf",
+        "s",
+        "shs",
+        "tr",
+        "x"
+      ]
+    },
+    {
+      "class": "IntervalTier",
+      "ends_at_duration": true,
+      "interval_count": 6,
+      "max_gap_sec": 0,
+      "max_overlap_sec": 0,
+      "name": "floor",
+      "starts_at_zero": true,
+      "vocabulary": [
+        "FREE",
+        "S1",
+        "S2",
+        "S3"
+      ]
+    },
+    {
+      "class": "IntervalTier",
+      "ends_at_duration": true,
+      "interval_count": 11,
+      "max_gap_sec": 0,
+      "max_overlap_sec": 0,
+      "name": "flags",
+      "starts_at_zero": true,
+      "vocabulary": [
+        "confidence_unavailable|failed_turn_bid",
+        "provisional_fto",
+        "unattributed_sounding",
+        "unresolved_word_assignment|word_confidence_unavailable"
+      ]
+    }
+  ],
+  "valid": true,
+  "warnings": []
+}

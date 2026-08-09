@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MWU Pipeline</title>
+  <link rel="icon" href="data:,">
   <style>
     :root {
       --page: #f6f8fb;
@@ -115,6 +116,145 @@
       background: #fff;
     }
     .page-frame.active { display: block; }
+    .method-page {
+      display: none;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: #f6f8fb;
+    }
+    .method-page.active { display: block; }
+    .method-inner {
+      width: min(1240px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 34px 0 52px;
+    }
+    .method-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 32px;
+      align-items: end;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    .method-eyebrow {
+      margin: 0 0 9px;
+      color: #0f766e;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+    .method-head h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+    .method-intro {
+      max-width: 760px;
+      margin: 13px 0 0;
+      color: #5e6a7d;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .method-params {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid #cbd5e1;
+      border-left: 1px solid #cbd5e1;
+      background: #fff;
+    }
+    .method-param {
+      min-height: 72px;
+      padding: 12px 14px;
+      border-right: 1px solid #cbd5e1;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    .method-param b { display: block; font-size: 16px; }
+    .method-param span { color: #5e6a7d; font-size: 11px; }
+    .method-section { padding: 30px 0 4px; }
+    .method-section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+    .method-section h2 { margin: 0; font-size: 20px; }
+    .method-section-head p { margin: 0; color: #5e6a7d; font-size: 12px; }
+    .method-table-wrap {
+      overflow-x: auto;
+      border-top: 2px solid #172033;
+      border-bottom: 1px solid #cbd5e1;
+      background: #fff;
+    }
+    .method-table {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .method-table th,
+    .method-table td {
+      padding: 13px 15px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+      vertical-align: top;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .method-table th {
+      color: #475569;
+      background: #f8fafc;
+      font-size: 10px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+    .method-table tr:last-child td { border-bottom: 0; }
+    .method-table .code-col { width: 74px; }
+    .method-table .name-col { width: 170px; }
+    .method-table .definition-col { width: 330px; }
+    .label-code {
+      display: inline-grid;
+      place-items: center;
+      min-width: 38px;
+      height: 26px;
+      padding: 0 8px;
+      border: 1px solid #94a3b8;
+      border-radius: 6px;
+      background: #f8fafc;
+      color: #172033;
+      font: 800 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .rule-list {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border-top: 2px solid #172033;
+      border-left: 1px solid #cbd5e1;
+      background: #fff;
+    }
+    .rule-item {
+      min-height: 210px;
+      padding: 17px;
+      border-right: 1px solid #cbd5e1;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    .rule-id { color: #0f766e; font-size: 11px; font-weight: 850; letter-spacing: 1px; text-transform: uppercase; }
+    .rule-item h3 { margin: 8px 0; font-size: 15px; }
+    .rule-item p { margin: 0; color: #5e6a7d; font-size: 12px; line-height: 1.55; }
+    .anchor-band {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      margin-top: 28px;
+      border: 1px solid #cbd5e1;
+      background: #cbd5e1;
+    }
+    .anchor-item { padding: 20px; background: #fff; }
+    .anchor-item strong { display: block; margin-bottom: 7px; font-size: 14px; }
+    .anchor-item p { margin: 0; color: #5e6a7d; font-size: 12px; line-height: 1.55; }
+    .anchor-item em { color: #172033; font-style: normal; font-weight: 750; }
     @media (max-width: 720px) {
       .top-menu-inner {
         width: min(100% - 28px, 1520px);
@@ -127,6 +267,11 @@
       .menu-link { flex: 1; }
       .menu-status { display: none; }
       .stage { height: calc(100vh - 121px); }
+      .method-inner { width: min(100% - 28px, 1240px); padding-top: 24px; }
+      .method-head { grid-template-columns: 1fr; }
+      .rule-list { grid-template-columns: 1fr; }
+      .rule-item { min-height: 0; }
+      .anchor-band { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -137,14 +282,14 @@
         <span class="brand-mark">MWU</span>
         <span class="brand-copy">
           <span class="brand-title">MWU Pipeline</span>
-          <span class="brand-sub">Workflow + commercial proposal</span>
+          <span class="brand-sub">Five-phase input / output workflow</span>
         </span>
       </div>
-      <div class="menu-center" role="tablist" aria-label="MWU Pipeline sections">
-        <button class="menu-link active" type="button" data-page="workflow" role="tab" aria-selected="true">Workflow</button>
-        <button class="menu-link" type="button" data-page="proposal" role="tab" aria-selected="false">Proposal</button>
+      <div class="menu-center" aria-label="Current view">
+        <button class="menu-link active" type="button" data-page="workflow">Workflow Atlas</button>
+        <button class="menu-link" type="button" data-page="method">Method Key</button>
       </div>
-      <div class="menu-status"><strong id="statusTitle">Five-phase atlas</strong><span id="statusSub">Phase I-V delivery flow</span></div>
+      <div class="menu-status"><strong>Methodology v2.1</strong><span>Shared timeline · nine labels · research export</span></div>
     </div>
   </nav>
 
@@ -331,16 +476,15 @@
     &lt;aside class=&quot;sidebar&quot;&gt;
       &lt;p class=&quot;eyebrow&quot;&gt;Workflow Atlas&lt;/p&gt;
       &lt;h2&gt;MWU Fluency Pipeline&lt;/h2&gt;
-      &lt;p class=&quot;lede&quot;&gt;Automated speech-fluency &amp;amp; multiword-unit analysis for L2 speech. The diagram shows the research phases; the quote tiers below show how the work should be contracted.&lt;/p&gt;
+      &lt;p class=&quot;lede&quot;&gt;End-to-end technical workflow for L2 multilogue fluency and multiword-unit analysis. Select a phase to inspect its exact inputs, processing steps and outputs.&lt;/p&gt;
       &lt;nav class=&quot;nav&quot; id=&quot;nav&quot; aria-label=&quot;Pipeline phases&quot;&gt;&lt;/nav&gt;
       &lt;div class=&quot;layers&quot;&gt;
-        &lt;p class=&quot;eyebrow&quot;&gt;Delivery layers · quote tiers&lt;/p&gt;
-        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip vs&quot;&gt;VS&lt;/span&gt;&lt;span&gt;&lt;b&gt;Validation Sprint.&lt;/b&gt; Monologue benchmark; proves the Praat/TextGrid/Excel calculation chain only.&lt;/span&gt;&lt;/div&gt;
-        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l1&quot;&gt;L1a&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase I.&lt;/b&gt; AI diarization + speaker isolation; validated separately against gold cuts.&lt;/span&gt;&lt;/div&gt;
-        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l1b&quot;&gt;L1b&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase II.&lt;/b&gt; Deterministic Praat automation: thresholds, durations, reviewable outputs.&lt;/span&gt;&lt;/div&gt;
-        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l2&quot;&gt;L2&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase III–IV + early V.&lt;/b&gt; Transcript split, lexical / MWU features, pause-location metrics after definitions sign-off.&lt;/span&gt;&lt;/div&gt;
-        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l3&quot;&gt;L3&lt;/span&gt;&lt;span&gt;&lt;b&gt;Full Phase V / reporting.&lt;/b&gt; Final matrix, validation package, reports and archive-ready export.&lt;/span&gt;&lt;/div&gt;
-        &lt;p class=&quot;layer-note&quot;&gt;Sprint passing mainly validates the L1b calculation chain. L1a remains probabilistic and must be evaluated with the client's multilogue gold samples.&lt;/p&gt;
+        &lt;p class=&quot;eyebrow&quot;&gt;System modules&lt;/p&gt;
+        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l1&quot;&gt;L1a&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase I.&lt;/b&gt; Shared activity, attribution evidence, Stage 1 classification and the callable floor / nine-label engine.&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l1b&quot;&gt;L1b&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase II.&lt;/b&gt; Dual-threshold orchestration, review strategy, six-tier TextGrids, flags, durations and path-dependent FTO.&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l2&quot;&gt;L2&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase III–IV + early V.&lt;/b&gt; Transcript units, lexical / MWU features, label-aware pause analysis and initial merge.&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;layer-row&quot;&gt;&lt;span class=&quot;lchip l3&quot;&gt;L3&lt;/span&gt;&lt;span&gt;&lt;b&gt;Phase V.&lt;/b&gt; Cross-phase synthesis, research matrix, codebook and archive-ready export.&lt;/span&gt;&lt;/div&gt;
+        &lt;p class=&quot;layer-note&quot;&gt;The original group recording remains the acoustic reference. Muted-mirror tracks support listening and review; they are not used as independent pause evidence.&lt;/p&gt;
       &lt;/div&gt;
       &lt;p class=&quot;foot&quot;&gt;Each phase runs independently, pauses on completion for human check, then hands a reviewed artifact to the next.&lt;/p&gt;
     &lt;/aside&gt;
@@ -355,49 +499,49 @@
 
         &lt;!-- ===================== PHASE I ===================== --&gt;
         &lt;div class=&quot;view&quot; data-phase=&quot;0&quot;&gt;
-          &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase I diarization and voice isolation workflow&quot;&gt;
+          &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase I shared evidence and callable nine-label engine workflow&quot;&gt;
             &lt;rect x=&quot;18&quot; y=&quot;20&quot; width=&quot;1324&quot; height=&quot;700&quot; rx=&quot;12&quot; fill=&quot;#f8fafc&quot;/&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs &amp;amp; sources&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Automation workers&lt;/text&gt;
-            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;382&quot;&gt;③ Human review gate&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;382&quot;&gt;③ Review checks · executed per P by Phase II&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Reviewed outputs&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;618&quot; width=&quot;1300&quot; height=&quot;84&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;644&quot;&gt;⑤ Handoff&lt;/text&gt;
 
             &lt;!-- inputs --&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Raw group audio&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;One group recording&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ from recording source&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Original group WAV&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;single-room recording&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ acoustic reference&lt;/text&gt;
             &lt;rect class=&quot;node node-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Run metadata&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;Group ID · speaker names&lt;/text&gt;&lt;text class=&quot;cfg-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;count: configurable · default 3&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Session metadata&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;task bounds · speaker IDs&lt;/text&gt;&lt;text class=&quot;cfg-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;current study: 3 fixed&lt;/text&gt;
 
             &lt;!-- workers --&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Audio preflight&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;Validate &amp;amp; normalize&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;282&quot;&gt;ffmpeg → 16 kHz mono&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Preflight + room activity&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;16 kHz mono original mix&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;282&quot;&gt;shared acoustic timeline&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Diarization + ASR&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;AssemblyAI: speaker turns&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;+ verbatim transcript&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Attribution + timed words&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;AssemblyAI evidence draft&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;gap fill 0 · capability check&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Silence detection&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;Praat CLI + local VAD&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;sounding-silence layers&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Stage 1 evidence&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;vocalisation · laughter&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;artifact · unknown → flags&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Assemble draft&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;Review TextGrid (draft) +&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;N muted-mirror WAVs&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Floor + nine-label engine&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;Stage 2 R1–R5 · Stage 3&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;called separately for each P&lt;/text&gt;
 
             &lt;!-- review --&gt;
             &lt;rect class=&quot;node node-review&quot; x=&quot;430&quot; y=&quot;372&quot; width=&quot;500&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;430&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;452&quot; y=&quot;397&quot;&gt;Praat manual review gate&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;452&quot; y=&quot;416&quot;&gt;Correct silence, speaker &amp;amp; transcript; resolve all review flags&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;452&quot; y=&quot;397&quot;&gt;Review checkpoint definition&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;452&quot; y=&quot;416&quot;&gt;Speaker, Stage 1, floor, labels and flags are reviewed after each P run&lt;/text&gt;
             &lt;rect class=&quot;node node-warn&quot; x=&quot;1074&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-warn&quot; x=&quot;1074&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;397&quot;&gt;Gold-sample check&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;416&quot;&gt;error / correction rate&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;397&quot;&gt;Overlap Path A / B&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;416&quot;&gt;capability must be confirmed&lt;/text&gt;
 
             &lt;!-- outputs --&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Reviewed TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;speaker + timing · accepted&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;{audio}.reviewed.TextGrid&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Attribution evidence&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;raw JSON · RTTM · confidence&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;speaker_activity.rttm&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;N muted-mirror WAVs&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;per-speaker isolated&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;{audio}_{speaker}.wav&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;Stage 1 + timed words&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;event kinds · verbatim tokens&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;stage1_evidence.json&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Diarization JSON&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;turns · timestamps&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;confidence scores&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Floor + label engine&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;requires threshold P at call time&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;interaction_engine&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Method log&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;provider · params&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;model versions&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Review aids + provenance&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;3 listening mirrors · flags&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;models · lexicon version · log&lt;/text&gt;
 
             &lt;!-- handoff --&gt;
             &lt;rect class=&quot;node node-success&quot; x=&quot;300&quot; y=&quot;636&quot; width=&quot;760&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;300&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;title&quot; x=&quot;324&quot; y=&quot;660&quot;&gt;Reviewed baseline&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;324&quot; y=&quot;678&quot;&gt;→ Phase II (pause metrics) &amp;amp; Phase III (unit extraction)&lt;/text&gt;
+            &lt;text class=&quot;title&quot; x=&quot;324&quot; y=&quot;660&quot;&gt;Phase I evidence + callable label engine&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;324&quot; y=&quot;678&quot;&gt;→ Phase II invokes once per P · timed transcript also → Phase III&lt;/text&gt;
 
             &lt;!-- arrows --&gt;
             &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
@@ -418,47 +562,47 @@
 
         &lt;!-- ===================== PHASE II ===================== --&gt;
         &lt;div class=&quot;view&quot; data-phase=&quot;1&quot;&gt;
-          &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase II multi-threshold pause and duration analysis workflow&quot;&gt;
+          &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase II multi-threshold review and packaging workflow&quot;&gt;
             &lt;rect x=&quot;18&quot; y=&quot;20&quot; width=&quot;1324&quot; height=&quot;700&quot; rx=&quot;12&quot; fill=&quot;#f8fafc&quot;/&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs · from Phase I &amp;amp; configuration&lt;/text&gt;
-            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Praat segmentation workers&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Multi-threshold orchestration &amp;amp; packaging&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;382&quot;&gt;③ Praat review / validation gate&lt;/text&gt;
-            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Duration calculation &amp;amp; outputs&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Reviewed labels · interaction metrics · outputs&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;618&quot; width=&quot;1300&quot; height=&quot;84&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;644&quot;&gt;⑤ Handoff&lt;/text&gt;
 
             &lt;!-- inputs --&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Reviewed TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;silence + speaker (reviewed)&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ from Phase I&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Original group WAV&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;Praat default threshold on mix&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ calculate + record&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Muted-mirror WAVs&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;per-speaker tracks (N)&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;↤ from Phase I&lt;/text&gt;
-            &lt;rect class=&quot;node node-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;112&quot;&gt;Threshold config&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;131&quot;&gt;0.25 s + 0.35 s · 200 s&lt;/text&gt;&lt;text class=&quot;cfg-tag&quot; x=&quot;590&quot; y=&quot;148&quot;&gt;locked parameters&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Phase I evidence + engine&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;Stage 1 · floor R1–R5 · labels&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;↤ invoked once per P&lt;/text&gt;
+            &lt;rect class=&quot;node node-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;464&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;112&quot;&gt;Method configuration&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;131&quot;&gt;P=.25/.35 · L=1.0 s · G=2.0 s · frame=10 ms&lt;/text&gt;&lt;text class=&quot;cfg-tag&quot; x=&quot;590&quot; y=&quot;148&quot;&gt;minimum sounding run=100 ms · minimum overlap=100 ms · window=200 s&lt;/text&gt;
 
             &lt;!-- workers: segmentation only (no duration numbers yet) --&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Load baseline&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;read reviewed silence&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;282&quot;&gt;+ per-speaker WAVs&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Run primary P = 0.25 s&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;Phase I stages per task&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;282&quot;&gt;gap fill 0 · versioned lexicon&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Generate 0.25 s TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;Praat silence segmentation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;at 0.25 s threshold&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Run secondary P = 0.35 s&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;same evidence + parameters&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;separate threshold result&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Generate 0.35 s TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;Praat silence segmentation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;at 0.35 s threshold&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Validate + branch&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;Path A: provisional signed FTO&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;Path B: gap-only + transfer flags&lt;/text&gt;
 
             &lt;!-- review / validation gate (real human gate) --&gt;
             &lt;rect class=&quot;node node-review&quot; x=&quot;318&quot; y=&quot;372&quot; width=&quot;464&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;318&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;340&quot; y=&quot;397&quot;&gt;Praat review / validation gate&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;340&quot; y=&quot;416&quot;&gt;verify threshold segmentation · gold-sample check (count / duration error per threshold)&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;340&quot; y=&quot;397&quot;&gt;Review strategy · decision open&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;340&quot; y=&quot;416&quot;&gt;review both thresholds, or review primary then regenerate deterministically&lt;/text&gt;
 
             &lt;!-- outputs: durations computed AFTER review --&gt;
-            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;0.25 s TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;reviewed segmentation&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;{audio}_0.25s.TextGrid&lt;/text&gt;
-            &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;0.35 s TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;reviewed segmentation&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;{audio}_0.35s.TextGrid&lt;/text&gt;
-            &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Duration summary&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;computed post-review&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;duration_summary.xlsx&lt;/text&gt;
-            &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Per-pause / method log&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;per-pause table · params&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;version · window 200 s&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;300&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;518&quot;&gt;P025 · exactly 6 tiers&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;538&quot;&gt;T1–3 speakers: Interval&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;556&quot;&gt;T4 floor: Interval&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;226&quot; y=&quot;538&quot;&gt;T5 transitions: Point&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;226&quot; y=&quot;556&quot;&gt;T6 flags: Interval&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;386&quot; y=&quot;498&quot; width=&quot;300&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;386&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;406&quot; y=&quot;518&quot;&gt;P035 · exactly 6 tiers&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;406&quot; y=&quot;538&quot;&gt;T1–3 speakers: Interval&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;406&quot; y=&quot;556&quot;&gt;T4 floor: Interval&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;546&quot; y=&quot;538&quot;&gt;T5 transitions: Point&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;546&quot; y=&quot;556&quot;&gt;T6 flags: Interval&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;706&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;706&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;726&quot; y=&quot;524&quot;&gt;Intervals + flags&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;726&quot; y=&quot;543&quot;&gt;nine labels · review status&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;726&quot; y=&quot;562&quot;&gt;intervals / flags_Pxxx.csv&lt;/text&gt;
+            &lt;rect class=&quot;node node-artifact&quot; x=&quot;938&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;938&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;958&quot; y=&quot;524&quot;&gt;Transition evidence + log&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;958&quot; y=&quot;543&quot;&gt;A: signed provisional FTO&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;958&quot; y=&quot;562&quot;&gt;B: gap-only + transfer flags&lt;/text&gt;
 
             &lt;!-- handoff --&gt;
             &lt;rect class=&quot;node node-success&quot; x=&quot;430&quot; y=&quot;636&quot; width=&quot;500&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;430&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;title&quot; x=&quot;454&quot; y=&quot;660&quot;&gt;Duration tables&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;454&quot; y=&quot;678&quot;&gt;→ Phase V (research export &amp;amp; synthesis)&lt;/text&gt;
+            &lt;text class=&quot;title&quot; x=&quot;454&quot; y=&quot;660&quot;&gt;Reviewed interaction package&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;454&quot; y=&quot;678&quot;&gt;nine labels → Phase IV · signed FTO → Phase V only&lt;/text&gt;
 
             &lt;!-- arrows --&gt;
             &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
@@ -468,10 +612,10 @@
             &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M530 267 L570 267&quot;/&gt;
             &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M424 316 L424 372&quot;/&gt;
             &lt;path class=&quot;arrow arrow-worker&quot; d=&quot;M676 316 L676 372&quot;/&gt;
-            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M520 428 C420 452 230 470 172 498&quot;/&gt;
-            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M540 428 C470 456 440 472 424 498&quot;/&gt;
-            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M560 428 C620 456 660 472 676 498&quot;/&gt;
-            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M600 428 C760 454 860 472 928 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M520 428 C420 452 270 470 216 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M540 428 C520 456 530 472 536 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M560 428 C650 456 780 472 812 498&quot;/&gt;
+            &lt;path class=&quot;arrow arrow-review&quot; d=&quot;M600 428 C790 454 980 472 1044 498&quot;/&gt;
             &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M590 576 C560 600 600 616 660 636&quot;/&gt;
             &lt;path class=&quot;arrow arrow-success&quot; d=&quot;M676 576 L700 636&quot;/&gt;
           &lt;/svg&gt;
@@ -481,45 +625,45 @@
         &lt;div class=&quot;view&quot; data-phase=&quot;2&quot;&gt;
           &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase III transcript splitting and unit extraction workflow&quot;&gt;
             &lt;rect x=&quot;18&quot; y=&quot;20&quot; width=&quot;1324&quot; height=&quot;700&quot; rx=&quot;12&quot; fill=&quot;#f8fafc&quot;/&gt;
-            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs · from Phase I&lt;/text&gt;
-            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Splitting workers · Node + ffmpeg&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs · timed words, speaker map &amp;amp; conventions&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Transcript splitting &amp;amp; linguistic unit workers&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;382&quot;&gt;③ Human review gate&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Outputs&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;618&quot; width=&quot;1300&quot; height=&quot;84&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;644&quot;&gt;⑤ Handoff&lt;/text&gt;
 
             &lt;!-- inputs --&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Reviewed TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;speaker + transcript (reviewed)&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ from Phase I&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Timed words + speakers&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;verbatim words · attribution&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ from Phase I&lt;/text&gt;
             &lt;rect class=&quot;node node-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Conventions&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;filler / repair markers · “X”&lt;/text&gt;&lt;text class=&quot;cfg-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;project settings&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Coding conventions&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;fillers · repairs · AS-units&lt;/text&gt;&lt;text class=&quot;cfg-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;research definitions&lt;/text&gt;
 
             &lt;!-- workers --&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Parse intervals&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;speaker text per turn&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;281&quot;&gt;extract-reviewed-units&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Parse timed transcript&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;speaker text per turn&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;281&quot;&gt;extract-reviewed-units&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Split two variants&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;RAW-TIMING (verbatim)&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;TIDY-PHRASE (cleaned)&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Flag overlaps&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;unknown speaker,&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;boundary-spanning phrases&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Extract unit candidates&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;turns · phrases · AS-units&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;flag overlap / uncertainty&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Prepare MFA corpus&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;clip audio + .lab + manifest&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;842&quot; y=&quot;281&quot;&gt;prepare-mfa-corpus&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Map clauses / AS-units&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;rule-suggested boundaries&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;for human confirmation&lt;/text&gt;
 
             &lt;!-- review --&gt;
             &lt;rect class=&quot;node node-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;397&quot;&gt;Resolve boundary flags&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;416&quot;&gt;confirm uncertain splits&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;397&quot;&gt;Transcript / unit review&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;416&quot;&gt;confirm verbatim text and boundaries&lt;/text&gt;
 
             &lt;!-- outputs --&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Utterance units&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;timing · flags · allowed&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;utterance_units.json&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Utterance units&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;speaker · timing · flags&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;utterance_units.json&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;RAW / TIDY transcripts&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;per-speaker text&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;*_RAW / *_TIDY.txt&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Unresolved report&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;overlaps · boundary doubt&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;for researcher review&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;MFA corpus&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;.lab files + audio clips&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;mfa-corpus-manifest&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;AS-unit / clause map&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;reviewed linguistic units&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;clause_segments.json&lt;/text&gt;
 
             &lt;!-- handoff --&gt;
             &lt;rect class=&quot;node node-success&quot; x=&quot;300&quot; y=&quot;636&quot; width=&quot;760&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;300&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;title&quot; x=&quot;324&quot; y=&quot;660&quot;&gt;Corpus + units &amp;amp; transcripts&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;324&quot; y=&quot;678&quot;&gt;→ Phase IV alignment &amp;amp; lexical · transcripts also → Phase V&lt;/text&gt;
+            &lt;text class=&quot;title&quot; x=&quot;324&quot; y=&quot;660&quot;&gt;Reviewed transcript corpus + units&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;324&quot; y=&quot;678&quot;&gt;→ Phase IV lexical, MWU and pause-location analysis&lt;/text&gt;
 
             &lt;!-- arrows --&gt;
             &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
@@ -541,9 +685,9 @@
         &lt;div class=&quot;view&quot; data-phase=&quot;3&quot;&gt;
           &lt;svg class=&quot;diagram&quot; viewBox=&quot;0 0 1360 740&quot; role=&quot;img&quot; aria-label=&quot;Phase IV lexical and MWU feature extraction workflow&quot;&gt;
             &lt;rect x=&quot;18&quot; y=&quot;20&quot; width=&quot;1324&quot; height=&quot;700&quot; rx=&quot;12&quot; fill=&quot;#f8fafc&quot;/&gt;
-            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs · from Phase III, I &amp;amp; researcher&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;56&quot; width=&quot;1300&quot; height=&quot;112&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;82&quot;&gt;① Inputs · from Phase III, II &amp;amp; researcher&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;188&quot; width=&quot;1300&quot; height=&quot;146&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;214&quot;&gt;② Lexical / MWU &amp;amp; timing feature workers&lt;/text&gt;
-            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;368&quot;&gt;③ Human review gates · optional MFA support&lt;/text&gt;
+            &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;356&quot; width=&quot;1300&quot; height=&quot;88&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;368&quot;&gt;③ Research-definition &amp;amp; sample review gates&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;466&quot; width=&quot;1300&quot; height=&quot;130&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;492&quot;&gt;④ Outputs&lt;/text&gt;
             &lt;rect class=&quot;lane-bg&quot; x=&quot;40&quot; y=&quot;618&quot; width=&quot;1300&quot; height=&quot;84&quot; rx=&quot;10&quot;/&gt;&lt;text class=&quot;lane-title&quot; x=&quot;60&quot; y=&quot;644&quot;&gt;⑤ Handoff&lt;/text&gt;
 
@@ -555,7 +699,7 @@
             &lt;rect class=&quot;node node-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;112&quot;&gt;AS-unit segmentation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;131&quot;&gt;clause boundaries&lt;/text&gt;&lt;text class=&quot;ext-tag&quot; x=&quot;590&quot; y=&quot;148&quot;&gt;↤ researcher&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;112&quot;&gt;Reviewed pauses&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;131&quot;&gt;sounding-silence&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;842&quot; y=&quot;148&quot;&gt;↤ Phase I&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;112&quot;&gt;Nine-label timeline&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;131&quot;&gt;labels · durations · flags&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;842&quot; y=&quot;148&quot;&gt;↤ Phase II&lt;/text&gt;
 
             &lt;!-- workers: lexical / MWU is the core --&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
@@ -565,17 +709,17 @@
             &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Tag clause / AS-units&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;manual (primary) or&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;282&quot;&gt;rule-suggested&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Classify pauses&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;≥ 0.25 s → mid / end-clause&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;between-turn&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Classify pause location&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;nine labels × clause / MWU&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;inside · before · after&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;1074&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;1074&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;244&quot;&gt;Rate metrics&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;265&quot;&gt;syllable nuclei + phonation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;282&quot;&gt;articulation · speech rate&lt;/text&gt;
 
-            &lt;!-- review gates + optional MFA support (in column gap, no arrow crosses it) --&gt;
+            &lt;!-- review gates and research-team validation --&gt;
             &lt;rect class=&quot;node node-review&quot; x=&quot;66&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;66&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;397&quot;&gt;Lexical / MWU check&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;416&quot;&gt;agreement vs gold sample&lt;/text&gt;
             &lt;rect class=&quot;node node-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;397&quot;&gt;Confirm clauses&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;416&quot;&gt;approve AS-unit boundaries&lt;/text&gt;
             &lt;rect class=&quot;node node-warn dashbox&quot; x=&quot;952&quot; y=&quot;368&quot; width=&quot;280&quot; height=&quot;64&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-warn&quot; x=&quot;952&quot; y=&quot;368&quot; width=&quot;6&quot; height=&quot;64&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;972&quot; y=&quot;391&quot;&gt;Optional · MFA alignment&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;972&quot; y=&quot;409&quot;&gt;word timing — supports pause /&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;972&quot; y=&quot;424&quot;&gt;rate; also a Phase V dependency&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;972&quot; y=&quot;391&quot;&gt;Research-team validation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;972&quot; y=&quot;409&quot;&gt;definitions · corrected sample&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;972&quot; y=&quot;424&quot;&gt;agreement reported externally&lt;/text&gt;
 
             &lt;!-- outputs --&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
@@ -585,13 +729,13 @@
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Clause segments&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;AS-unit boundaries&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;clause_segments.json&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Pause location&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;classified positions&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;pause_location.json&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Label-aware pause map&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;clause / MWU positions&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;pause_location.json&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;1074&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;1074&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;524&quot;&gt;Rate metrics&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;543&quot;&gt;articulation · speech&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;1094&quot; y=&quot;562&quot;&gt;rate_metrics.json&lt;/text&gt;
 
             &lt;!-- handoff --&gt;
             &lt;rect class=&quot;node node-success&quot; x=&quot;430&quot; y=&quot;636&quot; width=&quot;500&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;430&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;title&quot; x=&quot;454&quot; y=&quot;660&quot;&gt;Lexical / MWU · clause · pause · rate&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;454&quot; y=&quot;678&quot;&gt;→ Phase V (database synthesis)&lt;/text&gt;
+            &lt;text class=&quot;title&quot; x=&quot;454&quot; y=&quot;660&quot;&gt;Lexical / MWU · clause · label-aware pause · rate&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;454&quot; y=&quot;678&quot;&gt;→ Phase V (database synthesis)&lt;/text&gt;
 
             &lt;!-- arrows --&gt;
             &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
@@ -627,25 +771,25 @@
 
             &lt;!-- inputs --&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;66&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Reviewed TextGrid&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;timeline ground truth&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ Phase I&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;112&quot;&gt;Nine-label metrics&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;131&quot;&gt;totals · counts · intervals&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;86&quot; y=&quot;148&quot;&gt;↤ Phase II&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;318&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Duration summaries&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;0.25 s + 0.35 s&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;↤ Phase II&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;112&quot;&gt;Signed FTO transitions&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;131&quot;&gt;direction · latency · speaker&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;338&quot; y=&quot;148&quot;&gt;↤ Phase II&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;112&quot;&gt;Transcripts&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;131&quot;&gt;RAW · TIDY&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;590&quot; y=&quot;148&quot;&gt;↤ Phase III&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;112&quot;&gt;Alignment + features&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;131&quot;&gt;words · pauses · rates · MWU&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;842&quot; y=&quot;148&quot;&gt;↤ Phase IV&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;112&quot;&gt;Research features&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;131&quot;&gt;MWU · clauses · pauses · rates&lt;/text&gt;&lt;text class=&quot;from-tag&quot; x=&quot;842&quot; y=&quot;148&quot;&gt;↤ Phase IV&lt;/text&gt;
             &lt;rect class=&quot;node node-ui&quot; x=&quot;1074&quot; y=&quot;86&quot; width=&quot;212&quot; height=&quot;70&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-ui&quot; x=&quot;1074&quot; y=&quot;86&quot; width=&quot;6&quot; height=&quot;70&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;112&quot;&gt;Metadata workbook&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;131&quot;&gt;CEFR · L1 · TOEFL · gold&lt;/text&gt;&lt;text class=&quot;ext-tag&quot; x=&quot;1094&quot; y=&quot;148&quot;&gt;↤ researcher&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;1094&quot; y=&quot;112&quot;&gt;Study metadata&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;1094&quot; y=&quot;131&quot;&gt;participant · task · group&lt;/text&gt;&lt;text class=&quot;ext-tag&quot; x=&quot;1094&quot; y=&quot;148&quot;&gt;↤ researcher&lt;/text&gt;
 
             &lt;!-- workers --&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;66&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;244&quot;&gt;Merge to long format&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;265&quot;&gt;one row per observation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;282&quot;&gt;both thresholds kept&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;318&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Map pauses → AS-units&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;within / between / turn&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;attach metadata · flag QC&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;244&quot;&gt;Map labels + signed FTO&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;265&quot;&gt;speaker / task / AS-unit&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;282&quot;&gt;attach metadata · flag QC&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;570&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Build workbook + matrix&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;7 sheets · tidy CSV / parquet&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;281&quot;&gt;export-research-excel&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;244&quot;&gt;Build workbook + matrix&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;265&quot;&gt;research-defined schema&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;281&quot;&gt;export-research-excel&lt;/text&gt;
             &lt;rect class=&quot;node node-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;212&quot; height=&quot;98&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-worker&quot; x=&quot;822&quot; y=&quot;218&quot; width=&quot;6&quot; height=&quot;98&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Validate + codebook&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;gold compare κ / α&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;dictionary · method log&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;244&quot;&gt;Validate + codebook&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;265&quot;&gt;schema · source traceability&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;282&quot;&gt;dictionary · method log&lt;/text&gt;
 
             &lt;!-- review --&gt;
             &lt;rect class=&quot;node node-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;212&quot; height=&quot;56&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-review&quot; x=&quot;570&quot; y=&quot;372&quot; width=&quot;6&quot; height=&quot;56&quot; rx=&quot;3&quot;/&gt;
@@ -653,11 +797,11 @@
 
             &lt;!-- deliverables --&gt;
             &lt;rect class=&quot;node node-success&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;66&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Research workbook&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;7 sheets · traceable&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;research_export.xlsx&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;86&quot; y=&quot;524&quot;&gt;Research workbook&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;86&quot; y=&quot;543&quot;&gt;study-defined · traceable&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;86&quot; y=&quot;562&quot;&gt;research_export.xlsx&lt;/text&gt;
             &lt;rect class=&quot;node node-success&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;318&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;338&quot; y=&quot;524&quot;&gt;Analysis matrix&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;338&quot; y=&quot;543&quot;&gt;long-format · 1 row / obs&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;338&quot; y=&quot;562&quot;&gt;analysis_matrix.csv&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;570&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Codebook · validation&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;dictionary · κ / α report&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;validation_report.json&lt;/text&gt;
+            &lt;text class=&quot;small-title&quot; x=&quot;590&quot; y=&quot;524&quot;&gt;Codebook · QA evidence&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;590&quot; y=&quot;543&quot;&gt;dictionary · checks · flags&lt;/text&gt;&lt;text class=&quot;mono&quot; x=&quot;590&quot; y=&quot;562&quot;&gt;validation_inputs.json&lt;/text&gt;
             &lt;rect class=&quot;node node-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;212&quot; height=&quot;78&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-artifact&quot; x=&quot;822&quot; y=&quot;498&quot; width=&quot;6&quot; height=&quot;78&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;small-title&quot; x=&quot;842&quot; y=&quot;524&quot;&gt;Complete method log&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;543&quot;&gt;full audit trail&lt;/text&gt;&lt;text class=&quot;body&quot; x=&quot;842&quot; y=&quot;562&quot;&gt;all tool versions&lt;/text&gt;
 
@@ -665,7 +809,7 @@
             &lt;rect class=&quot;node node-success&quot; x=&quot;66&quot; y=&quot;636&quot; width=&quot;460&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;66&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
             &lt;text class=&quot;title&quot; x=&quot;90&quot; y=&quot;660&quot;&gt;Publication / archive&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;90&quot; y=&quot;678&quot;&gt;workbook + codebook → research record&lt;/text&gt;
             &lt;rect class=&quot;node node-success&quot; x=&quot;570&quot; y=&quot;636&quot; width=&quot;464&quot; height=&quot;54&quot; rx=&quot;8&quot;/&gt;&lt;rect class=&quot;accent-success&quot; x=&quot;570&quot; y=&quot;636&quot; width=&quot;6&quot; height=&quot;54&quot; rx=&quot;3&quot;/&gt;
-            &lt;text class=&quot;title&quot; x=&quot;594&quot; y=&quot;660&quot;&gt;R / Python modeling&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;594&quot; y=&quot;678&quot;&gt;analysis matrix → mixed-effects models (out of scope)&lt;/text&gt;
+            &lt;text class=&quot;title&quot; x=&quot;594&quot; y=&quot;660&quot;&gt;R / Python modeling&lt;/text&gt;&lt;text class=&quot;to-tag&quot; x=&quot;594&quot; y=&quot;678&quot;&gt;analysis matrix → downstream statistical models&lt;/text&gt;
 
             &lt;!-- arrows --&gt;
             &lt;path class=&quot;arrow arrow-artifact&quot; d=&quot;M172 156 L172 218&quot;/&gt;
@@ -701,31 +845,31 @@
 
   &lt;script&gt;
     const PHASES = [
-      { roman:'I', accent:'#0f766e', kicker:'Phase I', name:'Speaker Diarization &amp; Voice Isolation',
-        title:'Phase I — Speaker Diarization &amp; Voice Isolation',
+      { roman:'I', accent:'#0f766e', kicker:'Phase I', name:'Shared Evidence &amp; Callable Label Engine',
+        title:'Phase I — Shared Evidence &amp; Callable Label Engine',
         layer:'L1a', lcolor:'#0f766e',
-        sub:'One group recording becomes a reviewed speaker / timing TextGrid plus one muted-mirror WAV per speaker; a mandatory Praat review produces the baseline every later phase reads from. Expected speaker count is configurable (default 3 for the current corpus). The 6-tier schema is an internal review aid, not a client deliverable.',
-        tag:['INPUT','Group recording (16 kHz mono · configurable speaker count, default 3)','OUTPUT','Reviewed TextGrid + muted-mirror WAVs → Phase II &amp; III'] },
-      { roman:'II', accent:'#2563eb', kicker:'Phase II', name:'Multi-Threshold Pause &amp; Duration Analysis',
-        title:'Phase II — Multi-Threshold Pause &amp; Duration Analysis',
+        sub:'The original room recording remains the acoustic reference. Attribution and timed words create Stage 1 evidence; the persistent floor rules R1–R5 and nine-label engine are then called by Phase II separately for each pause threshold. Overlap capability is measured before Path A or Path B is selected.',
+        tag:['INPUT','Original WAV + task bounds + 3 fixed speaker IDs','OUTPUT','Attribution + Stage 1 evidence + callable floor/nine-label engine + explicit flags'] },
+      { roman:'II', accent:'#2563eb', kicker:'Phase II', name:'Multi-Threshold Review &amp; Packaging',
+        title:'Phase II — Multi-Threshold Review &amp; Packaging',
         layer:'L1b', lcolor:'#0d9488',
-        sub:'Praat generates threshold TextGrids at 0.25 s and 0.35 s; a Praat review / validation gate (with gold-sample check) is cleared before durations are computed into per-speaker tables for the final export.',
-        tag:['INPUT','Reviewed TextGrid + muted-mirror WAVs (Phase I)','OUTPUT','Reviewed threshold TextGrids + duration summary → Phase V'] },
+        sub:'Phase II owns the threshold configuration and runs the Phase I labelling stages at 0.25 s and 0.35 s. It produces one six-tier TextGrid per task and threshold; whether both runs are reviewed or one is deterministically regenerated remains a research-team decision.',
+        tag:['INPUT','Original mix + Phase I evidence/engine + versioned P, L, G and Praat threshold','OUTPUT','P025/P035 six-tier TextGrids + labels/flags + Path A provisional signed FTO or Path B gap-only/transfer flags'] },
       { roman:'III', accent:'#7c3aed', kicker:'Phase III', name:'Transcript Splitting &amp; Unit Extraction',
         title:'Phase III — Transcript Splitting &amp; Unit Extraction',
-        layer:'Layer 2', lcolor:'#2563eb',
-        sub:'The reviewed speaker and transcript content is split into per-speaker verbatim and tidy transcripts, an utterance-unit list, and a ready-to-align corpus.',
-        tag:['INPUT','Reviewed speaker + transcript (Phase I)','OUTPUT','utterance_units.json + corpus → Phase IV'] },
-      { roman:'IV', accent:'#b45309', kicker:'Phase IV', name:'Lexical / MWU Feature Extraction',
-        title:'Phase IV — Lexical / MWU Feature Extraction',
-        layer:'Layer 2 + optional MFA add-on', lcolor:'#2563eb',
-        sub:'TAALES / TAALED / AntConc extract lexical and multiword-unit features; workers also classify pauses by clause position and compute speech-rate metrics. Forced alignment (MFA) is optional support for word timing — not the Phase IV deliverable.',
-        tag:['INPUT','Transcripts (III), MWU defs &amp; AS-units (researcher), pauses (I)','OUTPUT','Lexical / MWU · clause · pause · rate tables → Phase V'] },
+        layer:'L2', lcolor:'#2563eb',
+        sub:'Timed verbatim words are split by speaker and task into RAW-TIMING and TIDY-PHRASE text. Candidate turn, phrase, clause and AS-unit boundaries are flagged for linguistic review before feature extraction.',
+        tag:['INPUT','Timed words + speaker map + transcript coding conventions','OUTPUT','RAW/TIDY transcripts + utterance units + AS-unit/clause map → Phase IV'] },
+      { roman:'IV', accent:'#b45309', kicker:'Phase IV', name:'Lexical / MWU &amp; Pause-Location Features',
+        title:'Phase IV — Lexical / MWU &amp; Pause-Location Features',
+        layer:'L2', lcolor:'#2563eb',
+        sub:'Lexical and multiword-unit features are combined with the reviewed nine-label timeline. The nine labels support pause classification relative to clause and MWU positions; signed FTO is not a Phase IV input.',
+        tag:['INPUT','Transcripts and units (III) + nine-label package (II) + research definitions','OUTPUT','Lexical/MWU + clause + label-aware pause + rate tables → Phase V'] },
       { roman:'V', accent:'#15803d', kicker:'Phase V', name:'Database Synthesis &amp; Research Export',
         title:'Phase V — Database Synthesis &amp; Research Export',
-        layer:'Layer 3', lcolor:'#6d28d9',
-        sub:'Every upstream artifact plus researcher metadata is merged into a long-format research workbook and an analysis-ready matrix, validated against gold samples and signed off for publication. Early merge sits in Layer 2; full validation, reporting and sign-off are Layer 3.',
-        tag:['INPUT','All upstream outputs + metadata workbook (researcher)','OUTPUT','Research workbook .xlsx + analysis matrix .csv'] }
+        layer:'L2 / L3', lcolor:'#6d28d9',
+        sub:'Nine-label totals, signed FTO transitions, transcripts, lexical/MWU features and researcher metadata are merged into traceable research tables. The final workbook schema is defined by the study and documented in the codebook.',
+        tag:['INPUT','Nine-label metrics + signed FTO + Phase III–IV features + study schema','OUTPUT','Research workbook + analysis matrix + QA inputs + codebook'] }
     ];
 
     const navEl = document.getElementById('nav');
@@ -755,7 +899,7 @@
       document.documentElement.style.setProperty('--accent', p.accent);
       docTag.style.setProperty('--accent', p.accent);
       docTag.innerHTML =
-        '&lt;strong&gt;QUOTE TIER&lt;/strong&gt;&lt;span class=&quot;layer-pill&quot; style=&quot;background:' + p.lcolor + '&quot;&gt;' + p.layer + '&lt;/span&gt;' +
+        '&lt;strong&gt;MODULE&lt;/strong&gt;&lt;span class=&quot;layer-pill&quot; style=&quot;background:' + p.lcolor + '&quot;&gt;' + p.layer + '&lt;/span&gt;' +
         '&lt;strong style=&quot;margin-top:8px&quot;&gt;INPUT&lt;/strong&gt;' + p.tag[1] +
         '&lt;strong style=&quot;margin-top:8px&quot;&gt;OUTPUT&lt;/strong&gt;' + p.tag[3];
       location.hash = 'phase-' + p.roman;
@@ -768,504 +912,93 @@
 &lt;/body&gt;
 &lt;/html&gt;
 "></iframe>
-    <iframe class="page-frame" id="proposalFrame" title="Pricing scope proposal" srcdoc="&lt;!doctype html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-  &lt;meta charset=&quot;utf-8&quot;&gt;
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
-  &lt;title&gt;MWU Fluency Pipeline - Delivery Scope Summary&lt;/title&gt;
-  &lt;style&gt;
-    :root {
-      --page: #f6f8fb;
-      --ink: #172033;
-      --muted: #5f6b7d;
-      --line: #d7dee8;
-      --paper: #ffffff;
-      --sprint: #475569;
-      --l1: #0f766e;
-      --l1b: #0d9488;
-      --l2: #2563eb;
-      --l3: #6d28d9;
-      --warn: #b45309;
-      --shadow: 0 18px 42px rgba(23, 32, 51, 0.10);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.86), rgba(246,248,251,0.96)),
-        radial-gradient(circle at 16% 0%, rgba(15,118,110,0.12), transparent 34%),
-        radial-gradient(circle at 88% 8%, rgba(37,99,235,0.12), transparent 30%),
-        var(--page);
-      color: var(--ink);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    .shell {
-      width: min(1180px, calc(100% - 42px));
-      margin: 0 auto;
-      padding: 34px 0 46px;
-    }
-    header {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 300px;
-      gap: 26px;
-      align-items: end;
-      margin-bottom: 20px;
-    }
-    .eyebrow {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-      font-weight: 800;
-    }
-    h1 {
-      margin: 0;
-      font-size: clamp(30px, 4vw, 48px);
-      line-height: 1.02;
-      letter-spacing: -0.04em;
-      max-width: 880px;
-    }
-    .lede {
-      margin: 16px 0 0;
-      max-width: 860px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.65;
-    }
-    .summary-card {
-      border: 1px solid var(--line);
-      border-left: 5px solid var(--l1);
-      border-radius: 10px;
-      background: rgba(255,255,255,0.94);
-      box-shadow: var(--shadow);
-      padding: 18px 18px 16px;
-    }
-    .summary-card b { display: block; margin-bottom: 6px; font-size: 13px; }
-    .summary-card p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.55; }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    .tier {
-      display: grid;
-      grid-template-columns: 150px minmax(0, 1fr);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      overflow: hidden;
-      background: var(--paper);
-      box-shadow: 0 12px 30px rgba(23,32,51,0.07);
-    }
-    .tier-label {
-      padding: 18px 16px;
-      color: #fff;
-      background: var(--accent);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 184px;
-    }
-    .tier-label span {
-      font-size: 11px;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      font-weight: 800;
-      opacity: .86;
-    }
-    .tier-label strong {
-      font-size: 28px;
-      letter-spacing: -0.04em;
-    }
-    .tier-body {
-      padding: 18px 20px 20px;
-    }
-    .tier-body h2 {
-      margin: 0 0 10px;
-      font-size: 20px;
-      letter-spacing: -0.02em;
-    }
-    .tier-body p {
-      margin: 0 0 14px;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 13.5px;
-    }
-    .cols {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .box {
-      border: 1px solid #e2e8f0;
-      border-radius: 9px;
-      background: #fbfdff;
-      padding: 12px;
-      min-height: 124px;
-    }
-    .box h3 {
-      margin: 0 0 8px;
-      font-size: 11px;
-      letter-spacing: .9px;
-      text-transform: uppercase;
-      color: var(--ink);
-    }
-    .box ul {
-      margin: 0;
-      padding-left: 16px;
-      color: var(--muted);
-      font-size: 12.5px;
-      line-height: 1.48;
-    }
-    .box li { margin: 0 0 5px; }
-    .notice {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    .notice-card {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.94);
-      box-shadow: 0 12px 30px rgba(23,32,51,0.07);
-      padding: 18px;
-    }
-    .notice-card h2 {
-      margin: 0 0 9px;
-      font-size: 17px;
-      letter-spacing: -0.02em;
-    }
-    .notice-card p, .notice-card li {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-    }
-    .notice-card ul { margin: 0; padding-left: 18px; }
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 8px;
-      border: 1px solid #e2e8f0;
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 700;
-      background: #fff;
-      margin: 2px 6px 8px 0;
-    }
-    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
-    @media (max-width: 980px) {
-      header, .notice { grid-template-columns: 1fr; }
-      .tier { grid-template-columns: 1fr; }
-      .tier-label { min-height: auto; gap: 20px; }
-      .cols { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 640px) {
-      .cols { grid-template-columns: 1fr; }
-      .shell { width: min(100% - 26px, 1180px); padding-top: 22px; }
-    }
-  &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;main class=&quot;shell&quot;&gt;
-    &lt;header&gt;
-      &lt;div&gt;
-        &lt;p class=&quot;eyebrow&quot;&gt;Commercial scope proposal&lt;/p&gt;
-        &lt;h1&gt;Delivery plan for the MWU Fluency Pipeline&lt;/h1&gt;
-        &lt;p class=&quot;lede&quot;&gt;The research workflow runs from Phase I to Phase V. The commercial delivery should be separated into a small Validation Sprint and layered delivery tiers, so each commitment has a clear acceptance gate, dependency boundary, and risk profile.&lt;/p&gt;
-      &lt;/div&gt;
-      &lt;aside class=&quot;summary-card&quot;&gt;
-        &lt;b&gt;Recommended path&lt;/b&gt;
-        &lt;p&gt;Start with the monologue benchmark, then fund the highest-labor annotation layer, then add research analysis and final reporting only after definitions and gold standards are signed off.&lt;/p&gt;
-      &lt;/aside&gt;
-    &lt;/header&gt;
+    <section class="method-page" id="methodPage" aria-labelledby="methodTitle">
+      <div class="method-inner">
+        <header class="method-head">
+          <div>
+            <p class="method-eyebrow">Controlled vocabulary</p>
+            <h1 id="methodTitle">Nine Labels &amp; Floor Rules</h1>
+            <p class="method-intro">This key fixes the operational meaning of every timeline label. R1-R4 maintain the conversational floor; R5 retrospectively resolves silence. The same definitions apply throughout Phase I, Phase II and all downstream exports.</p>
+          </div>
+          <div class="method-params" aria-label="Default analysis parameters">
+            <div class="method-param"><b>0.25 / 0.35 s</b><span>Pause thresholds P</span></div>
+            <div class="method-param"><b>1.0 s</b><span>Floor-release / lapse threshold L</span></div>
+            <div class="method-param"><b>100 ms</b><span>Minimum overlap</span></div>
+            <div class="method-param"><b>10 ms</b><span>Analysis frame</span></div>
+          </div>
+        </header>
 
-    &lt;section class=&quot;grid&quot; aria-label=&quot;Delivery tiers&quot;&gt;
-      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--sprint)&quot;&gt;
-        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Pre-layer&lt;/span&gt;&lt;strong&gt;VS&lt;/strong&gt;&lt;/div&gt;
-        &lt;div class=&quot;tier-body&quot;&gt;
-          &lt;h2&gt;Validation Sprint - monologue benchmark&lt;/h2&gt;
-          &lt;p&gt;Purpose: prove that the software can reproduce the provided expert Praat/TextGrid/Excel baseline before committing to the real multilogue pipeline.&lt;/p&gt;
-          &lt;div class=&quot;cols&quot;&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Covers&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Phase II gold replay&lt;/li&gt;
-                &lt;li&gt;Phase III transcript split test&lt;/li&gt;
-                &lt;li&gt;Phase V matrix skeleton&lt;/li&gt;
-                &lt;li&gt;Net-new local WebUI validation console&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Deliverables&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Input manifest and method log&lt;/li&gt;
-                &lt;li&gt;0.25 / 0.35 threshold artifacts&lt;/li&gt;
-                &lt;li&gt;RAW and TIDY transcript files&lt;/li&gt;
-                &lt;li&gt;Validation report and matrix skeleton&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Acceptance&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Pause count matches exactly&lt;/li&gt;
-                &lt;li&gt;Key durations match within 0.001 s&lt;/li&gt;
-                &lt;li&gt;0.25 SpeakerX matrix matches baseline&lt;/li&gt;
-                &lt;li&gt;0.35 clearly marked as no-gold&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Boundary&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Monologue only&lt;/li&gt;
-                &lt;li&gt;No diarization validation&lt;/li&gt;
-                &lt;li&gt;No final lexical/MWU analysis&lt;/li&gt;
-                &lt;li&gt;Deductible only within agreed window&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-          &lt;p style=&quot;margin-top:14px&quot;&gt;Workbook check: the supplied SpeakerX workbook has no separate 0.35 threshold gold columns; 0.35 is generated for schema and process verification only until the research team supplies a matching gold baseline.&lt;/p&gt;
-        &lt;/div&gt;
-      &lt;/article&gt;
+        <section class="method-section" aria-labelledby="labelHeading">
+          <div class="method-section-head">
+            <h2 id="labelHeading">Timeline labels</h2>
+            <p>Mutually exclusive per speaker tier · uncertainty is recorded separately in Tier 6</p>
+          </div>
+          <div class="method-table-wrap">
+            <table class="method-table">
+              <thead>
+                <tr>
+                  <th class="code-col">Code</th>
+                  <th class="name-col">Name</th>
+                  <th class="definition-col">Definition</th>
+                  <th>Assignment rule</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="label-code">s</span></td><td><strong>Speech</strong></td><td>Lexical speech produced by the current floor holder.</td><td>Counts as phonation. Laughter embedded in intelligible speech remains <strong>s</strong>.</td></tr>
+                <tr><td><span class="label-code">f</span></td><td><strong>Filled hesitation</strong></td><td>Nonlexical hesitation by the floor holder, including <em>um</em>, <em>uh</em>, <em>er</em>, humming or a prolonged vowel.</td><td>Counts as phonation and hesitation. The speaker retains the floor.</td></tr>
+                <tr><td><span class="label-code">bc</span></td><td><strong>Backchannel</strong></td><td>A short supportive response from a non-holder.</td><td>All four tests must pass: no more than three words or purely nonlexical; majority lexical tokens in the versioned backchannel lexicon; no turn-projecting start; holder continues. It does not transfer the floor or create overlap by itself.</td></tr>
+                <tr><td><span class="label-code">ol</span></td><td><strong>Overlap</strong></td><td>Simultaneous speech by two or more speakers for at least 100 ms, excluding holder plus qualifying backchannel alone.</td><td>Mark <strong>ol</strong> on every involved speaker tier. It counts as phonation; uncertain overlap boundaries are flagged for review.</td></tr>
+                <tr><td><span class="label-code">op</span></td><td><strong>Own pause</strong></td><td>The floor holder is silent but retains the floor.</td><td>If the same holder resumes, the entire intervening silence is <strong>op</strong>, regardless of length. Values above L receive a review flag.</td></tr>
+                <tr><td><span class="label-code">pf</span></td><td><strong>Pause while floor held</strong></td><td>A non-holder is silent while another speaker holds the floor.</td><td>Represents listening time. It is not an individual hesitation pause.</td></tr>
+                <tr><td><span class="label-code">tr</span></td><td><strong>Transition gap</strong></td><td>The floor is FREE for no more than L before a different speaker takes it.</td><td>Mark the interval <strong>tr</strong> on all speaker tiers. Signed floor-transfer offset is stored as a separate transition measure.</td></tr>
+                <tr><td><span class="label-code">shs</span></td><td><strong>Shared silence</strong></td><td>The floor is FREE and nobody speaks for longer than L, or until task end.</td><td>Mark the whole lapse <strong>shs</strong> on all speaker tiers. Do not split it into individual hesitation pauses.</td></tr>
+                <tr><td><span class="label-code">x</span></td><td><strong>Unusable / non-speech event</strong></td><td>A formal timeline label for wordless laughter, cough, handling noise or unusable audio.</td><td><strong>x</strong> overrides other labels except a soft listener chuckle that satisfies the backchannel tests. Ambiguity is additionally recorded as a Tier 6 flag.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--l1)&quot;&gt;
-        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Layer 1a&lt;/span&gt;&lt;strong&gt;L1a&lt;/strong&gt;&lt;/div&gt;
-        &lt;div class=&quot;tier-body&quot;&gt;
-          &lt;h2&gt;AI diarization and speaker isolation&lt;/h2&gt;
-          &lt;p&gt;Purpose: process real multilogue recordings by proposing speaker turns and producing per-speaker muted-mirror audio for later Praat processing.&lt;/p&gt;
-          &lt;div class=&quot;cols&quot;&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Covers&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Phase I&lt;/li&gt;
-                &lt;li&gt;Configurable speaker count&lt;/li&gt;
-                &lt;li&gt;AI speaker diarization&lt;/li&gt;
-                &lt;li&gt;Muted-mirror WAV generation&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Deliverables&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Diarization JSON&lt;/li&gt;
-                &lt;li&gt;Per-speaker audio files&lt;/li&gt;
-                &lt;li&gt;Review TextGrid draft&lt;/li&gt;
-                &lt;li&gt;Correction-rate report&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Acceptance&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Measured against client gold cuts&lt;/li&gt;
-                &lt;li&gt;Speaker error and edit rate reported&lt;/li&gt;
-                &lt;li&gt;Overlaps and uncertainty surfaced&lt;/li&gt;
-                &lt;li&gt;Human correction remains expected&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Risk&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Probabilistic AI component&lt;/li&gt;
-                &lt;li&gt;Sprint does not validate this layer&lt;/li&gt;
-                &lt;li&gt;Depends on real multilogue samples&lt;/li&gt;
-                &lt;li&gt;Overlapping speech may require manual correction&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/article&gt;
+        <section class="method-section" aria-labelledby="ruleHeading">
+          <div class="method-section-head">
+            <h2 id="ruleHeading">Floor assignment rules</h2>
+            <p>R1-R4 maintain the floor state; R5 resolves silence retrospectively</p>
+          </div>
+          <div class="rule-list">
+            <article class="rule-item"><span class="rule-id">R1</span><h3>Start FREE</h3><p>The conversational floor is <strong>FREE</strong> at task start. No speaker is assumed to hold it before the first turn-taking vocalisation.</p></article>
+            <article class="rule-item"><span class="rule-id">R2</span><h3>Claim floor</h3><p>The first turn-taking vocalisation from a FREE state claims the floor for that speaker.</p></article>
+            <article class="rule-item"><span class="rule-id">R3</span><h3>Retain floor</h3><p>Silence by the holder and qualifying backchannels from another speaker do not release or transfer the floor.</p></article>
+            <article class="rule-item"><span class="rule-id">R4</span><h3>Competing turn</h3><p>If a non-holder makes a true turn attempt, the floor transfers when the holder ends only if the attempt survives. If it stops while the holder continues, it is a failed bid with no transfer. Ambiguous multi-speaker competition is flagged.</p></article>
+            <article class="rule-item"><span class="rule-id">R5</span><h3>Resolve silence</h3><p>Same holder resumes: <strong>op</strong>. Another speaker enters within L: <strong>tr</strong>. Another enters after L, or nobody resumes before task end: the whole interval is <strong>shs</strong>.</p></article>
+          </div>
+        </section>
 
-      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--l1b)&quot;&gt;
-        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Layer 1b&lt;/span&gt;&lt;strong&gt;L1b&lt;/strong&gt;&lt;/div&gt;
-        &lt;div class=&quot;tier-body&quot;&gt;
-          &lt;h2&gt;Deterministic Praat automation&lt;/h2&gt;
-          &lt;p&gt;Purpose: reduce the most repetitive Praat pause-boundary and duration-calculation work with configurable, reviewable, Praat-compatible outputs.&lt;/p&gt;
-          &lt;div class=&quot;cols&quot;&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Covers&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Phase II core&lt;/li&gt;
-                &lt;li&gt;Configurable pause thresholds&lt;/li&gt;
-                &lt;li&gt;Praat CLI / TextGrid generation&lt;/li&gt;
-                &lt;li&gt;Duration calculations&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Deliverables&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Threshold-specific TextGrids&lt;/li&gt;
-                &lt;li&gt;Segment duration tables&lt;/li&gt;
-                &lt;li&gt;Review-ready artifacts&lt;/li&gt;
-                &lt;li&gt;Parameter and version logs&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Acceptance&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Full unsegmented timeline preserved&lt;/li&gt;
-                &lt;li&gt;Gold-sample count and duration error reported&lt;/li&gt;
-                &lt;li&gt;Parameters adjustable without code changes&lt;/li&gt;
-                &lt;li&gt;Manual Praat review remains final&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Risk&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Deterministic and controllable&lt;/li&gt;
-                &lt;li&gt;Calculation chain tested in Sprint&lt;/li&gt;
-                &lt;li&gt;Does not depend on cloud ASR&lt;/li&gt;
-                &lt;li&gt;Still needs human review of difficult acoustic cases&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/article&gt;
-
-      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--l2)&quot;&gt;
-        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Layer 2&lt;/span&gt;&lt;strong&gt;L2&lt;/strong&gt;&lt;/div&gt;
-        &lt;div class=&quot;tier-body&quot;&gt;
-          &lt;h2&gt;Research analysis expansion&lt;/h2&gt;
-          &lt;p&gt;Purpose: add the transcript, AS-unit, pause-location, lexical and MWU analysis needed to answer the research questions, once definitions are stable.&lt;/p&gt;
-          &lt;div class=&quot;cols&quot;&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Covers&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Phase III&lt;/li&gt;
-                &lt;li&gt;Phase IV&lt;/li&gt;
-                &lt;li&gt;Early Phase V integration&lt;/li&gt;
-                &lt;li&gt;Optional word-level alignment add-on&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Deliverables&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;RAW-TIMING and TIDY-PHRASE files&lt;/li&gt;
-                &lt;li&gt;AS-unit / clause mapping tables&lt;/li&gt;
-                &lt;li&gt;Lexical and MWU feature tables&lt;/li&gt;
-                &lt;li&gt;Pause-location features&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Start condition&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;AS-unit rules signed off&lt;/li&gt;
-                &lt;li&gt;MWU definition signed off&lt;/li&gt;
-                &lt;li&gt;Syllable / repair coding rules signed off&lt;/li&gt;
-                &lt;li&gt;Gold examples supplied&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;MFA boundary&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Base scope uses reviewed silence and clause boundaries&lt;/li&gt;
-                &lt;li&gt;MFA adds word-level timing precision&lt;/li&gt;
-                &lt;li&gt;MFA is separately quoted and validated&lt;/li&gt;
-                &lt;li&gt;No word-level claim without alignment evidence&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/article&gt;
-
-      &lt;article class=&quot;tier&quot; style=&quot;--accent: var(--l3)&quot;&gt;
-        &lt;div class=&quot;tier-label&quot;&gt;&lt;span&gt;Layer 3&lt;/span&gt;&lt;strong&gt;L3&lt;/strong&gt;&lt;/div&gt;
-        &lt;div class=&quot;tier-body&quot;&gt;
-          &lt;h2&gt;Final matrix and reporting system&lt;/h2&gt;
-          &lt;p&gt;Purpose: turn reviewed outputs and research features into a stable final workbook, codebook, validation package and reporting workflow.&lt;/p&gt;
-          &lt;div class=&quot;cols&quot;&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Covers&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Full Phase V&lt;/li&gt;
-                &lt;li&gt;Cross-phase synthesis&lt;/li&gt;
-                &lt;li&gt;Final export schema&lt;/li&gt;
-                &lt;li&gt;Reporting workflow&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Deliverables&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Research workbook&lt;/li&gt;
-                &lt;li&gt;Analysis matrix CSV/XLSX&lt;/li&gt;
-                &lt;li&gt;Codebook and method log&lt;/li&gt;
-                &lt;li&gt;Validation dashboard/report&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Acceptance&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Schema signed off&lt;/li&gt;
-                &lt;li&gt;Gold validation reported&lt;/li&gt;
-                &lt;li&gt;Traceability from source to metric&lt;/li&gt;
-                &lt;li&gt;Publication/archive package complete&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;box&quot;&gt;
-              &lt;h3&gt;Boundary&lt;/h3&gt;
-              &lt;ul&gt;
-                &lt;li&gt;Statistical modeling is separate&lt;/li&gt;
-                &lt;li&gt;Final research interpretation remains researcher-owned&lt;/li&gt;
-                &lt;li&gt;Requires stable upstream outputs&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/article&gt;
-    &lt;/section&gt;
-
-    &lt;section class=&quot;notice&quot; aria-label=&quot;Scope guardrails&quot;&gt;
-      &lt;article class=&quot;notice-card&quot;&gt;
-        &lt;h2&gt;Claims boundary&lt;/h2&gt;
-        &lt;p&gt;&lt;span class=&quot;tag&quot;&gt;&lt;i class=&quot;dot&quot; style=&quot;--accent: var(--sprint)&quot;&gt;&lt;/i&gt;Validation Sprint&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&lt;i class=&quot;dot&quot; style=&quot;--accent: var(--l1)&quot;&gt;&lt;/i&gt;Layer 1a risk&lt;/span&gt;&lt;/p&gt;
-        &lt;ul&gt;
-          &lt;li&gt;The sprint validates the deterministic calculation chain, not AI speaker diarization.&lt;/li&gt;
-          &lt;li&gt;AI diarization must be validated later against multilogue gold samples, with correction/error rates reported.&lt;/li&gt;
-          &lt;li&gt;Praat-reviewed TextGrid files remain the final research evidence, not unreviewed AI output.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/article&gt;
-      &lt;article class=&quot;notice-card&quot;&gt;
-        &lt;h2&gt;Client inputs required&lt;/h2&gt;
-        &lt;p&gt;&lt;span class=&quot;tag&quot;&gt;&lt;i class=&quot;dot&quot; style=&quot;--accent: var(--l2)&quot;&gt;&lt;/i&gt;Definitions sign-off&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&lt;i class=&quot;dot&quot; style=&quot;--accent: var(--l3)&quot;&gt;&lt;/i&gt;Gold standards&lt;/span&gt;&lt;/p&gt;
-        &lt;ul&gt;
-          &lt;li&gt;For L1a: multilogue audio plus manual speaker-isolation gold examples.&lt;/li&gt;
-          &lt;li&gt;For L2: AS-unit rules, MWU definition, syllable/repair coding rules, and gold examples.&lt;/li&gt;
-          &lt;li&gt;For word-level pause/MWU claims: optional forced-alignment scope and alignment validation target.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/article&gt;
-    &lt;/section&gt;
-  &lt;/main&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-"></iframe>
+        <div class="anchor-band" aria-label="Key interpretation notes">
+          <div class="anchor-item"><strong>When nobody holds the floor</strong><p><em>shs is assigned only while the floor is FREE.</em> Parameter G may later support responsibility analysis, but it does not change the timeline label from <strong>shs</strong>.</p></div>
+          <div class="anchor-item"><strong>Label versus review flag</strong><p><em>x is a formal label.</em> Low confidence, ambiguity, boundary conflict and other review reasons remain separate Tier 6 flags so the acoustic event and the quality state are never conflated.</p></div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script>
-    const buttons = [...document.querySelectorAll('.menu-link')];
-    const frames = {
-      workflow: document.getElementById('workflowFrame'),
-      proposal: document.getElementById('proposalFrame')
-    };
-    const statusText = {
-      workflow: ['Five-phase atlas', 'Phase I-V delivery flow'],
-      proposal: ['Scope summary', 'Pricing-stage boundaries']
-    };
-    function select(page, push = true) {
-      const next = frames[page] ? page : 'workflow';
-      buttons.forEach((button) => {
-        const active = button.dataset.page === next;
+    const pageButtons = [...document.querySelectorAll('[data-page]')];
+    const workflowFrame = document.getElementById('workflowFrame');
+    const methodPage = document.getElementById('methodPage');
+
+    function selectPage(page) {
+      const showWorkflow = page !== 'method';
+      workflowFrame.classList.toggle('active', showWorkflow);
+      methodPage.classList.toggle('active', !showWorkflow);
+      pageButtons.forEach((button) => {
+        const active = button.dataset.page === (showWorkflow ? 'workflow' : 'method');
         button.classList.toggle('active', active);
-        button.setAttribute('aria-selected', String(active));
+        button.setAttribute('aria-pressed', String(active));
       });
-      Object.entries(frames).forEach(([key, frame]) => frame.classList.toggle('active', key === next));
-      document.getElementById('statusTitle').textContent = statusText[next][0];
-      document.getElementById('statusSub').textContent = statusText[next][1];
-      if (push) history.replaceState(null, '', '#' + next);
+      history.replaceState(null, '', showWorkflow ? '#workflow' : '#method-key');
     }
-    buttons.forEach((button) => button.addEventListener('click', () => select(button.dataset.page)));
-    select((location.hash || '#workflow').slice(1), false);
+
+    pageButtons.forEach((button) => button.addEventListener('click', () => selectPage(button.dataset.page)));
+    selectPage(location.hash === '#method-key' ? 'method' : 'workflow');
   </script>
 </body>
 </html>

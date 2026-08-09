@@ -1,0 +1,259 @@
+{
+  "artifacts": [
+    "synthetic-six-tier.TextGrid",
+    "timeline-invariant-report.json",
+    "deterministic-replay.json",
+    "test-report.json"
+  ],
+  "changed_files": [
+    "specs/multilogue-v2/requirements.md",
+    "specs/multilogue-v2/design.md",
+    "specs/multilogue-v2/tasks.md",
+    "specs/multilogue-v2/quality-round-2.md",
+    "scripts/multilogue-v2/core/contracts.mjs",
+    "scripts/multilogue-v2/core/mapping.mjs",
+    "scripts/multilogue-v2/core/timeline.mjs",
+    "scripts/multilogue-v2/core/interaction-engine.mjs",
+    "scripts/multilogue-v2/core/textgrid.mjs",
+    "scripts/multilogue-v2/core/validator.mjs",
+    "scripts/multilogue-v2/core/pipeline.mjs",
+    "tests/multilogue-v2/fixtures.mjs",
+    "tests/multilogue-v2/run-tests.mjs",
+    "tests/multilogue-v2/artifacts/test-report.json",
+    "tests/multilogue-v2/artifacts/synthetic-six-tier.TextGrid",
+    "tests/multilogue-v2/artifacts/timeline-invariant-report.json",
+    "tests/multilogue-v2/artifacts/deterministic-replay.json"
+  ],
+  "deterministic_replay": {
+    "deterministic": true,
+    "first_digest": "f422a3b28085dd74f5be16db511ebd187216b41ede8b12e46a56a5b5124fe4a8",
+    "second_digest": "f422a3b28085dd74f5be16db511ebd187216b41ede8b12e46a56a5b5124fe4a8",
+    "threshold_digests": {
+      "P250": "40d4bb7b080804058eaa95b0c69b20ea0f9ecfc1dbc37390be80d22e2b275d33",
+      "P350": "413faad7a105c6d2d069ac63fd70c534854cb9b26e858352fd4bc072ba938655"
+    }
+  },
+  "generated_at": "2026-08-09T14:27:31.361Z",
+  "known_limitations": [
+    "Synthetic deterministic core only; no client audio or human-gold accuracy claim.",
+    "Real audio, Pyannote, AssemblyAI, Praat, UI, server, CSV-file and ZIP adapters are not in this slice.",
+    "Actual overlap capability remains unresolved; Path B and unknown modes do not publish automatic negative FTO.",
+    "Stage-1 vocalisation/laughter/artifact classifications are validated inputs, not produced by a real classifier yet.",
+    "Exactly three speakers and one supplied task boundary are supported.",
+    "Legacy binary TextGrid provenance is recorded but its boundaries are not parsed or reconciled.",
+    "Initial backchannel lexicon and all provisional FTO boundaries require calibration and expert review."
+  ],
+  "results": [
+    {
+      "duration_ms": 0.432917,
+      "name": "Q1-DES-001 validates explicit provider mappings",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.274084,
+      "name": "Q1-DES-001 preserves null confidence and flags provider uncertainty",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 6.478875,
+      "name": "Q1-DES-001 assigns words by overlap and all deterministic tie breaks",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.736292,
+      "name": "Q1-DES-002 derives 0.25 and 0.35 shared activity independently",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.119542,
+      "name": "Appendix section 4 discards sounding runs shorter than 100 ms as noise",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 4.680625,
+      "name": "Q2-IMP-001 threshold-filled gaps change op and phonation metrics",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.126,
+      "name": "Q1-DES-003 keeps unknown internal and restricts provisional kinds",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 1.060666,
+      "name": "Appendix 10.1 within-turn pause with backchannel",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 2.162583,
+      "name": "Appendix 10.2 overlap transfer emits negative provisional FTO on Path A",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 1.30025,
+      "name": "Appendix 10.3 failed bid marks overlap without FTO",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.7435,
+      "name": "Appendix 10.4 lapse is wholly shs with positive FTO",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.919083,
+      "name": "Appendix 10.5 filled pause, transition and artifact",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 1.27975,
+      "name": "Appendix 10.6 unattributed sounding is flagged and appears as op",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.124458,
+      "name": "Q1-DES-005 rejects backchannel when any one of four conditions fails",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.052166,
+      "name": "Q1-DES-005 treats turn-projecting starts as turn attempts",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.595917,
+      "name": "Q1-DES-005 admits a soft chuckle as bc only when holder carries on",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 4.030542,
+      "name": "V23C edge A preserves simultaneous bc then emits S1>S2>S3 question-answer sequence",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.917583,
+      "name": "V23C edge A uses bounded Assembly question identity but keeps lexical bc on local Pyannote identity",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 1.254417,
+      "name": "V23C residual continuity ends at acoustic offset and preserves the short tr before a question",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 1.553292,
+      "name": "V23C acoustic response onset requires later explicit same-speaker confirmation before anchoring a transfer",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 1.888459,
+      "name": "V23C edge B classifies two ending listener responses before floor and emits no tr",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.244417,
+      "name": "Appendix section 4 keeps sub-100 ms simultaneity out of ol and flags it",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.201,
+      "name": "Appendix section 4 marks overlap at 100 ms as reciprocal ol",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 1.336667,
+      "name": "Q2-IMP-002 competing simultaneous bids are flagged without duplicate FTO",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 1.003708,
+      "name": "Q2-IMP-002 duplicate candidates for one target collapse to one transfer",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 1.291,
+      "name": "Q2-IMP-002 consolidates duplicate targets before competing-target resolution",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.848125,
+      "name": "Q2-IMP-004 genuine overlap promotes every active vocalizer including concurrent bc to ol",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.625375,
+      "name": "Q1-DES-005 marks reciprocal two-way and three-way overlap",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.579833,
+      "name": "Q1-DES-005 flags own pauses longer than L and task-end shs",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.024125,
+      "name": "Q1-DES-005 includes s/f/ol and excludes bc/x/pause labels from default phonation",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.59825,
+      "name": "Q1-DES-005 Path B never publishes automatic negative FTO",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.846292,
+      "name": "PB21 qualified transition overlap suppresses a small positive FTO",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.341625,
+      "name": "PB21 subthreshold transition overlap stays visible without ol or numeric FTO",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.333417,
+      "name": "PB21 overlap away from a transition does not suppress an unrelated FTO",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.147208,
+      "name": "PB21 retained evidence recomputes a Path A signed overlap candidate",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.228125,
+      "name": "Q1-DES-004 flags are sorted, joined and Praat quotes are escaped",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 4.914875,
+      "name": "Q1-DES-004 produces exactly six valid, full-coverage tiers",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 0.103833,
+      "name": "Q1-DES-008 package rows preserve every frozen CSV schema",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 6.632375,
+      "name": "Q1-DES-006 legacy binary seed is disabled and never imports semantics",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 7.109542,
+      "name": "Q1-DES-002 and Q1-DES-007 replay is deterministic and package-safe",
+      "status": "passed"
+    },
+    {
+      "duration_ms": 2.67375,
+      "name": "Q1-DES-007 source and fixtures contain no network or client-data markers",
+      "status": "passed"
+    }
+  ],
+  "suite": "multilogue-v2-first-slice",
+  "totals": {
+    "failed": 0,
+    "passed": 41,
+    "tests": 41
+  }
+}

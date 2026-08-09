@@ -1,0 +1,496 @@
+{
+  "suite": "multilogue-v2-g3-delivery",
+  "passed": 13,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "delivery ZIP opens and has the exact 25-file allowlist",
+      "status": "passed"
+    },
+    {
+      "name": "delivery ZIP denylist and content safety scan pass",
+      "status": "passed"
+    },
+    {
+      "name": "UI report carries the draft-only status contract",
+      "status": "passed"
+    },
+    {
+      "name": "built UI contains v2 markers and excludes the legacy benchmark entry",
+      "status": "passed"
+    },
+    {
+      "name": "sandboxed input, status and report APIs return safe contracts",
+      "status": "passed"
+    },
+    {
+      "name": "file API rejects traversal, absolute and unlisted paths",
+      "status": "passed"
+    },
+    {
+      "name": "POST run completes the real local G1 to G2 to ZIP path",
+      "status": "passed"
+    },
+    {
+      "name": "progress events are monotonic and pass only after artifact hash evidence exists",
+      "status": "passed"
+    },
+    {
+      "name": "progress evaluator rejects event reordering and artifact tampering",
+      "status": "passed"
+    },
+    {
+      "name": "network evidence is derived from G2 and rejects an injected network marker",
+      "status": "passed"
+    },
+    {
+      "name": "report and package digest refresh after API run",
+      "status": "passed"
+    },
+    {
+      "name": "real TextGrid and ZIP downloads return HTTP 200 with correct types",
+      "status": "passed"
+    },
+    {
+      "name": "delivery/API suite leaves all formal PoC artifacts byte-identical",
+      "status": "passed"
+    }
+  ],
+  "actual_api_run_elapsed_ms": 4465,
+  "actual_progress_events": [
+    {
+      "sequence": 1,
+      "key": "phase_i_evidence",
+      "occurred_at": "2026-08-09T14:32:03.466Z",
+      "event_sha256": "ca7e387878365d3f2f4d20c5fa7da4ab4e2e418f511d908d73dcff34f2dbc8b1",
+      "artifact_count": 2
+    },
+    {
+      "sequence": 2,
+      "key": "P025",
+      "occurred_at": "2026-08-09T14:32:05.448Z",
+      "event_sha256": "b0e18500a77a7da578bb0f958d5fc9a9b7f17f2e94bafd5588d9a3774154f0aa",
+      "artifact_count": 10
+    },
+    {
+      "sequence": 3,
+      "key": "P035",
+      "occurred_at": "2026-08-09T14:32:07.449Z",
+      "event_sha256": "64e27f7bc4cd3a928f0b745f1f105875aba5b64dfc1b0e883257cefa065e4cd8",
+      "artifact_count": 10
+    },
+    {
+      "sequence": 4,
+      "key": "gate_qa",
+      "occurred_at": "2026-08-09T14:32:07.453Z",
+      "event_sha256": "3f8e16525badc5c7b08c5488aad7b011f96e43f78775389269f5e716794212ad",
+      "artifact_count": 3
+    },
+    {
+      "sequence": 5,
+      "key": "delivery_package",
+      "occurred_at": "2026-08-09T14:32:07.569Z",
+      "event_sha256": "346c18dd9c406f880739a14b254088c05314f8ef6f3ca30454f59d7ca05e815e",
+      "artifact_count": 3
+    }
+  ],
+  "status_snapshots": [
+    {
+      "status": "starting",
+      "active_step": "phase_i_evidence",
+      "event_keys": [],
+      "updated_at": "2026-08-09T14:32:03.170Z"
+    },
+    {
+      "status": "running",
+      "active_step": "phase_i_evidence",
+      "event_keys": [],
+      "updated_at": "2026-08-09T14:32:03.227Z"
+    },
+    {
+      "status": "running",
+      "active_step": "phase_i_evidence",
+      "event_keys": [],
+      "updated_at": "2026-08-09T14:32:03.227Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P025",
+      "event_keys": [
+        "phase_i_evidence"
+      ],
+      "updated_at": "2026-08-09T14:32:03.466Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "P035",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025"
+      ],
+      "updated_at": "2026-08-09T14:32:05.448Z"
+    },
+    {
+      "status": "running",
+      "active_step": "delivery_package",
+      "event_keys": [
+        "phase_i_evidence",
+        "P025",
+        "P035",
+        "gate_qa"
+      ],
+      "updated_at": "2026-08-09T14:32:07.453Z"
+    },
+    {
+      "status": "ready_draft",
+      "active_step": null,
+      "event_keys": [
+        "phase_i_evidence",
+        "P025",
+        "P035",
+        "gate_qa",
+        "delivery_package"
+      ],
+      "updated_at": "2026-08-09T14:32:07.569Z"
+    }
+  ],
+  "server_log_tail": [
+    "Validation console at http://localhost:4183  (build: <repo>/build-validation)"
+  ],
+  "output_isolation": {
+    "env": "MWU_V2_POC_ROOT",
+    "formal_artifact_hashes_before": {
+      "Audio": "270bb58b2a8995e76e1c472b82d03f73eb8c2a5bbe34a307fcc59cf41eb80d27",
+      "Gold": "f14112aa03f0621b3f3a75f71b271762b05b8224db4e6353127cb585aa8d5649",
+      "Stage1": "cbfc3d37292307c89662bfdc7d4b86a162094be5159bdeec3701bc6c5d3c0af8",
+      "P025": "211a2af20d73f038e99cdffdbad3b157efb0e030ce0efeb1391d17d58d6c9bb8",
+      "P035": "912e3c286222f8283d88b257222b52324dee461cd8f8535dd850e4b32cda7d65",
+      "ZIP": "1655241d3e8d94fe3e07ba73f1f502a0ea78ed159cb165f58b8c3c81ff367f07"
+    },
+    "formal_artifact_hashes_after": {
+      "Audio": "270bb58b2a8995e76e1c472b82d03f73eb8c2a5bbe34a307fcc59cf41eb80d27",
+      "Gold": "f14112aa03f0621b3f3a75f71b271762b05b8224db4e6353127cb585aa8d5649",
+      "Stage1": "cbfc3d37292307c89662bfdc7d4b86a162094be5159bdeec3701bc6c5d3c0af8",
+      "P025": "211a2af20d73f038e99cdffdbad3b157efb0e030ce0efeb1391d17d58d6c9bb8",
+      "P035": "912e3c286222f8283d88b257222b52324dee461cd8f8535dd850e4b32cda7d65",
+      "ZIP": "1655241d3e8d94fe3e07ba73f1f502a0ea78ed159cb165f58b8c3c81ff367f07"
+    },
+    "formal_artifacts_unchanged": true
+  },
+  "generated_at": "2026-08-09T14:32:07.675Z"
+}

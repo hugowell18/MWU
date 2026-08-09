@@ -1,0 +1,380 @@
+{
+  "suite": "multilogue-v2-g3-browser-qa",
+  "status": "pass",
+  "actual_ui_run": {
+    "status": "ready_draft",
+    "done": true,
+    "event_keys": [
+      "phase_i_evidence",
+      "P025",
+      "P035",
+      "gate_qa",
+      "delivery_package"
+    ]
+  },
+  "viewports": {
+    "desktop": {
+      "status": "pass",
+      "expected": {
+        "width": 1440,
+        "height": 1000
+      },
+      "checks": {
+        "viewport_exact": true,
+        "page_no_horizontal_overflow": true,
+        "critical_within_page": true,
+        "text_controls_fit": true,
+        "all_key_texts_visible": true,
+        "all_seven_labels": true,
+        "table_layout": true,
+        "mobile_scrollbar_hint": true,
+        "console_clean": true
+      },
+      "dom": {
+        "viewport": {
+          "innerWidth": 1440,
+          "innerHeight": 1000,
+          "clientWidth": 1440,
+          "scrollWidth": 1440
+        },
+        "page_no_horizontal_overflow": true,
+        "critical_within_page": true,
+        "text_controls_fit": true,
+        "key_texts": {
+          "draft_evidence": true,
+          "accuracy": true,
+          "duration_six_decimals": true,
+          "p025": true,
+          "p035": true,
+          "ol_unavailable": true,
+          "x_unavailable": true,
+          "download_zip": true
+        },
+        "all_key_texts_visible": true,
+        "table_count": 2,
+        "all_seven_labels": true,
+        "desktop_tables_fully_visible": true,
+        "mobile_internal_scroll": false,
+        "mobile_scrollbar_hint": true,
+        "critical": [
+          {
+            "selector": ".m2-page",
+            "index": 0,
+            "left": 422,
+            "right": 1286,
+            "top": 395.734375,
+            "bottom": 2210.3125,
+            "width": 864,
+            "height": 1814.578125
+          },
+          {
+            "selector": ".m2-status-strip",
+            "index": 0,
+            "left": 422,
+            "right": 1286,
+            "top": 501.484375,
+            "bottom": 559.921875,
+            "width": 864,
+            "height": 58.4375
+          },
+          {
+            "selector": ".m2-threshold-grid",
+            "index": 0,
+            "left": 422,
+            "right": 1286,
+            "top": 946.9375,
+            "bottom": 1755,
+            "width": 864,
+            "height": 808.0625
+          },
+          {
+            "selector": ".m2-threshold",
+            "index": 0,
+            "left": 422,
+            "right": 1286,
+            "top": 946.9375,
+            "bottom": 1342.96875,
+            "width": 864,
+            "height": 396.03125
+          },
+          {
+            "selector": ".m2-threshold",
+            "index": 1,
+            "left": 422,
+            "right": 1286,
+            "top": 1358.96875,
+            "bottom": 1755,
+            "width": 864,
+            "height": 396.03125
+          },
+          {
+            "selector": ".m2-package",
+            "index": 0,
+            "left": 440,
+            "right": 1268,
+            "top": 2097.84375,
+            "bottom": 2192.3125,
+            "width": 828,
+            "height": 94.46875
+          },
+          {
+            "selector": ".vc-runbtn",
+            "index": 0,
+            "left": 1103.234375,
+            "right": 1286,
+            "top": 395.734375,
+            "bottom": 429.734375,
+            "width": 182.765625,
+            "height": 34
+          }
+        ],
+        "tables": [
+          {
+            "headers": [
+              "Speaker",
+              "s",
+              "f",
+              "bc",
+              "op",
+              "pf",
+              "tr",
+              "shs"
+            ],
+            "left": 440,
+            "right": 1268,
+            "top": 1145.46875,
+            "bottom": 1259.21875,
+            "width": 828,
+            "height": 113.75
+          },
+          {
+            "headers": [
+              "Speaker",
+              "s",
+              "f",
+              "bc",
+              "op",
+              "pf",
+              "tr",
+              "shs"
+            ],
+            "left": 440,
+            "right": 1268,
+            "top": 1557.5,
+            "bottom": 1671.25,
+            "width": 828,
+            "height": 113.75
+          }
+        ],
+        "wraps": [
+          {
+            "clientWidth": 828,
+            "scrollWidth": 828,
+            "overflowX": "auto",
+            "scrollbarWidth": "thin",
+            "webkitScrollbarHeight": "8px"
+          },
+          {
+            "clientWidth": 828,
+            "scrollWidth": 828,
+            "overflowX": "auto",
+            "scrollbarWidth": "thin",
+            "webkitScrollbarHeight": "8px"
+          }
+        ]
+      },
+      "console": {
+        "errors": 0,
+        "warnings": 0,
+        "raw": "Total messages: 0 (Errors: 0, Warnings: 0)\n"
+      },
+      "screenshot": {
+        "path": "output/playwright/multilogue-v2-desktop.png",
+        "exists": true,
+        "bytes": 324404
+      }
+    },
+    "mobile": {
+      "status": "pass",
+      "expected": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": {
+        "viewport_exact": true,
+        "page_no_horizontal_overflow": true,
+        "critical_within_page": true,
+        "text_controls_fit": true,
+        "all_key_texts_visible": true,
+        "all_seven_labels": true,
+        "table_layout": true,
+        "mobile_scrollbar_hint": true,
+        "console_clean": true
+      },
+      "dom": {
+        "viewport": {
+          "innerWidth": 390,
+          "innerHeight": 844,
+          "clientWidth": 390,
+          "scrollWidth": 390
+        },
+        "page_no_horizontal_overflow": true,
+        "critical_within_page": true,
+        "text_controls_fit": true,
+        "key_texts": {
+          "draft_evidence": true,
+          "accuracy": true,
+          "duration_six_decimals": true,
+          "p025": true,
+          "p035": true,
+          "ol_unavailable": true,
+          "x_unavailable": true,
+          "download_zip": true
+        },
+        "all_key_texts_visible": true,
+        "table_count": 2,
+        "all_seven_labels": true,
+        "desktop_tables_fully_visible": false,
+        "mobile_internal_scroll": true,
+        "mobile_scrollbar_hint": true,
+        "critical": [
+          {
+            "selector": ".m2-page",
+            "index": 0,
+            "left": 20,
+            "right": 370,
+            "top": 694.1875,
+            "bottom": 3986.875,
+            "width": 350,
+            "height": 3292.6875
+          },
+          {
+            "selector": ".m2-status-strip",
+            "index": 0,
+            "left": 20,
+            "right": 370,
+            "top": 868.1875,
+            "bottom": 1059.5,
+            "width": 350,
+            "height": 191.3125
+          },
+          {
+            "selector": ".m2-threshold-grid",
+            "index": 0,
+            "left": 20,
+            "right": 370,
+            "top": 1942.0625,
+            "bottom": 3209.6875,
+            "width": 350,
+            "height": 1267.625
+          },
+          {
+            "selector": ".m2-threshold",
+            "index": 0,
+            "left": 20,
+            "right": 370,
+            "top": 1942.0625,
+            "bottom": 2567.875,
+            "width": 350,
+            "height": 625.8125
+          },
+          {
+            "selector": ".m2-threshold",
+            "index": 1,
+            "left": 20,
+            "right": 370,
+            "top": 2583.875,
+            "bottom": 3209.6875,
+            "width": 350,
+            "height": 625.8125
+          },
+          {
+            "selector": ".m2-package",
+            "index": 0,
+            "left": 34,
+            "right": 356,
+            "top": 3800.96875,
+            "bottom": 3972.875,
+            "width": 322,
+            "height": 171.90625
+          },
+          {
+            "selector": ".vc-runbtn",
+            "index": 0,
+            "left": 20,
+            "right": 370,
+            "top": 816.1875,
+            "bottom": 850.1875,
+            "width": 350,
+            "height": 34
+          }
+        ],
+        "tables": [
+          {
+            "headers": [
+              "Speaker",
+              "s",
+              "f",
+              "bc",
+              "op",
+              "pf",
+              "tr",
+              "shs"
+            ],
+            "left": 35,
+            "right": 655,
+            "top": 2249.625,
+            "bottom": 2363.375,
+            "width": 620,
+            "height": 113.75
+          },
+          {
+            "headers": [
+              "Speaker",
+              "s",
+              "f",
+              "bc",
+              "op",
+              "pf",
+              "tr",
+              "shs"
+            ],
+            "left": 35,
+            "right": 655,
+            "top": 2891.4375,
+            "bottom": 3005.1875,
+            "width": 620,
+            "height": 113.75
+          }
+        ],
+        "wraps": [
+          {
+            "clientWidth": 320,
+            "scrollWidth": 620,
+            "overflowX": "auto",
+            "scrollbarWidth": "thin",
+            "webkitScrollbarHeight": "8px"
+          },
+          {
+            "clientWidth": 320,
+            "scrollWidth": 620,
+            "overflowX": "auto",
+            "scrollbarWidth": "thin",
+            "webkitScrollbarHeight": "8px"
+          }
+        ]
+      },
+      "console": {
+        "errors": 0,
+        "warnings": 0,
+        "raw": "Total messages: 0 (Errors: 0, Warnings: 0)\n"
+      },
+      "screenshot": {
+        "path": "output/playwright/multilogue-v2-mobile.png",
+        "exists": true,
+        "bytes": 260861
+      }
+    }
+  },
+  "generated_at": "2026-08-02T09:17:43.568Z"
+}
