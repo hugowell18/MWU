@@ -155,14 +155,28 @@ async function main() {
     assert(!src.includes('/api/multilogue-v2/finalize'), 'v2 finalization endpoint leaked into UI');
   });
 
-  await t('Multilogue v2 lives inside Validation Sprint, while Phase II remains workflow preview only', async () => {
+  await t('Formal Layer workspace is primary while benchmark runners remain internal regression tools', async () => {
     const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
     const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');
     const appSource = fs.readFileSync(path.join(ROOT, 'src/components/validation/ValidationApp.tsx'), 'utf8');
-    for (const marker of ['Two benchmark runs, one validation workspace', 'SpeakerX monologue baseline', 'Multilogue04 v2'])
-      assert(src.includes(marker), `missing Validation Sprint route "${marker}"`);
-    assert(appSource.includes("sel === 'validation' ?") && appSource.includes('<ValidationSprint'), 'Validation Sprint is not the executable entry');
-    assert(!/sel === 'ii'\s*\?\s*\(\s*<MultilogueV2Runner/.test(appSource), 'v2 runner is mounted in the real Phase II menu');
+    for (const marker of ['Operational workspace', 'Delivery layers', 'Speaker Evidence', 'Interaction Timing', 'N+3 TextGrid'])
+      assert(src.includes(marker), `missing formal workspace marker "${marker}"`);
+    assert(appSource.includes("params.get('internal') === 'validation'") && appSource.includes('<InternalValidation'), 'internal regression route is missing');
+    assert(!src.includes('Two benchmark runs, one validation workspace'), 'obsolete benchmark selector remains in the formal UI');
+    assert(!/className="vc-pitem[^\n]+Validation/.test(appSource), 'benchmark validation remains in the formal layer navigation');
+  });
+
+  await t('Methodology Atlas is embedded as a versioned static academic reference', async () => {
+    const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
+    const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');
+    const atlasPath = path.join(BUILD, 'methodology-atlas.html');
+    assert(src.includes('Methodology Atlas') && src.includes('/methodology-atlas.html?embed=1#workflow'), 'Methodology menu or iframe is missing');
+    assert(fs.existsSync(atlasPath), 'built methodology-atlas.html is missing');
+    const atlas = fs.readFileSync(atlasPath, 'utf8');
+    for (const marker of ['2+ speakers · auto/configured', 'dynamic N+3-tier TextGrid', 'three-speaker, six-tier layout is the initial Gold reference only', 'Path B baseline', 'N listening mirrors'])
+      assert(atlas.includes(marker), `methodology atlas missing "${marker}"`);
+    for (const stale of ['current study: 3 fixed', 'Original WAV + task bounds + 3 fixed speaker IDs', 'P025/P035 six-tier TextGrids'])
+      assert(!atlas.includes(stale), `methodology atlas retains stale fixed-three wording: "${stale}"`);
   });
 
   await t('Multilogue v2 API exposes local input and two six-tier draft thresholds', async () => {
@@ -174,16 +188,29 @@ async function main() {
     assert(reportV2.thresholds.length === 2 && reportV2.thresholds.every((item) => item.praat.passed), 'two Praat-readable thresholds absent');
   });
 
-  await t('Interactive flow present: validation HP + upload UI + empty-on-load + 8 status states', async () => {
+  await t('Interactive flow present: formal overview + four-layer workspace + internal regression controls', async () => {
     const assets = fs.readdirSync(path.join(BUILD, 'assets'));
     const js = fs.readFileSync(path.join(BUILD, 'assets', assets.find((f) => f.endsWith('.js'))), 'utf8');
     const css = fs.readFileSync(path.join(BUILD, 'assets', assets.find((f) => f.endsWith('.css'))), 'utf8');
     assert(js.includes('No results yet'), 'no empty-on-load guard');
     assert(js.includes('Run Validation'), 'no single Run Validation control');
     assert(js.includes('Pipeline progress'), 'no pipeline progress');
-    assert(js.includes('L2 fluency and multiword-unit research') && js.includes('Five-stage research workflow'), 'MWU validation homepage missing');
-    assert(js.includes('Open multilogue validation') && js.includes('Run SpeakerX Benchmark'), 'homepage validation CTAs missing');
-    assert(js.includes('Workflow phases'), 'phase sidebar missing');
+    assert(js.includes('From multilogue audio to reviewable research evidence') && js.includes('Five-stage research workflow'), 'formal MWU homepage missing');
+    assert(js.includes('Open Layer 1a') && js.includes('Review Layer 1b'), 'formal Layer 1 CTAs missing');
+    assert(js.includes('Delivery layers'), 'layer sidebar missing');
+    for (const marker of [
+      'Original room-mix WAV',
+      'Automatic or configured speaker count (two or more)',
+      'Callable floor and nine-label engine',
+      'One dynamic N+3-tier TextGrid per threshold',
+      'Nine timeline labels',
+      'overlap present with offset not measured',
+      'never serialize missing FTO as zero',
+      'R1 start FREE',
+      'R2 claim floor',
+      'R5 resolve silence',
+    ])
+      assert(js.includes(marker), `formal Layer contract missing "${marker}"`);
     assert(!/Run Phase II/.test(js), 'per-phase Run buttons should be gone (single Validation entry)');
     assert(js.includes('Use SpeakerX sample') || js.includes('Benchmark inputs'), 'no upload UI');
     assert(/api\/run/.test(js) && /api\/status/.test(js) && /api\/upload/.test(js), 'missing run/status/upload wiring');
