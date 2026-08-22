@@ -185,19 +185,23 @@ async function main() {
     assert(src.includes('Methodology Atlas') && src.includes('/methodology-atlas.html?embed=1#workflow'), 'Methodology menu or iframe is missing');
     assert(fs.existsSync(atlasPath), 'built methodology-atlas.html is missing');
     const atlas = fs.readFileSync(atlasPath, 'utf8');
-    for (const marker of ['2+ speakers · auto/configured', 'dynamic N+3-tier TextGrid', 'three-speaker, six-tier layout is the initial Gold reference only', 'Path B baseline', 'N listening mirrors'])
+    for (const marker of ['all acoustic candidates', 'dynamic N+3 draft', 'three-speaker Gold reference', 'Path B baseline', 'N muted mirrors'])
       assert(atlas.includes(marker), `methodology atlas missing "${marker}"`);
     for (const stale of ['current study: 3 fixed', 'Original WAV + task bounds + 3 fixed speaker IDs', 'P025/P035 six-tier TextGrids'])
       assert(!atlas.includes(stale), `methodology atlas retains stale fixed-three wording: "${stale}"`);
   });
 
-  await t('Multilogue v2 API exposes local input and two six-tier draft thresholds', async () => {
+  await t('Multilogue v2 regression API exposes either local evidence or an explicit blocker', async () => {
     const input = await (await fetch(`${base}/api/multilogue-v2/input`)).json();
-    assert(input.ready, 'v2 local input is not ready');
     const reportV2 = await (await fetch(`${base}/api/multilogue-v2/report`)).json();
-    assert(reportV2.status === 'ready_draft', `v2 status=${reportV2.status}`);
-    assert(reportV2.accuracy === 'unavailable', `v2 accuracy=${reportV2.accuracy}`);
-    assert(reportV2.thresholds.length === 2 && reportV2.thresholds.every((item) => item.praat.passed), 'two Praat-readable thresholds absent');
+    if (input.ready) {
+      assert(reportV2.status === 'ready_draft', `v2 status=${reportV2.status}`);
+      assert(reportV2.accuracy === 'unavailable', `v2 accuracy=${reportV2.accuracy}`);
+      assert(reportV2.thresholds.length === 2 && reportV2.thresholds.every((item) => item.praat.passed), 'two Praat-readable thresholds absent');
+    } else {
+      const missing = (input.required_files_present || []).filter((item) => item.present === false);
+      assert(missing.length > 0, 'missing regression input has no explicit missing-file evidence');
+    }
   });
 
   await t('Interactive flow present: formal overview + four-layer workspace + internal regression controls', async () => {
@@ -213,7 +217,7 @@ async function main() {
     for (const marker of [
       'Original room-mix WAV',
       'Researcher candidate decisions',
-      'L1a evidence and callable engine',
+      'Accepted L1a handoff and canonical S1-SN evidence',
       'One dynamic N+3-tier TextGrid per threshold',
       'Nine timeline labels',
       'overlap present with offset not measured',

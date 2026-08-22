@@ -15,8 +15,8 @@ flowchart LR
   B --> C[Accepted S1-SN Phase I handoff]
   C --> D[L1b acoustic and interaction engine]
   D --> E[Dynamic N+3 TextGrid drafts]
-  E --> F[Praat review and finalization]
-  F --> G[L2 transcript and linguistic analysis]
+  E --> F[Local Praat review and save]
+  F --> G[L2 reviewed TextGrid upload and analysis]
   G --> H[L3 matrix, reporting and archive]
 ```
 
@@ -44,12 +44,12 @@ flowchart LR
 | Component | Responsibility | Current anchor | Status |
 |---|---|---|---|
 | React WebUI | Layer navigation, job state, downloads and review handoffs | `src/components/validation/ValidationApp.tsx` | partial |
-| L1b workspace | Threshold execution, results and reviewed TextGrid upload | `src/components/validation/L1bRunner.tsx` | implemented for current contract |
+| L1b workspace | Threshold execution and one Praat draft package | `src/components/validation/L1bRunner.tsx` | implemented for current contract |
 | Local HTTP service | Job orchestration and artifact access | `scripts/validation-sprint/server.mjs` | partial |
 | L1a provider adapter | pyannote job execution and artifact generation | `scripts/phase1-pyannote-remote.mjs` | implemented PoC path |
 | L1a artifact builder | RTTM/CSV/TextGrid/muted-mirror creation | `scripts/phase1/lib/diarization-artifacts.mjs` | implemented PoC path |
 | Interaction engine | Floor, labels, overlap evidence and transitions | `scripts/multilogue-v2/core/interaction-engine.mjs` | run-scoped S1-SN implemented; three-speaker Gold retained as regression |
-| L1b runner/finalizer | Praat drafts and reviewed duration outputs | `scripts/l1b/` | implemented for current handoff |
+| L1b draft runner | Praat drafts, diagnostic workbook and retained method evidence | `scripts/l1b/` | implemented for current handoff |
 | Provider usage ledger | Successful-call accounting, allowance status and source-audio deduplication | `scripts/usage/provider-usage-ledger.mjs` | implemented |
 | L2 research scripts | Alignment, pause location, rate and export experiments | `scripts/prepare-mfa-corpus.mjs`, `scripts/classify-pause-location.mjs`, `scripts/export-research-excel.mjs` | experimental |
 
@@ -148,9 +148,10 @@ requests for seeking.
 
 ### 4.4 Output presentation
 
-The L1a download panel exposes only the PoC-aligned delivery set: one speaker TextGrid, RTTM, CSV
-and N muted-mirror WAVs. Review JSON, invalid-interval TSVs, flags and manifests remain sealed
-internal evidence for L1b and reproducibility; they are not additional customer deliverables.
+The L1a download panel exposes one ZIP containing only the PoC-aligned delivery set: one speaker
+TextGrid, RTTM, CSV and N muted-mirror WAVs. Its contents may be inspected in a collapsed list.
+Review JSON, invalid-interval TSVs, flags and manifests remain sealed internal evidence for L1b and
+reproducibility; they are not additional customer deliverables.
 
 ### 4.5 Target L1a API
 
@@ -190,12 +191,12 @@ L1b consumes an explicitly selected accepted L1a handoff. The identity gate and 
 contract must pass before launch. Missing AssemblyAI timing or sealed Path B evidence is prepared
 inside the L1b run and shown as a processing stage; superseded or unsealed L1a revisions are rejected
 before launch. Each run records threshold values and method configuration. A run moves through
-`pending`, `running`, `ready_for_praat_review`,
-`review_uploaded`, `finalizing`, `complete` or `failed`.
+`pending`, `running`, `ready_for_praat_review` or `failed`.
 
 Successful drafts are written under `sessions/{session_id}/L1b/revisions/{revision}`. L1b updates
 its Layer manifest and the session manifest atomically. The Layer 2 handoff remains blocked until
-the L1b TextGrid has been corrected and finalized by the researcher.
+the researcher corrects a selected draft in local Praat and uploads the reviewed TextGrid from the
+Layer 2 workspace.
 
 The L1b input control is a session selector, not another WAV upload. It lists the latest accepted
 L1a revision for each session. Selecting an item loads only that
@@ -210,8 +211,12 @@ unsealed and unsupported revisions cannot be submitted.
 4. Combine acoustic evidence with accepted speaker evidence.
 5. Run R1-R5 floor state and nine-label classification.
 6. Build dynamic N+3 TextGrid and tabular evidence.
-7. Expose draft artifacts for Praat review.
-8. Accept reviewed TextGrids and recompute final durations from reviewed boundaries.
+7. Build one customer-facing Praat draft ZIP while retaining technical evidence in the session archive.
+8. Stop at the local Praat review boundary; reviewed TextGrid import and metric recomputation belong to Layer 2.
+
+Customer filenames use the recording stem and an explicit seconds threshold. For example,
+`{recording}_0.25s.TextGrid` and `{recording}_0.35s.TextGrid`. Algorithm versions, blind-draft
+status and the calculated N+3 tier count remain metadata rather than filename tokens.
 
 ### 6.3 Path B transition handling
 
@@ -227,7 +232,7 @@ Layer 3 handoff. The system records which client rules and Gold examples govern 
 producing features.
 
 ```text
-reviewed TextGrid + reviewed transcript + signed definitions
+reviewed TextGrid uploaded in L2 + reviewed transcript + signed definitions
     -> Step 1: validate required and conditional inputs
     -> Step 2: transcript split + AS-unit/clause + pause/rate + lexical/MWU modules
     -> Step 3: Layer 2 feature table + unresolved items + early Phase V handoff
@@ -257,8 +262,8 @@ authorized validation evidence.
 | Workspace | Primary action | Required stop point |
 |---|---|---|
 | L1a | Generate candidates and confirm participant mapping | Researcher confirms S1-SN. |
-| L1b | Generate threshold drafts and upload Praat-reviewed grids | Researcher confirms reviewed boundaries. |
-| L2 | Run transcript/linguistic modules | Required definitions and reviewed inputs are present. |
+| L1b | Generate and download the Praat draft package | Researcher corrects the selected draft locally. |
+| L2 | Upload the reviewed TextGrid and run transcript/linguistic modules | Reviewed TextGrid and required definitions are present. |
 | L3 | Compile and validate final matrix | Codebook and expected schema are signed. |
 | Workflow Atlas | Read-only method reference | None. |
 
@@ -287,7 +292,7 @@ inside the L1a-L3 research WebUI.
 | Layer | Evidence |
 |---|---|
 | L1a | Provider contract tests, artifact invariants, candidate-review persistence tests and researcher mapping audit. |
-| L1b | Timeline/schema invariants, deterministic replay, Gold metrics, Praat-open validation and reviewed-finalization tests. |
+| L1b | Timeline/schema invariants, deterministic replay, Gold metrics, Praat-open validation and customer-package tests. |
 | L2 | Definition fixtures, transformation logs, expected feature tables and alignment evidence where used. |
 | L3 | Matrix schema validation, expected-row reconciliation, download/archive verification and browser QA. |
 

@@ -13,6 +13,7 @@ import {
   completeProviderRun,
   confirmReview,
   createL1aRun,
+  ensureL1aCustomerPackage,
   getRunSnapshot,
   listL1aReviewRuns,
   pathsForRun,
@@ -693,6 +694,7 @@ const server = http.createServer(async (req, res) => {
   if (l1aCandidateMatch && req.method === 'GET') {
     try {
       const runId = decodeURIComponent(l1aCandidateMatch[1]);
+      await ensureL1aCustomerPackage({ root: l1aRootForRun(runId), runId });
       const snapshot = getRunSnapshot({ root: l1aRootForRun(runId), runId });
       if (!snapshot) return sendJson(res, 404, { error: 'L1a run not found' });
       return sendJson(res, 200, { ...snapshot, artifacts: artifactIndex(snapshot) });
@@ -719,7 +721,7 @@ const server = http.createServer(async (req, res) => {
       const runId = decodeURIComponent(l1aConfirmMatch[1]);
       const reviewRoot = l1aRootForRun(runId);
       saveReviewDraft({ root: reviewRoot, runId, payload });
-      const result = confirmReview({
+      const result = await confirmReview({
         root: reviewRoot,
         acceptedRoot: MULTILOGUE_OUT,
         runId,

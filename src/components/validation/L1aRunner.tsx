@@ -10,6 +10,7 @@ import {
   FileOutput,
   FolderTree,
   GitMerge,
+  Package,
   Play,
   RefreshCw,
   RotateCcw,
@@ -217,11 +218,10 @@ export function L1aRunner() {
       });
       const value = await response.json();
       if (!response.ok) throw new Error(value.validation_errors?.join('; ') || value.error || 'Mapping could not be confirmed');
-      const updated = await loadSnapshot(runId);
-      const artifactCount = (updated.artifacts || []).filter((artifact: any) => artifact.client_delivery).length;
+      await loadSnapshot(runId);
       setNotice({
         title: 'Participant mapping accepted',
-        message: `${artifactCount} PoC-aligned Layer 1a deliverables were rebuilt and are ready to download.`,
+        message: 'The PoC-aligned Layer 1a package was rebuilt and is ready to download.',
       });
       setBusy(null);
       window.requestAnimationFrame(() => outputSection.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
@@ -245,7 +245,9 @@ export function L1aRunner() {
   const included = Object.values(decisions).filter((item) => item.decision === 'include');
   const resolved = Object.values(decisions).filter((item) => isResolved(item)).length;
   const accepted = state?.status === 'accepted' && !state?.downstream_invalidated;
-  const clientArtifacts = (snapshot?.artifacts || []).filter((artifact: any) => artifact.client_delivery);
+  const allArtifacts = snapshot?.artifacts || [];
+  const clientArtifacts = allArtifacts.filter((artifact: any) => artifact.client_delivery);
+  const deliveryPackage = allArtifacts.find((artifact: any) => artifact.primary_package);
   const timelineArtifacts = clientArtifacts.filter((artifact: any) => artifact.kind === 'textgrid');
   const turnArtifacts = clientArtifacts.filter((artifact: any) => ['rttm', 'csv'].includes(artifact.kind));
   const mutedMirrorArtifacts = clientArtifacts.filter((artifact: any) => artifact.kind === 'wav');
@@ -358,7 +360,7 @@ export function L1aRunner() {
       </section>
 
       <section className="l1a-card l1a-output" ref={outputSection}>
-        <SectionTitle eyebrow="Layer 1a outputs" title="Speaker isolation deliverables" icon={<FileOutput size={17} />} status={accepted ? 'Accepted deliverables ready' : 'Human gate pending'} />
+        <SectionTitle eyebrow="Layer 1a outputs" title="Speaker evidence deliverables" icon={<FileOutput size={17} />} status={accepted ? 'Accepted package ready' : 'Human gate pending'} />
         <div className="l1a-session-band">
           <FolderTree size={17} />
           <div><span>Execution session</span><strong>{sessionId || 'Created after WAV preflight'}</strong></div>
@@ -372,12 +374,22 @@ export function L1aRunner() {
             ['Accepted review record', accepted && snapshot?.review ? `Revision ${snapshot.review.revision}` : 'Waiting'],
           ]} />
           <div className="l1a-output-group">
-            <div className="l1a-output-head"><span>After human gate</span><strong>Accepted L1a deliverables</strong></div>
-            {clientArtifacts.length ? <div className="l1a-delivery-groups">
-              <DeliverableGroup title="Speaker timeline" detail="1 reviewed speaker TextGrid" artifacts={timelineArtifacts} runId={runId} />
-              <DeliverableGroup title="Turn evidence" detail="RTTM and CSV" artifacts={turnArtifacts} runId={runId} />
-              <DeliverableGroup title="Muted-mirror tracks" detail={`${mutedMirrorArtifacts.length} full-timeline WAVs`} artifacts={mutedMirrorArtifacts} runId={runId} />
-            </div> : <><OutputRow label="1 speaker TextGrid" state="Waiting" /><OutputRow label="RTTM and CSV" state="Waiting" /><OutputRow label="N full-duration muted-mirror WAVs" state="Waiting" /></>}
+            <div className="l1a-output-head"><span>After human gate</span><strong>Accepted L1a package</strong></div>
+            {deliveryPackage ? <div className="l1a-package-block">
+              <div className="l1a-package-primary">
+                <div className="l1a-package-icon"><Package size={21} /></div>
+                <div><span>Customer download</span><strong>{deliveryPackage.name}</strong><p>One speaker TextGrid, RTTM, CSV and {mutedMirrorArtifacts.length} full-timeline muted-mirror WAVs.</p></div>
+                <a href={`/api/l1a/runs/${encodeURIComponent(runId || '')}/artifact?path=${encodeURIComponent(deliveryPackage.relative_path)}`}><Download size={14} /> Download ZIP</a>
+              </div>
+              <details className="l1a-package-contents">
+                <summary>View package contents ({clientArtifacts.length} files)</summary>
+                <div className="l1a-delivery-groups">
+                  <DeliverableGroup title="Speaker timeline" detail="1 reviewed speaker TextGrid" artifacts={timelineArtifacts} />
+                  <DeliverableGroup title="Turn evidence" detail="RTTM and CSV" artifacts={turnArtifacts} />
+                  <DeliverableGroup title="Muted-mirror tracks" detail={`${mutedMirrorArtifacts.length} full-timeline WAVs`} artifacts={mutedMirrorArtifacts} />
+                </div>
+              </details>
+            </div> : <><OutputRow label="Accepted L1a ZIP" state="Waiting" /><OutputRow label="1 TextGrid + RTTM + CSV + N WAVs" state="Waiting" /></>}
           </div>
         </div>
         <div className={`l1a-gate ${accepted ? 'accepted' : ''}`}>
@@ -437,12 +449,12 @@ function OutputRow({ label, state }: { label: string; state: string }) {
   return <div className="l1a-output-row"><div><strong>{label}</strong><span>Canonical-timeline evidence</span></div><b>{state}</b></div>;
 }
 
-function DeliverableGroup({ title, detail, artifacts, runId }: { title: string; detail: string; artifacts: any[]; runId: string | null }) {
+function DeliverableGroup({ title, detail, artifacts }: { title: string; detail: string; artifacts: any[] }) {
   return <div className="l1a-delivery-group">
     <div className="l1a-delivery-group-head"><div><strong>{title}</strong><span>{detail}</span></div><b>{artifacts.length}</b></div>
     {artifacts.map((artifact) => <div className="l1a-output-row" key={artifact.relative_path}>
       <div><strong>{artifact.name}</strong><span>{formatBytes(artifact.bytes)}</span></div>
-      <a href={`/api/l1a/runs/${encodeURIComponent(runId || '')}/artifact?path=${encodeURIComponent(artifact.relative_path)}`}><Download size={13} /> Download</a>
+      <b>{formatBytes(artifact.bytes)}</b>
     </div>)}
   </div>;
 }

@@ -118,8 +118,9 @@ mapping. AI clusters alone are not the final participant definition.
 | L1B-006 | The speaker tiers shall use only the approved nine-label vocabulary. |
 | L1B-007 | The floor tier shall follow R1-R5. |
 | L1B-008 | The output shall preserve full-timeline Scale Times behavior and record the 200 s Praat intensity window where applicable. |
-| L1B-009 | The WebUI shall expose drafts for Praat review and accept reviewed TextGrids before final duration calculation. |
-| L1B-010 | Final duration and pause tables shall be computed from the reviewed TextGrids, not silently from superseded drafts. |
+| L1B-009 | The WebUI shall expose one Praat draft package for download. Researcher correction occurs in local Praat; L1b shall not require a reviewed-TextGrid upload or finalization action. |
+| L1B-010 | The researcher-reviewed TextGrid shall be imported and validated when Layer 2 begins. Any downstream duration or pause metric shall be recomputed from those reviewed boundaries rather than silently using the L1b draft. |
+| L1B-011 | Customer-facing L1b filenames shall use the recording stem and explicit threshold only: `{recording}_0.25s.TextGrid`, `{recording}_0.35s.TextGrid`, `{recording}_L1b_Draft_Diagnostics.xlsx` and `{recording}_L1b_Praat_Draft.zip`. Internal method versions, draft modes and calculated tier counts shall remain in manifests and method logs, not filenames. |
 | L1B-011 | The WebUI shall list the latest accepted L1a revision for every processing session, visibly distinguish runnable and blocked entries, require explicit selection, and bind execution and newly displayed results to that manifest. Superseded revisions shall not clutter the selector. |
 | L1B-012 | L1b shall open with no selected session and no restored prior-run result. Generate shall remain disabled until a runnable L1a session is selected, and a non-destructive Reset shall restore this initial state without deleting sealed session evidence. |
 
@@ -147,19 +148,23 @@ mapping. AI clusters alone are not the final participant definition.
 | R4 | A competing turn transfers the floor only when it survives the holder's turn. Ambiguity is flagged. |
 | R5 | Resolve silence retrospectively as op, tr or shs according to who resumes and when. |
 
-### 4.5 Outputs per threshold
+### 4.5 Outputs and retained evidence
 
-- Dynamic N+3 TextGrid.
-- Nine-label interval table.
-- Floor timeline and transition evidence.
-- Flags and overlap-capability evidence.
-- Interaction summary, duration summary and per-pause table.
-- Method/parameter record and validation summary.
+The researcher-facing L1b download is one Praat draft ZIP containing:
+
+- One dynamic N+3 TextGrid per configured threshold.
+- One pre-review diagnostic workbook.
+- One short review note describing the research boundary and next step.
+
+Nine-label tables, floor and transition evidence, flags, overlap-capability evidence, method
+parameters, validation summaries and hashes remain stored in the session archive. They are not
+presented as separate customer downloads.
 
 ### 4.6 Human gate
 
-The research team reviews the selected threshold draft or drafts in Praat according to its
-confirmed review strategy. Reviewed files and reviewer identity are required before finalization.
+The research team downloads the draft package and corrects the selected threshold draft or drafts
+in local Praat according to its confirmed review strategy. The reviewed TextGrid is saved locally
+and becomes an explicit Layer 2 upload; there is no second upload or finalization action in L1b.
 
 ## 5. Layer 2 - transcript and linguistic analysis
 
@@ -167,7 +172,7 @@ confirmed review strategy. Reviewed files and reviewer identity are required bef
 
 Layer 2 proceeds when the following inputs are available and mutually understood:
 
-- Accepted L1 TextGrid and nine-label timeline.
+- Researcher-reviewed L1b TextGrid uploaded at Layer 2 activation.
 - Researcher-reviewed verbatim transcript.
 - AS-unit and clause segmentation rules with representative examples.
 - Pause-location classification rules.
@@ -191,6 +196,7 @@ Layer 2 proceeds when the following inputs are available and mutually understood
 | ID | Requirement |
 |---|---|
 | L2-001 | The system shall import a versioned Layer 2 input pack containing accepted L1 evidence, the reviewed transcript, research definitions and representative expected outputs. |
+| L2-001A | Layer 2 import shall validate the reviewed TextGrid against the selected session, canonical duration, contiguous S1-SN mapping, dynamic N+3 tier schema and approved nine-label vocabulary before it becomes accepted timing evidence. |
 | L2-002 | Layer 2 execution shall remain blocked until every required activation input is approved. Conditional word alignment may remain not required when no selected metric makes a word-level timing claim. |
 | L2-003 | Transcript splitting shall produce RAW-TIMING and TIDY-PHRASE files with a transformation log that preserves fillers, repetitions, false starts and repairs. |
 | L2-004 | AS-unit, clause and pause-location mapping shall use only the approved rules and shall produce an unresolved-boundary report. |
@@ -245,7 +251,7 @@ publication acceptance.
 |---|---|---|
 | L1a provider execution and artifacts | implemented | WAV preflight, provider candidates, representative audio evidence, versioned review, confirmation and rebuilt Phase I artifacts are implemented. |
 | L1a dynamic canonical mapping | implemented | L1a accepts two or more retained candidates and validates a unique contiguous S1-SN mapping used directly by L1b. |
-| L1b P025/P035 automatic draft | implemented for dynamic N+3 | Accepted L1a S1-SN is the sole speaker-count source. The runner prepares missing internal evidence, performs deterministic threshold replay and publishes grouped draft outputs. Researcher-reviewed finalization remains outstanding. |
+| L1b P025/P035 automatic draft | implemented for dynamic N+3 | Accepted L1a S1-SN is the sole speaker-count source. The runner prepares missing internal evidence, performs deterministic threshold replay and publishes one Praat draft package. Researcher-reviewed TextGrid import belongs to L2. |
 | Nine labels and Path B engine | implemented for draft generation | N=2/3/4/6 full draft-chain tests pass; three-speaker PoC/Gold compatibility remains the quantitative regression reference. Accuracy for other speaker counts is validation-dependent. |
 | L2 analysis | partial | Experimental scripts exist and the three-step UI contract is approved; production integration and signed research definitions remain outstanding. |
 | L3 matrix/reporting | partial | Validation Sprint and research-export prototypes exist; final schema and product workflow remain outstanding. |

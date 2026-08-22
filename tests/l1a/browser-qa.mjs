@@ -196,7 +196,7 @@ async function main() {
         headingVisible: !!document.querySelector('.l1a-head h1'),
         reviewerVisible: !!document.querySelector('.l1a-reviewer input'),
         acceptedVisible: document.body.innerText.includes('L1a human gate is complete'),
-        outputLinks: document.querySelectorAll('.l1a-output-row a').length,
+        packageLinks: document.querySelectorAll('.l1a-package-primary a').length,
         reviewerValue: document.querySelector('.l1a-reviewer input')?.value || ''
       })`]);
       const screenshot = path.join('tests', 'l1a', 'artifacts', `l1a-browser-${viewport.key}.png`);
@@ -204,7 +204,7 @@ async function main() {
       viewportChecks[viewport.key] = {
         ...dom,
         expected_width: viewport.width,
-        ok: dom.innerWidth === viewport.width && !dom.pageOverflow && dom.headingVisible && dom.reviewerVisible && dom.acceptedVisible && dom.outputLinks === 6 && dom.reviewerValue === 'browser-rater-01',
+        ok: dom.innerWidth === viewport.width && !dom.pageOverflow && dom.headingVisible && dom.reviewerVisible && dom.acceptedVisible && dom.packageLinks === 1 && dom.reviewerValue === 'browser-rater-01',
       };
       report.screenshots.push({ path: screenshot, bytes: fs.statSync(path.join(ROOT, screenshot)).size });
     }

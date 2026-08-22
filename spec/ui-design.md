@@ -85,7 +85,7 @@ is established only after the researcher reviews all candidates; the system does
 
 ## 5. L1b prototype - acoustic timing and interaction TextGrid
 
-**Primary decision:** Whether threshold-specific drafts are ready for Praat review and finalization.
+**Primary decision:** Whether the threshold-specific Praat draft package is ready to download.
 
 ### Screen regions
 
@@ -93,8 +93,8 @@ is established only after the researcher reviews all candidates; the system does
 2. Configurable threshold controls, initially P025 and P035, plus method parameters.
 3. Path B and nine-label method summary.
 4. Execution status by threshold and speaker.
-5. Results grouped into TextGrids, duration evidence, method records and review upload.
-6. Finalization gate based on reviewed TextGrid input.
+5. One primary Praat draft ZIP with a collapsed, read-only contents list.
+6. A clear local-Praat next step; no reviewed upload or finalization control in L1b.
 
 ### Requirement traceability
 
@@ -103,8 +103,8 @@ is established only after the researcher reviews all candidates; the system does
 | Independent threshold controls | L1B-001, L1B-002 |
 | Path B status and missing-overlap wording | L1B-003, L1B-004, UI-007 |
 | N+3 and nine-label summary | L1B-005, L1B-006 |
-| Grouped artifacts | L1B outputs, UI-005 |
-| Praat-reviewed upload and finalization | L1B human gate, UI-003, UI-004 |
+| Single draft package and collapsed contents | L1B outputs, UI-005 |
+| Local Praat boundary and Layer 2 upload handoff | L1B human gate, UI-003, UI-004 |
 
 ## 6. L2 prototype - transcript and linguistic analysis
 
@@ -113,7 +113,7 @@ analysis are present.
 
 ### Screen regions
 
-1. **Inputs and activation conditions:** one list containing accepted L1 evidence, reviewed transcript,
+1. **Inputs and activation conditions:** one list containing the researcher-reviewed L1b TextGrid uploaded here, reviewed transcript,
    AS-unit/clause and pause-location rules, MWU definition, repair/rate rules, lexical-tool settings,
    representative expected outputs and conditional reviewed word alignment.
 2. **Approved analysis modules:** transcript split, AS-unit/clause mapping, pause/rate and lexical/MWU.

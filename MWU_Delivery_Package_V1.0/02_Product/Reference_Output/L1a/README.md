@@ -1,13 +1,14 @@
 # L1a reference-output contract
 
-An accepted L1a run produces the following release-specific artifacts:
+An accepted L1a run presents one customer ZIP containing:
 
-- researcher-accepted candidate review record and provider-to-canonical S1-SN mapping;
-- speaker turns in JSON, CSV and RTTM;
+- speaker turns in CSV and RTTM;
 - one speaker-activity TextGrid on the original WAV timeline;
 - one full-duration muted-mirror WAV per retained canonical speaker;
-- per-speaker invalid-interval TSV files for the L1b handoff;
-- provider evidence summary, review flags and Phase II handoff manifest.
+
+The researcher-accepted candidate review, provider-to-canonical mapping, speaker-turn JSON,
+per-speaker invalid-interval TSVs, provider evidence summary, review flags and Phase II handoff
+manifest remain internal session evidence.
 
 Activity from a researcher-excluded candidate is preserved as invalid evidence for L1b; excluding
 an identity never deletes the underlying acoustic event from the canonical timeline.

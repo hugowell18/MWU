@@ -1,6 +1,6 @@
 {
   "schema_version": "l1a-browser-qa-v1",
-  "generated_at": "2026-08-22T13:04:42.589Z",
+  "generated_at": "2026-08-22T13:46:28.785Z",
   "requirements": [
     "UI-006",
     "L1A-003",
@@ -31,7 +31,7 @@
         "headingVisible": true,
         "reviewerVisible": true,
         "acceptedVisible": true,
-        "outputLinks": 6,
+        "packageLinks": 1,
         "reviewerValue": "browser-rater-01",
         "expected_width": 1440,
         "ok": true
@@ -42,7 +42,7 @@
         "headingVisible": true,
         "reviewerVisible": true,
         "acceptedVisible": true,
-        "outputLinks": 6,
+        "packageLinks": 1,
         "reviewerValue": "browser-rater-01",
         "expected_width": 390,
         "ok": true
@@ -52,11 +52,11 @@
   "screenshots": [
     {
       "path": "tests/l1a/artifacts/l1a-browser-desktop.png",
-      "bytes": 312767
+      "bytes": 294068
     },
     {
       "path": "tests/l1a/artifacts/l1a-browser-mobile.png",
-      "bytes": 265195
+      "bytes": 243591
     }
   ],
   "data_boundary": "Synthetic WAV and test-mode candidate turns only."

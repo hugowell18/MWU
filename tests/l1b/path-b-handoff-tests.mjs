@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import JSZip from 'jszip';
 
 import { assessL1aPathBReadiness } from '../../scripts/l1a/build-path-b-evidence.mjs';
 import { assessL1aHandoff } from '../../scripts/l1a/handoff-gate.mjs';
@@ -125,6 +126,24 @@ async function main() {
         const labels = csvLabels(path.join(path.dirname(threshold.textgrid), 'nine_label_intervals.csv'));
         assert.ok([...labels].every((label) => LABELS.has(label)), `unexpected labels: ${[...labels].filter((label) => !LABELS.has(label)).join(', ')}`);
       }
+    });
+
+    await test('customer ZIP contains only Praat drafts, pre-review diagnostics and review notes', async () => {
+      const delivery = first.report.artifacts.find((artifact) => artifact.group === 'package');
+      assert.ok(delivery && fs.existsSync(delivery.path));
+      const zip = await JSZip.loadAsync(fs.readFileSync(delivery.path));
+      const names = Object.keys(zip.files).filter((name) => !zip.files[name].dir);
+      assert.equal(names.length, first.report.threshold_reports.length + 2);
+      assert.equal(names.filter((name) => name.endsWith('.TextGrid')).length, first.report.threshold_reports.length);
+      assert.equal(names.filter((name) => name.endsWith('.xlsx')).length, 1);
+      assert.deepEqual(names.sort(), [
+        `${manifest.recording_id}_0.25s.TextGrid`,
+        `${manifest.recording_id}_0.35s.TextGrid`,
+        `${manifest.recording_id}_L1b_Draft_Diagnostics.xlsx`,
+        'README_L1b_Praat_Review.txt',
+      ].sort());
+      assert.ok(names.every((name) => !/v\d|blind|\d+tier/i.test(name)), `internal method terms leaked into customer filenames: ${names.join(', ')}`);
+      assert.ok(names.every((name) => !/runtime-evidence|nine_label|transition_evidence|method-manifest|hashes|flags\.csv/i.test(name)));
     });
 
     await test('sealed evidence replay is byte-deterministic for research-facing tables and TextGrids', () => {

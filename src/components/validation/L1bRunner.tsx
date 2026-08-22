@@ -13,7 +13,6 @@ import {
   Play,
   RotateCcw,
   Settings2,
-  Sheet,
   ShieldCheck,
 } from 'lucide-react';
 
@@ -128,9 +127,17 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
     onReport?.(null);
   }
 
-  function chooseInput(manifestPath: string) {
+  async function chooseInput(manifestPath: string) {
     setSelectedManifest(manifestPath);
     clearRunView();
+    if (!manifestPath) return;
+    try {
+      const existing = await loadReport(manifestPath);
+      if (existing?.status === 'ready_for_praat_review') setRunState('done');
+      else if (existing?.status === 'failed') setRunState('failed');
+    } catch (reason: any) {
+      setError(reason.message || String(reason));
+    }
   }
 
   function resetWorkspace() {
@@ -166,7 +173,7 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
         <SectionHeading icon={<ShieldCheck size={18} />} eyebrow="Input from L1a" title="Accepted handoff gate" id="l1b-input-title" status={!input ? 'LOADING' : !sessionInputs.length ? 'BLOCKED' : !selectedManifest ? 'WAITING' : selectedReady ? 'PASS' : 'BLOCKED'} />
         <label className="l1b-input-picker">
           <span>Accepted L1a session input</span>
-          <select value={selectedManifest} onChange={(event) => chooseInput(event.target.value)} disabled={busy || !sessionInputs.length}>
+          <select value={selectedManifest} onChange={(event) => void chooseInput(event.target.value)} disabled={busy || !sessionInputs.length}>
             {sessionInputs.length
               ? <option value="">Choose an accepted L1a session</option>
               : <option value="">No accepted L1a session available</option>}
@@ -253,8 +260,9 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
 
 function L1bResults({ report }: any) {
   const artifacts = report.artifacts || [];
-  const workbook = artifacts.find((artifact: any) => artifact.group === 'metrics');
   const delivery = artifacts.find((artifact: any) => artifact.group === 'package');
+  const packageContents = report.delivery_package_contents || [];
+  const textgrids = packageContents.filter((artifact: any) => String(artifact.name).endsWith('.TextGrid'));
   return (
     <div className="l1b-results">
       <Message tone="pass" title="L1b drafts generated" text={`${report.threshold_reports?.length || 0} threshold runs passed structural validation. These are automatic drafts for Praat/researcher correction.`} />
@@ -273,43 +281,25 @@ function L1bResults({ report }: any) {
           <QaItem passed={Boolean(delivery)} label="Package built" />
         </div>
       </section>
-      <section className="l1b-section" aria-labelledby="l1b-threshold-results">
-        <SectionHeading icon={<Layers3 size={18} />} eyebrow="Praat drafts" title="Outputs by threshold" id="l1b-threshold-results" />
-        <div className="l1b-threshold-result-grid">
-          {(report.threshold_reports || []).map((threshold: any) => <ThresholdResult key={threshold.threshold_key} threshold={threshold} />)}
-        </div>
-      </section>
       <section className="l1b-section" aria-labelledby="l1b-deliverables">
-        <SectionHeading icon={<Package size={18} />} eyebrow="Shared outputs" title="Metrics and delivery package" id="l1b-deliverables" />
+        <SectionHeading icon={<Package size={18} />} eyebrow="Layer 1b output" title="Praat draft package" id="l1b-deliverables" />
         <div className="l1b-package-primary">
           <div className="l1b-package-primary-icon"><Package size={23} /></div>
-          <div className="l1b-package-primary-copy"><span>L1b Path B package</span><strong>{artifactName(delivery) || 'Package not generated'}</strong><p>P025/P035 TextGrids, nine-label tables, transition evidence, parameters and hashes.</p></div>
+          <div className="l1b-package-primary-copy"><span>Customer download</span><strong>{artifactName(delivery) || 'Package not generated'}</strong><p>{textgrids.length} dynamic N+3 TextGrid drafts, one pre-review diagnostic workbook and a short review note.</p></div>
           {delivery && <DownloadLink artifact={delivery} primary label="Download ZIP" />}
         </div>
-        {workbook && <div className="l1b-shared-file"><ArtifactRow artifact={workbook} icon={<Sheet size={18} />} kind="Timing workbook" description="Summary, per-pause, transition and method sheets" /></div>}
+        <details className="l1b-package-contents">
+          <summary>View package contents ({packageContents.length} files)</summary>
+          <div>
+            {packageContents.map((artifact: any) => <p key={artifact.path || artifact.name}><FileText size={14} /><span>{artifact.name}</span></p>)}
+          </div>
+        </details>
+        <div className="l1b-local-review-step">
+          <Play size={17} />
+          <div><strong>Next: review locally in Praat</strong><p>Correct the selected draft, save the reviewed TextGrid locally, then upload that file when Layer 2 begins. Layer 1b does not require a second upload or finalization step.</p></div>
+        </div>
       </section>
     </div>
-  );
-}
-
-function ThresholdResult({ threshold }: any) {
-  const files = threshold.files || [];
-  const textgrid = files.find((item: any) => String(item.path).endsWith('.TextGrid'));
-  const nine = findArtifact(files, 'nine_label_intervals.csv');
-  const transitions = findArtifact(files, 'transition_evidence.csv');
-  const overlap = findArtifact(files, 'overlap-capability-evidence.json');
-  const method = findArtifact(files, 'method-manifest.json');
-  return (
-    <article className="l1b-threshold-result">
-      <div className="l1b-threshold-result-head"><div><span>{threshold.threshold_key}</span><strong>{Number(threshold.threshold_sec).toFixed(2)} second pause threshold</strong></div><span className="l1b-threshold-pass"><Check size={14} /> Valid</span></div>
-      {textgrid && <ArtifactRow artifact={textgrid} icon={<FileText size={18} />} kind="Praat TextGrid" description="S1-SN + floor + transitions + flags" />}
-      <div className="l1b-compact-downloads">
-        {nine && <DownloadLink artifact={nine} label="Nine-label CSV" />}
-        {transitions && <DownloadLink artifact={transitions} label="Transitions" />}
-        {overlap && <DownloadLink artifact={overlap} label="Overlap evidence" />}
-        {method && <DownloadLink artifact={method} label="Method" />}
-      </div>
-    </article>
   );
 }
 
@@ -347,9 +337,6 @@ function DownloadLink({ artifact, primary = false, label }: any) {
   return <a className={`l1b-download ${primary ? 'primary' : ''}`} href={`/api/l1b/file?path=${encodeURIComponent(artifact.path)}`}><Download size={15} />{label || 'Download'}</a>;
 }
 
-function ArtifactRow({ artifact, icon, kind, description }: any) {
-  return <div className="l1b-artifact-row"><div className="l1b-artifact-icon">{icon}</div><div className="l1b-artifact-copy"><span>{kind}</span><strong title={artifactName(artifact)}>{artifactName(artifact)}</strong><p>{description}</p></div><DownloadLink artifact={artifact} /></div>;
-}
 
 function flowState(id: string, progress: any, report: any, selected: any) {
   if (id === 'l1a_handoff_gate' && selected?.handoff_gate?.passed) return 'passed';
@@ -357,10 +344,6 @@ function flowState(id: string, progress: any, report: any, selected: any) {
   if (stage?.status) return stage.status;
   if (report?.status === 'ready_for_praat_review') return 'passed';
   return progress?.status === 'running' ? 'running' : 'pending';
-}
-
-function findArtifact(files: any[], suffix: string) {
-  return files.find((item: any) => String(item.path || '').endsWith(suffix));
 }
 
 function artifactName(artifact: any) {

@@ -30,7 +30,7 @@ if (failed) process.exitCode = 1;
 async function runCase(excludedIndexes, expectedSpeakers) {
   const title = `four candidates excluding ${excludedIndexes.length} produces ${expectedSpeakers}-speaker L1b`;
   try {
-    const fixture = buildAcceptedL1a(excludedIndexes);
+    const fixture = await buildAcceptedL1a(excludedIndexes);
     assert.deepEqual(fixture.manifest.speakers, canonicalSpeakers(expectedSpeakers));
     assert.equal(fixture.manifest.outputs.muted_mirror_wavs.length, expectedSpeakers);
 
@@ -79,7 +79,7 @@ async function runCase(excludedIndexes, expectedSpeakers) {
   }
 }
 
-function buildAcceptedL1a(excludedIndexes) {
+async function buildAcceptedL1a(excludedIndexes) {
   const key = excludedIndexes.join('-') || 'none';
   const caseRoot = path.join(root, `exclude-${key}`);
   const reviewRoot = path.join(caseRoot, 'sessions');
@@ -121,7 +121,7 @@ function buildAcceptedL1a(excludedIndexes) {
     };
   });
   saveReviewDraft({ root: reviewRoot, runId, payload: { reviewer: 'exclude-e2e-rater', decisions } });
-  const confirmed = confirmReview({ root: reviewRoot, acceptedRoot, runId: created.state.run_id });
+  const confirmed = await confirmReview({ root: reviewRoot, acceptedRoot, runId: created.state.run_id });
   return {
     caseRoot,
     acceptedDir: confirmed.acceptedDir,

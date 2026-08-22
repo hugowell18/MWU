@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import JSZip from 'jszip';
 import {
   countOverlaps,
   groupIntervalsBySpeaker,
@@ -43,6 +44,18 @@ function writeJsonAtomic(file, value) {
 
 function sha256File(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+}
+
+async function buildClientDeliveryPackage(file, artifacts, root) {
+  const zip = new JSZip();
+  for (const artifact of artifacts) {
+    zip.file(path.relative(root, artifact).split(path.sep).join('/'), fs.readFileSync(artifact));
+  }
+  fs.writeFileSync(file, await zip.generateAsync({
+    type: 'nodebuffer',
+    compression: 'DEFLATE',
+    compressionOptions: { level: 6 },
+  }));
 }
 
 function safeRunId(value) {
@@ -650,7 +663,7 @@ function excludedTurns(providerTurns, review) {
   return providerTurns.turns.filter((turn) => excluded.has(turn.speaker));
 }
 
-export function confirmReview({ root, acceptedRoot, runId }) {
+export async function confirmReview({ root, acceptedRoot, runId }) {
   const paths = pathsForRun(root, runId);
   if (!fs.existsSync(paths.latestReview)) throw new Error('Accepted review data is not available for confirmation');
   const state = readJson(paths.state);
@@ -822,6 +835,15 @@ export function confirmReview({ root, acceptedRoot, runId }) {
     duration_seconds: state.preflight.duration_seconds,
     sha256: manifest.sealed_evidence.source_wav.sha256,
   };
+  const clientDeliveryFiles = [
+    manifest.outputs.speaker_textgrid,
+    manifest.outputs.rttm,
+    manifest.outputs.speaker_turns_csv,
+    ...(manifest.outputs.muted_mirror_wavs || []).map((output) => output.muted_mirror_wav),
+  ];
+  const clientDeliveryPackage = path.join(acceptedDir, `${state.recording_id}.L1a.accepted-deliverables.zip`);
+  await buildClientDeliveryPackage(clientDeliveryPackage, clientDeliveryFiles, acceptedDir);
+  manifest.outputs.client_delivery_package = clientDeliveryPackage;
   writeJsonAtomic(manifestPath, manifest);
   const manifestSha256 = sha256File(manifestPath);
   writeJsonAtomic(handoffPath, {
@@ -873,6 +895,14 @@ export function confirmReview({ root, acceptedRoot, runId }) {
     revision_output_dir: path.relative(sessionRoot, acceptedDir),
     client_delivery_contract: 'l1a-poc-n-plus-3-v1',
     client_deliverables: clientDeliverables,
+    customer_package: {
+      role: 'accepted_l1a_package',
+      name: path.basename(clientDeliveryPackage),
+      relative_path: path.relative(sessionRoot, clientDeliveryPackage),
+      bytes: fs.statSync(clientDeliveryPackage).size,
+      sha256: sha256File(clientDeliveryPackage),
+      contains: clientDeliverables.map((item) => item.role),
+    },
     internal_evidence: {
       phase1_manifest: path.relative(sessionRoot, manifestPath),
       candidate_review: path.relative(sessionRoot, acceptedReviewPath),
@@ -994,6 +1024,42 @@ export function getRunSnapshot({ root, runId }) {
   };
 }
 
+export async function ensureL1aCustomerPackage({ root, runId }) {
+  const snapshot = getRunSnapshot({ root, runId });
+  if (!snapshot?.state?.accepted_manifest || !snapshot?.state?.accepted_dir || !snapshot?.state?.layer_manifest) return null;
+  const layerManifest = fs.existsSync(snapshot.state.layer_manifest) ? readJson(snapshot.state.layer_manifest) : null;
+  const sessionRoot = snapshot.state.session_manifest ? path.dirname(snapshot.state.session_manifest) : null;
+  const existingPackage = layerManifest?.customer_package?.relative_path && sessionRoot
+    ? path.resolve(sessionRoot, layerManifest.customer_package.relative_path)
+    : null;
+  if (existingPackage && fs.existsSync(existingPackage)) return existingPackage;
+
+  const manifest = readJson(snapshot.state.accepted_manifest);
+  const clientFiles = [
+    manifest.outputs?.speaker_textgrid,
+    manifest.outputs?.rttm,
+    manifest.outputs?.speaker_turns_csv,
+    ...(manifest.outputs?.muted_mirror_wavs || []).map((output) => output.muted_mirror_wav),
+  ].filter(Boolean);
+  if (!clientFiles.length || clientFiles.some((file) => !fs.existsSync(file))) return null;
+  const packageFile = path.join(snapshot.state.accepted_dir, `${manifest.recording_id}.L1a.accepted-deliverables.zip`);
+  await buildClientDeliveryPackage(packageFile, clientFiles, snapshot.state.accepted_dir);
+  if (layerManifest && sessionRoot) {
+    writeJsonAtomic(snapshot.state.layer_manifest, {
+      ...layerManifest,
+      customer_package: {
+        role: 'accepted_l1a_package',
+        name: path.basename(packageFile),
+        relative_path: path.relative(sessionRoot, packageFile),
+        bytes: fs.statSync(packageFile).size,
+        sha256: sha256File(packageFile),
+        contains: (layerManifest.client_deliverables || []).map((item) => item.role),
+      },
+    });
+  }
+  return packageFile;
+}
+
 export function listL1aReviewRuns(root) {
   if (!fs.existsSync(root)) return [];
   return fs.readdirSync(root, { withFileTypes: true })
@@ -1033,6 +1099,11 @@ export function artifactIndex(snapshot) {
   const manifestPath = snapshot?.state?.accepted_manifest;
   if (!manifestPath || !fs.existsSync(manifestPath)) return [];
   const manifest = readJson(manifestPath);
+  const sessionRoot = snapshot.state.session_manifest ? path.dirname(snapshot.state.session_manifest) : null;
+  const layerPackage = snapshot.layer_manifest?.customer_package?.relative_path && sessionRoot
+    ? path.resolve(sessionRoot, snapshot.layer_manifest.customer_package.relative_path)
+    : null;
+  const packageFile = manifest.outputs?.client_delivery_package || layerPackage;
   const files = [
     manifest.outputs?.speaker_turns_json,
     manifest.outputs?.speaker_turns_csv,
@@ -1043,6 +1114,7 @@ export function artifactIndex(snapshot) {
     manifest.outputs?.phase_ii_handoff_manifest,
     manifest.review?.accepted_record,
     ...(manifest.outputs?.muted_mirror_wavs || []).flatMap((item) => [item.muted_mirror_wav, item.invalid_intervals_tsv]),
+    packageFile,
     manifestPath,
   ].filter(Boolean);
   const clientFiles = new Set([
@@ -1057,5 +1129,6 @@ export function artifactIndex(snapshot) {
     bytes: fs.statSync(file).size,
     kind: path.extname(file).replace('.', '').toLowerCase() || 'file',
     client_delivery: clientFiles.has(file),
+    primary_package: file === packageFile,
   }));
 }

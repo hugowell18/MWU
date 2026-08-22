@@ -49,18 +49,9 @@ function publishLayerState({ manifest, manifestPath, result, out }) {
   const revision = path.basename(revisionRoot);
   const layerManifestPath = path.join(layerRoot, 'layer_manifest.json');
   const sessionManifestPath = path.join(sessionRoot, 'session_manifest.json');
-  const researchRoles = new Set([
-    'textgrids',
-    'metrics',
-    'package',
-  ]);
-  const namedEvidence = new Set([
-    'nine_label_intervals.csv',
-    'transition_evidence.csv',
-    'overlap-capability-evidence.json',
-  ]);
+  const researchRoles = new Set(['package']);
   const clientDeliverables = result.report.artifacts
-    .filter((artifact) => researchRoles.has(artifact.group) || namedEvidence.has(path.basename(artifact.path)))
+    .filter((artifact) => researchRoles.has(artifact.group))
     .map((artifact) => ({
       role: artifact.group === 'evidence' ? path.basename(artifact.path, path.extname(artifact.path)) : artifact.group,
       threshold_sec: artifact.threshold ?? null,
@@ -83,6 +74,12 @@ function publishLayerState({ manifest, manifestPath, result, out }) {
     source_path_b_identity_sha256: result.report.handoff_gate.path_b_identity_sha256,
     client_delivery_contract: 'l1b-path-b-dual-threshold-draft-v1',
     client_deliverables: clientDeliverables,
+    package_contents: result.report.delivery_package_contents.map((artifact) => ({
+      name: artifact.name,
+      relative_path: relativeToSession(sessionRoot, artifact.path),
+      bytes: artifact.bytes,
+      sha256: artifact.sha256,
+    })),
     internal_evidence: result.report.artifacts
       .filter((artifact) => !clientDeliverables.some((item) => item.sha256 === artifact.sha256 && item.name === path.basename(artifact.path)))
       .map((artifact) => ({
@@ -95,7 +92,7 @@ function publishLayerState({ manifest, manifestPath, result, out }) {
       layer: 'L2',
       kind: 'researcher-reviewed-l1b-nine-label-timeline-v1',
       ready: false,
-      blocker: 'Praat/researcher correction and L1b finalization are required.',
+      blocker: 'Correct a selected draft in local Praat, then upload the reviewed TextGrid in Layer 2.',
     },
   };
   writeJsonAtomic(layerManifestPath, layerManifest);
@@ -118,7 +115,7 @@ function publishLayerState({ manifest, manifestPath, result, out }) {
       },
       L2: {
         ...(previousSession.layers?.L2 || {}),
-        status: 'blocked_pending_l1b_review',
+        status: 'blocked_pending_reviewed_textgrid_import',
         input_from: 'L1b.next_layer_input',
       },
     },

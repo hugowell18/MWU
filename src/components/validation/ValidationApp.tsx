@@ -87,13 +87,12 @@ const LAYERS: LayerDefinition[] = [
       { title: 'Canonical mapping', detail: 'Confirm retained candidates as contiguous S1-SN identifiers.' },
     ],
     outputs: [
-      'Speaker activity RTTM, CSV and JSON',
-      'Reviewed speaker-activity TextGrid',
-      'One full-duration muted-mirror WAV per speaker',
-      'Versioned review record and provider evidence summary',
-      'Review flags and Phase II handoff manifest',
+      'One accepted L1a ZIP package',
+      'One speaker-activity TextGrid',
+      'Speaker turns as RTTM and CSV',
+      'One full-duration muted-mirror WAV per included speaker',
     ],
-    handoff: 'Only the researcher-accepted S1-SN mapping and rebuilt artifacts continue to L1b. Muted mirrors are masked room-mix evidence, not clean source separation.',
+    handoff: 'The sealed review record, hashes and Phase II manifest remain internal handoff evidence. Only the PoC-aligned package is shown as the customer download. Muted mirrors are masked room-mix evidence, not clean source separation.',
   },
   {
     key: 'l1b',
@@ -106,7 +105,7 @@ const LAYERS: LayerDefinition[] = [
     icon: AudioWaveform,
     inputs: [
       'Original room-mix WAV',
-      'L1a evidence and callable engine',
+      'Accepted L1a handoff and canonical S1-SN evidence',
       'Versioned method parameters',
       'P025/P035 or another configured threshold list',
       'Research-team review strategy',
@@ -116,19 +115,16 @@ const LAYERS: LayerDefinition[] = [
       { title: 'Floor resolution', detail: 'Apply persistent floor rules R1–R5.' },
       { title: 'Nine-label timeline', detail: 'Assign s, f, bc, ol, op, pf, tr, shs and x.' },
       { title: 'Path B transitions', detail: 'Record overlap present with offset not measured; never serialize missing FTO as zero.' },
-      { title: 'Praat validation', detail: 'Check full coverage, tier schema and replay manifests.' },
+      { title: 'Draft validation', detail: 'Check full coverage, dynamic N+3 schema and replay manifests.' },
     ],
     outputs: [
+      'One Praat draft ZIP package',
       'One dynamic N+3-tier TextGrid per threshold',
-      'Nine-label interval table',
-      'Floor timeline, turn-end/start, raw-gap and transition evidence',
-      'Review flags and interaction summary',
-      'Duration summary and per-pause table',
-      'Overlap capability, evidence IDs and missing-FTO flags',
-      'Method, provenance and validation reports',
+      'One pre-review diagnostic workbook',
+      'One draft review note',
     ],
-    handoff: 'The researcher-reviewed nine-label timeline continues to Phase IV. Signed FTO, where supported, is reserved for Phase V.',
-    startCondition: 'Draft outputs remain reviewable. The researcher-corrected TextGrid becomes the accepted downstream artifact.',
+    handoff: 'The researcher corrects the selected draft in local Praat and saves the reviewed TextGrid. That reviewed file is uploaded when Layer 2 begins; no L1b re-upload or finalization step is required.',
+    startCondition: 'Technical tables, overlap evidence, flags, parameters and hashes remain retained in the session archive rather than appearing as separate customer downloads.',
   },
   {
     key: 'l2',
@@ -141,7 +137,7 @@ const LAYERS: LayerDefinition[] = [
     icon: BookOpenCheck,
     inputs: [
       'Timed transcript evidence from L1a',
-      'Reviewed nine-label timeline from L1b',
+      'Researcher-reviewed L1b TextGrid uploaded in Layer 2',
       'Transcript and disfluency conventions',
       'AS-unit, clause, MWU and rate definitions',
       'Representative gold examples',
@@ -214,7 +210,7 @@ const HERO_SLIDES = [
 ];
 
 const OVERVIEW_PHASES = [
-  { roman: 'I', title: 'Shared Evidence', body: 'Create the canonical clock, speaker attribution, N muted-mirror listening tracks and reusable evidence engine.', status: 'Layer 1a' },
+  { roman: 'I', title: 'Speaker Evidence', body: 'Create the canonical clock, review acoustic candidates and publish the accepted S1-SN mapping with N muted-mirror listening tracks.', status: 'Layer 1a' },
   { roman: 'II', title: 'Interaction Timing', body: 'Resolve floor state and nine labels independently at each configured pause threshold.', status: 'Layer 1b' },
   { roman: 'III', title: 'Transcript Units', body: 'Prepare verbatim and tidy transcripts with approved AS-unit and clause mappings.', status: 'Layer 2' },
   { roman: 'IV', title: 'Lexical / MWU', body: 'Combine reviewed interaction timing with lexical, MWU, pause-location and rate features.', status: 'Layer 2' },

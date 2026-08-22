@@ -87,6 +87,7 @@ export function generateFrozenBlindDraft({
   acousticManifestFile,
   mappingFile,
   outputDir,
+  textGridFilename = null,
   frozenConfigFile = DEFAULT_FROZEN_CONFIG,
   pauseThresholdSeconds = FROZEN_BLIND_CONFIG.pause_threshold_seconds,
 } = {}) {
@@ -247,7 +248,11 @@ export function generateFrozenBlindDraft({
 
   mkdirSync(outputDir, { recursive: true });
   const tierCount = speakers.length + 3;
-  const textGridFile = path.join(outputDir, `${recordingId}.${deliveryThresholdKey}.v2.3-blind-draft.${tierCount}tier.TextGrid`);
+  const requestedTextGridName = textGridFilename || `${recordingId}.${deliveryThresholdKey}.v2.3-blind-draft.${tierCount}tier.TextGrid`;
+  if (path.basename(requestedTextGridName) !== requestedTextGridName || !requestedTextGridName.endsWith('.TextGrid')) {
+    throw new Error('textGridFilename must be a plain .TextGrid filename');
+  }
+  const textGridFile = path.join(outputDir, requestedTextGridName);
   const evidenceFile = path.join(outputDir, 'runtime-evidence.json');
   const manifestFile = path.join(outputDir, 'method-manifest.json');
   const validationFile = path.join(outputDir, 'validation-summary.json');

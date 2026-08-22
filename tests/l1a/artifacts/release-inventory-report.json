@@ -1,6 +1,6 @@
 {
   "schema_version": "mwu-source-release-inventory-v1",
-  "generated_at": "2026-08-22T06:49:41.720Z",
+  "generated_at": "2026-08-22T13:45:22.687Z",
   "status": "ready_for_qa_review",
   "policy": {
     "include_roots": [
@@ -40,9 +40,9 @@
     "note": "This inventory defines the source handover candidate set. It does not delete or reclassify repository history."
   },
   "counts": {
-    "included": 261,
-    "excluded": 4694,
-    "outside_allowlist": 111,
+    "included": 272,
+    "excluded": 649,
+    "outside_allowlist": 139,
     "violations": 0
   },
   "included": [
@@ -63,9 +63,14 @@
     "scripts/extract-pause-segments.mjs",
     "scripts/extract-reviewed-units.mjs",
     "scripts/inspect_textgrid_name.praat",
+    "scripts/l1a/build-path-b-evidence.mjs",
+    "scripts/l1a/handoff-gate.mjs",
     "scripts/l1a/review-core.mjs",
+    "scripts/l1b/compare-to-reference.mjs",
     "scripts/l1b/finalize-reviewed.mjs",
+    "scripts/l1b/run-from-l1a.mjs",
     "scripts/l1b/run-l1b.mjs",
+    "scripts/l1b/run-path-b.mjs",
     "scripts/local-acoustic-vad.mjs",
     "scripts/merge-mfa-word-alignments.mjs",
     "scripts/multilogue-v2/acoustic/local-boundary-crossing.mjs",
@@ -146,6 +151,7 @@
     "scripts/test-stage-e.mjs",
     "scripts/textgrid-to-review-excel.mjs",
     "scripts/textgrid-utils.mjs",
+    "scripts/usage/provider-usage-ledger.mjs",
     "scripts/validation-sprint/README.md",
     "scripts/validation-sprint/build-ui.mjs",
     "scripts/validation-sprint/config.mjs",
@@ -281,6 +287,9 @@
     "tests/l1a/artifacts/release-inventory-report.json",
     "tests/l1a/browser-qa.mjs",
     "tests/l1a/run-tests.mjs",
+    "tests/l1b/dynamic-n-plus-3-tests.mjs",
+    "tests/l1b/excluded-candidates-handoff-tests.mjs",
+    "tests/l1b/path-b-handoff-tests.mjs",
     "tests/l1b/run-tests.mjs",
     "tests/multilogue-v2-adapter/artifacts/test-report.json",
     "tests/multilogue-v2-adapter/run-tests.mjs",
@@ -302,6 +311,8 @@
     "tests/multilogue-v2/fixtures.mjs",
     "tests/multilogue-v2/run-tests.mjs",
     "tests/phase1-remote-diarization/run-tests.mjs",
+    "tests/usage-ledger/artifacts/usage-ledger-test-report.json",
+    "tests/usage-ledger/run-tests.mjs",
     "tests/validation-sprint/run-tests.mjs",
     "tests/validation-sprint/ui-tests.mjs",
     "validation.html",
@@ -319,7 +330,7 @@
     },
     {
       "reason": "participant data, runtime output or local dependency",
-      "count": 4684
+      "count": 639
     },
     {
       "reason": "audio or diarization data",
@@ -346,6 +357,22 @@
     {
       "path": "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Configuration_Templates/.env.example",
       "reason": "local environment or credentials"
+    },
+    {
+      "path": "output/playwright/l1b-desktop.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/l1b-mobile.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/l1b-selector-desktop.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/l1b-selector-mobile.png",
+      "reason": "participant data, runtime output or local dependency"
     },
     {
       "path": "output/playwright/multilogue-impact-desktop-full.png",
@@ -474,27 +501,39 @@
     {
       "path": "output/playwright/mwu-pipeline-ref.png",
       "reason": "participant data, runtime output or local dependency"
-    },
-    {
-      "path": "output/playwright/mwu-pipeline-simple-l1b.png",
-      "reason": "participant data, runtime output or local dependency"
-    },
-    {
-      "path": "output/playwright/mwu-pipeline-simple-overview.png",
-      "reason": "participant data, runtime output or local dependency"
-    },
-    {
-      "path": "output/playwright/mwu-pipeline-simple-sow-mobile-v2.png",
-      "reason": "participant data, runtime output or local dependency"
-    },
-    {
-      "path": "output/playwright/mwu-pipeline-simple-sow-mobile.png",
-      "reason": "participant data, runtime output or local dependency"
     }
   ],
   "outside_allowlist_examples": [
     ".claude/settings.local.json",
     ".gitignore",
+    ".playwright-cli/page-2026-08-22T07-30-20-325Z.yml",
+    ".playwright-cli/page-2026-08-22T07-30-41-722Z.yml",
+    ".playwright-cli/page-2026-08-22T07-39-50-361Z.yml",
+    ".playwright-cli/page-2026-08-22T07-42-11-742Z.yml",
+    ".playwright-cli/page-2026-08-22T08-18-10-495Z.yml",
+    ".playwright-cli/page-2026-08-22T08-31-19-920Z.yml",
+    ".playwright-cli/page-2026-08-22T08-37-39-892Z.yml",
+    ".playwright-cli/page-2026-08-22T09-19-14-405Z.yml",
+    ".playwright-cli/page-2026-08-22T09-20-01-650Z.yml",
+    ".playwright-cli/page-2026-08-22T09-20-16-285Z.png",
+    ".playwright-cli/page-2026-08-22T09-34-31-651Z.yml",
+    ".playwright-cli/page-2026-08-22T09-36-08-047Z.yml",
+    ".playwright-cli/page-2026-08-22T09-40-47-977Z.yml",
+    ".playwright-cli/page-2026-08-22T09-54-33-259Z.yml",
+    ".playwright-cli/page-2026-08-22T09-55-19-926Z.yml",
+    ".playwright-cli/page-2026-08-22T09-55-44-240Z.yml",
+    ".playwright-cli/page-2026-08-22T09-56-01-637Z.yml",
+    ".playwright-cli/page-2026-08-22T09-56-55-070Z.png",
+    ".playwright-cli/page-2026-08-22T09-57-47-911Z.yml",
+    ".playwright-cli/page-2026-08-22T09-57-56-969Z.png",
+    ".playwright-cli/page-2026-08-22T10-04-19-237Z.yml",
+    ".playwright-cli/page-2026-08-22T10-04-36-069Z.yml",
+    ".playwright-cli/page-2026-08-22T11-21-57-394Z.yml",
+    ".playwright-cli/page-2026-08-22T11-54-38-218Z.yml",
+    ".playwright-cli/page-2026-08-22T12-01-46-003Z.yml",
+    ".playwright-cli/page-2026-08-22T13-04-19-552Z.yml",
+    ".playwright-cli/page-2026-08-22T13-04-44-857Z.yml",
+    ".playwright-cli/page-2026-08-22T13-42-01-445Z.yml",
     "MWU_Delivery_Package_V1.0/01_Method_and_Design/MWU_System_Design_Specification.pdf",
     "MWU_Delivery_Package_V1.0/01_Method_and_Design/MWU_Workflow_Atlas.html",
     "MWU_Delivery_Package_V1.0/01_Method_and_Design/Method_Definition_and_Parameters.xlsx",
@@ -504,35 +543,7 @@
     "MWU_Delivery_Package_V1.0/03_Validation/Gold_Comparison/README.md",
     "MWU_Delivery_Package_V1.0/03_Validation/L1a/README.md",
     "MWU_Delivery_Package_V1.0/03_Validation/L1a/build-integrity.json",
-    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-accepted-desktop.png",
-    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-accepted-mobile.png",
-    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-api-test-report.json",
-    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-browser-qa.json",
-    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-final-qa-report.json",
-    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-final-qa-report.md",
-    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-test-report.json",
-    "MWU_Delivery_Package_V1.0/03_Validation/L1a/release-inventory-report.json",
-    "MWU_Delivery_Package_V1.0/03_Validation/L1a_QA_Gate_Matrix.md",
-    "MWU_Delivery_Package_V1.0/03_Validation/Validation_Summary.xlsx",
-    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Acceptance_Checklist.xlsx",
-    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Deployment_Scripts/README.md",
-    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Deployment_and_Handover_Guide.pdf",
-    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Source_Code/README.md",
-    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/User_Operation_Guide.pdf",
-    "MWU_Delivery_Package_V1.0/START_HERE.html",
-    "README.md",
-    "VPS_DEPLOYMENT_GUIDE_EN.md",
-    "build-validation/assets/overview/overview-campus-dialogue.png",
-    "build-validation/assets/overview/overview-l2-seminar.png",
-    "build-validation/assets/overview/overview-language-class.png",
-    "build-validation/assets/validation-Bhm0TEuQ.js",
-    "build-validation/assets/validation-CrYqp-dY.css",
-    "build-validation/build-integrity.json",
-    "build-validation/methodology-atlas.html",
-    "build-validation/validation.html",
-    "build/assets/index-CguG-Zq_.js",
-    "build/assets/index-CrYqp-dY.css",
-    "build/assets/overview/overview-campus-dialogue.png"
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-accepted-desktop.png"
   ],
   "violations": []
 }

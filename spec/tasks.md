@@ -10,7 +10,7 @@
 | D0 | Scope and UI contract freeze | Written product decisions available | Requirements, design, UI and tasks agree. |
 | D1 | L1a candidate evidence and researcher review | Signed SOW, WAV fixture and provider access | Accepted S1-SN handoff and L1a QA report. |
 | D2 | Dynamic N+3 shared core | Accepted L1a schema | N=2/3/4/6 schema and deterministic tests pass. |
-| D3 | L1b timing, nine labels and Praat review | Sealed L1a handoff and review strategy | Reviewed TextGrid finalization and L1 acceptance package. |
+| D3 | L1b timing, nine labels and Praat draft packaging | Sealed L1a handoff and review strategy | Praat-open draft package and retained method evidence. |
 | D4 | L2 transcript and linguistic analysis | Complete approved Layer 2 input pack | Accepted Layer 2 feature handoff and validation notes. |
 | D5 | L3 matrix and reporting | Accepted L1/L2 artifacts and signed codebook | Accepted matrix, report and WebUI release. |
 | D6 | Technical handover | Accepted L1a-L3 release | Client-server verification and handover record. |
@@ -48,6 +48,7 @@ accepted review strategy.
 - [x] Add progressive L1a control unlocking, explicit researcher acceptance and non-destructive reset.
 - [x] Store every uploaded WAV and input manifest under the server-managed Session ID before provider processing.
 - [x] Keep Review active by itself until acceptance, then mark Mapping and Artifacts complete with the rebuilt outputs.
+- [x] Generate one accepted L1a ZIP containing exactly the PoC-aligned TextGrid, RTTM, CSV and N muted-mirror WAVs.
 
 **QA exit gate:** two-, three- and four-candidate fixtures complete upload -> candidate review ->
 S1-SN confirmation -> Phase I artifacts. Every provider candidate remains available to the
@@ -73,19 +74,21 @@ approved vocabulary and passes deterministic replay for all fixture sizes.
 - [x] Generate dynamic N+3 TextGrid, nine-label table, floor, transitions, flags and summaries.
 - [x] Preserve Path B missing-overlap semantics and underlying evidence for the three-speaker Gold baseline.
 - [x] Generate the six-tier Gold instance, nine-label table, floor, transitions, flags and summaries.
-- [x] Update WebUI result grouping by threshold and artifact family.
+- [x] Replace the artifact list with one customer-facing Praat draft ZIP and a collapsed contents list.
 - [x] Add an explicit selector for each session's latest accepted L1a input, mark L1b readiness and bind execution to the selection.
 - [x] Initialize L1b as an empty workspace, progressively enable Generate after session selection and provide a non-destructive Reset.
-- [x] Publish versioned L1b Layer/session indexes and keep L2 blocked pending researcher review.
-- [ ] Upload reviewed TextGrids and recompute final metrics from reviewed boundaries.
-- [ ] Add Praat-open and reviewed-finalization regression tests.
+- [x] Publish versioned L1b Layer/session indexes and keep L2 blocked pending researcher-reviewed TextGrid import.
+- [x] Keep L1b at the local Praat review boundary; move reviewed TextGrid import and metric recomputation to L2.
+- [ ] Add Praat-open and customer-package regression tests.
 
 **QA exit gate:** Multilogue04 retains six-tier Gold compatibility; a four-speaker synthetic fixture
-produces seven tiers; no overlap FTO is serialized as zero; final metrics cite reviewed inputs.
+produces seven tiers; no overlap FTO is serialized as zero; the customer ZIP contains only the
+draft TextGrids, pre-review diagnostic workbook and review note.
 
 ## M4 - Layer 2 research analysis
 
 - [ ] Implement the approved three-step L2 workspace: activation inputs, analysis modules, outputs/L3 handoff.
+- [ ] Add reviewed L1b TextGrid upload and validate session identity, duration, dynamic N+3 tiers and nine-label vocabulary.
 - [ ] Import and version the complete Layer 2 input pack and representative expected outputs.
 - [ ] Block Layer 2 activation until every required item is approved; keep reviewed word alignment conditional.
 - [ ] Implement reviewed transcript import and transformation log.

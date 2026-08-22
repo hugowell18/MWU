@@ -255,10 +255,14 @@ function columnName(value) {
   return result;
 }
 
-async function buildZip(file, artifacts, root) {
+async function buildZip(file, artifacts) {
   const zip = new JSZip();
-  for (const artifact of artifacts) zip.file(path.relative(root, artifact), fs.readFileSync(artifact));
+  for (const artifact of artifacts) zip.file(path.basename(artifact), fs.readFileSync(artifact));
   fs.writeFileSync(file, await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE', compressionOptions: { level: 6 } }));
+}
+
+function thresholdTextGridName(recordingId, threshold) {
+  return `${recordingId}_${Number(threshold).toFixed(2)}s.TextGrid`;
 }
 
 export async function runPathBL1b({ manifest, stage1, mapping, out, thresholds = [0.25, 0.35], progress, latestPointer } = {}) {
@@ -270,7 +274,6 @@ export async function runPathBL1b({ manifest, stage1, mapping, out, thresholds =
   if (progress) writeJson(progress, progressState);
   const all = { summary: [], pauses: [], transitions: [] };
   const thresholdReports = [];
-  const packageArtifacts = [];
   for (const threshold of thresholdList) {
     const key = deliveryThresholdKey(threshold);
     const directory = path.join(out, key);
@@ -281,6 +284,7 @@ export async function runPathBL1b({ manifest, stage1, mapping, out, thresholds =
       mappingFile: mapping,
       outputDir: directory,
       pauseThresholdSeconds: threshold,
+      textGridFilename: thresholdTextGridName(contract.manifest.recording_id, threshold),
     });
     const document = parseSixTierTextGridFile(generated.textGridFile);
     const runtimeEvidenceFile = path.join(directory, 'runtime-evidence.json');
@@ -290,7 +294,6 @@ export async function runPathBL1b({ manifest, stage1, mapping, out, thresholds =
     all.pauses.push(...tables.pauseRows);
     all.transitions.push(...tables.transitionRows);
     const artifacts = [generated.textGridFile, runtimeEvidenceFile, path.join(directory, 'method-manifest.json'), path.join(directory, 'validation-summary.json'), path.join(directory, 'artifact-hashes.json'), ...Object.values(tables.files)];
-    packageArtifacts.push(...artifacts);
     thresholdReports.push({
       threshold_sec: threshold,
       threshold_key: key,
@@ -306,7 +309,7 @@ export async function runPathBL1b({ manifest, stage1, mapping, out, thresholds =
     progressState.completed += 1;
     if (progress) writeJson(progress, progressState);
   }
-  const workbook = path.join(out, `${contract.manifest.recording_id}.L1b.duration-and-pause-summary.xlsx`);
+  const workbook = path.join(out, `${contract.manifest.recording_id}_L1b_Draft_Diagnostics.xlsx`);
   await buildWorkbook(workbook, { Summary: all.summary, 'Per pause': all.pauses, Transitions: all.transitions }, [
     { parameter: 'Layer', value: 'L1b' },
     { parameter: 'Method', value: 'Frozen v2.3 Path B; R1-R5' },
@@ -316,9 +319,29 @@ export async function runPathBL1b({ manifest, stage1, mapping, out, thresholds =
     { parameter: 'Stage-1 evidence SHA-256', value: sha256(stage1) },
     { parameter: 'Research status', value: 'Automatic draft awaiting Praat/researcher correction' },
   ]);
-  packageArtifacts.push(workbook);
-  const packageFile = path.join(out, `${contract.manifest.recording_id}.L1b.PathB.draft.zip`);
-  await buildZip(packageFile, packageArtifacts, out);
+  const reviewNotes = path.join(out, 'README_L1b_Praat_Review.txt');
+  fs.writeFileSync(reviewNotes, [
+    'MWU Layer 1b Praat draft package',
+    '',
+    `Recording: ${contract.manifest.recording_id}`,
+    `Canonical speakers: ${contract.speakers.join(', ')}`,
+    `Pause thresholds: ${thresholdList.map((value) => `${value.toFixed(2)} s`).join(', ')}`,
+    `TextGrid contract: dynamic N+3 (${contract.speakers.length + 3} tiers for this run)`,
+    '',
+    'Research boundary:',
+    '- The TextGrids are automatic drafts for correction in local Praat.',
+    '- The workbook is pre-review diagnostic evidence, not final research data.',
+    '- Save the researcher-corrected TextGrid locally, then upload it as the Layer 2 input.',
+    '- Technical method evidence and hashes remain retained in the server session archive.',
+    '',
+  ].join('\n'), 'utf8');
+  const deliveryArtifacts = [
+    ...thresholdReports.map((item) => item.textgrid),
+    workbook,
+    reviewNotes,
+  ];
+  const packageFile = path.join(out, `${contract.manifest.recording_id}_L1b_Praat_Draft.zip`);
+  await buildZip(packageFile, deliveryArtifacts);
   const report = {
     schema_version: 'mwu-l1b-path-b-report-v1',
     status: 'ready_for_praat_review',
@@ -340,9 +363,16 @@ export async function runPathBL1b({ manifest, stage1, mapping, out, thresholds =
       path_b_identity_sha256: contract.pathBReadiness.sealed_evidence_identity?.identity_sha256 || null,
     },
     threshold_reports: thresholdReports,
+    delivery_package_contents: deliveryArtifacts.map((file) => ({
+      name: path.basename(file),
+      path: file,
+      sha256: sha256(file),
+      bytes: fs.statSync(file).size,
+    })),
     artifacts: [
       ...thresholdReports.flatMap((item) => item.files.map((file) => ({ ...file, threshold: item.threshold_sec, group: path.basename(file.path).includes('TextGrid') ? 'textgrids' : 'evidence' }))),
       { path: workbook, group: 'metrics', sha256: sha256(workbook), bytes: fs.statSync(workbook).size },
+      { path: reviewNotes, group: 'package_note', sha256: sha256(reviewNotes), bytes: fs.statSync(reviewNotes).size },
       { path: packageFile, group: 'package', sha256: sha256(packageFile), bytes: fs.statSync(packageFile).size },
     ],
     review_boundary: 'Automatic draft. Researcher correction in Praat is required before final research use.',

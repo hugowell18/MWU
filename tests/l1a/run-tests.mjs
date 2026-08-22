@@ -8,6 +8,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import JSZip from 'jszip';
 import {
   completeProviderRun,
   confirmReview,
@@ -125,14 +126,14 @@ function findArtifact(manifest, predicate) {
   return files.find(predicate);
 }
 
-function acceptedFixture(base, count, suffix = '') {
+async function acceptedFixture(base, count, suffix = '') {
   const fixture = makeFixture(base, count);
   const review = saveReviewDraft({
     root: fixture.root,
     runId: fixture.runId,
     payload: { reviewer: `qa${suffix}`, decisions: decisionsFor(count) },
   });
-  const confirmed = confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
+  const confirmed = await confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
   return { ...fixture, review, confirmed };
 }
 
@@ -214,12 +215,12 @@ async function main() {
   });
 
   for (const count of [2, 3, 4]) {
-    await test(`${count}-candidate fixture completes review, canonical mapping and Phase II handoff`, () => {
+    await test(`${count}-candidate fixture completes review, canonical mapping and Phase II handoff`, async () => {
       const fixture = makeFixture(base, count);
       const decisions = decisionsFor(count);
       const review = saveReviewDraft({ root: fixture.root, runId: fixture.runId, payload: { reviewer: 'qa', decisions } });
       assert.equal(review.schema_version, 'l1a-candidate-review-v1');
-      const confirmed = confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
+      const confirmed = await confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
       assert.equal(confirmed.manifest.review.status, 'accepted');
       assert.equal(confirmed.manifest.phase_ii_handoff.review_status, 'accepted');
       assert.equal(confirmed.manifest.speakers.length, count);
@@ -239,6 +240,14 @@ async function main() {
       const sessionManifest = JSON.parse(fs.readFileSync(confirmed.state.session_manifest, 'utf8'));
       assert.equal(layerManifest.client_delivery_contract, 'l1a-poc-n-plus-3-v1');
       assert.equal(layerManifest.client_deliverables.length, count + 3);
+      assert.ok(fs.existsSync(confirmed.manifest.outputs.client_delivery_package));
+      assert.equal(layerManifest.customer_package.contains.length, count + 3);
+      const deliveryZip = await JSZip.loadAsync(fs.readFileSync(confirmed.manifest.outputs.client_delivery_package));
+      const packagedFiles = Object.keys(deliveryZip.files).filter((name) => !deliveryZip.files[name].dir);
+      assert.equal(packagedFiles.length, count + 3);
+      assert.equal(packagedFiles.filter((name) => name.endsWith('.wav')).length, count);
+      assert.equal(packagedFiles.filter((name) => name.endsWith('.TextGrid')).length, 1);
+      assert.ok(packagedFiles.every((name) => /\.(wav|TextGrid|rttm|csv)$/i.test(name)));
       assert.equal(layerManifest.next_layer_input.layer, 'L1b');
       assert.equal(layerManifest.next_layer_input.ready, true);
       assert.deepEqual(sessionManifest.layer_order, ['L1a', 'L1b', 'L2', 'L3']);
@@ -247,10 +256,10 @@ async function main() {
     });
   }
 
-  await test('Merge and Exclude produce two canonical speakers while excluded activity remains invalid evidence', () => {
+  await test('Merge and Exclude produce two canonical speakers while excluded activity remains invalid evidence', async () => {
     const fixture = makeFixture(base, 4);
     saveReviewDraft({ root: fixture.root, runId: fixture.runId, payload: { reviewer: 'qa', decisions: decisionsFor(4, { merge: true, exclude: true }) } });
-    const confirmed = confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
+    const confirmed = await confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
     assert.deepEqual(confirmed.manifest.speakers, ['S1', 'S2']);
     const excludedTurn = turnsFor(4).find((turn) => turn.speaker === 'SPEAKER_03');
     const invalid = fs.readFileSync(confirmed.manifest.outputs.muted_mirror_wavs[0].invalid_intervals_tsv, 'utf8')
@@ -258,21 +267,21 @@ async function main() {
     assert.ok(invalid.some(([start, end]) => start <= excludedTurn.start + 0.000001 && end >= excludedTurn.end - 0.000001), 'excluded candidate activity disappeared from invalid evidence');
   });
 
-  await test('Uncertain candidate is versioned but blocked at confirmation', () => {
+  await test('Uncertain candidate is versioned but blocked at confirmation', async () => {
     const fixture = makeFixture(base, 3);
     const decisions = decisionsFor(3);
     decisions[2] = { candidate_id: 'SPEAKER_02', decision: 'uncertain', role: 'uncertain' };
     const review = saveReviewDraft({ root: fixture.root, runId: fixture.runId, payload: { reviewer: 'qa', decisions } });
     assert.equal(review.revision, 1);
-    assert.throws(() => confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId }), /Uncertain candidates/);
+    await assert.rejects(() => confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId }), /Uncertain candidates/);
   });
 
-  await test('Reviewer identity is explicit and cannot be silently defaulted', () => {
+  await test('Reviewer identity is explicit and cannot be silently defaulted', async () => {
     const fixture = makeFixture(base, 2);
     const review = saveReviewDraft({ root: fixture.root, runId: fixture.runId, payload: { decisions: decisionsFor(2) } });
     assert.equal(review.reviewer, '');
     assert.match(review.errors.join('; '), /Reviewer or rater ID is required/);
-    assert.throws(() => confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId }), /Reviewer or rater ID/);
+    await assert.rejects(() => confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId }), /Reviewer or rater ID/);
   });
 
   await test('Representative clips prefer clean turns and flag overlap-only evidence', () => {
@@ -340,10 +349,10 @@ async function main() {
     assert.equal(snapshot.candidates.clip_selection_policy.version, 'speaker-identification-clips-v2');
   });
 
-  await test('Changing an accepted mapping invalidates downstream evidence before rebuild', () => {
+  await test('Changing an accepted mapping invalidates downstream evidence before rebuild', async () => {
     const fixture = makeFixture(base, 2);
     saveReviewDraft({ root: fixture.root, runId: fixture.runId, payload: { reviewer: 'qa', decisions: decisionsFor(2) } });
-    const first = confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
+    const first = await confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
     const firstHash = sha256(first.manifestPath);
     const swapped = decisionsFor(2);
     swapped[0].canonical_speaker = 'S2';
@@ -360,13 +369,13 @@ async function main() {
     const supersededGate = assessL1aHandoff({ manifestPath: first.manifestPath });
     assert.equal(supersededGate.passed, false);
     assert.ok(supersededGate.blockers.some((item) => item.code === 'accepted_lifecycle'));
-    const second = confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
+    const second = await confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
     assert.notEqual(sha256(second.manifestPath), firstHash);
     assert.equal(second.state.downstream_invalidated, false);
   });
 
-  await test('handoff gate rejects a missing required output file', () => {
-    const fixture = acceptedFixture(base, 2, '-missing');
+  await test('handoff gate rejects a missing required output file', async () => {
+    const fixture = await acceptedFixture(base, 2, '-missing');
     const missing = fixture.confirmed.manifest.outputs.muted_mirror_wavs[0].invalid_intervals_tsv;
     fs.rmSync(missing);
     const gate = assessL1aHandoff({ manifestPath: fixture.confirmed.manifestPath });
@@ -374,16 +383,16 @@ async function main() {
     assert.ok(gate.blockers.some((item) => item.code === 'sealed_speaker_S1_invalid_intervals_tsv'));
   });
 
-  await test('handoff gate rejects a required output hash mismatch', () => {
-    const fixture = acceptedFixture(base, 2, '-hash');
+  await test('handoff gate rejects a required output hash mismatch', async () => {
+    const fixture = await acceptedFixture(base, 2, '-hash');
     fs.appendFileSync(fixture.confirmed.manifest.outputs.speaker_turns_csv, 'tampered\n');
     const gate = assessL1aHandoff({ manifestPath: fixture.confirmed.manifestPath });
     assert.equal(gate.passed, false);
     assert.ok(gate.blockers.some((item) => item.code === 'sealed_speaker_turns_csv'));
   });
 
-  await test('handoff gate rejects non-contiguous canonical speaker mappings', () => {
-    const fixture = acceptedFixture(base, 3, '-mapping');
+  await test('handoff gate rejects non-contiguous canonical speaker mappings', async () => {
+    const fixture = await acceptedFixture(base, 3, '-mapping');
     const manifest = JSON.parse(fs.readFileSync(fixture.confirmed.manifestPath, 'utf8'));
     manifest.speakers = ['S1', 'S3', 'S4'];
     fs.writeFileSync(fixture.confirmed.manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -392,8 +401,8 @@ async function main() {
     assert.ok(gate.blockers.some((item) => item.code === 'canonical_speakers_contiguous_unique'));
   });
 
-  await test('handoff identity preserves recording_id independently of source.wav basename', () => {
-    const fixture = acceptedFixture(base, 4, '-recording-id');
+  await test('handoff identity preserves recording_id independently of source.wav basename', async () => {
+    const fixture = await acceptedFixture(base, 4, '-recording-id');
     const gate = assessL1aHandoff({
       manifestPath: fixture.confirmed.manifestPath,
       expectedRecordingId: 'group-4',
@@ -406,8 +415,8 @@ async function main() {
     assert.equal(gate.sealed_handoff_identity.recording_id_source, 'accepted_phase1_manifest');
   });
 
-  await test('offline Path B evidence builder reuses Stage-1 adapter and gates enhanced handoff on G1', () => {
-    const fixture = acceptedFixture(base, 3, '-path-b');
+  await test('offline Path B evidence builder reuses Stage-1 adapter and gates enhanced handoff on G1', async () => {
+    const fixture = await acceptedFixture(base, 3, '-path-b');
     const assemblyPath = path.join(fixture.confirmed.acceptedDir, 'synthetic.assemblyai.raw.json');
     fs.writeFileSync(assemblyPath, `${JSON.stringify(syntheticAssemblyRaw(fixture.confirmed.manifest), null, 2)}\n`);
     const layerManifestBefore = JSON.parse(fs.readFileSync(fixture.confirmed.state.layer_manifest, 'utf8'));
@@ -446,8 +455,8 @@ async function main() {
     assert.ok(tamperedReadiness.blockers.some((item) => item.code === 'path_b_stage1_evidence'));
   });
 
-  await test('Path B evidence builder supports a two-speaker accepted L1a handoff', () => {
-    const fixture = acceptedFixture(base, 2, '-path-b-blocked');
+  await test('Path B evidence builder supports a two-speaker accepted L1a handoff', async () => {
+    const fixture = await acceptedFixture(base, 2, '-path-b-blocked');
     const assemblyPath = path.join(fixture.confirmed.acceptedDir, 'synthetic.assemblyai.raw.json');
     fs.writeFileSync(assemblyPath, `${JSON.stringify(syntheticAssemblyRaw(fixture.confirmed.manifest), null, 2)}\n`);
     const result = buildL1aPathBEvidence({ manifestPath: fixture.confirmed.manifestPath, assemblyaiPath: assemblyPath });
@@ -459,10 +468,10 @@ async function main() {
     assert.equal(handoff.path_b_gate.status, 'pass');
   });
 
-  await test('Accepted artifact resolver rejects path traversal', () => {
+  await test('Accepted artifact resolver rejects path traversal', async () => {
     const fixture = makeFixture(base, 2);
     saveReviewDraft({ root: fixture.root, runId: fixture.runId, payload: { reviewer: 'qa', decisions: decisionsFor(2) } });
-    confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
+    await confirmReview({ root: fixture.root, acceptedRoot: fixture.acceptedRoot, runId: fixture.runId });
     assert.throws(() => resolveAcceptedArtifact({ root: fixture.root, runId: fixture.runId, relativePath: '../../outside' }), /outside/);
   });
 
