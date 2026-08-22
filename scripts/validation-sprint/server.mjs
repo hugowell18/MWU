@@ -24,6 +24,7 @@ import {
 } from '../l1a/review-core.mjs';
 import { assessL1aHandoff } from '../l1a/handoff-gate.mjs';
 import { assessL1aPathBReadiness } from '../l1a/build-path-b-evidence.mjs';
+import { summarizeProviderUsage } from '../usage/provider-usage-ledger.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BUILD_DIR = path.join(ROOT, 'build-validation');
@@ -583,6 +584,14 @@ function l1bReviewContract() {
 const server = http.createServer(async (req, res) => {
   const u = new URL(req.url, `http://localhost:${PORT}`);
 
+  if (u.pathname === '/api/workspace/usage' && req.method === 'GET') {
+    try {
+      return sendJson(res, 200, summarizeProviderUsage());
+    } catch (error) {
+      return sendJson(res, 500, { error: error.message || String(error), code: 'usage_ledger_unavailable' });
+    }
+  }
+
   // ---- L1a: room-mix upload -> provider candidates -> researcher review ----
   if (u.pathname === '/api/l1a/runs' && req.method === 'GET') {
     return sendJson(res, 200, { runs: allL1aReviewRuns() });
@@ -645,7 +654,15 @@ const server = http.createServer(async (req, res) => {
       '--upload-audio', uploadAudio.path,
       '--out-dir', runPaths.providerDir,
       '--prefix', state.recording_id,
-    ], { cwd: ROOT, env: process.env, stdio: 'ignore' });
+    ], {
+      cwd: ROOT,
+      env: {
+        ...process.env,
+        MWU_USAGE_CONTEXT: 'l1a_diarization',
+        MWU_USAGE_RUN_ID: state.run_id,
+      },
+      stdio: 'ignore',
+    });
     currentL1aRun = { child, running: true, runId: state.run_id };
     child.on('error', (error) => {
       currentL1aRun.running = false;
@@ -774,7 +791,13 @@ const server = http.createServer(async (req, res) => {
     }
     if (body.noAsr === true) runArgs.push('--no-asr');
     const child = spawn('node', runArgs, {
-      env: { ...process.env, SPRINT_SAMPLE_DIR: sampleDir }, stdio: 'ignore',
+      env: {
+        ...process.env,
+        SPRINT_SAMPLE_DIR: sampleDir,
+        MWU_USAGE_CONTEXT: 'validation_sprint_asr',
+        MWU_USAGE_RUN_ID: 'speakerx_validation_sprint',
+      },
+      stdio: 'ignore',
     });
     currentRun = { child, running: true };
     child.on('error', () => { currentRun.running = false; releaseTask('validation'); });

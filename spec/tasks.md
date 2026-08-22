@@ -21,6 +21,7 @@
 - [x] Create the lightweight delivery-package structure.
 - [x] Create the first reviewable UI specification and Layer prototypes.
 - [x] Record prototype review decisions and freeze the approved L1a-L3 screen contract.
+- [x] Implement the provider usage ledger, Workspace summary API, allowance warning states and regression report.
 - [ ] Reconcile the final signed SOW, Atlas and this specification after customer confirmation.
 - [ ] Add requirement IDs to automated test reports and acceptance checklist.
 
@@ -37,6 +38,7 @@ accepted review strategy.
 - [x] Add secure audio streaming/range handling.
 - [x] Implement Include/Exclude/Uncertain/Merge decisions.
 - [x] Implement canonical S1-SN mapping and validation.
+- [x] Sort raw provider clusters naturally, prefill S1-SN in that order and preserve persisted mappings on reopen.
 - [x] Rebuild RTTM/CSV/TextGrid/muted-mirror artifacts after confirmation.
 - [x] Invalidate dependent L1b outputs when the mapping changes.
 - [x] Implement the L1a candidate-review WebUI and persistence.

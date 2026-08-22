@@ -192,9 +192,9 @@ async function main() {
     assert.equal(fs.existsSync(path.join(root, 'truncated-fixture')), false);
   });
 
-  await test('candidate review order follows first detected speech rather than provider label', () => {
-    const root = path.join(base, 'chronological-candidates');
-    const created = createL1aRun({ root, filename: 'chronological.wav', wavBuffer: wavBuffer(), runId: 'chronological-fixture' });
+  await test('candidate review order follows natural provider numbering rather than first speech', () => {
+    const root = path.join(base, 'provider-numbered-candidates');
+    const created = createL1aRun({ root, filename: 'provider-numbered.wav', wavBuffer: wavBuffer(), runId: 'provider-numbered-fixture' });
     completeProviderRun({
       root,
       runId: created.state.run_id,
@@ -202,13 +202,14 @@ async function main() {
         { speaker: 'SPEAKER_00', start: 1.2, end: 1.5, confidence: 0.9 },
         { speaker: 'SPEAKER_09', start: 0.2, end: 0.5, confidence: 0.9 },
         { speaker: 'SPEAKER_04', start: 0.7, end: 1.0, confidence: 0.9 },
+        { speaker: 'SPEAKER_10', start: 0.1, end: 0.15, confidence: 0.9 },
       ],
       provider: { source: 'synthetic', model: 'test' },
     });
     const snapshot = getRunSnapshot({ root, runId: created.state.run_id });
     assert.deepEqual(
       snapshot.candidates.candidates.map((candidate) => candidate.candidate_id),
-      ['SPEAKER_09', 'SPEAKER_04', 'SPEAKER_00'],
+      ['SPEAKER_00', 'SPEAKER_04', 'SPEAKER_09', 'SPEAKER_10'],
     );
   });
 
@@ -515,7 +516,7 @@ async function main() {
     schema_version: 'l1a-test-report-v1',
     generated_at: new Date().toISOString(),
     suite: 'Layer 1a candidate review and Phase II handoff',
-    requirements: ['L1A-001', 'L1A-002', 'L1A-003', 'L1A-004', 'L1A-005', 'L1A-006', 'L1A-007', 'L1A-008', 'L1A-009', 'L1A-011', 'L1A-013'],
+    requirements: ['L1A-001', 'L1A-002', 'L1A-003', 'L1A-004', 'L1A-005', 'L1A-006', 'L1A-007', 'L1A-008', 'L1A-009', 'L1A-011', 'L1A-013', 'L1A-018'],
     passed: cases.filter((item) => item.status === 'passed').length,
     failed: cases.filter((item) => item.status === 'failed').length,
     cases,

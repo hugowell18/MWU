@@ -101,6 +101,7 @@ async function main() {
   const acceptedRoot = path.join(temporary, 'accepted');
   const reviewRoot = path.join(acceptedRoot, 'sessions');
   const l1bRoot = path.join(temporary, 'l1b');
+  const usageLedger = path.join(temporary, 'usage', 'provider-usage-ledger.json');
   const port = await freePort();
   const baseUrl = `http://127.0.0.1:${port}`;
   const server = spawn(process.execPath, [SERVER, '--port', String(port)], {
@@ -112,12 +113,24 @@ async function main() {
       MWU_MULTILOGUE_OUT: acceptedRoot,
       MWU_L1B_ROOT: l1bRoot,
       MWU_L1A_MAX_WAV_BYTES: '100000',
+      MWU_USAGE_LEDGER: usageLedger,
     },
     stdio: 'ignore',
   });
 
   try {
     await waitUntil(async () => (await fetch(`${baseUrl}/api/l1a/runs`).catch(() => null))?.ok);
+
+    await runCase('workspace usage API exposes an empty real ledger without placeholder values', async () => {
+      const result = await json(`${baseUrl}/api/workspace/usage`);
+      assert.equal(result.response.status, 200);
+      assert.equal(result.body.schema_version, 'mwu-workspace-usage-summary-v1');
+      assert.equal(result.body.allowance.limit_hours, 100);
+      assert.equal(result.body.allowance.used_hours, 0);
+      assert.equal(result.body.source_audio.unique_files, 0);
+      assert.equal(result.body.completed_calls, 0);
+      assert.equal(result.body.historical_backfill, false);
+    });
 
     await runCase('oversized and aborted L1a uploads are rejected without wedging the server', async () => {
       const oversized = await json(`${baseUrl}/api/l1a/run?filename=too-large.wav`, {
@@ -237,7 +250,7 @@ async function main() {
     schema_version: 'l1a-api-regression-v1',
     generated_at: new Date().toISOString(),
     suite: 'Layer 1a HTTP, sealed Path B handoff and task-gate regression',
-    requirements: ['L1A-001', 'L1A-002', 'L1A-004', 'L1A-006', 'L1A-007', 'L1A-008', 'L1A-009', 'L1A-010', 'L1A-011', 'L1A-012', 'L1A-013'],
+    requirements: ['L1A-001', 'L1A-002', 'L1A-004', 'L1A-006', 'L1A-007', 'L1A-008', 'L1A-009', 'L1A-010', 'L1A-011', 'L1A-012', 'L1A-013', 'L1A-018'],
     passed: cases.filter((item) => item.status === 'passed').length,
     failed: cases.filter((item) => item.status === 'failed').length,
     cases,

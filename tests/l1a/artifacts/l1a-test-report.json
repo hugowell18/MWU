@@ -1,6 +1,6 @@
 {
   "schema_version": "l1a-test-report-v1",
-  "generated_at": "2026-08-22T12:01:41.212Z",
+  "generated_at": "2026-08-22T13:02:36.528Z",
   "suite": "Layer 1a candidate review and Phase II handoff",
   "requirements": [
     "L1A-001",
@@ -24,19 +24,19 @@
       "duration_ms": 3
     },
     {
-      "name": "candidate review order follows first detected speech rather than provider label",
+      "name": "candidate review order follows natural provider numbering rather than first speech",
       "status": "passed",
-      "duration_ms": 22
+      "duration_ms": 24
     },
     {
       "name": "2-candidate fixture completes review, canonical mapping and Phase II handoff",
       "status": "passed",
-      "duration_ms": 36
+      "duration_ms": 34
     },
     {
       "name": "3-candidate fixture completes review, canonical mapping and Phase II handoff",
       "status": "passed",
-      "duration_ms": 30
+      "duration_ms": 29
     },
     {
       "name": "4-candidate fixture completes review, canonical mapping and Phase II handoff",
@@ -46,32 +46,32 @@
     {
       "name": "Merge and Exclude produce two canonical speakers while excluded activity remains invalid evidence",
       "status": "passed",
-      "duration_ms": 26
+      "duration_ms": 25
     },
     {
       "name": "Uncertain candidate is versioned but blocked at confirmation",
       "status": "passed",
-      "duration_ms": 19
+      "duration_ms": 17
     },
     {
       "name": "Reviewer identity is explicit and cannot be silently defaulted",
       "status": "passed",
-      "duration_ms": 18
+      "duration_ms": 17
     },
     {
       "name": "Representative clips prefer clean turns and flag overlap-only evidence",
       "status": "passed",
-      "duration_ms": 38
+      "duration_ms": 36
     },
     {
       "name": "Representative clips rank a clear sustained segment ahead of a short sample",
       "status": "passed",
-      "duration_ms": 19
+      "duration_ms": 18
     },
     {
       "name": "Changing an accepted mapping invalidates downstream evidence before rebuild",
       "status": "passed",
-      "duration_ms": 36
+      "duration_ms": 33
     },
     {
       "name": "handoff gate rejects a missing required output file",
@@ -81,32 +81,32 @@
     {
       "name": "handoff gate rejects a required output hash mismatch",
       "status": "passed",
-      "duration_ms": 28
+      "duration_ms": 25
     },
     {
       "name": "handoff gate rejects non-contiguous canonical speaker mappings",
       "status": "passed",
-      "duration_ms": 30
+      "duration_ms": 27
     },
     {
       "name": "handoff identity preserves recording_id independently of source.wav basename",
       "status": "passed",
-      "duration_ms": 31
+      "duration_ms": 30
     },
     {
       "name": "offline Path B evidence builder reuses Stage-1 adapter and gates enhanced handoff on G1",
       "status": "passed",
-      "duration_ms": 54
+      "duration_ms": 53
     },
     {
       "name": "Path B evidence builder supports a two-speaker accepted L1a handoff",
       "status": "passed",
-      "duration_ms": 49
+      "duration_ms": 46
     },
     {
       "name": "Accepted artifact resolver rejects path traversal",
       "status": "passed",
-      "duration_ms": 23
+      "duration_ms": 24
     },
     {
       "name": "HTTP workflow uploads WAV, exposes all candidates, streams ranges, reviews and confirms",

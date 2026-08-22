@@ -4,10 +4,13 @@ import {
   AudioWaveform,
   BookOpenCheck,
   CheckCircle2,
+  ChevronDown,
   ChevronRight,
   CircleGauge,
+  Clock3,
   FileAudio,
   FileOutput,
+  Files,
   Flag,
   Gauge,
   Layers3,
@@ -42,6 +45,24 @@ type LayerDefinition = {
   outputs: string[];
   handoff: string;
   startCondition?: string;
+};
+
+type WorkspaceUsageSummary = {
+  tracking_started_at: string;
+  historical_backfill: boolean;
+  allowance: {
+    limit_hours: number;
+    used_hours: number;
+    remaining_hours: number;
+    usage_percent: number;
+    state: 'normal' | 'warning' | 'critical' | 'exceeded';
+  };
+  source_audio: { unique_files: number; unique_hours: number };
+  providers: {
+    assemblyai: { hours: number; calls: number };
+    pyannoteai: { hours: number; calls: number };
+  };
+  completed_calls: number;
 };
 
 const LAYERS: LayerDefinition[] = [
@@ -204,6 +225,83 @@ const NINE_LABELS = [
   ['s', 'speech'], ['f', 'filled hesitation'], ['bc', 'backchannel'], ['ol', 'overlap'], ['op', 'own pause'],
   ['pf', 'passive floor'], ['tr', 'transition'], ['shs', 'shared silence'], ['x', 'unusable audio'],
 ];
+
+function formatHours(value: number) {
+  return value < 10 ? value.toFixed(2) : value.toFixed(1);
+}
+
+function WorkspaceUsagePanel() {
+  const [expanded, setExpanded] = useState(false);
+  const [usage, setUsage] = useState<WorkspaceUsageSummary | null>(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let active = true;
+    const loadUsage = async () => {
+      try {
+        const response = await fetch('/api/workspace/usage', { cache: 'no-store' });
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.error || `Usage request failed (${response.status})`);
+        if (active) {
+          setUsage(body);
+          setError('');
+        }
+      } catch (loadError) {
+        if (active) setError(loadError instanceof Error ? loadError.message : String(loadError));
+      }
+    };
+    loadUsage();
+    const timer = window.setInterval(loadUsage, 15_000);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  const state = usage?.allowance.state || (error ? 'unavailable' : 'loading');
+  const stateLabel = {
+    normal: 'Within allowance',
+    warning: 'Approaching limit',
+    critical: 'Near limit',
+    exceeded: 'Allowance exceeded',
+    loading: 'Loading usage',
+    unavailable: 'Usage unavailable',
+  }[state];
+  const percent = Math.min(100, Math.max(0, usage?.allowance.usage_percent || 0));
+
+  return (
+    <section className={`vc-usage-card ${expanded ? 'expanded' : ''} state-${state}`} aria-label="Cumulative audio processing usage">
+      <div className="vc-usage-summary">
+        <div className="vc-usage-icon"><Clock3 size={18} /></div>
+        <div className="vc-usage-main">
+          <div className="vc-usage-label">
+            <span>Cumulative audio processing</span>
+            <b>{stateLabel}</b>
+          </div>
+          <div className="vc-usage-value">
+            <strong>{usage ? formatHours(usage.allowance.used_hours) : '--'}</strong>
+            <span>of {usage ? formatHours(usage.allowance.limit_hours) : '100'} h</span>
+          </div>
+          <div className="vc-usage-progress" role="progressbar" aria-label="Combined provider processing allowance" aria-valuemin={0} aria-valuemax={100} aria-valuenow={usage ? percent : undefined}>
+            <i style={{ width: `${percent}%` }} />
+          </div>
+        </div>
+        <button type="button" className="vc-usage-toggle" aria-expanded={expanded} onClick={() => setExpanded((value) => !value)}>
+          Details <ChevronDown size={14} />
+        </button>
+      </div>
+
+      {expanded && (
+        <div className="vc-usage-breakdown">
+          <div><Files size={14} /><span>Unique source audio</span><strong>{usage ? `${usage.source_audio.unique_files} files · ${formatHours(usage.source_audio.unique_hours)} h` : '-- files · -- h'}</strong></div>
+          <div><span className="vc-provider-dot assembly" /><span>AssemblyAI processing</span><strong>{usage ? `${formatHours(usage.providers.assemblyai.hours)} h · ${usage.providers.assemblyai.calls} calls` : '-- h'}</strong></div>
+          <div><span className="vc-provider-dot pyannote" /><span>pyannoteAI processing</span><strong>{usage ? `${formatHours(usage.providers.pyannoteai.hours)} h · ${usage.providers.pyannoteai.calls} calls` : '-- h'}</strong></div>
+          <p>{error ? `Ledger unavailable: ${error}` : 'Provider runs share one allowance pool. Reprocessing the same audio is counted again; unique source audio is informational only.'}</p>
+        </div>
+      )}
+    </section>
+  );
+}
 
 function LayerWorkspace({ layer }: { layer: LayerDefinition }) {
   const Icon = layer.icon;
@@ -442,7 +540,10 @@ export function ValidationApp() {
         </main>
       ) : view === 'workspace' ? (
         <main className="vc-wrap">
-          <div className="vc-console-head"><span className="vc-section-k">Operational workspace</span><h2>Layer workflow</h2><p className="sub">Inspect the formal input, processing and output contract for each delivery layer.</p></div>
+          <div className="vc-workspace-toolbar">
+            <div className="vc-console-head"><span className="vc-section-k">Operational workspace</span><h2>Layer workflow</h2><p className="sub">Inspect the formal input, processing and output contract for each delivery layer.</p></div>
+            <WorkspaceUsagePanel />
+          </div>
           <div className="vc-layout">
             <aside className="vc-side">
               <div className="st">Delivery layers</div>

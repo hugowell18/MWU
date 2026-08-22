@@ -1,0 +1,204 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - button "M MWU Pipeline" [ref=e6] [cursor=pointer]:
+        - generic [ref=e7]: M
+        - generic [ref=e8]: MWU Pipeline
+      - generic [ref=e9]:
+        - button "Overview" [ref=e10] [cursor=pointer]
+        - button "Workspace" [ref=e15] [cursor=pointer]
+        - button "Methodology" [ref=e20] [cursor=pointer]
+      - generic [ref=e24]: H
+  - main [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]: Operational workspace
+        - heading "Layer workflow" [level=2] [ref=e29]
+        - paragraph [ref=e30]: Inspect the formal input, processing and output contract for each delivery layer.
+      - region "Cumulative audio processing usage" [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e37]:
+            - generic [ref=e38]:
+              - generic [ref=e39]: Cumulative audio processing
+              - generic [ref=e40]: Within allowance
+            - generic [ref=e41]:
+              - strong [ref=e42]: "0.27"
+              - generic [ref=e43]: of 100.0 h
+            - progressbar "Combined provider processing allowance" [ref=e44]
+          - button "Details" [ref=e46] [cursor=pointer]
+    - generic [ref=e49]:
+      - complementary [ref=e50]:
+        - generic [ref=e51]: Delivery layers
+        - generic [ref=e52]:
+          - button "L1a · Speaker Evidence Attribution · N listening tracks" [ref=e53] [cursor=pointer]:
+            - generic [ref=e59]:
+              - generic [ref=e60]: L1a · Speaker Evidence
+              - generic [ref=e61]: Attribution · N listening tracks
+          - button "L1b · Interaction Timing P025/P035 · N+3 TextGrid" [ref=e64] [cursor=pointer]:
+            - generic [ref=e68]:
+              - generic [ref=e69]: L1b · Interaction Timing
+              - generic [ref=e70]: P025/P035 · N+3 TextGrid
+          - button "L2 · Research Analysis Transcript · AS-units · MWU" [ref=e73] [cursor=pointer]:
+            - generic [ref=e78]:
+              - generic [ref=e79]: L2 · Research Analysis
+              - generic [ref=e80]: Transcript · AS-units · MWU
+          - button "L3 · Final Synthesis Matrix · reports · archive" [ref=e83] [cursor=pointer]:
+            - generic [ref=e87]:
+              - generic [ref=e88]: L3 · Final Synthesis
+              - generic [ref=e89]: Matrix · reports · archive
+        - generic [ref=e92]: Original WAV is the canonical acoustic clock. Draft evidence remains distinct from researcher-reviewed data.
+      - generic [ref=e97]:
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - generic [ref=e106]: L1a
+            - text: Phase I · operational workspace
+          - heading "Speaker evidence and participant review" [level=1] [ref=e107]
+          - paragraph [ref=e108]: Generate acoustic candidates, listen to representative evidence and confirm the participant-to-S1-SN mapping before Phase II starts.
+        - generic [ref=e109]:
+          - generic [ref=e110]:
+            - generic [ref=e111]: WAV preflight
+            - strong [ref=e112]: Waiting for WAV
+          - generic [ref=e113]:
+            - generic [ref=e114]: Server session input
+            - strong [ref=e115]: 1 room-mix WAV
+          - generic [ref=e116]:
+            - generic [ref=e117]: Provider candidates
+            - strong [ref=e118]: Not generated
+          - generic [ref=e119]:
+            - generic [ref=e120]: Researcher review
+            - strong [ref=e121]: Not started
+        - generic [ref=e122]:
+          - generic [ref=e123]:
+            - generic [ref=e124]:
+              - generic [ref=e130]:
+                - generic [ref=e131]: Layer 1a input
+                - heading "Upload room-mix audio" [level=2] [ref=e132]
+              - generic [ref=e133]: WAV required
+            - generic [ref=e134] [cursor=pointer]:
+              - button "Choose one room-mix WAV Original WAV becomes the canonical timeline Browse"
+              - generic [ref=e135]:
+                - strong [ref=e136]: Choose one room-mix WAV
+                - generic [ref=e137]: Original WAV becomes the canonical timeline
+              - generic [ref=e138]: Browse
+            - generic [ref=e142]:
+              - button "Generate candidates" [disabled] [ref=e143]
+              - button "Reset" [disabled] [ref=e146]
+            - generic [ref=e150]:
+              - generic [ref=e151]: i
+              - paragraph [ref=e152]:
+                - strong [ref=e153]: Candidate review follows diarization.
+                - text: The provider returns acoustic candidates; the researcher decides which voices belong in the study.
+          - generic [ref=e154]:
+            - generic [ref=e155]:
+              - generic [ref=e162]:
+                - generic [ref=e163]: Processing state
+                - heading "Phase I evidence path" [level=2] [ref=e164]
+              - generic [ref=e165]: Not started
+            - generic [ref=e166]:
+              - generic [ref=e167]:
+                - generic [ref=e168]: "01"
+                - strong [ref=e169]: Preflight
+                - generic [ref=e170]: Canonical clock
+              - generic [ref=e171]:
+                - generic [ref=e172]: "02"
+                - strong [ref=e173]: Diarization
+                - generic [ref=e174]: All candidates
+              - generic [ref=e175]:
+                - generic [ref=e176]: "03"
+                - strong [ref=e177]: Review
+                - generic [ref=e178]: Resolve evidence
+              - generic [ref=e179]:
+                - generic [ref=e180]: "04"
+                - strong [ref=e181]: Mapping
+                - generic [ref=e182]: Confirm S1-SN
+              - generic [ref=e183]:
+                - generic [ref=e184]: "05"
+                - strong [ref=e185]: Artifacts
+                - generic [ref=e186]: Rebuild handoff
+            - paragraph [ref=e187]: A run identifier and canonical clock appear after preflight.
+        - generic [ref=e188]:
+          - generic [ref=e189]:
+            - generic [ref=e193]:
+              - generic [ref=e194]: Candidate evidence
+              - heading "Listen, decide and map" [level=2] [ref=e195]
+            - generic [ref=e196]: Waiting
+          - paragraph [ref=e197]: Up to three clips are ranked for speaker identification using clean non-overlap duration, acoustic clarity, clipping, provider confidence and time diversity. Raw clusters are shown in provider-number order; accepted S1-SN values remain run-local research IDs.
+          - table [ref=e199]:
+            - rowgroup [ref=e200]:
+              - row [ref=e201]:
+                - columnheader "Raw AI cluster" [ref=e202]
+                - columnheader "Representative evidence" [ref=e203]
+                - columnheader "Activity" [ref=e204]
+                - columnheader "Research role" [ref=e205]
+                - columnheader "Decision" [ref=e206]
+                - columnheader "Research speaker ID" [ref=e207]
+                - columnheader "Review state" [ref=e208]
+            - rowgroup [ref=e209]:
+              - row [ref=e210]:
+                - cell "Upload a WAV and generate provider candidates to begin researcher review." [ref=e211]
+          - generic [ref=e212]:
+            - generic [ref=e213]:
+              - generic [ref=e214]: Reviewer / rater ID
+              - textbox "Reviewer / rater ID" [disabled] [ref=e215]:
+                - /placeholder: Available after generation
+            - generic [ref=e216]:
+              - generic [ref=e217]: Final L1a output
+              - button "Accept mapping & build outputs" [disabled] [ref=e218]
+        - generic [ref=e222]:
+          - generic [ref=e223]:
+            - generic [ref=e231]:
+              - generic [ref=e232]: Layer 1a outputs
+              - heading "Speaker isolation deliverables" [level=2] [ref=e233]
+            - generic [ref=e234]: Human gate pending
+          - generic [ref=e235]:
+            - generic [ref=e241]:
+              - generic [ref=e242]: Execution session
+              - strong [ref=e243]: Created after WAV preflight
+            - generic [ref=e244]:
+              - generic [ref=e245]: Layer folder
+              - strong [ref=e246]: L1a / pending
+            - generic [ref=e247]:
+              - generic [ref=e248]: Next-layer input
+              - strong [ref=e249]: Waiting for confirmation
+          - generic [ref=e250]:
+            - generic [ref=e251]:
+              - generic [ref=e252]:
+                - generic [ref=e253]: Current draft evidence
+                - strong [ref=e254]: Provider candidate outputs
+              - generic [ref=e255]:
+                - generic [ref=e256]:
+                  - strong [ref=e257]: Provider timed turns
+                  - generic [ref=e258]: Canonical-timeline evidence
+                - generic [ref=e259]: Waiting
+              - generic [ref=e260]:
+                - generic [ref=e261]:
+                  - strong [ref=e262]: Candidate activity and clips
+                  - generic [ref=e263]: Canonical-timeline evidence
+                - generic [ref=e264]: Waiting
+              - generic [ref=e265]:
+                - generic [ref=e266]:
+                  - strong [ref=e267]: Accepted review record
+                  - generic [ref=e268]: Canonical-timeline evidence
+                - generic [ref=e269]: Waiting
+            - generic [ref=e270]:
+              - generic [ref=e271]:
+                - generic [ref=e272]: After human gate
+                - strong [ref=e273]: Accepted L1a deliverables
+              - generic [ref=e274]:
+                - generic [ref=e275]:
+                  - strong [ref=e276]: 1 speaker TextGrid
+                  - generic [ref=e277]: Canonical-timeline evidence
+                - generic [ref=e278]: Waiting
+              - generic [ref=e279]:
+                - generic [ref=e280]:
+                  - strong [ref=e281]: RTTM and CSV
+                  - generic [ref=e282]: Canonical-timeline evidence
+                - generic [ref=e283]: Waiting
+              - generic [ref=e284]:
+                - generic [ref=e285]:
+                  - strong [ref=e286]: N full-duration muted-mirror WAVs
+                  - generic [ref=e287]: Canonical-timeline evidence
+                - generic [ref=e288]: Waiting
+          - generic [ref=e292]:
+            - strong [ref=e293]: L1a human gate is not complete
+            - paragraph [ref=e294]: Resolve every candidate, confirm unique contiguous S1-SN assignments, then rebuild Phase I artifacts. A changed mapping invalidates earlier L1b drafts.

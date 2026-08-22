@@ -28,12 +28,19 @@ The current MWU ValidationApp is the primary design reference.
 |---|---|---|
 | Top navigation | Product identity, Workspace/Methodology navigation and user context | UI-001 |
 | Recording bar | Canonical WAV, run ID, duration and current release state | SYS-001, UI-001, UI-004 |
+| Usage meter | Combined provider allowance, status, provider split and unique source-audio context | SYS-012, UI-015 |
 | Layer rail | L1a, L1b, L2 and L3 navigation with state badges | SYS-009, UI-001 |
 | Main workspace | Layer-specific input, operation, evidence and output controls | UI-002 |
 | Gate strip | Exact condition required before the next Layer or release | SYS-005, UI-003, UI-007 |
 
 The product runs one active processing task at a time. Navigation may inspect completed artifacts,
 but a second processing job cannot start while the active job is running.
+
+The usage meter loads real ledger data and refreshes while the Workspace is open. Its collapsed
+state shows cumulative hours against the configured allowance. Details show unique source files,
+unique source hours, AssemblyAI hours/calls and pyannoteAI hours/calls. At 80% it enters warning;
+at 95% it enters critical; at 100% it reports exceeded. API failure is shown as unavailable rather
+than as zero.
 
 ## 4. L1a prototype - speaker evidence and participant review
 
@@ -48,7 +55,8 @@ but a second processing job cannot start while the active job is running.
 5. Confirmation gate: all candidates resolved, included identities uniquely mapped and downstream invalidation acknowledged.
 6. Accepted deliverables: one speaker TextGrid, RTTM, CSV and N muted-mirror WAVs, grouped exactly as in the L1a PoC.
 
-Fresh candidate rows use editable Participant, Include and sequential S1-SN working defaults. The
+Fresh candidate rows are naturally sorted by raw provider-cluster number and use editable Participant,
+Include and sequential S1-SN working defaults. Reopened reviews retain their persisted mapping. The
 Review and Mapping stages remain unconfirmed until the researcher saves and accepts the mapping.
 Selecting a different WAV clears all prior-run progress and output state immediately.
 The screen unlocks progressively: Browse is initially available; Generate becomes available after

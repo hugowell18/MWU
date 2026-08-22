@@ -374,15 +374,22 @@ function clamp01(value) {
   return Math.max(0, Math.min(1, Number(value)));
 }
 
+function providerCandidateOrder(leftValue, rightValue) {
+  const left = String(leftValue);
+  const right = String(rightValue);
+  const leftMatch = /^(.*?)(\d+)$/.exec(left);
+  const rightMatch = /^(.*?)(\d+)$/.exec(right);
+  if (leftMatch && rightMatch && leftMatch[1] === rightMatch[1]) {
+    return Number(leftMatch[2]) - Number(rightMatch[2]) || left.localeCompare(right);
+  }
+  return left.localeCompare(right);
+}
+
 export function buildCandidateEvidence({ runId, recordingId, turns, durationSeconds, audioPath = null }) {
   const normalized = normalizeTurns(turns, durationSeconds);
   const grouped = groupIntervalsBySpeaker(normalized);
   const envelope = buildAudioEnvelope(audioPath);
-  const candidates = [...grouped.keys()].sort((left, right) => {
-    const leftStart = grouped.get(left)?.[0]?.start ?? Number.POSITIVE_INFINITY;
-    const rightStart = grouped.get(right)?.[0]?.start ?? Number.POSITIVE_INFINITY;
-    return leftStart - rightStart || left.localeCompare(right);
-  }).map((candidateId) => {
+  const candidates = [...grouped.keys()].sort(providerCandidateOrder).map((candidateId) => {
     const candidateTurns = normalized.filter((turn) => turn.speaker === candidateId);
     const intervals = grouped.get(candidateId) || [];
     const clips = representativeTurns(candidateTurns, normalized, envelope, durationSeconds).map((clip) => ({

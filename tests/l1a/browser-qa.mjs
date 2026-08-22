@@ -93,7 +93,7 @@ async function main() {
   const report = {
     schema_version: 'l1a-browser-qa-v1',
     generated_at: new Date().toISOString(),
-    requirements: ['UI-006', 'L1A-003', 'L1A-004', 'L1A-005', 'L1A-006', 'L1A-009'],
+    requirements: ['UI-006', 'L1A-003', 'L1A-004', 'L1A-005', 'L1A-006', 'L1A-009', 'L1A-018'],
     status: 'fail',
     checks: {},
     screenshots: [],
@@ -125,6 +125,7 @@ async function main() {
       await page.getByPlaceholder('Enter assigned ID').fill('browser-rater-01');
       const rows = page.locator('.l1a-table tbody tr').filter({ has: page.locator('select') });
       const count = await rows.count();
+      const rawClusterOrder = await rows.evaluateAll((items) => items.map((row) => row.querySelector('td strong')?.textContent || ''));
       const defaultsApplied = await rows.evaluateAll((items) => items.every((row, index) => {
         const selects = row.querySelectorAll('select');
         const canonical = row.querySelector('[aria-label$="canonical speaker"]');
@@ -152,7 +153,34 @@ async function main() {
         mappingPassed: await page.locator('.l1a-flow-step').nth(3).evaluate((element) => element.classList.contains('passed')),
         artifactsPassed: await page.locator('.l1a-flow-step').nth(4).evaluate((element) => element.classList.contains('passed'))
       };
-      return { initial, generateEnabledAfterBrowse, candidate_count: count, defaultsApplied, exclusionRenumbered, prefilledCount, playing, flowBeforeAcceptance, flowAfterAcceptance, reviewer: await page.getByPlaceholder('Enter assigned ID').inputValue() };
+      const currentRun = await page.evaluate(() => new URLSearchParams(window.location.search).get('run'));
+      const reversed = rawClusterOrder.map((candidateId, index) => ({
+        candidate_id: candidateId,
+        decision: 'include',
+        role: 'participant',
+        canonical_speaker: 'S' + (rawClusterOrder.length - index),
+        merge_into: null,
+        note: ''
+      }));
+      const remapResponse = await page.evaluate(async ({ runId, decisions }) => {
+        const response = await fetch('/api/l1a/runs/' + encodeURIComponent(runId) + '/confirm', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ reviewer: 'browser-rater-01', decisions })
+        });
+        return { ok: response.ok, status: response.status };
+      }, { runId: currentRun, decisions: reversed });
+      await page.reload();
+      await page.getByText('L1a human gate is complete').waitFor({ timeout: 15000 });
+      const reopenedRows = page.locator('.l1a-table tbody tr').filter({ has: page.locator('select') });
+      const reopened = await reopenedRows.evaluateAll((items) => items.map((row) => ({
+        cluster: row.querySelector('td strong')?.textContent || '',
+        canonical: row.querySelector('[aria-label$="canonical speaker"]')?.textContent || ''
+      })));
+      const persistedMappingPreserved = remapResponse.ok
+        && reopened.every((item, index) => item.cluster === rawClusterOrder[index]
+          && item.canonical === 'S' + (rawClusterOrder.length - index));
+      return { initial, generateEnabledAfterBrowse, candidate_count: count, rawClusterOrder, defaultsApplied, exclusionRenumbered, persistedMappingPreserved, prefilledCount, playing, flowBeforeAcceptance, flowAfterAcceptance, reviewer: await page.getByPlaceholder('Enter assigned ID').inputValue() };
     }`]);
 
     const viewports = [
@@ -197,12 +225,14 @@ async function main() {
     const counts = /Errors:\s*(\d+),\s*Warnings:\s*(\d+)/.exec(consoleText);
     report.checks = {
       three_candidates_reviewed: interaction.candidate_count === 3,
+      raw_clusters_naturally_sorted: interaction.rawClusterOrder.join(',') === 'SPEAKER_00,SPEAKER_01,SPEAKER_02',
       progressive_controls: interaction.initial.generateDisabled === true
         && interaction.initial.reviewerDisabled === true
         && interaction.initial.finalDisabled === true
         && interaction.generateEnabledAfterBrowse === true,
       candidate_defaults_applied: interaction.defaultsApplied === true && interaction.prefilledCount === 3,
       exclusion_reindexes_canonical_speakers: interaction.exclusionRenumbered === true,
+      persisted_mapping_preserved_on_reopen: interaction.persistedMappingPreserved === true,
       phase_evidence_state_machine: interaction.flowBeforeAcceptance.reviewRunning === true
         && interaction.flowBeforeAcceptance.mappingPending === true
         && interaction.flowBeforeAcceptance.artifactsPending === true

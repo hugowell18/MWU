@@ -166,6 +166,18 @@ async function main() {
     assert(!/className="vc-pitem[^\n]+Validation/.test(appSource), 'benchmark validation remains in the formal layer navigation');
   });
 
+  await t('Workspace usage panel reads the real provider ledger and exposes its counting rule', async () => {
+    const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
+    const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');
+    for (const marker of ['Cumulative audio processing', 'Unique source audio', 'AssemblyAI processing', 'pyannoteAI processing', '/api/workspace/usage']) {
+      assert(src.includes(marker), `usage panel missing "${marker}"`);
+    }
+    assert(!src.includes('Usage ledger pending'), 'static usage placeholder remains in the built UI');
+    const usage = await (await fetch(`${base}/api/workspace/usage`)).json();
+    assert(usage.schema_version === 'mwu-workspace-usage-summary-v1', 'workspace usage API schema missing');
+    assert(typeof usage.allowance.used_hours === 'number' && usage.allowance.limit_hours > 0, 'workspace usage values are not numeric');
+  });
+
   await t('Methodology Atlas is embedded as a versioned static academic reference', async () => {
     const js = fs.readdirSync(path.join(BUILD, 'assets')).find((f) => f.endsWith('.js'));
     const src = fs.readFileSync(path.join(BUILD, 'assets', js), 'utf8');

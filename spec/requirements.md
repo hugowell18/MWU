@@ -26,6 +26,7 @@ research data.
 | SYS-009 | The WebUI shall run one processing task at a time and expose the active Layer, current state, artifacts and review handoff. |
 | SYS-010 | Routine method parameters shall be configurable without changing the output schema. |
 | SYS-011 | Every processing run shall have one stable Session ID, one server-managed canonical input folder and a versioned `L1a/L1b/L2/L3` folder/index structure so that each accepted Layer output can be selected as the next Layer input. |
+| SYS-012 | Every successfully completed AssemblyAI or pyannoteAI remote job shall append one auditable usage event. The event shall count the full source-audio duration; a new rerun counts again, while polling or retrying the same provider job ID shall not duplicate usage. Mock, cache and offline replay paths shall not count. |
 
 ### 2.1 WebUI requirements
 
@@ -45,6 +46,7 @@ research data.
 | UI-012 | Every Layer result shall display the Session ID, Layer revision and next-layer input readiness without mixing internal handoff evidence into customer deliverables. |
 | UI-013 | L1a controls shall unlock progressively: Browse first, Generate after WAV selection, and researcher acceptance only after candidate generation and reviewer identification. Editable review state and final artifact generation shall remain visually and semantically distinct. |
 | UI-014 | After candidate generation, Review alone shall display as active while Mapping and Artifacts remain pending. Review, Mapping and Artifacts shall display as passed only after the researcher accepts the mapping and the server rebuilds the outputs. |
+| UI-015 | The Workspace shall display the configured combined provider allowance, cumulative processing hours, per-provider hours/calls and deduplicated source-audio hours. Warning states shall remain visibly distinct, and unavailable ledger data shall not be shown as zero. |
 
 ## 3. Layer 1a - speaker evidence and candidate review
 
@@ -75,6 +77,7 @@ research data.
 | L1A-015 | WAV preflight shall reject a truncated or internally inconsistent data chunk before any third-party diarization request is submitted. |
 | L1A-016 | The L1a workspace shall support a non-destructive one-click reset that clears the selected input and local run view without deleting sealed session evidence. |
 | L1A-017 | A browser-selected WAV shall be uploaded to `sessions/{session_id}/input/source.wav` on the server with a session input manifest containing its original filename, byte count and SHA-256. Subsequent Layers shall reference this managed session input rather than a client filesystem path. |
+| L1A-018 | Raw provider candidates shall be presented in natural ascending provider-label order. Fresh runs shall prefill contiguous S1-SN values in that order, while any persisted researcher mapping shall take precedence and shall not be silently renumbered when an accepted run is reopened. |
 | L1A-013 | Superseded handoffs shall be unselectable, explicit L1b reuse shall be rejected, and derived latest reports shall be exposed as stale. |
 
 ### 3.3 Outputs

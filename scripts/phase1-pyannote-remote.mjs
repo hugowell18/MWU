@@ -15,6 +15,7 @@ import {
   writeJson,
   writePhase1Artifacts,
 } from './phase1/lib/diarization-artifacts.mjs';
+import { recordProviderUsage } from './usage/provider-usage-ledger.mjs';
 
 const DEFAULT_API_BASE_URL = 'https://api.pyannote.ai';
 const EXIT_MISSING_KEY = 22;
@@ -452,6 +453,22 @@ async function main() {
       pollMs: args.pollMs,
       timeoutMs: args.timeoutMs,
       logPath,
+    });
+    const usage = await recordProviderUsage({
+      provider: 'pyannoteai',
+      jobId: submitted.jobId,
+      durationSeconds: duration,
+      sourceAudioPath: audioPath,
+      requestedModel: args.model,
+      actualModel: job.model ?? job.output?.model ?? args.model,
+      context: process.env.MWU_USAGE_CONTEXT || 'phase1_diarization',
+      runId: process.env.MWU_USAGE_RUN_ID || null,
+    });
+    appendJsonl(logPath, 'provider_usage_recorded', {
+      recorded: usage.recorded,
+      provider: 'pyannoteai',
+      job_id: submitted.jobId,
+      duration_seconds: duration,
     });
   }
 

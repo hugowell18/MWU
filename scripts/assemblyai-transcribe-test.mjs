@@ -13,6 +13,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { basename, extname, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
+import { recordProviderUsage } from "./usage/provider-usage-ledger.mjs";
 
 const BASE_URL = "https://api.assemblyai.com";
 const DEFAULT_AUDIO = "sample-inputs/AMI_ES2002a_Mix-Headset_10min.wav";
@@ -344,6 +345,17 @@ async function main() {
 
   console.log("Polling transcription job...");
   const result = await pollTranscript(transcriptId, apiKey, args.pollMs);
+
+  await recordProviderUsage({
+    provider: "assemblyai",
+    jobId: transcriptId,
+    durationSeconds: result.audio_duration,
+    sourceAudioPath: audioPath,
+    requestedModel: args.model,
+    actualModel: result.speech_model_used ?? result.speech_model ?? args.model,
+    context: process.env.MWU_USAGE_CONTEXT || "assemblyai_transcription",
+    runId: process.env.MWU_USAGE_RUN_ID || null,
+  });
 
   const metadata = {
     provider: "assemblyai",

@@ -243,6 +243,7 @@ function main() {
   fs.rmSync(outRoot, { recursive: true, force: true });
   fs.mkdirSync(outRoot, { recursive: true });
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'phase1-remote-test-'));
+  process.env.MWU_USAGE_LEDGER = path.join(temp, 'provider-usage-ledger.json');
   const audio = path.join(temp, 'fixture.wav');
   writeTinyWav(audio);
   const uploadAudio = path.join(temp, 'fixture.16k.wav');
@@ -416,12 +417,17 @@ function main() {
         'diarize_submit_start',
         'diarize_submit_done',
         'job_poll',
+        'provider_usage_recorded',
         'artifacts_done',
         'comparison_done',
       ]) {
         assert(log.includes(`"event":"${event}"`), `missing log event ${event}: ${log}`);
       }
       assert(log.includes(server.baseUrl), 'api base url not logged');
+      const usageLedger = readJson(process.env.MWU_USAGE_LEDGER);
+      assert(usageLedger.events.length === 1, JSON.stringify(usageLedger));
+      assert(usageLedger.events[0].provider === 'pyannoteai', JSON.stringify(usageLedger.events[0]));
+      assert(usageLedger.events[0].duration_seconds === 1.2, JSON.stringify(usageLedger.events[0]));
     } finally {
       server.stop();
     }

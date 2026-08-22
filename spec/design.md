@@ -50,6 +50,7 @@ flowchart LR
 | L1a artifact builder | RTTM/CSV/TextGrid/muted-mirror creation | `scripts/phase1/lib/diarization-artifacts.mjs` | implemented PoC path |
 | Interaction engine | Floor, labels, overlap evidence and transitions | `scripts/multilogue-v2/core/interaction-engine.mjs` | run-scoped S1-SN implemented; three-speaker Gold retained as regression |
 | L1b runner/finalizer | Praat drafts and reviewed duration outputs | `scripts/l1b/` | implemented for current handoff |
+| Provider usage ledger | Successful-call accounting, allowance status and source-audio deduplication | `scripts/usage/provider-usage-ledger.mjs` | implemented |
 | L2 research scripts | Alignment, pause location, rate and export experiments | `scripts/prepare-mfa-corpus.mjs`, `scripts/classify-pause-location.mjs`, `scripts/export-research-excel.mjs` | experimental |
 
 ### 3.1 Session artifact layout
@@ -76,6 +77,19 @@ sessions/{session_id}/
 `client_deliverables` from internal evidence and identifies one `next_layer_input`. Accepted
 revisions are immutable so a previous analysis can be replayed instead of overwritten.
 
+### 3.2 Provider usage accounting
+
+`outputs/usage/provider-usage-ledger.json` is the operational source of truth for the shared
+AssemblyAI/pyannoteAI allowance. Each completed remote provider job contributes the full source
+duration once, keyed by provider and remote job ID. Re-running the same WAV as a new remote job
+contributes again. Source-audio statistics are separately deduplicated by SHA-256 and do not reduce
+the billable processing total.
+
+The ledger stores no credentials, upload URLs, transcript text or absolute audio paths. The WebUI
+reads the summary through `GET /api/workspace/usage`; the configured baseline is 100 hours with
+warning and critical states at 80% and 95%. Historic runs made before ledger activation are not
+silently reconstructed from output files.
+
 ## 4. L1a design
 
 ### 4.1 Processing sequence
@@ -85,7 +99,7 @@ revisions are immutable so a previous analysis can be replayed instead of overwr
 3. Run provider diarization and retain all generated acoustic candidates.
 4. Normalize provider turns to the WAV timeline.
 5. Generate candidate statistics and representative clips.
-6. Present candidates with editable Participant, Include and sequential S1-SN working defaults.
+6. Present candidates in natural ascending provider-label order with editable Participant, Include and sequential S1-SN working defaults. Persisted researcher mappings always override these fresh-run defaults.
 7. Require researcher review for Include/Exclude/Uncertain/Merge decisions; defaults do not complete the human gate.
 8. Selecting another WAV clears the previous run snapshot and all Phase I progress indicators before processing starts.
 9. Map included identities to S1-SN.
@@ -248,6 +262,9 @@ authorized validation evidence.
 | L3 | Compile and validate final matrix | Codebook and expected schema are signed. |
 | Workflow Atlas | Read-only method reference | None. |
 
+The Workspace header also exposes the shared provider-usage counter. It is operational context,
+not a research metric and not part of any Layer artifact package.
+
 The detailed screen contract, states and requirement mapping are defined in `ui-design.md`.
 The reviewable target prototype is `ui/MWU_Layer_UI_Prototypes.html`. It inherits the current
 ValidationApp visual language, but target-only controls remain explicitly marked in the UI spec
@@ -262,6 +279,7 @@ inside the L1a-L3 research WebUI.
 - Artifact download and audio streaming paths are resolved against authorized run roots.
 - API credentials are server-side environment variables only.
 - Logs contain IDs and file basenames, not credentials, signed URLs or participant transcript text.
+- The provider usage ledger contains job IDs, models, durations and source hashes/basenames only.
 - Final handover uses `.env.example`; real keys are entered locally by the system owner.
 
 ## 11. Validation strategy

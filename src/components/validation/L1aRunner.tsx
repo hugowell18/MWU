@@ -34,6 +34,21 @@ type ActionNotice = {
 
 const EMPTY: Record<string, Decision> = {};
 
+function providerCandidateOrder(leftValue: string, rightValue: string) {
+  const left = String(leftValue);
+  const right = String(rightValue);
+  const leftMatch = /^(.*?)(\d+)$/.exec(left);
+  const rightMatch = /^(.*?)(\d+)$/.exec(right);
+  if (leftMatch && rightMatch && leftMatch[1] === rightMatch[1]) {
+    return Number(leftMatch[2]) - Number(rightMatch[2]) || left.localeCompare(right);
+  }
+  return left.localeCompare(right);
+}
+
+function orderedProviderCandidates(candidates: any[] = []) {
+  return [...candidates].sort((left, right) => providerCandidateOrder(left.candidate_id, right.candidate_id));
+}
+
 function defaultDecision(candidateId: string, index: number): Decision {
   return {
     candidate_id: candidateId,
@@ -79,9 +94,10 @@ export function L1aRunner() {
     setReviewer(value.review?.reviewer || '');
     setError(value.state?.status === 'failed' ? (value.state.error || 'Diarization failed') : null);
     if (value.candidates?.candidates) {
+      const orderedCandidates = orderedProviderCandidates(value.candidates.candidates);
       const prior = new Map((value.review?.decisions || []).map((item: Decision) => [item.candidate_id, item]));
       const hasPriorReview = prior.size > 0;
-      setDecisions(Object.fromEntries(value.candidates.candidates.map((candidate: any, index: number) => {
+      setDecisions(Object.fromEntries(orderedCandidates.map((candidate: any, index: number) => {
         const existing = prior.get(candidate.candidate_id) as Decision | undefined;
         return [candidate.candidate_id, existing || (hasPriorReview
           ? unresolvedDecision(candidate.candidate_id)
@@ -224,7 +240,7 @@ export function L1aRunner() {
     stopTimer.current = window.setTimeout(() => audio.current?.pause(), Math.max(250, (clip.end - clip.start) * 1000));
   }
 
-  const candidates = snapshot?.candidates?.candidates || [];
+  const candidates = orderedProviderCandidates(snapshot?.candidates?.candidates || []);
   const state = snapshot?.state;
   const included = Object.values(decisions).filter((item) => item.decision === 'include');
   const resolved = Object.values(decisions).filter((item) => isResolved(item)).length;
@@ -306,10 +322,10 @@ export function L1aRunner() {
 
       <section className="l1a-card l1a-evidence">
         <SectionTitle eyebrow="Candidate evidence" title="Listen, decide and map" icon={<Play size={17} />} status={candidates.length ? `${candidates.length} candidates` : 'Waiting'} />
-        <p className="l1a-card-note">Up to three clips are ranked for speaker identification using clean non-overlap duration, acoustic clarity, clipping, provider confidence and time diversity. A clip supports human identification; it does not prove a real-world role.</p>
+        <p className="l1a-card-note">Up to three clips are ranked for speaker identification using clean non-overlap duration, acoustic clarity, clipping, provider confidence and time diversity. Raw clusters are shown in provider-number order; accepted S1-SN values remain run-local research IDs.</p>
         <div className="l1a-table-wrap">
           <table className="l1a-table">
-            <thead><tr><th>Candidate</th><th>Representative evidence</th><th>Activity</th><th>Research role</th><th>Decision</th><th>Canonical map</th><th>Review state</th></tr></thead>
+            <thead><tr><th>Raw AI cluster</th><th>Representative evidence</th><th>Activity</th><th>Research role</th><th>Decision</th><th>Research speaker ID</th><th>Review state</th></tr></thead>
             <tbody>
               {candidates.map((candidate: any) => {
                 const decision = decisions[candidate.candidate_id];
