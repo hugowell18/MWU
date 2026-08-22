@@ -7,7 +7,7 @@ import {
   estimateThreshold,
   prepareLocalAcousticVad,
 } from '../../local-acoustic-vad.mjs';
-import { EPSILON, SPEAKERS, round } from '../core/contracts.mjs';
+import { EPSILON, canonicalSpeakers, round } from '../core/contracts.mjs';
 
 export const SPEAKER_ACOUSTIC_SUPPORT_VERSION = 'speaker-conditioned-acoustic-support-v1';
 
@@ -22,6 +22,7 @@ export function buildSpeakerAcousticSupport({
   if (!pyannoteMapping || typeof pyannoteMapping !== 'object') {
     throw new Error('pyannote canonical speaker mapping is required');
   }
+  const speakers = canonicalSpeakers(mappingDocument.speakers || Object.values(pyannoteMapping));
   const turnsFile = resolveManifestPath(manifestFile, manifest.outputs?.speaker_turns_json);
   const turnsDocument = readJson(turnsFile);
   const providerTurns = Array.isArray(turnsDocument.turns) ? turnsDocument.turns : [];
@@ -35,12 +36,12 @@ export function buildSpeakerAcousticSupport({
     padSoundingSeconds: 0,
     ...vadOptions,
   };
-  const bySpeaker = Object.fromEntries(SPEAKERS.map((speaker) => [speaker, []]));
-  const providerByCanonical = Object.fromEntries(SPEAKERS.map((speaker) => [speaker, []]));
-  const boundaryFramesBySpeaker = Object.fromEntries(SPEAKERS.map((speaker) => [speaker, []]));
+  const bySpeaker = Object.fromEntries(speakers.map((speaker) => [speaker, []]));
+  const providerByCanonical = Object.fromEntries(speakers.map((speaker) => [speaker, []]));
+  const boundaryFramesBySpeaker = Object.fromEntries(speakers.map((speaker) => [speaker, []]));
   for (const turn of providerTurns) {
     const canonical = pyannoteMapping[String(turn.speaker)];
-    if (!SPEAKERS.includes(canonical)) continue;
+    if (!speakers.includes(canonical)) continue;
     const start = Number(turn.start);
     const end = Number(turn.end);
     if (end > start + EPSILON) providerByCanonical[canonical].push({
@@ -50,13 +51,13 @@ export function buildSpeakerAcousticSupport({
       end: round(end, 6),
     });
   }
-  for (const speaker of SPEAKERS) providerByCanonical[speaker] = mergeIntervals(providerByCanonical[speaker]);
+  for (const speaker of speakers) providerByCanonical[speaker] = mergeIntervals(providerByCanonical[speaker]);
 
   const speakerRecords = [];
   for (const mirror of mirrors) {
     const providerSpeaker = normalizeMirrorSpeaker(mirror.speaker);
     const canonical = pyannoteMapping[providerSpeaker];
-    if (!SPEAKERS.includes(canonical)) throw new Error(`muted mirror has no canonical mapping: ${providerSpeaker}`);
+    if (!speakers.includes(canonical)) throw new Error(`muted mirror has no canonical mapping: ${providerSpeaker}`);
     const wavFile = resolveManifestPath(manifestFile, mirror.muted_mirror_wav);
     const prepared = prepareLocalAcousticVad(wavFile, options);
     boundaryFramesBySpeaker[canonical] = prepared.frames.map((frame) => ({
@@ -85,12 +86,13 @@ export function buildSpeakerAcousticSupport({
       threshold_controller: vad.threshold.controller,
     });
   }
-  assertClippedToOwnTurns(bySpeaker, providerByCanonical);
+  assertClippedToOwnTurns(bySpeaker, providerByCanonical, speakers);
   const result = {
     contract_version: SPEAKER_ACOUSTIC_SUPPORT_VERSION,
     runtime_gold_access: false,
     network_used: false,
     source_separation_claim: false,
+    speakers,
     usage_boundary: 'activity support and semantic expansion only; never move or cross provider turn boundaries',
     vad_options: options,
     by_speaker: bySpeaker,
@@ -143,8 +145,9 @@ function computeTurnConditionedVad(prepared, turns, options) {
   return { sounding, threshold };
 }
 
-export function assertClippedToOwnTurns(bySpeaker, providerTurnsBySpeaker) {
-  for (const speaker of SPEAKERS) {
+export function assertClippedToOwnTurns(bySpeaker, providerTurnsBySpeaker, requestedSpeakers = null) {
+  const speakers = canonicalSpeakers(requestedSpeakers || Object.keys(bySpeaker || {}));
+  for (const speaker of speakers) {
     for (const interval of bySpeaker[speaker] || []) {
       const contained = (providerTurnsBySpeaker[speaker] || []).some((turn) =>
         interval.start >= turn.start - EPSILON && interval.end <= turn.end + EPSILON);

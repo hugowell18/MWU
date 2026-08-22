@@ -1,10 +1,14 @@
 {
   "suite": "multilogue-v2-stage1-adapter",
-  "passed": 8,
+  "passed": 9,
   "failed": 0,
   "tests": [
     {
       "name": "builds an explicit bijective provider mapping with provenance",
+      "status": "pass"
+    },
+    {
+      "name": "adapts the Stage-1 evidence contract to four accepted speakers",
       "status": "pass"
     },
     {

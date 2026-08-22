@@ -1,43 +1,53 @@
 import {
   EPSILON,
-  FLOOR_LABELS,
   FTO_STATUSES,
   SPEAKERS,
   SPEAKER_LABELS,
+  canonicalSpeakers,
+  floorLabels,
   round,
   sortedUnique,
 } from './contracts.mjs';
 
-const EXPECTED_TIERS = Object.freeze([
-  ['S1', 'IntervalTier'],
-  ['S2', 'IntervalTier'],
-  ['S3', 'IntervalTier'],
-  ['floor', 'IntervalTier'],
-  ['transitions', 'TextTier'],
-  ['flags', 'IntervalTier'],
-]);
-
-export function validateSixTierTextGrid(document, { transitionStatuses = FTO_STATUSES } = {}) {
+export function validateSixTierTextGrid(document, { transitionStatuses = FTO_STATUSES, speakers: requestedSpeakers = null } = {}) {
   const errors = [];
   const warnings = [];
   const tierReports = [];
   if (!document || !Array.isArray(document.tiers)) {
     return { valid: false, errors: ['document.tiers is required'], warnings, duration: null, tier_reports: [] };
   }
-  if (document.tiers.length !== EXPECTED_TIERS.length) errors.push(`expected 6 tiers; received ${document.tiers.length}`);
+  let speakers;
+  try {
+    const speakerTierNames = document.tiers
+      .filter((tier) => tier?.class === 'IntervalTier' && /^S\d+$/.test(String(tier.name)))
+      .map((tier) => String(tier.name));
+    speakers = canonicalSpeakers(requestedSpeakers || speakerTierNames || SPEAKERS);
+  } catch (error) {
+    errors.push(error.message);
+    speakers = SPEAKERS;
+  }
+  const expectedTiers = [
+    ...speakers.map((speaker) => [speaker, 'IntervalTier']),
+    ['floor', 'IntervalTier'],
+    ['transitions', 'TextTier'],
+    ['flags', 'IntervalTier'],
+  ];
+  if (document.tiers.length !== expectedTiers.length) {
+    errors.push(`expected ${expectedTiers.length} tiers for ${speakers.length} speakers; received ${document.tiers.length}`);
+  }
 
-  EXPECTED_TIERS.forEach(([name, className], index) => {
+  expectedTiers.forEach(([name, className], index) => {
     const tier = document.tiers[index];
     if (!tier) return;
     if (tier.name !== name) errors.push(`tier ${index + 1} name must be ${name}`);
     if (tier.class !== className) errors.push(`tier ${name} class must be ${className}`);
     if (className === 'IntervalTier') {
-      tierReports.push(validateIntervalTier(tier, document.xmax, errors));
+      tierReports.push(validateIntervalTier(tier, document.xmax, errors, speakers));
     } else {
-      validateTransitions(tier, document.xmax, errors, transitionStatuses);
+      validateTransitions(tier, document.xmax, errors, transitionStatuses, speakers);
     }
   });
-  validateOverlapReciprocity(document, errors);
+  validateOverlapReciprocity(document, errors, speakers);
   return {
     valid: errors.length === 0,
     errors,
@@ -47,7 +57,7 @@ export function validateSixTierTextGrid(document, { transitionStatuses = FTO_STA
   };
 }
 
-function validateIntervalTier(tier, duration, errors) {
+function validateIntervalTier(tier, duration, errors, speakers) {
   const intervals = Array.isArray(tier.intervals) ? tier.intervals : [];
   let cursor = 0;
   let maxGap = 0;
@@ -67,7 +77,7 @@ function validateIntervalTier(tier, duration, errors) {
     }
     cursor = interval.end;
     vocabulary.push(String(interval.text ?? ''));
-    validateVocabulary(tier.name, String(interval.text ?? ''), errors, index);
+    validateVocabulary(tier.name, String(interval.text ?? ''), errors, index, speakers);
   }
   if (intervals.length > 0 && Math.abs(intervals[0].start) > EPSILON) errors.push(`${tier.name} does not start at zero`);
   if (Math.abs(cursor - duration) > EPSILON) errors.push(`${tier.name} does not end at task duration`);
@@ -83,11 +93,11 @@ function validateIntervalTier(tier, duration, errors) {
   };
 }
 
-function validateVocabulary(tierName, text, errors, index) {
-  if (SPEAKERS.includes(tierName) && !SPEAKER_LABELS.includes(text)) {
+function validateVocabulary(tierName, text, errors, index, speakers) {
+  if (speakers.includes(tierName) && !SPEAKER_LABELS.includes(text)) {
     errors.push(`${tierName}[${index}] has invalid nine-label value ${text}`);
   }
-  if (tierName === 'floor' && !FLOOR_LABELS.includes(text)) {
+  if (tierName === 'floor' && !floorLabels(speakers).includes(text)) {
     errors.push(`floor[${index}] has invalid holder ${text}`);
   }
   if (tierName === 'flags' && text) {
@@ -97,16 +107,16 @@ function validateVocabulary(tierName, text, errors, index) {
   }
 }
 
-function validateTransitions(tier, duration, errors, transitionStatuses) {
+function validateTransitions(tier, duration, errors, transitionStatuses, speakers) {
   const statusPattern = transitionStatuses.map(escapeRegex).join('|');
   const signedStatuses = transitionStatuses.filter((status) =>
     status !== 'overlap_present_offset_not_measured'
     && status !== 'subthreshold_overlap_present_offset_not_measured');
   const signedPattern = signedStatuses.length
-    ? new RegExp(`^S[123]>S[123] FTO=[+-]\\d+\\.\\d{3} status=(${signedStatuses.map(escapeRegex).join('|')})$`)
+    ? new RegExp(`^(S\\d+)>(S\\d+) FTO=[+-]\\d+\\.\\d{3} status=(${signedStatuses.map(escapeRegex).join('|')})$`)
     : /$a/;
-  const missingQualifiedPattern = /^S[123]>S[123] FTO=NA overlap=qualified status=overlap_present_offset_not_measured$/;
-  const missingSubthresholdPattern = /^S[123]>S[123] FTO=NA overlap=subthreshold status=subthreshold_overlap_present_offset_not_measured$/;
+  const missingQualifiedPattern = /^(S\d+)>(S\d+) FTO=NA overlap=qualified status=overlap_present_offset_not_measured$/;
+  const missingSubthresholdPattern = /^(S\d+)>(S\d+) FTO=NA overlap=subthreshold status=subthreshold_overlap_present_offset_not_measured$/;
   const points = Array.isArray(tier.points) ? tier.points : [];
   let previous = -Infinity;
   for (const [index, point] of points.entries()) {
@@ -115,7 +125,10 @@ function validateTransitions(tier, duration, errors, transitionStatuses) {
     const mark = String(point.mark ?? '');
     const status = mark.match(/ status=([^ ]+)$/)?.[1] || '';
     const permitted = new RegExp(`^(${statusPattern})$`).test(status);
-    if (!permitted || (!signedPattern.test(mark) && !missingQualifiedPattern.test(mark) && !missingSubthresholdPattern.test(mark))) {
+    const direction = mark.match(/^(S\d+)>(S\d+) /);
+    const knownDirection = direction && direction[1] !== direction[2]
+      && speakers.includes(direction[1]) && speakers.includes(direction[2]);
+    if (!knownDirection || !permitted || (!signedPattern.test(mark) && !missingQualifiedPattern.test(mark) && !missingSubthresholdPattern.test(mark))) {
       errors.push(`transitions[${index}] has invalid mark format`);
     }
     previous = point.number;
@@ -126,8 +139,8 @@ function escapeRegex(value) {
   return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function validateOverlapReciprocity(document, errors) {
-  const speakerTiers = document.tiers.slice(0, 3);
+function validateOverlapReciprocity(document, errors, speakers) {
+  const speakerTiers = speakers.map((speaker) => document.tiers.find((tier) => tier.name === speaker));
   if (speakerTiers.some((tier) => !tier || !Array.isArray(tier.intervals))) return;
   const boundaries = sortedUnique(
     speakerTiers.flatMap((tier) => tier.intervals.flatMap((interval) => [interval.start, interval.end])),

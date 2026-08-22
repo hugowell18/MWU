@@ -1,4 +1,4 @@
-import { EPSILON, SPEAKERS, canonicalJson, round, sha256 } from '../core/contracts.mjs';
+import { EPSILON, canonicalJson, round, sha256, speakersFromTextGrid } from '../core/contracts.mjs';
 import { serializeTextGrid } from '../core/textgrid.mjs';
 import { structuralDigests } from './frozen-semantic-pass.mjs';
 
@@ -19,7 +19,8 @@ export function applyV23cFillerPass(baseOutput, events, speakerAcousticSupport, 
   const document = structuredClone(baseOutput.textgrid_document);
   const explicit = events.filter((event) => event.semantic_evidence === 'explicit_asr');
   const records = [];
-  for (const speaker of SPEAKERS) {
+  const speakers = speakersFromTextGrid(document);
+  for (const speaker of speakers) {
     const tier = document.tiers.find((item) => item.name === speaker);
     const speakerEvents = explicit.filter((event) => event.speaker === speaker).sort(eventSort);
     const activeSpans = tier.intervals.filter((interval) => ['s', 'f', 'bc', 'ol'].includes(interval.text));

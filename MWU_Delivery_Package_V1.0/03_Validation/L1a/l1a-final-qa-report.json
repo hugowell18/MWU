@@ -1,0 +1,94 @@
+{
+  "schema_version": "l1a-final-qa-report-v1",
+  "generated_at": "2026-08-22T06:47:04Z",
+  "qa_round": 2,
+  "qa_round_final": true,
+  "scope": "L1a engineering gate and L1a-to-L1b handoff",
+  "decision": "fail_user_decision_required",
+  "engineering_gate_passed": false,
+  "severity_counts": {
+    "p0": 0,
+    "p1": 3,
+    "p2": 3
+  },
+  "automated_evidence": [
+    {"command": "npm run l1a:test", "status": "pass", "passed": 10, "failed": 0},
+    {"command": "npm run l1a:api-test", "status": "pass", "passed": 7, "failed": 0},
+    {"command": "npm run l1a:browser-qa", "status": "pass", "desktop_width": 1440, "mobile_width": 390, "console_errors": 0, "console_warnings": 0},
+    {"command": "npm run phase1:pyannote:test", "status": "pass", "passed": 12, "failed": 0},
+    {"command": "npm run l1b:test", "status": "pass", "passed": 2, "failed": 0},
+    {"command": "npm run build", "status": "pass"},
+    {"command": "npm run sprint:build-ui", "status": "pass", "referenced_assets": 2, "missing_assets": 0},
+    {"command": "npm run release:inventory-check", "status": "pass", "violations": 0},
+    {"command": "git diff --check", "status": "pass"}
+  ],
+  "independent_checks": {
+    "superseded_input_hidden": true,
+    "superseded_explicit_l1b_run_rejected": true,
+    "old_l1b_report_marked_stale": true,
+    "new_mapping_reconfirmed": true,
+    "new_handoff_selectable": true,
+    "new_explicit_l1b_run_started": true,
+    "sealed_manifest_verified": true,
+    "real_l1a_recording_id": "Final_Group_04",
+    "resulting_l1b_recording_id": "source",
+    "suffix_range_matches_source_tail": true,
+    "invalid_range_status": 416,
+    "unknown_api_status": 404,
+    "artifact_download_status": 200,
+    "browser_download_completed": true,
+    "browser_console_clean": true,
+    "shared_gate_validation_blocked": true,
+    "shared_gate_l1b_run_blocked": true,
+    "shared_gate_multilogue_blocked": false,
+    "shared_gate_l1b_finalize_implemented": false,
+    "superseded_accepted_artifacts_retained": false
+  },
+  "findings": [
+    {
+      "id": "L1A-QA2-001",
+      "severity": "P1",
+      "title": "L1b loses the accepted recording identifier",
+      "file": "scripts/l1b/run-l1b.mjs",
+      "line": 331,
+      "evidence": "L1a and /api/l1b/input used Final_Group_04, but L1b report rows, workbook and ZIP used source."
+    },
+    {
+      "id": "L1A-QA2-002",
+      "severity": "P1",
+      "title": "Shared single-task gate is incomplete",
+      "file": "scripts/validation-sprint/server.mjs",
+      "lines": [647, 773],
+      "evidence": "During an active L1a hold, /api/multilogue-v2/run returned 200 and started. L1b finalize does not acquire the shared gate."
+    },
+    {
+      "id": "L1A-QA2-003",
+      "severity": "P1",
+      "title": "Superseded accepted artifacts are overwritten on reconfirmation",
+      "file": "scripts/l1a/review-core.mjs",
+      "lines": [420, 422],
+      "evidence": "Revision 2 deletes and recreates the revision 1 accepted directory at the same path, so the older sealed handoff cannot be replayed."
+    },
+    {
+      "id": "L1A-QA2-004",
+      "severity": "P2",
+      "title": "New hash assets remain untracked",
+      "evidence": "validation.html references files that exist and pass build integrity, but the new JS/CSS are untracked while old tracked hashes are deleted."
+    },
+    {
+      "id": "L1A-QA2-005",
+      "severity": "P2",
+      "title": "Packaged suite reports predate the final rerun",
+      "evidence": "Package snapshots remain truthful synthetic evidence; this final report is the authoritative second-round result."
+    },
+    {
+      "id": "L1A-QA2-006",
+      "severity": "P2",
+      "title": "API regression coverage stops before full reconfirmation and all task-gate branches",
+      "evidence": "Independent QA, not the committed API suite, exercised reconfirmation and exposed the multilogue/finalize gate gap."
+    }
+  ],
+  "data_boundary": "Synthetic WAV and synthetic candidate fixtures only. No external provider call and no real research-audio accuracy claim.",
+  "repair_performed_by_qa": false,
+  "next_authority": "user"
+}

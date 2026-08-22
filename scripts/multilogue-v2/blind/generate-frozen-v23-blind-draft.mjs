@@ -8,7 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { buildSpeakerAcousticSupport } from '../acoustic/speaker-acoustic-support.mjs';
 import { refineSpeakerLocalPhraseBoundaries } from '../acoustic/speaker-local-boundary-refinement.mjs';
 import { buildV23cStage1Candidate } from '../adapters/build-v23c-stage1-candidate.mjs';
-import { SPEAKERS, round } from '../core/contracts.mjs';
+import { canonicalSpeakers, fixedThresholdKey, round } from '../core/contracts.mjs';
 import { runMultilogueV2 } from '../core/pipeline.mjs';
 import { serializeTextGrid } from '../core/textgrid.mjs';
 import { validateSixTierTextGrid } from '../core/validator.mjs';
@@ -88,6 +88,7 @@ export function generateFrozenBlindDraft({
   mappingFile,
   outputDir,
   frozenConfigFile = DEFAULT_FROZEN_CONFIG,
+  pauseThresholdSeconds = FROZEN_BLIND_CONFIG.pause_threshold_seconds,
 } = {}) {
   for (const [name, value] of Object.entries({ recordingId, stage1File, acousticManifestFile, mappingFile, outputDir })) {
     if (!value) throw new Error(`${name} is required`);
@@ -101,8 +102,22 @@ export function generateFrozenBlindDraft({
   if (stage1.recordingId !== recordingId) {
     throw new Error(`recordingId mismatch: stage1=${stage1.recordingId} requested=${recordingId}`);
   }
+  const mappingDocument = readJson(mappingFile);
+  const speakers = canonicalSpeakers(stage1.speakers || mappingDocument.speakers
+    || Object.values(mappingDocument.mapping?.pyannote || mappingDocument.pyannote || {}));
+  if (stage1.speakers && stage1.speakers.join('|') !== speakers.join('|')) {
+    throw new Error('stage1 canonical speaker list is not contiguous or does not match mapping');
+  }
   const frozen = readJson(frozenConfigFile);
   assertFrozenCalibrationConfig(frozen);
+  const pauseThreshold = Number(pauseThresholdSeconds);
+  if (!(pauseThreshold > 0 && pauseThreshold < 5)) throw new Error('pauseThresholdSeconds must be between 0 and 5');
+  const coreThresholdKey = fixedThresholdKey(pauseThreshold);
+  const deliveryThresholdKey = `P${Math.round(pauseThreshold * 100).toString().padStart(3, '0')}`;
+  const runtimeConfig = {
+    ...FROZEN_BLIND_CONFIG,
+    pause_threshold_seconds: pauseThreshold,
+  };
   const acousticManifest = readJson(acousticManifestFile);
   const acousticProvider = String(acousticManifest?.method?.provider || acousticManifest?.source || 'unknown');
   const evidenceMode = classifyEvidenceMode(acousticProvider);
@@ -138,13 +153,14 @@ export function generateFrozenBlindDraft({
       ...semanticRefinement.flags,
     ]);
   }
-  semanticBuilt.input.thresholds = [FROZEN_BLIND_CONFIG.pause_threshold_seconds];
+  semanticBuilt.input.thresholds = [pauseThreshold];
   semanticBuilt.input.sharedActivityOptions = {
     ...(semanticBuilt.input.sharedActivityOptions || {}),
     minSoundingSeconds: 0.5,
   };
   semanticBuilt.input.interactionConfig = semanticInteractionConfig(frozen);
-  let semanticOutput = runMultilogueV2(semanticBuilt.input).thresholds.P250;
+  let semanticOutput = runMultilogueV2(semanticBuilt.input).thresholds[coreThresholdKey];
+  if (!semanticOutput) throw new Error(`semantic lane did not emit ${coreThresholdKey}`);
   semanticOutput = applyV23cFillerPass(
     semanticOutput,
     semanticBuilt.input.stage1Evidence,
@@ -192,13 +208,14 @@ export function generateFrozenBlindDraft({
     ...(topologyBuilt.input.initialFlags || []),
     ...topologyRefinement.flags,
   ]);
-  topologyBuilt.input.thresholds = [FROZEN_BLIND_CONFIG.pause_threshold_seconds];
+  topologyBuilt.input.thresholds = [pauseThreshold];
   topologyBuilt.input.sharedActivityOptions = {
     ...(topologyBuilt.input.sharedActivityOptions || {}),
     minSoundingSeconds: 0.5,
   };
   topologyBuilt.input.interactionConfig = topologyInteractionConfig();
-  let topologyOutput = runMultilogueV2(topologyBuilt.input).thresholds.P250;
+  let topologyOutput = runMultilogueV2(topologyBuilt.input).thresholds[coreThresholdKey];
+  if (!topologyOutput) throw new Error(`topology lane did not emit ${coreThresholdKey}`);
   topologyOutput = applyV23cFillerPass(
     topologyOutput,
     topologyBuilt.input.stage1Evidence,
@@ -211,16 +228,26 @@ export function generateFrozenBlindDraft({
     semanticOutput.textgrid_document,
     { preserveSemanticActivityIntervals },
   );
-  const validation = validateSixTierTextGrid(composed.document);
+  const excludedCandidateEvidence = normalizeExcludedCandidateEvidence(
+    acousticManifest.excluded_candidate_evidence,
+    Number(acousticManifest.duration_seconds),
+  );
+  const excludedCandidateOverlay = applyExcludedCandidateEvidence(
+    composed.document,
+    excludedCandidateEvidence,
+    speakers,
+  );
+  const validation = validateSixTierTextGrid(composed.document, { speakers });
   if (!validation.valid) throw new Error(`blind TextGrid validation failed: ${validation.errors.join('; ')}`);
   const textgrid = serializeTextGrid(composed.document);
-  const summary = summarizeDocument(composed.document);
+  const summary = summarizeDocument(composed.document, speakers);
   const status = evidenceMode === 'dual_provider_blind'
     ? 'blind_draft_awaiting_researcher_correction'
     : 'degraded_smoke_test_not_for_researcher_scoring';
 
   mkdirSync(outputDir, { recursive: true });
-  const textGridFile = path.join(outputDir, `${recordingId}.P025.v2.3-blind-draft.6tier.TextGrid`);
+  const tierCount = speakers.length + 3;
+  const textGridFile = path.join(outputDir, `${recordingId}.${deliveryThresholdKey}.v2.3-blind-draft.${tierCount}tier.TextGrid`);
   const evidenceFile = path.join(outputDir, 'runtime-evidence.json');
   const manifestFile = path.join(outputDir, 'method-manifest.json');
   const validationFile = path.join(outputDir, 'validation-summary.json');
@@ -228,6 +255,9 @@ export function generateFrozenBlindDraft({
   writeJson(evidenceFile, {
     contract_version: 'multilogue-v2.3-blind-runtime-evidence-v2',
     status,
+    pause_threshold_seconds: pauseThreshold,
+    canonical_speakers: speakers,
+    tier_count: tierCount,
     evidence_mode: evidenceMode,
     acoustic_provider: acousticProvider,
     accuracy_claim: false,
@@ -253,11 +283,13 @@ export function generateFrozenBlindDraft({
       semantic_activity_preservation_policy: FROZEN_BLIND_CONFIG.semantic_preservation.policy,
       preserved_semantic_activity_intervals: preserveSemanticActivityIntervals,
       mismatch_intervals: composed.mismatches,
+      excluded_candidate_activity: excludedCandidateOverlay,
     },
   });
   writeJson(manifestFile, {
     contract_version: 'multilogue-v2.3-blind-method-manifest-v2',
     recording_id: recordingId,
+    pause_threshold_seconds: pauseThreshold,
     status,
     evidence_mode: evidenceMode,
     acoustic_provider: acousticProvider,
@@ -269,13 +301,16 @@ export function generateFrozenBlindDraft({
     methodology: {
       rule_set: 'R1-R5-v2.1-locked',
       path: 'B',
-      six_tier_schema: ['S1', 'S2', 'S3', 'floor', 'transitions', 'flags'],
+      dynamic_n_plus_3_schema: [...speakers, 'floor', 'transitions', 'flags'],
+      speaker_count: speakers.length,
+      tier_count: tierCount,
       nine_labels: ['s', 'f', 'bc', 'ol', 'op', 'pf', 'tr', 'shs', 'x'],
-      frozen_blind_config: FROZEN_BLIND_CONFIG,
+      frozen_blind_config: runtimeConfig,
       floor_source: 'semantic_lane_unchanged',
       transition_source: 'semantic_lane_unchanged',
       activity_topology_source: 'speaker_conditioned_acoustic_lane',
       overlap_corroborated_residual_role: 'reviewable_bc_activity_only_never_floor_boundary',
+      excluded_candidate_activity_policy: 'x_on_all_retained_speaker_tiers_with_review_flag',
       semantic_activity_preservation_policy: FROZEN_BLIND_CONFIG.semantic_preservation.policy,
     },
     inputs: {
@@ -320,6 +355,88 @@ export function generateFrozenBlindDraft({
     summary,
     artifactHashesFile: hashesFile,
   };
+}
+
+function normalizeExcludedCandidateEvidence(evidence, duration) {
+  if (!evidence) return [];
+  if (evidence.schema_version !== 'l1a-excluded-candidate-evidence-v1') {
+    throw new Error(`unsupported excluded candidate evidence: ${evidence.schema_version || 'missing schema'}`);
+  }
+  const intervals = (evidence.intervals || []).map((item) => ({
+    start: Math.max(0, Number(item.start)),
+    end: Math.min(duration, Number(item.end)),
+  })).filter((item) => Number.isFinite(item.start) && Number.isFinite(item.end) && item.end > item.start)
+    .sort((left, right) => left.start - right.start || left.end - right.end);
+  const merged = [];
+  for (const interval of intervals) {
+    const previous = merged.at(-1);
+    if (previous && interval.start <= previous.end + 1e-9) previous.end = Math.max(previous.end, interval.end);
+    else merged.push({ ...interval });
+  }
+  return merged.map((item) => ({ start: round(item.start, 6), end: round(item.end, 6) }));
+}
+
+function applyExcludedCandidateEvidence(document, intervals, speakers) {
+  if (!intervals.length) return { interval_count: 0, seconds: 0, policy: 'none_present' };
+  for (const speaker of speakers) {
+    const tier = document.tiers.find((item) => item.name === speaker);
+    tier.intervals = overlayIntervals(tier.intervals, intervals, 'x');
+  }
+  const flags = document.tiers.find((item) => item.name === 'flags');
+  flags.intervals = overlayFlags(flags.intervals, intervals, 'excluded_candidate_activity');
+  return {
+    interval_count: intervals.length,
+    seconds: round(intervals.reduce((sum, item) => sum + item.end - item.start, 0), 6),
+    policy: 'x_on_all_retained_speaker_tiers_with_review_flag',
+    intervals,
+  };
+}
+
+function overlayIntervals(baseIntervals, overlays, text) {
+  const boundaries = [...new Set([
+    ...baseIntervals.flatMap((item) => [Number(item.start), Number(item.end)]),
+    ...overlays.flatMap((item) => [Number(item.start), Number(item.end)]),
+  ])].sort((left, right) => left - right);
+  const output = [];
+  for (let index = 0; index < boundaries.length - 1; index += 1) {
+    const start = boundaries[index];
+    const end = boundaries[index + 1];
+    if (!(end > start + 1e-9)) continue;
+    const midpoint = start + (end - start) / 2;
+    const overlaid = overlays.some((item) => item.start <= midpoint + 1e-9 && item.end > midpoint + 1e-9);
+    const base = baseIntervals.find((item) => item.start <= midpoint + 1e-9 && item.end > midpoint + 1e-9);
+    appendMergedInterval(output, { start, end, text: overlaid ? text : String(base?.text || '') });
+  }
+  return output;
+}
+
+function overlayFlags(baseIntervals, overlays, code) {
+  const boundaries = [...new Set([
+    ...baseIntervals.flatMap((item) => [Number(item.start), Number(item.end)]),
+    ...overlays.flatMap((item) => [Number(item.start), Number(item.end)]),
+  ])].sort((left, right) => left - right);
+  const output = [];
+  for (let index = 0; index < boundaries.length - 1; index += 1) {
+    const start = boundaries[index];
+    const end = boundaries[index + 1];
+    if (!(end > start + 1e-9)) continue;
+    const midpoint = start + (end - start) / 2;
+    const base = baseIntervals.find((item) => item.start <= midpoint + 1e-9 && item.end > midpoint + 1e-9);
+    const values = String(base?.text || '').split('|').map((item) => item.trim()).filter(Boolean);
+    if (overlays.some((item) => item.start <= midpoint + 1e-9 && item.end > midpoint + 1e-9)) values.push(code);
+    appendMergedInterval(output, { start, end, text: [...new Set(values)].sort().join('|') });
+  }
+  return output;
+}
+
+function appendMergedInterval(output, interval) {
+  const normalized = { start: round(interval.start, 6), end: round(interval.end, 6), text: interval.text };
+  const previous = output.at(-1);
+  if (previous && previous.text === normalized.text && Math.abs(previous.end - normalized.start) <= 1e-9) {
+    previous.end = normalized.end;
+  } else {
+    output.push(normalized);
+  }
 }
 
 export function classifyEvidenceMode(acousticProvider) {
@@ -417,9 +534,9 @@ function disabledRefinement(events, config) {
   };
 }
 
-function summarizeDocument(document) {
+function summarizeDocument(document, speakers) {
   const labels = ['s', 'f', 'bc', 'ol', 'op', 'pf', 'tr', 'shs', 'x'];
-  const bySpeaker = Object.fromEntries(SPEAKERS.map((speaker) => {
+  const bySpeaker = Object.fromEntries(speakers.map((speaker) => {
     const tier = document.tiers.find((item) => item.name === speaker);
     const durations = Object.fromEntries(labels.map((label) => [label, 0]));
     for (const interval of tier.intervals) durations[interval.text] += interval.end - interval.start;
@@ -433,6 +550,8 @@ function summarizeDocument(document) {
   const flags = document.tiers.find((item) => item.name === 'flags');
   return {
     duration_seconds: round(document.xmax, 6),
+    speaker_count: speakers.length,
+    tier_count: speakers.length + 3,
     by_speaker: bySpeaker,
     floor_interval_count: floor.intervals.length,
     transition_point_count: transitions.points.length,
@@ -488,11 +607,16 @@ function parseArgs(argv) {
     ['--mapping', 'mappingFile'],
     ['--frozen-config', 'frozenConfigFile'],
     ['--output-dir', 'outputDir'],
+    ['--pause-threshold', 'pauseThresholdSeconds'],
   ]);
   for (let index = 2; index < argv.length; index += 1) {
     const field = fields.get(argv[index]);
     if (!field || !argv[index + 1]) throw new Error(`unknown or incomplete blind argument: ${argv[index]}`);
-    options[field] = field === 'recordingId' ? argv[index + 1] : path.resolve(argv[index + 1]);
+    options[field] = field === 'recordingId'
+      ? argv[index + 1]
+      : field === 'pauseThresholdSeconds'
+        ? Number(argv[index + 1])
+        : path.resolve(argv[index + 1]);
     index += 1;
   }
   return options;

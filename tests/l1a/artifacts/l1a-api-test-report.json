@@ -1,0 +1,58 @@
+{
+  "schema_version": "l1a-api-regression-v1",
+  "generated_at": "2026-08-22T12:01:42.417Z",
+  "suite": "Layer 1a HTTP, sealed Path B handoff and task-gate regression",
+  "requirements": [
+    "L1A-001",
+    "L1A-002",
+    "L1A-004",
+    "L1A-006",
+    "L1A-007",
+    "L1A-008",
+    "L1A-009",
+    "L1A-010",
+    "L1A-011",
+    "L1A-012",
+    "L1A-013"
+  ],
+  "passed": 7,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "oversized and aborted L1a uploads are rejected without wedging the server",
+      "status": "passed",
+      "duration_ms": 7
+    },
+    {
+      "name": "shared single-task gate blocks L1b while L1a owns the workspace",
+      "status": "passed",
+      "duration_ms": 827
+    },
+    {
+      "name": "audio API supports suffix ranges and rejects invalid ranges",
+      "status": "passed",
+      "duration_ms": 11
+    },
+    {
+      "name": "unknown and malformed API paths return structured 404 responses",
+      "status": "passed",
+      "duration_ms": 5
+    },
+    {
+      "name": "malformed acceptance JSON is rejected without losing the run",
+      "status": "passed",
+      "duration_ms": 4
+    },
+    {
+      "name": "single acceptance action records the review and sealed checksums",
+      "status": "passed",
+      "duration_ms": 50
+    },
+    {
+      "name": "mapping changes supersede the prior L1b handoff",
+      "status": "passed",
+      "duration_ms": 32
+    }
+  ],
+  "data_boundary": "Synthetic WAV only; no participant data, credentials or external provider calls."
+}

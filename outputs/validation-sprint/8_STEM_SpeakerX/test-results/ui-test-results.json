@@ -1,6 +1,6 @@
 {
   "suite": "ui",
-  "passed": 14,
+  "passed": 15,
   "failed": 0,
   "cases": [
     {
@@ -24,7 +24,11 @@
       "status": "passed"
     },
     {
-      "name": "Multilogue v2 lives inside Validation Sprint, while Phase II remains workflow preview only",
+      "name": "Formal Layer workspace is primary while benchmark runners remain internal regression tools",
+      "status": "passed"
+    },
+    {
+      "name": "Methodology Atlas is embedded as a versioned static academic reference",
       "status": "passed"
     },
     {
@@ -32,7 +36,7 @@
       "status": "passed"
     },
     {
-      "name": "Interactive flow present: validation HP + upload UI + empty-on-load + 8 status states",
+      "name": "Interactive flow present: formal overview + four-layer workspace + internal regression controls",
       "status": "passed"
     },
     {
@@ -64,5 +68,5 @@
     "desktop": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/test-results/screenshots/validation-console-desktop.png",
     "mobile": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/test-results/screenshots/validation-console-mobile.png"
   },
-  "generated_at": "2026-08-09T14:29:25.104Z"
+  "generated_at": "2026-08-22T11:22:51.719Z"
 }

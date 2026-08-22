@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A visual comparison of fixed speaker-count diarization and researcher-reviewed candidate speaker mapping for the MWU Pipeline.">
+  <title>MWU Pipeline &mdash; Speaker Candidate Review</title>
+  <!--
+    Design lock
+    Primary reference: the approved MWU Pipeline Workflow Atlas.
+    Preserve: academic-tool clarity, white/grey canvas, charcoal type, disciplined teal/blue/red accents.
+    Reject: marketing hero layouts, gradients, decorative imagery, and unsupported automation claims.
+  -->
+  <style>
+    :root {
+      --page: #f6f8fb;
+      --paper: #ffffff;
+      --ink: #172033;
+      --muted: #5e6a7d;
+      --soft: #f8fafc;
+      --line: #cbd5e1;
+      --line-soft: #e2e8f0;
+      --teal: #0f766e;
+      --teal-soft: #ecfdf5;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --red: #b42318;
+      --red-soft: #fff1f0;
+      --amber: #b45309;
+      --amber-soft: #fffbeb;
+      --green: #15803d;
+      --green-soft: #f0fdf4;
+      --purple: #6d28d9;
+      --shadow: 0 18px 42px rgba(23, 32, 51, 0.09);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button { font: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(203, 213, 225, 0.92);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      width: min(1420px, calc(100% - 40px));
+      min-height: 76px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 34px;
+      border-radius: 6px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+
+    .brand-copy strong,
+    .brand-copy span { display: block; }
+
+    .brand-copy strong { font-size: 14px; }
+    .brand-copy span { margin-top: 2px; color: var(--muted); font-size: 11px; }
+
+    .top-status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
+    }
+
+    main {
+      width: min(1420px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 54px 0 72px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(360px, .75fr);
+      gap: 54px;
+      align-items: end;
+      padding-bottom: 38px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      max-width: 880px;
+      margin: 0;
+      font-size: clamp(38px, 5vw, 68px);
+      line-height: 1.02;
+      letter-spacing: 0;
+      font-weight: 790;
+    }
+
+    .hero-summary {
+      margin: 21px 0 0;
+      max-width: 800px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .decision-panel {
+      border-top: 3px solid var(--teal);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 22px 24px 24px;
+    }
+
+    .decision-panel .label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .decision-panel strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .decision-panel p {
+      margin: 11px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .scenario {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      align-items: center;
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .scenario-label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .voices {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .voice {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 29px;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--soft);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .voice i {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    .voice.teacher i { background: var(--amber); }
+
+    .section { padding-top: 58px; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 27px;
+      line-height: 1.2;
+    }
+
+    .section-head p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      text-align: right;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line);
+      background: var(--line);
+      gap: 1px;
+      box-shadow: var(--shadow);
+    }
+
+    .method {
+      min-width: 0;
+      background: var(--paper);
+    }
+
+    .method-head {
+      min-height: 142px;
+      padding: 24px 26px 22px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .method-risk .method-head { border-top: 4px solid var(--red); }
+    .method-preferred .method-head { border-top: 4px solid var(--teal); }
+
+    .method-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .9px;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .5px;
+    }
+
+    .badge-risk { background: var(--red-soft); color: var(--red); }
+    .badge-good { background: var(--teal-soft); color: var(--teal); }
+
+    .method h3 {
+      margin: 13px 0 7px;
+      font-size: 22px;
+    }
+
+    .method-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .flow {
+      padding: 28px 26px 24px;
+    }
+
+    .flow-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 13px;
+      min-height: 74px;
+      padding-bottom: 23px;
+    }
+
+    .flow-step:last-child { padding-bottom: 0; }
+
+    .flow-step:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      top: 41px;
+      bottom: 0;
+      left: 20px;
+      width: 1px;
+      background: var(--line);
+    }
+
+    .step-no {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .method-risk .flow-step:last-child .step-no {
+      border-color: #fecaca;
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .method-preferred .flow-step:last-child .step-no {
+      border-color: #a7f3d0;
+      background: var(--teal-soft);
+      color: var(--teal);
+    }
+
+    .step-copy { min-width: 0; padding-top: 1px; }
+    .step-copy strong { display: block; font-size: 14px; line-height: 1.35; }
+    .step-copy p { margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    .cluster-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+      margin-top: 11px;
+    }
+
+    .cluster-row.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .cluster-mini {
+      min-width: 0;
+      padding: 9px 7px;
+      border: 1px solid var(--line-soft);
+      border-radius: 6px;
+      background: var(--soft);
+      text-align: center;
+      color: #334155;
+      font: 750 10px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .cluster-mini.problem {
+      border-color: #fca5a5;
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .cluster-mini.excluded {
+      border-color: #fcd34d;
+      background: var(--amber-soft);
+      color: var(--amber);
+      text-decoration: line-through;
+    }
+
+    .risk-strip,
+    .evidence-strip {
+      margin: 0 26px 26px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--red);
+      background: var(--red-soft);
+    }
+
+    .evidence-strip {
+      border-left-color: var(--teal);
+      background: var(--teal-soft);
+    }
+
+    .risk-strip strong,
+    .evidence-strip strong { display: block; font-size: 13px; }
+
+    .risk-strip p,
+    .evidence-strip p { margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    .review-shell {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .review-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 18px;
+      align-items: center;
+      min-height: 70px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    .review-title strong,
+    .review-title span { display: block; }
+    .review-title strong { font-size: 14px; }
+    .review-title span { margin-top: 3px; color: var(--muted); font-size: 11px; }
+
+    .toolbar-stat {
+      min-width: 118px;
+      padding-left: 18px;
+      border-left: 1px solid var(--line);
+    }
+
+    .toolbar-stat span,
+    .toolbar-stat strong { display: block; }
+    .toolbar-stat span { color: var(--muted); font-size: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: .7px; }
+    .toolbar-stat strong { margin-top: 3px; font-size: 15px; }
+
+    .candidate-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .candidate-table th,
+    .candidate-table td {
+      padding: 15px 14px;
+      border-bottom: 1px solid var(--line-soft);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .candidate-table th {
+      background: #fff;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .candidate-table tr:last-child td { border-bottom: 0; }
+    .candidate-table th:nth-child(1) { width: 14%; }
+    .candidate-table th:nth-child(2) { width: 36%; }
+    .candidate-table th:nth-child(3) { width: 17%; }
+    .candidate-table th:nth-child(4) { width: 17%; }
+    .candidate-table th:nth-child(5) { width: 16%; }
+
+    .candidate-id {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .candidate-avatar {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 850;
+    }
+
+    .candidate-id strong,
+    .candidate-id small { display: block; }
+    .candidate-id strong { font-size: 12px; }
+    .candidate-id small { margin-top: 2px; color: var(--muted); font-size: 10px; }
+
+    .samples {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .sample {
+      min-width: 0;
+      height: 38px;
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 7px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .play {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+
+    .play::before {
+      content: "";
+      width: 0;
+      height: 0;
+      margin-left: 2px;
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+      border-left: 6px solid #fff;
+    }
+
+    .wave {
+      height: 22px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      overflow: hidden;
+    }
+
+    .wave i {
+      flex: 0 0 2px;
+      height: var(--h);
+      min-height: 3px;
+      border-radius: 1px;
+      background: #64748b;
+      opacity: .72;
+    }
+
+    .metric { font-size: 12px; font-weight: 750; }
+    .metric small { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; font-weight: 500; }
+
+    .decision {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 29px;
+      padding: 5px 9px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .decision::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .decision.include { background: var(--green-soft); color: var(--green); }
+    .decision.exclude { background: var(--amber-soft); color: var(--amber); }
+
+    .mapping {
+      color: var(--ink);
+      font: 800 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .mapping small { display: block; margin-top: 2px; color: var(--muted); font: 500 10px/1.3 Inter, ui-sans-serif, system-ui, sans-serif; }
+
+    .review-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 18px 20px;
+      border-top: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    .review-footer p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    .confirm-button {
+      min-height: 38px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--teal);
+      color: #fff;
+      padding: 9px 15px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .outcome {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      align-items: stretch;
+      margin-top: 20px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .outcome-step {
+      position: relative;
+      min-height: 158px;
+      padding: 21px 22px;
+      border-right: 1px solid var(--line);
+    }
+
+    .outcome-step:last-child { border-right: 0; }
+
+    .outcome-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      right: -7px;
+      width: 12px;
+      height: 12px;
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      background: #fff;
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .outcome-no { color: var(--teal); font-size: 10px; font-weight: 850; letter-spacing: .8px; }
+    .outcome-step h3 { margin: 17px 0 7px; font-size: 14px; }
+    .outcome-step p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+    .claim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .claim-column { padding: 24px 28px 26px; }
+    .claim-column + .claim-column { border-left: 1px solid var(--line); }
+    .claim-column h3 { margin: 0 0 15px; font-size: 15px; }
+
+    .claim-list { list-style: none; margin: 0; padding: 0; }
+    .claim-list li {
+      position: relative;
+      margin-top: 11px;
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .claim-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border: 2px solid var(--teal);
+      border-radius: 50%;
+    }
+
+    .claim-column.cannot .claim-list li::before {
+      border-radius: 2px;
+      border-color: var(--red);
+      transform: rotate(45deg);
+    }
+
+    .final-note {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 22px;
+      align-items: center;
+      margin-top: 54px;
+      padding: 26px 28px;
+      border-left: 5px solid var(--teal);
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .final-code {
+      color: #99f6e4;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .final-note strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .final-note p {
+      margin: 7px 0 0;
+      color: #cbd5e1;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding-top: 26px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .3px;
+    }
+
+    @media (max-width: 1040px) {
+      .hero { grid-template-columns: 1fr; gap: 28px; }
+      .decision-panel { max-width: 680px; }
+      .candidate-table { min-width: 930px; }
+      .review-shell { overflow-x: auto; }
+      .review-toolbar, .review-footer { min-width: 930px; }
+      .outcome { grid-template-columns: 1fr 1fr; }
+      .outcome-step { border-bottom: 1px solid var(--line); }
+      .outcome-step:nth-child(2) { border-right: 0; }
+      .outcome-step:nth-child(2)::after { display: none; }
+      .outcome-step:nth-child(4) { border-right: 0; }
+      .outcome-step:nth-child(4)::after { display: none; }
+      .outcome-step:last-child { grid-column: 1 / -1; min-height: 124px; border-bottom: 0; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner, main { width: min(100% - 28px, 1420px); }
+      .topbar-inner { min-height: 68px; }
+      .top-status { display: none; }
+      main { padding-top: 34px; }
+      .hero { padding-bottom: 28px; }
+      h1 { font-size: 42px; }
+      .hero-summary { font-size: 15px; }
+      .scenario { grid-template-columns: 1fr; gap: 10px; }
+      .section { padding-top: 42px; }
+      .section-head { align-items: start; flex-direction: column; gap: 8px; }
+      .section-head p { text-align: left; }
+      .comparison { grid-template-columns: 1fr; }
+      .cluster-row.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-shell { overflow: hidden; }
+      .review-toolbar {
+        min-width: 0;
+        grid-template-columns: 1fr 1fr;
+        gap: 13px;
+      }
+      .review-title { grid-column: 1 / -1; }
+      .toolbar-stat {
+        min-width: 0;
+        padding: 11px 0 0;
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+      .candidate-table { min-width: 0; display: block; }
+      .candidate-table thead { display: none; }
+      .candidate-table tbody { display: block; }
+      .candidate-table tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 12px;
+        padding: 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .candidate-table tr:last-child { border-bottom: 0; }
+      .candidate-table td {
+        display: block;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+      }
+      .candidate-table td:nth-child(1),
+      .candidate-table td:nth-child(2),
+      .candidate-table td:nth-child(5) { grid-column: 1 / -1; }
+      .candidate-table td:nth-child(2) { margin-top: -2px; }
+      .candidate-table td:nth-child(3)::before,
+      .candidate-table td:nth-child(4)::before,
+      .candidate-table td:nth-child(5)::before {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-size: 8px;
+        font-weight: 850;
+        letter-spacing: .7px;
+        text-transform: uppercase;
+      }
+      .candidate-table td:nth-child(3)::before { content: "Activity evidence"; }
+      .candidate-table td:nth-child(4)::before { content: "Research decision"; }
+      .candidate-table td:nth-child(5)::before { content: "Canonical mapping"; }
+      .candidate-table td:nth-child(5) {
+        padding-top: 12px;
+        border-top: 1px solid var(--line-soft);
+      }
+      .review-footer { min-width: 0; }
+      .outcome { grid-template-columns: 1fr; }
+      .outcome-step,
+      .outcome-step:nth-child(2),
+      .outcome-step:nth-child(4) { border-right: 0; border-bottom: 1px solid var(--line); }
+      .outcome-step:not(:last-child)::after { display: none; }
+      .outcome-step:last-child { grid-column: auto; border-bottom: 0; }
+      .claim-grid { grid-template-columns: 1fr; }
+      .claim-column + .claim-column { border-left: 0; border-top: 1px solid var(--line); }
+      .final-note { grid-template-columns: 1fr; gap: 8px; }
+      footer { flex-direction: column; }
+    }
+
+    @media (max-width: 430px) {
+      .brand-copy span { display: none; }
+      h1 { font-size: 36px; }
+      .decision-panel, .method-head, .flow { padding-left: 18px; padding-right: 18px; }
+      .risk-strip, .evidence-strip { margin-left: 18px; margin-right: 18px; }
+      .review-toolbar { grid-template-columns: 1fr 1fr; }
+      .candidate-table tr { grid-template-columns: 1fr; }
+      .candidate-table td:nth-child(1),
+      .candidate-table td:nth-child(2),
+      .candidate-table td:nth-child(3),
+      .candidate-table td:nth-child(4),
+      .candidate-table td:nth-child(5) { grid-column: 1; }
+      .samples { grid-template-columns: 1fr 1fr 1fr; }
+      .review-footer { grid-template-columns: 1fr; }
+      .confirm-button { width: 100%; }
+      .outcome-step { min-height: 132px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="Document header">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">MWU</span>
+        <span class="brand-copy">
+          <strong>MWU Pipeline</strong>
+          <span>Layer 1a method decision</span>
+        </span>
+      </div>
+      <div class="top-status"><span class="status-dot"></span>Researcher-controlled speaker mapping</div>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Speaker-count workflow &middot; technical rationale</p>
+        <h1>Review the voices first. Confirm the participant count second.</h1>
+        <p class="hero-summary">A fixed number can constrain clustering, but it cannot tell the system which voice belongs to a student, a teacher or an incidental speaker. The safer workflow makes every candidate voice audible and reviewable before the research timeline is constructed.</p>
+      </div>
+      <aside class="decision-panel" aria-label="Recommended design">
+        <span class="label">Recommended design</span>
+        <strong>Candidate detection &rarr; researcher mapping &rarr; dynamic N+3 output</strong>
+        <p>The system still automates the full recording. Human input is limited to the methodological decision AI cannot make reliably: who belongs in the study.</p>
+        <div class="scenario">
+          <span class="scenario-label">Example recording</span>
+          <div class="voices">
+            <span class="voice"><i></i>Student A</span>
+            <span class="voice"><i></i>Student B</span>
+            <span class="voice"><i></i>Student C</span>
+            <span class="voice teacher"><i></i>Teacher</span>
+          </div>
+        </div>
+      </aside>
+    </header>
+
+    <section class="section" aria-labelledby="comparison-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">01 &middot; Same audio, different control point</p>
+          <h2 id="comparison-title">Why fixed N is the weaker research control</h2>
+        </div>
+        <p>The comparison below uses the same room recording: three target students and one brief teacher intervention.</p>
+      </div>
+
+      <div class="comparison">
+        <article class="method method-risk">
+          <header class="method-head">
+            <div class="method-label"><span>Requested approach</span><span class="badge badge-risk">Hidden error risk</span></div>
+            <h3>Choose &ldquo;3 speakers&rdquo; before diarization</h3>
+            <p>The number is treated as a clustering constraint, not as a definition of three student participants.</p>
+          </header>
+          <div class="flow">
+            <div class="flow-step">
+              <span class="step-no">01</span>
+              <div class="step-copy">
+                <strong>Upload one mixed WAV</strong>
+                <p>Four distinct voices occur in the recording.</p>
+                <div class="cluster-row four">
+                  <span class="cluster-mini">Student A</span>
+                  <span class="cluster-mini">Student B</span>
+                  <span class="cluster-mini">Student C</span>
+                  <span class="cluster-mini">Teacher</span>
+                </div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <span class="step-no">02</span>
+              <div class="step-copy">
+                <strong>Force the engine to return exactly 3 clusters</strong>
+                <p>The engine must compress four acoustic identities into three outputs.</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <span class="step-no">03</span>
+              <div class="step-copy">
+                <strong>A plausible but corrupted mapping is produced</strong>
+                <div class="cluster-row">
+                  <span class="cluster-mini">C01 &middot; A</span>
+                  <span class="cluster-mini problem">C02 &middot; B + Teacher</span>
+                  <span class="cluster-mini">C03 &middot; C</span>
+                </div>
+                <p>The teacher is not &ldquo;filtered out&rdquo;; their speech may be absorbed into a student cluster.</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <span class="step-no">04</span>
+              <div class="step-copy">
+                <strong>Incorrect evidence enters the timeline</strong>
+                <p>Speaker turns, floor states and transitions can all look structurally valid while carrying the wrong identity.</p>
+              </div>
+            </div>
+          </div>
+          <div class="risk-strip">
+            <strong>The interface asked the right number but the wrong question.</strong>
+            <p>&ldquo;How many clusters should the model return?&rdquo; does not answer &ldquo;Which voices are eligible research participants?&rdquo;</p>
+          </div>
+        </article>
+
+        <article class="method method-preferred">
+          <header class="method-head">
+            <div class="method-label"><span>Recommended approach</span><span class="badge badge-good">Auditable decision</span></div>
+            <h3>Detect candidates before confirming N</h3>
+            <p>The engine exposes acoustic candidates first; the researcher then assigns research meaning to them.</p>
+          </header>
+          <div class="flow">
+            <div class="flow-step">
+              <span class="step-no">01</span>
+              <div class="step-copy">
+                <strong>Upload one mixed WAV</strong>
+                <p>The original recording remains the master acoustic timeline.</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <span class="step-no">02</span>
+              <div class="step-copy">
+                <strong>Generate all credible speaker candidates</strong>
+                <div class="cluster-row four">
+                  <span class="cluster-mini">C01</span>
+                  <span class="cluster-mini">C02</span>
+                  <span class="cluster-mini">C03</span>
+                  <span class="cluster-mini">C04</span>
+                </div>
+                <p>Each candidate receives representative listening samples and activity evidence.</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <span class="step-no">03</span>
+              <div class="step-copy">
+                <strong>Researcher includes, excludes or merges</strong>
+                <div class="cluster-row four">
+                  <span class="cluster-mini">C01 &rarr; S1</span>
+                  <span class="cluster-mini">C02 &rarr; S2</span>
+                  <span class="cluster-mini excluded">C03 &middot; Teacher</span>
+                  <span class="cluster-mini">C04 &rarr; S3</span>
+                </div>
+                <p>The teacher remains visible in the evidence but is ineligible to hold the research floor.</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <span class="step-no">04</span>
+              <div class="step-copy">
+                <strong>Confirmed N = 3 produces a dynamic 6-tier TextGrid</strong>
+                <p>S1, S2, S3 + floor + transitions + flags, with traceable candidate-to-participant mapping.</p>
+              </div>
+            </div>
+          </div>
+          <div class="evidence-strip">
+            <strong>The participant count becomes a recorded research decision.</strong>
+            <p>The output can be inspected, corrected and reproduced without pretending the diarization model understands participant roles.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="review-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">02 &middot; Proposed Direct Web Interface</p>
+          <h2 id="review-title">A short listening decision, not a blind speaker count</h2>
+        </div>
+        <p>Three representative excerpts from different points in the recording help the researcher identify stable voices without reviewing the entire file.</p>
+      </div>
+
+      <div class="review-shell" role="group" aria-label="Illustrative candidate speaker review workspace">
+        <div class="review-toolbar">
+          <div class="review-title">
+            <strong>Candidate speaker review</strong>
+            <span>Multilogue session &middot; original WAV preserved</span>
+          </div>
+          <div class="toolbar-stat"><span>Detected</span><strong>4 candidates</strong></div>
+          <div class="toolbar-stat"><span>Confirmed</span><strong>3 participants</strong></div>
+        </div>
+
+        <table class="candidate-table">
+          <thead>
+            <tr>
+              <th>Candidate</th>
+              <th>Representative audio &middot; early / middle / late</th>
+              <th>Activity evidence</th>
+              <th>Research decision</th>
+              <th>Canonical mapping</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="candidate-id"><span class="candidate-avatar">C01</span><span><strong>Candidate 01</strong><small>stable cluster</small></span></div>
+              </td>
+              <td>
+                <div class="samples" aria-label="Three illustrative audio previews">
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:8px"></i><i style="--h:17px"></i><i style="--h:11px"></i><i style="--h:20px"></i><i style="--h:6px"></i><i style="--h:14px"></i><i style="--h:9px"></i></span></span>
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:12px"></i><i style="--h:6px"></i><i style="--h:19px"></i><i style="--h:13px"></i><i style="--h:21px"></i><i style="--h:8px"></i><i style="--h:15px"></i></span></span>
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:7px"></i><i style="--h:15px"></i><i style="--h:20px"></i><i style="--h:9px"></i><i style="--h:17px"></i><i style="--h:12px"></i><i style="--h:6px"></i></span></span>
+                </div>
+              </td>
+              <td><span class="metric">162.4 s<small>41 turns &middot; distributed</small></span></td>
+              <td><span class="decision include">Participant</span></td>
+              <td><span class="mapping">C01 &rarr; S1<small>Student A</small></span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="candidate-id"><span class="candidate-avatar">C02</span><span><strong>Candidate 02</strong><small>stable cluster</small></span></div>
+              </td>
+              <td>
+                <div class="samples" aria-label="Three illustrative audio previews">
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:18px"></i><i style="--h:8px"></i><i style="--h:13px"></i><i style="--h:21px"></i><i style="--h:10px"></i><i style="--h:16px"></i><i style="--h:7px"></i></span></span>
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:9px"></i><i style="--h:16px"></i><i style="--h:7px"></i><i style="--h:19px"></i><i style="--h:12px"></i><i style="--h:21px"></i><i style="--h:8px"></i></span></span>
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:14px"></i><i style="--h:6px"></i><i style="--h:18px"></i><i style="--h:10px"></i><i style="--h:20px"></i><i style="--h:13px"></i><i style="--h:8px"></i></span></span>
+                </div>
+              </td>
+              <td><span class="metric">139.7 s<small>38 turns &middot; distributed</small></span></td>
+              <td><span class="decision include">Participant</span></td>
+              <td><span class="mapping">C02 &rarr; S2<small>Student B</small></span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="candidate-id"><span class="candidate-avatar">C03</span><span><strong>Candidate 03</strong><small>brief cluster</small></span></div>
+              </td>
+              <td>
+                <div class="samples" aria-label="Three illustrative audio previews">
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:7px"></i><i style="--h:20px"></i><i style="--h:15px"></i><i style="--h:9px"></i><i style="--h:18px"></i><i style="--h:11px"></i><i style="--h:5px"></i></span></span>
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:5px"></i><i style="--h:10px"></i><i style="--h:21px"></i><i style="--h:14px"></i><i style="--h:7px"></i><i style="--h:18px"></i><i style="--h:9px"></i></span></span>
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:9px"></i><i style="--h:19px"></i><i style="--h:12px"></i><i style="--h:6px"></i><i style="--h:16px"></i><i style="--h:21px"></i><i style="--h:8px"></i></span></span>
+                </div>
+              </td>
+              <td><span class="metric">8.6 s<small>3 turns &middot; task edges</small></span></td>
+              <td><span class="decision exclude">Teacher / other</span></td>
+              <td><span class="mapping">Excluded<small>retained in audit evidence</small></span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="candidate-id"><span class="candidate-avatar">C04</span><span><strong>Candidate 04</strong><small>stable cluster</small></span></div>
+              </td>
+              <td>
+                <div class="samples" aria-label="Three illustrative audio previews">
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:10px"></i><i style="--h:18px"></i><i style="--h:6px"></i><i style="--h:15px"></i><i style="--h:21px"></i><i style="--h:9px"></i><i style="--h:13px"></i></span></span>
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:17px"></i><i style="--h:9px"></i><i style="--h:20px"></i><i style="--h:7px"></i><i style="--h:14px"></i><i style="--h:11px"></i><i style="--h:19px"></i></span></span>
+                  <span class="sample"><span class="play"></span><span class="wave"><i style="--h:8px"></i><i style="--h:13px"></i><i style="--h:19px"></i><i style="--h:6px"></i><i style="--h:17px"></i><i style="--h:10px"></i><i style="--h:21px"></i></span></span>
+                </div>
+              </td>
+              <td><span class="metric">151.3 s<small>40 turns &middot; distributed</small></span></td>
+              <td><span class="decision include">Participant</span></td>
+              <td><span class="mapping">C04 &rarr; S3<small>Student C</small></span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="review-footer">
+          <p>Merge is available when one person is split across candidates. Interval review is used when a candidate contains mixed voices.</p>
+          <button class="confirm-button" type="button">Confirm 3 participants</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="outcome-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">03 &middot; Controlled output chain</p>
+          <h2 id="outcome-title">Automation resumes after participant confirmation</h2>
+        </div>
+        <p>The review decision becomes a saved mapping artifact, so downstream layers receive a stable and auditable participant set.</p>
+      </div>
+
+      <div class="outcome">
+        <article class="outcome-step">
+          <span class="outcome-no">01 &middot; DETECT</span>
+          <h3>Candidate evidence</h3>
+          <p>Speaker regions, confidence, representative audio and anomaly flags.</p>
+        </article>
+        <article class="outcome-step">
+          <span class="outcome-no">02 &middot; DECIDE</span>
+          <h3>Researcher mapping</h3>
+          <p>Include, exclude, merge and map candidates to research identities.</p>
+        </article>
+        <article class="outcome-step">
+          <span class="outcome-no">03 &middot; FREEZE</span>
+          <h3>Confirmed S1&ndash;SN</h3>
+          <p>A versioned participant manifest establishes the valid N.</p>
+        </article>
+        <article class="outcome-step">
+          <span class="outcome-no">04 &middot; GENERATE</span>
+          <h3>Dynamic N+3 TextGrid</h3>
+          <p>N speaker tiers plus floor, transitions and review flags.</p>
+        </article>
+        <article class="outcome-step">
+          <span class="outcome-no">05 &middot; VERIFY</span>
+          <h3>Praat expert review</h3>
+          <p>The researcher corrects boundaries and labels against the original WAV.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="boundary-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">04 &middot; Claim boundary</p>
+          <h2 id="boundary-title">What this design promises</h2>
+        </div>
+        <p>The stronger method is not &ldquo;more AI.&rdquo; It is a clearer boundary between acoustic automation and research judgment.</p>
+      </div>
+
+      <div class="claim-grid">
+        <article class="claim-column">
+          <h3>The system can</h3>
+          <ul class="claim-list">
+            <li>Detect candidate acoustic speakers across the full recording.</li>
+            <li>Present representative evidence without requiring full-file listening.</li>
+            <li>Preserve excluded voices, merges and uncertain intervals in the audit trail.</li>
+            <li>Generate listening tracks and dynamic N+3 tiers after participant confirmation.</li>
+          </ul>
+        </article>
+        <article class="claim-column cannot">
+          <h3>The system cannot infer by diarization alone</h3>
+          <ul class="claim-list">
+            <li>Whether a voice is a student, teacher or incidental participant.</li>
+            <li>Whether a requested fixed number matches the voices actually present.</li>
+            <li>Whether a short teacher intervention should count as a research turn.</li>
+            <li>Whether a muted-mirror track is equivalent to clean source separation.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <aside class="final-note">
+      <span class="final-code">Method principle</span>
+      <div>
+        <strong>The system does not guess who belongs in the study. It makes the evidence reviewable, records the researcher&rsquo;s decision, and only then constructs the research timeline.</strong>
+        <p>This keeps teacher interventions visible without allowing them to silently corrupt participant attribution, floor states or transition metrics.</p>
+      </div>
+    </aside>
+
+    <footer>
+      <span>MWU Pipeline &middot; Layer 1a speaker-candidate review concept</span>
+      <span>Illustrative interface &middot; final controls subject to implementation validation</span>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MWU WebUI Access and Release Notes</title>
+  <link rel="icon" href="data:,">
+  <style>
+    body{margin:0;background:#f4f6f4;color:#17201f;font:15px/1.6 Inter,system-ui,sans-serif;letter-spacing:0}main{max-width:960px;margin:auto;padding:48px 24px 70px}h1{font:600 36px/1.15 Georgia,serif;margin:8px 0}h2{margin-top:34px;font-size:20px}p{color:#53605e}.tag{font-size:12px;text-transform:uppercase;color:#176b57;font-weight:700}.panel{background:#fff;border:1px solid #d9dfdc;border-radius:6px;padding:20px;margin:14px 0}.row{display:grid;grid-template-columns:160px 1fr;padding:9px 0;border-bottom:1px solid #edf0ee}.row:last-child{border:0}.row b{font-size:13px}.state{font-weight:700}.partial{color:#a86716}.planned{color:#235e8a}.implemented{color:#176b57}@media(max-width:640px){.row{grid-template-columns:1fr;gap:3px}}
+  </style>
+</head>
+<body><main>
+  <div class="tag">Product / preparation baseline</div>
+  <h1>WebUI access and release notes</h1>
+  <p>The final acceptance URL is release-specific and is intentionally not embedded in this repository edition. Acceptance runs first on the Provider-managed VPS, followed by internal-server handover.</p>
+  <section class="panel">
+    <div class="row"><b>Release</b><span>MWU Delivery Package V1.0 · L1a second-round QA candidate</span></div>
+    <div class="row"><b>Build source</b><span>Current main-branch checkout at package-generation time</span></div>
+    <div class="row"><b>Data included</b><span>No participant audio, transcript or credentials</span></div>
+  </section>
+  <h2>Capability status</h2>
+  <section class="panel">
+    <div class="row"><b>L1a</b><span><span class="state partial">Implementation complete; QA pending.</span> WAV preflight, overlap-aware listening evidence, versioned reviewer decisions, dynamic S1-SN confirmation, sealed Phase I artifacts and stale-handoff blocking are available. This is not a final QA acceptance claim.</span></div>
+    <div class="row"><b>L1b</b><span><span class="state implemented">Working baseline.</span> Configurable thresholds, Praat drafts, grouped downloads and reviewed TextGrid finalization exist for the current handoff contract.</span></div>
+    <div class="row"><b>L2</b><span><span class="state planned">Experimental only.</span> Research scripts exist, but production use requires approved transcript, AS-unit/clause, MWU and coding definitions.</span></div>
+    <div class="row"><b>L3</b><span><span class="state planned">Partial prototype.</span> Validation matrix/export work exists; final matrix schema, codebook and integrated reporting remain implementation work.</span></div>
+  </section>
+  <h2>Release rule</h2>
+  <p>A milestone is released only with its matching Validation Summary and Acceptance Checklist. Automatic drafts remain review artifacts until the researcher completes the documented human gate.</p>
+</main></body></html>

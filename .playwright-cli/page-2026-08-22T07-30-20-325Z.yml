@@ -1,0 +1,267 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - button "M MWU Pipeline" [ref=e6] [cursor=pointer]:
+        - generic [ref=e7]: M
+        - generic [ref=e8]: MWU Pipeline
+      - generic [ref=e9]:
+        - button "Overview" [ref=e10] [cursor=pointer]
+        - button "Workspace" [ref=e15] [cursor=pointer]
+        - button "Methodology" [ref=e20] [cursor=pointer]
+      - generic [ref=e24]: H
+  - main [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e27]: Operational workspace
+      - heading "Layer workflow" [level=2] [ref=e28]
+      - paragraph [ref=e29]: Inspect the formal input, processing and output contract for each delivery layer.
+    - generic [ref=e30]:
+      - complementary [ref=e31]:
+        - generic [ref=e32]: Delivery layers
+        - generic [ref=e33]:
+          - button "L1a · Speaker Evidence Attribution · N listening tracks" [ref=e34] [cursor=pointer]:
+            - generic [ref=e40]:
+              - generic [ref=e41]: L1a · Speaker Evidence
+              - generic [ref=e42]: Attribution · N listening tracks
+          - button "L1b · Interaction Timing P025/P035 · N+3 TextGrid" [ref=e45] [cursor=pointer]:
+            - generic [ref=e49]:
+              - generic [ref=e50]: L1b · Interaction Timing
+              - generic [ref=e51]: P025/P035 · N+3 TextGrid
+          - button "L2 · Research Analysis Transcript · AS-units · MWU" [ref=e54] [cursor=pointer]:
+            - generic [ref=e59]:
+              - generic [ref=e60]: L2 · Research Analysis
+              - generic [ref=e61]: Transcript · AS-units · MWU
+          - button "L3 · Final Synthesis Matrix · reports · archive" [ref=e64] [cursor=pointer]:
+            - generic [ref=e68]:
+              - generic [ref=e69]: L3 · Final Synthesis
+              - generic [ref=e70]: Matrix · reports · archive
+        - generic [ref=e73]: Original WAV is the canonical acoustic clock. Draft evidence remains distinct from researcher-reviewed data.
+      - generic [ref=e78]:
+        - generic [ref=e79]:
+          - generic [ref=e85]:
+            - generic [ref=e86]:
+              - generic [ref=e87]: L1a
+              - text: Phase I · operational workspace
+            - heading "Speaker evidence and participant review" [level=1] [ref=e88]
+            - paragraph [ref=e89]: Generate acoustic candidates, listen to representative evidence and confirm the participant-to-S1-SN mapping before Phase II starts.
+          - generic [ref=e90]:
+            - generic [ref=e91]:
+              - generic [ref=e92]: Reviewer / rater ID
+              - textbox "Reviewer / rater ID" [ref=e93]:
+                - /placeholder: Enter assigned ID
+            - button "Save review draft" [disabled] [ref=e94]
+            - button "Confirm and rebuild" [disabled] [ref=e99]
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]: WAV preflight
+            - strong [ref=e106]: Passed · 16 kHz · 1 ch
+          - generic [ref=e107]:
+            - generic [ref=e108]: Layer 1a input
+            - strong [ref=e109]: browser-fixture.wav
+          - generic [ref=e110]:
+            - generic [ref=e111]: Provider candidates
+            - strong [ref=e112]: 3 acoustic clusters
+          - generic [ref=e113]:
+            - generic [ref=e114]: Researcher review
+            - strong [ref=e115]: 0 resolved · 3 open
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - generic [ref=e124]:
+                - generic [ref=e125]: Layer 1a input
+                - heading "Upload room-mix audio" [level=2] [ref=e126]
+              - generic [ref=e127]: Input ready
+            - generic [ref=e128] [cursor=pointer]:
+              - button "browser-fixture.wav Original WAV becomes the canonical timeline Browse"
+              - generic [ref=e129]:
+                - strong [ref=e130]: browser-fixture.wav
+                - generic [ref=e131]: Original WAV becomes the canonical timeline
+              - generic [ref=e132]: Browse
+            - button "Preflight and generate candidates" [disabled] [ref=e136]
+            - generic [ref=e139]:
+              - generic [ref=e140]: i
+              - paragraph [ref=e141]:
+                - strong [ref=e142]: Candidate review follows diarization.
+                - text: The provider returns acoustic candidates; the researcher decides which voices belong in the study.
+          - generic [ref=e143]:
+            - generic [ref=e144]:
+              - generic [ref=e151]:
+                - generic [ref=e152]: Processing state
+                - heading "Phase I evidence path" [level=2] [ref=e153]
+              - generic [ref=e154]: Review required
+            - generic [ref=e155]:
+              - generic [ref=e156]:
+                - strong [ref=e160]: Preflight
+                - generic [ref=e161]: Canonical clock
+              - generic [ref=e162]:
+                - strong [ref=e166]: Diarization
+                - generic [ref=e167]: All candidates
+              - generic [ref=e168]:
+                - generic [ref=e169]: "03"
+                - strong [ref=e170]: Review
+                - generic [ref=e171]: Resolve evidence
+              - generic [ref=e172]:
+                - generic [ref=e173]: "04"
+                - strong [ref=e174]: Mapping
+                - generic [ref=e175]: Confirm S1-SN
+              - generic [ref=e176]:
+                - generic [ref=e177]: "05"
+                - strong [ref=e178]: Artifacts
+                - generic [ref=e179]: Rebuild handoff
+            - paragraph [ref=e180]:
+              - text: Run
+              - code [ref=e181]: browser-fixture-1787383817560-7ef45c
+              - text: · 00:00:02.400 canonical timeline
+        - generic [ref=e182]:
+          - generic [ref=e183]:
+            - generic [ref=e187]:
+              - generic [ref=e188]: Candidate evidence
+              - heading "Listen, decide and map" [level=2] [ref=e189]
+            - generic [ref=e190]: 3 candidates
+          - paragraph [ref=e191]: Representative clips are sampled from early, middle and late candidate turns. A clip supports human identification; it does not prove a real-world role.
+          - table [ref=e193]:
+            - rowgroup [ref=e194]:
+              - row [ref=e195]:
+                - columnheader "Candidate" [ref=e196]
+                - columnheader "Representative evidence" [ref=e197]
+                - columnheader "Activity" [ref=e198]
+                - columnheader "Research role" [ref=e199]
+                - columnheader "Decision" [ref=e200]
+                - columnheader "Canonical map" [ref=e201]
+                - columnheader "Review state" [ref=e202]
+            - rowgroup [ref=e203]:
+              - row [ref=e204]:
+                - cell "SPEAKER_00 Provider acoustic cluster" [ref=e205]:
+                  - strong [ref=e206]: SPEAKER_00
+                  - generic [ref=e207]: Provider acoustic cluster
+                - cell [ref=e208]:
+                  - generic [ref=e209]:
+                    - button "Early 00:00" [ref=e210] [cursor=pointer]
+                    - button "Middle 00:00" [ref=e213] [cursor=pointer]
+                    - button "Late 00:01" [ref=e216] [cursor=pointer]
+                - cell "0.46 s 3 intervals" [ref=e219]:
+                  - strong [ref=e220]: 0.46 s
+                  - generic [ref=e221]: 3 intervals
+                - cell "Not assigned" [ref=e222]:
+                  - combobox "SPEAKER_00 research role" [ref=e223]:
+                    - option "Not assigned" [selected]
+                    - option "Participant"
+                    - option "Teacher / other"
+                    - option "Uncertain"
+                - cell "Uncertain" [ref=e224]:
+                  - combobox "SPEAKER_00 review decision" [ref=e225]:
+                    - option "Uncertain" [selected]
+                    - option "Include"
+                    - option "Exclude"
+                    - option "Merge"
+                - cell "Not assigned" [ref=e226]
+                - cell "Decision needed" [ref=e228]
+              - row [ref=e232]:
+                - cell "SPEAKER_01 Provider acoustic cluster" [ref=e233]:
+                  - strong [ref=e234]: SPEAKER_01
+                  - generic [ref=e235]: Provider acoustic cluster
+                - cell [ref=e236]:
+                  - generic [ref=e237]:
+                    - button "Early 00:00" [ref=e238] [cursor=pointer]
+                    - button "Middle 00:00" [ref=e241] [cursor=pointer]
+                    - button "Late 00:01" [ref=e244] [cursor=pointer]
+                - cell "0.46 s 3 intervals" [ref=e247]:
+                  - strong [ref=e248]: 0.46 s
+                  - generic [ref=e249]: 3 intervals
+                - cell "Not assigned" [ref=e250]:
+                  - combobox "SPEAKER_01 research role" [ref=e251]:
+                    - option "Not assigned" [selected]
+                    - option "Participant"
+                    - option "Teacher / other"
+                    - option "Uncertain"
+                - cell "Uncertain" [ref=e252]:
+                  - combobox "SPEAKER_01 review decision" [ref=e253]:
+                    - option "Uncertain" [selected]
+                    - option "Include"
+                    - option "Exclude"
+                    - option "Merge"
+                - cell "Not assigned" [ref=e254]
+                - cell "Decision needed" [ref=e256]
+              - row [ref=e260]:
+                - cell "SPEAKER_02 Provider acoustic cluster" [ref=e261]:
+                  - strong [ref=e262]: SPEAKER_02
+                  - generic [ref=e263]: Provider acoustic cluster
+                - cell [ref=e264]:
+                  - generic [ref=e265]:
+                    - button "Early 00:00" [ref=e266] [cursor=pointer]
+                    - button "Middle 00:01" [ref=e269] [cursor=pointer]
+                    - button "Late 00:01" [ref=e272] [cursor=pointer]
+                - cell "0.46 s 3 intervals" [ref=e275]:
+                  - strong [ref=e276]: 0.46 s
+                  - generic [ref=e277]: 3 intervals
+                - cell "Not assigned" [ref=e278]:
+                  - combobox "SPEAKER_02 research role" [ref=e279]:
+                    - option "Not assigned" [selected]
+                    - option "Participant"
+                    - option "Teacher / other"
+                    - option "Uncertain"
+                - cell "Uncertain" [ref=e280]:
+                  - combobox "SPEAKER_02 review decision" [ref=e281]:
+                    - option "Uncertain" [selected]
+                    - option "Include"
+                    - option "Exclude"
+                    - option "Merge"
+                - cell "Not assigned" [ref=e282]
+                - cell "Decision needed" [ref=e284]
+        - generic [ref=e288]:
+          - generic [ref=e289]:
+            - generic [ref=e297]:
+              - generic [ref=e298]: Layer 1a outputs
+              - heading "Speaker isolation deliverables" [level=2] [ref=e299]
+            - generic [ref=e300]: Human gate pending
+          - generic [ref=e301]:
+            - generic [ref=e307]:
+              - generic [ref=e308]: Execution session
+              - strong [ref=e309]: browser-fixture-1787383817560-7ef45c
+            - generic [ref=e310]:
+              - generic [ref=e311]: Layer folder
+              - strong [ref=e312]: L1a / pending
+            - generic [ref=e313]:
+              - generic [ref=e314]: Next-layer input
+              - strong [ref=e315]: Waiting for confirmation
+          - generic [ref=e316]:
+            - generic [ref=e317]:
+              - generic [ref=e318]:
+                - generic [ref=e319]: Current draft evidence
+                - strong [ref=e320]: Provider candidate outputs
+              - generic [ref=e321]:
+                - generic [ref=e322]:
+                  - strong [ref=e323]: Provider timed turns
+                  - generic [ref=e324]: Canonical-timeline evidence
+                - generic [ref=e325]: Ready
+              - generic [ref=e326]:
+                - generic [ref=e327]:
+                  - strong [ref=e328]: Candidate activity and clips
+                  - generic [ref=e329]: Canonical-timeline evidence
+                - generic [ref=e330]: Ready
+              - generic [ref=e331]:
+                - generic [ref=e332]:
+                  - strong [ref=e333]: Versioned review record
+                  - generic [ref=e334]: Canonical-timeline evidence
+                - generic [ref=e335]: Waiting
+            - generic [ref=e336]:
+              - generic [ref=e337]:
+                - generic [ref=e338]: After human gate
+                - strong [ref=e339]: Accepted L1a deliverables
+              - generic [ref=e340]:
+                - generic [ref=e341]:
+                  - strong [ref=e342]: 1 speaker TextGrid
+                  - generic [ref=e343]: Canonical-timeline evidence
+                - generic [ref=e344]: Waiting
+              - generic [ref=e345]:
+                - generic [ref=e346]:
+                  - strong [ref=e347]: RTTM and CSV
+                  - generic [ref=e348]: Canonical-timeline evidence
+                - generic [ref=e349]: Waiting
+              - generic [ref=e350]:
+                - generic [ref=e351]:
+                  - strong [ref=e352]: N full-duration muted-mirror WAVs
+                  - generic [ref=e353]: Canonical-timeline evidence
+                - generic [ref=e354]: Waiting
+          - generic [ref=e358]:
+            - strong [ref=e359]: L1a human gate is not complete
+            - paragraph [ref=e360]: Resolve every candidate, confirm unique contiguous S1-SN assignments, then rebuild Phase I artifacts. A changed mapping invalidates earlier L1b drafts.

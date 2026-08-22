@@ -74,12 +74,12 @@ export function deriveSharedActivity(baseFrames, threshold, { minSoundingSeconds
   };
 }
 
-export function normalizeStage1Evidence(events, { duration, frameStep = FRAME_STEP_SECONDS } = {}) {
+export function normalizeStage1Evidence(events, { duration, frameStep = FRAME_STEP_SECONDS, speakers = SPEAKERS } = {}) {
   const normalized = [];
   const flags = [];
   for (const [index, event] of events.entries()) {
     const id = String(event.id ?? `event_${index + 1}`);
-    invariant(SPEAKERS.includes(event.speaker), `${id} has invalid canonical speaker`);
+    invariant(speakers.includes(event.speaker), `${id} has invalid canonical speaker`);
     invariant(PROVISIONAL_KINDS.includes(event.provisional_kind), `${id} provisional_kind must be vocalisation/laughter/artifact`);
     const lexicalClass = String(event.lexical_class ?? 'unknown');
     invariant(['lexical', 'filled_pause', 'nonlexical', 'unknown'].includes(lexicalClass), `${id} has invalid lexical_class`);

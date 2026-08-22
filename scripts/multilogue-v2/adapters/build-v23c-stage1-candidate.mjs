@@ -1,4 +1,4 @@
-import { EPSILON, SPEAKERS, round } from '../core/contracts.mjs';
+import { EPSILON, SPEAKERS, canonicalSpeakers, round } from '../core/contracts.mjs';
 import { buildV22Stage1Candidate, promoteResidualEvidence } from './build-v22-stage1-candidate.mjs';
 
 export const V23C_RULE_SET_VERSION = 'R1-R5-v2.1-locked';
@@ -15,12 +15,17 @@ const DEFAULTS = Object.freeze({
 });
 
 export function buildV23cStage1Candidate(stage1Input, speakerAcousticSupport, userOptions = {}) {
-  const options = { ...DEFAULTS, ...userOptions };
+  const options = {
+    ...DEFAULTS,
+    ...userOptions,
+    speakers: canonicalSpeakers(userOptions.speakers || speakerAcousticSupport.speakers || stage1Input.speakers),
+  };
   validateOptions(options, speakerAcousticSupport);
   const speakerSounding = bridgeSupportWithinTurns(
     speakerAcousticSupport.by_speaker,
     speakerAcousticSupport.provider_turns_by_speaker,
     options.acousticBridgeSeconds,
+    options.speakers,
   );
   const roomSounding = stage1Input.roomSoundingIntervals || [];
   const built = buildV22Stage1Candidate(stage1Input, roomSounding, {
@@ -196,12 +201,13 @@ export function applySpeakerConditionedIdentity(events, supportBySpeaker, option
     }
     const segments = activitySegments(event);
     const duration = segments.reduce((sum, segment) => sum + segment.end - segment.start, 0);
-    const ratios = Object.fromEntries(SPEAKERS.map((speaker) => [
+    const speakers = options.speakers || SPEAKERS;
+    const ratios = Object.fromEntries(speakers.map((speaker) => [
       speaker,
       duration > EPSILON ? overlapSeconds(segments, supportBySpeaker[speaker]) / duration : 0,
     ]));
     const own = ratios[event.speaker] || 0;
-    const otherRatios = SPEAKERS.filter((speaker) => speaker !== event.speaker)
+    const otherRatios = speakers.filter((speaker) => speaker !== event.speaker)
       .map((speaker) => ({ speaker, ratio: ratios[speaker] || 0 }));
     const other = Math.max(...otherRatios.map((item) => item.ratio));
     const competingSpeakers = otherRatios.filter((item) => Math.abs(item.ratio - other) <= EPSILON)
@@ -300,9 +306,9 @@ function overlapUnionSeconds(left, right) {
   return merged.reduce((sum, fragment) => sum + fragment.end - fragment.start, 0);
 }
 
-function bridgeSupportWithinTurns(bySpeaker, turnsBySpeaker, maximumGap) {
+function bridgeSupportWithinTurns(bySpeaker, turnsBySpeaker, maximumGap, speakers = SPEAKERS) {
   const output = {};
-  for (const speaker of SPEAKERS) {
+  for (const speaker of speakers) {
     const bridged = [];
     for (const turn of turnsBySpeaker[speaker] || []) {
       const inside = (bySpeaker[speaker] || []).map((item) => ({
@@ -398,7 +404,8 @@ function validateOptions(options, support) {
     throw new Error('overlapCorroboratedMinimumCoverageRatio must not exceed 1');
   }
   if (!support || support.contract_version == null) throw new Error('speaker acoustic support is required');
-  for (const speaker of SPEAKERS) if (!Array.isArray(support.by_speaker?.[speaker])) throw new Error(`${speaker} acoustic support is missing`);
+  const speakers = canonicalSpeakers(options.speakers || support.speakers || Object.keys(support.by_speaker || {}));
+  for (const speaker of speakers) if (!Array.isArray(support.by_speaker?.[speaker])) throw new Error(`${speaker} acoustic support is missing`);
 }
 
 function activitySegments(event) {

@@ -1,26 +1,30 @@
 import {
   EPSILON,
   SPEAKERS,
+  canonicalSpeakers,
   invariant,
   normalizeConfidence,
   round,
 } from './contracts.mjs';
 
-function validateProviderMap(provider, value) {
+function validateProviderMap(provider, value, speakers) {
   invariant(value && typeof value === 'object' && !Array.isArray(value), `${provider} mapping must be an object`);
   const entries = Object.entries(value);
-  invariant(entries.length === SPEAKERS.length, `${provider} mapping must contain exactly three provider speakers`);
+  invariant(entries.length === speakers.length, `${provider} mapping must contain exactly ${speakers.length} provider speakers`);
   const canonical = entries.map(([, target]) => target);
-  invariant(canonical.every((target) => SPEAKERS.includes(target)), `${provider} mapping contains a non-canonical speaker`);
-  invariant(new Set(canonical).size === SPEAKERS.length, `${provider} mapping must be bijective onto S1/S2/S3`);
+  invariant(canonical.every((target) => speakers.includes(target)), `${provider} mapping contains a non-canonical speaker`);
+  invariant(new Set(canonical).size === speakers.length, `${provider} mapping must be bijective onto ${speakers.join('/')}`);
   return Object.freeze(Object.fromEntries(entries.map(([source, target]) => [String(source), target])));
 }
 
-export function validateMappingContract(mapping) {
+export function validateMappingContract(mapping, requestedSpeakers = null) {
   invariant(mapping && typeof mapping === 'object', 'speaker mapping contract is required');
+  const inferred = requestedSpeakers || Object.values(mapping.pyannote || {});
+  const speakers = canonicalSpeakers(inferred.length ? inferred : SPEAKERS);
   return Object.freeze({
-    pyannote: validateProviderMap('pyannote', mapping.pyannote),
-    assemblyai: validateProviderMap('assemblyai', mapping.assemblyai),
+    speakers,
+    pyannote: validateProviderMap('pyannote', mapping.pyannote, speakers),
+    assemblyai: validateProviderMap('assemblyai', mapping.assemblyai, speakers),
   });
 }
 
@@ -76,14 +80,15 @@ export function assignWordsByMaximumOverlap(words, mappedTurns, mappingContract,
       continue;
     }
 
-    const bySpeaker = new Map(SPEAKERS.map((speaker) => [speaker, []]));
+    const speakers = mappingContract.speakers || SPEAKERS;
+    const bySpeaker = new Map(speakers.map((speaker) => [speaker, []]));
     for (const turn of mappedTurns) {
       const overlapStart = Math.max(start, turn.start);
       const overlapEnd = Math.min(end, turn.end);
       if (overlapEnd > overlapStart + EPSILON) bySpeaker.get(turn.speaker).push({ start: overlapStart, end: overlapEnd, turnStart: turn.start });
     }
 
-    const scores = SPEAKERS.map((speaker) => {
+    const scores = speakers.map((speaker) => {
       const merged = mergeClipped(bySpeaker.get(speaker));
       return {
         speaker,
@@ -106,7 +111,7 @@ export function assignWordsByMaximumOverlap(words, mappedTurns, mappingContract,
     } else {
       const earliest = Math.min(...tied.map((score) => score.earliest));
       tied = tied.filter((score) => Math.abs(score.earliest - earliest) <= EPSILON);
-      winner = tied.sort((left, right) => SPEAKERS.indexOf(left.speaker) - SPEAKERS.indexOf(right.speaker))[0];
+      winner = tied.sort((left, right) => speakers.indexOf(left.speaker) - speakers.indexOf(right.speaker))[0];
     }
     assigned.push({
       id,

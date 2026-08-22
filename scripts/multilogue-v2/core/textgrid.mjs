@@ -1,11 +1,12 @@
-import { SPEAKERS, round } from './contracts.mjs';
+import { SPEAKERS, canonicalSpeakers, round } from './contracts.mjs';
 
-export function buildSixTierTextGrid(duration, interaction) {
+export function buildSixTierTextGrid(duration, interaction, requestedSpeakers = null) {
+  const speakers = canonicalSpeakers(requestedSpeakers || interaction.speakers || Object.keys(interaction.speakerTiers || {}) || SPEAKERS);
   return {
     xmin: 0,
     xmax: round(duration),
     tiers: [
-      ...SPEAKERS.map((speaker) => ({
+      ...speakers.map((speaker) => ({
         class: 'IntervalTier',
         name: speaker,
         xmin: 0,

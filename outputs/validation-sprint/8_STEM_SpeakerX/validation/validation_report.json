@@ -2,7 +2,7 @@
   "sprint": "validation-sprint",
   "recording_id": "8_STEM_SpeakerX",
   "speaker": "SpeakerX",
-  "generated_at": "2026-08-09T14:29:21.255Z",
+  "generated_at": "2026-08-22T11:22:47.563Z",
   "phase_i": {
     "status": "skipped",
     "reason": "monologue — single speaker"
@@ -56,7 +56,7 @@
   },
   "phase_ii": {
     "status": "passed",
-    "ran_at": "2026-08-09T14:29:21.255Z",
+    "ran_at": "2026-08-22T11:22:47.563Z",
     "praat_window_sec": 200,
     "scale_times": "applied_single_window_full_wav",
     "label_contract": [
@@ -273,7 +273,7 @@
   },
   "phase_iii": {
     "status": "split_only",
-    "ran_at": "2026-08-09T14:29:21.255Z",
+    "ran_at": "2026-08-22T11:22:47.563Z",
     "raw_file": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_RAW-TIMING.txt",
     "tidy_file": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-iii/8_STEM_SpeakerX_TIDY-PHRASE.txt",
     "source": "client_standard_transcript",
@@ -1613,7 +1613,7 @@
   },
   "phase_v": {
     "status": "passed",
-    "ran_at": "2026-08-09T14:29:21.255Z",
+    "ran_at": "2026-08-22T11:22:47.563Z",
     "xlsx": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.xlsx",
     "csv": "/Users/nedved/Tool/Workspace/MWU/MWU/outputs/validation-sprint/8_STEM_SpeakerX/phase-v/validation_matrix_speakerx.csv",
     "columns": [

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MWU Delivery Package V1.0</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root { color-scheme: light; --ink:#17201f; --muted:#5d6967; --line:#d9dfdc; --paper:#f5f7f5; --white:#fff; --green:#176b57; --blue:#235e8a; --amber:#a86716; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:15px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:var(--paper); letter-spacing:0; }
+    header { background:#102b27; color:white; padding:54px 6vw 48px; }
+    header .meta { text-transform:uppercase; font-size:12px; letter-spacing:.12em; color:#b9d8ce; }
+    h1 { margin:10px 0 8px; font:600 42px/1.1 Georgia, serif; letter-spacing:0; }
+    header p { margin:0; max-width:760px; color:#d8e6e1; font-size:17px; }
+    main { max-width:1160px; margin:0 auto; padding:36px 28px 60px; }
+    .status { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--line); background:var(--white); }
+    .status div { padding:18px 20px; border-right:1px solid var(--line); }
+    .status div:last-child { border-right:0; }
+    .status small { display:block; color:var(--muted); text-transform:uppercase; font-size:11px; letter-spacing:.08em; }
+    .status strong { display:block; margin-top:4px; font-size:15px; }
+    h2 { margin:42px 0 14px; font-size:22px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    a.item { display:block; color:inherit; text-decoration:none; background:var(--white); border:1px solid var(--line); padding:20px; border-radius:6px; }
+    a.item:hover { border-color:var(--green); box-shadow:0 6px 20px rgba(16,43,39,.08); }
+    .num { color:var(--green); font-weight:700; font-size:12px; }
+    .item h3 { margin:7px 0 5px; font-size:17px; }
+    .item p { margin:0; color:var(--muted); }
+    .note { margin-top:34px; border-left:4px solid var(--amber); background:#fffaf1; padding:17px 19px; }
+    .note strong { color:#71440f; }
+    footer { margin-top:46px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; }
+    @media (max-width:760px) { h1{font-size:34px}.status,.grid{grid-template-columns:1fr}.status div{border-right:0;border-bottom:1px solid var(--line)}.status div:last-child{border-bottom:0}main{padding:24px 18px 44px} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="meta">Research software delivery / controlled edition</div>
+    <h1>MWU Delivery Package V1.0</h1>
+    <p>A concise package connecting the approved research method, deployed product, validation evidence and technical handover.</p>
+  </header>
+  <main>
+    <section class="status" aria-label="Release status">
+      <div><small>Edition</small><strong>V1.0 preparation baseline</strong></div>
+      <div><small>Method reference</small><strong>Workflow Atlas v2.1</strong></div>
+      <div><small>Research status</small><strong>Automatic drafts require expert review</strong></div>
+    </section>
+
+    <h2>Package contents</h2>
+    <div class="grid">
+      <a class="item" href="01_Method_and_Design/MWU_Workflow_Atlas.html">
+        <span class="num">01A</span><h3>Workflow Atlas</h3><p>Research-facing flow, nine labels, R1-R5 and Layer handoffs.</p>
+      </a>
+      <a class="item" href="01_Method_and_Design/MWU_System_Design_Specification.pdf">
+        <span class="num">01B</span><h3>System Design Specification</h3><p>Engineering architecture for L1a, L1b, L2, L3 and handover.</p>
+      </a>
+      <a class="item" href="01_Method_and_Design/Method_Definition_and_Parameters.xlsx">
+        <span class="num">01C</span><h3>Method and Parameters</h3><p>Versioned Layer definitions, nine labels, floor rules and baseline settings.</p>
+      </a>
+      <a class="item" href="02_Product/WebUI_Access_and_Release_Notes.html">
+        <span class="num">02</span><h3>Product Release Notes</h3><p>Available WebUI capability, release boundary and output index.</p>
+      </a>
+      <a class="item" href="03_Validation/Validation_Summary.xlsx">
+        <span class="num">03</span><h3>Validation Summary</h3><p>Current evidence, Gold comparison status and remaining validation gaps.</p>
+      </a>
+      <a class="item" href="03_Validation/L1a/README.md">
+        <span class="num">03B</span><h3>L1a QA Evidence</h3><p>Machine reports, build integrity, release inventory and browser screenshots for second-round QA.</p>
+      </a>
+      <a class="item" href="04_Operation_Acceptance_and_Handover/User_Operation_Guide.pdf">
+        <span class="num">04A</span><h3>User Operation Guide</h3><p>Layer-by-Layer operating and researcher review workflow.</p>
+      </a>
+      <a class="item" href="04_Operation_Acceptance_and_Handover/Deployment_and_Handover_Guide.pdf">
+        <span class="num">04B</span><h3>Deployment and Handover</h3><p>VPS acceptance, internal-server migration and source transfer.</p>
+      </a>
+      <a class="item" href="04_Operation_Acceptance_and_Handover/Acceptance_Checklist.xlsx">
+        <span class="num">04C</span><h3>Acceptance Checklist</h3><p>Verifiable milestone checks, evidence and open-item recording.</p>
+      </a>
+    </div>
+
+    <div class="note"><strong>Evidence boundary.</strong> This repository edition is a preparation baseline. It contains no client audio, transcript or Gold TextGrid. Client-authorized reference outputs are attached only to the corresponding release package.</div>
+    <footer>MWU Pipeline / Version-controlled research support software / Generated 2026-08-21</footer>
+  </main>
+</body>
+</html>

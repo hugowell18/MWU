@@ -1,6 +1,7 @@
 import {
   CSV_SCHEMAS,
   SPEAKERS,
+  canonicalSpeakers,
   canonicalJson,
   fixedThresholdKey,
   phonationIncluded,
@@ -18,12 +19,14 @@ export function runMultilogueV2(input) {
   if (!(duration > 0)) throw new Error('duration must be positive');
   const thresholds = [...(input.thresholds || [0.25, 0.35])].map(Number);
   if (new Set(thresholds.map(fixedThresholdKey)).size !== thresholds.length) throw new Error('thresholds must be unique');
-  const mapping = validateMappingContract(input.speakerMapping);
+  const speakers = canonicalSpeakers(input.speakers || Object.values(input.speakerMapping?.pyannote || {}));
+  const mapping = validateMappingContract(input.speakerMapping, speakers);
   const attribution = mapAttributionTurns(input.attributionTurns || [], mapping, { duration });
   const wordAssignment = assignWordsByMaximumOverlap(input.words || [], attribution.turns, mapping, { duration });
   const legacyBoundarySeed = normalizeLegacySeed(input.legacyBoundarySeed);
   const initialFlagContract = validateInitialFlags(input.initialFlags || [], {
     duration,
+    speakers,
     stage1Evidence: input.stage1Evidence || [],
     stage1UnknownEvidence: input.stage1UnknownEvidence || [],
     providerOverlapEvidence: input.providerOverlapEvidence || [],
@@ -35,20 +38,21 @@ export function runMultilogueV2(input) {
     const key = fixedThresholdKey(threshold);
     const baseFrames = buildBaseActivityFrames(duration, input.roomSoundingIntervals || []);
     const sharedActivity = deriveSharedActivity(baseFrames, threshold, input.sharedActivityOptions);
-    const stage1 = normalizeStage1Evidence(input.stage1Evidence || [], { duration });
+    const stage1 = normalizeStage1Evidence(input.stage1Evidence || [], { duration, speakers });
     const interaction = runInteractionEngine({
       duration,
       sharedActivity,
       events: stage1.events,
+      speakers,
       overlapEvidence: initialFlagContract.providerOverlapEvidence,
       initialFlags: [...attribution.flags, ...wordAssignment.flags, ...stage1.flags, ...initialFlagContract.flags],
       config: input.interactionConfig,
     });
-    const textGridDocument = buildSixTierTextGrid(duration, interaction);
-    const validation = validateSixTierTextGrid(textGridDocument);
+    const textGridDocument = buildSixTierTextGrid(duration, interaction, speakers);
+    const validation = validateSixTierTextGrid(textGridDocument, { speakers });
     if (!validation.valid) throw new Error(`${key} validation failed: ${validation.errors.join('; ')}`);
     const manifest = buildManifest(input, threshold, legacyBoundarySeed, interaction);
-    const rows = buildRows(input, threshold, interaction);
+    const rows = buildRows(input, threshold, interaction, speakers);
     const overlapCapabilityEvidence = buildOverlapCapabilityEvidence(
       input,
       threshold,
@@ -74,6 +78,7 @@ export function runMultilogueV2(input) {
 
   return {
     methodology_version: 'multilogue-v2-first-slice',
+    speakers,
     reusable_inputs: {
       attribution_turn_count: attribution.turns.length,
       assigned_word_count: wordAssignment.words.filter((word) => word.speaker).length,
@@ -118,6 +123,7 @@ function buildPathBCounts(interaction) {
 
 export function validateInitialFlags(flags, {
   duration,
+  speakers = SPEAKERS,
   stage1Evidence = [],
   stage1UnknownEvidence = [],
   providerOverlapEvidence = [],
@@ -152,7 +158,7 @@ export function validateInitialFlags(flags, {
     }
     const start = Number(event.start);
     const end = Number(event.end);
-    if (!SPEAKERS.includes(event.speaker) || !Number.isFinite(start) || !Number.isFinite(end)
+    if (!speakers.includes(event.speaker) || !Number.isFinite(start) || !Number.isFinite(end)
       || !(end > start) || start < 0 || end > canonicalDuration + 1e-9) {
       throw new Error(`${id} has invalid canonical unknown-residual bounds`);
     }
@@ -185,7 +191,7 @@ export function validateInitialFlags(flags, {
     }
     if (!Array.isArray(candidate.speakers) || candidate.speakers.length !== 2
       || candidate.speakers[0] === candidate.speakers[1]
-      || candidate.speakers.some((speaker) => !SPEAKERS.includes(speaker))) {
+      || candidate.speakers.some((speaker) => !speakers.includes(speaker))) {
       throw new Error(`${id} must identify two distinct canonical speakers`);
     }
     const durationSeconds = end - start;
@@ -307,12 +313,12 @@ function buildManifest(input, threshold, legacyBoundarySeed, interaction) {
   };
 }
 
-function buildRows(input, threshold, interaction) {
+function buildRows(input, threshold, interaction, speakers = SPEAKERS) {
   const recordingId = safeIdentifier(input.recordingId ?? 'synthetic-recording', 'recordingId');
   const taskId = safeIdentifier(input.taskId ?? 'synthetic-task', 'taskId');
   const overlapFlag = (start, end) => interaction.flags.some((flag) => flag.start < end && flag.end > start);
   const nineLabelRows = [];
-  for (const speaker of SPEAKERS) {
+  for (const speaker of speakers) {
     for (const interval of interaction.speakerTiers[speaker]) {
       nineLabelRows.push({
         recording_id: recordingId,
@@ -329,7 +335,7 @@ function buildRows(input, threshold, interaction) {
       });
     }
   }
-  const summaryRows = SPEAKERS.map((speaker) => {
+  const summaryRows = speakers.map((speaker) => {
     const metric = interaction.metrics[speaker];
     return {
       recording_id: recordingId,

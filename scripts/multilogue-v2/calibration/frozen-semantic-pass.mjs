@@ -1,5 +1,5 @@
 import { DEFAULT_BACKCHANNEL_LEXICON, DEFAULT_TURN_PROJECTORS } from '../core/interaction-engine.mjs';
-import { EPSILON, SPEAKERS, canonicalJson, round, sha256 } from '../core/contracts.mjs';
+import { EPSILON, canonicalJson, round, sha256, speakersFromTextGrid } from '../core/contracts.mjs';
 import { serializeTextGrid } from '../core/textgrid.mjs';
 
 export function applyFrozenFloorSemanticPass(baseOutput, events, userOptions = {}) {
@@ -29,7 +29,8 @@ export function applyFrozenFloorSemanticPass(baseOutput, events, userOptions = {
     }
   }
 
-  for (const speaker of SPEAKERS) {
+  const speakers = speakersFromTextGrid(document);
+  for (const speaker of speakers) {
     const tier = document.tiers.find((item) => item.name === speaker);
     tier.intervals = splitAndRelabel(tier.intervals, explicit.filter((event) => event.speaker === speaker), classified);
   }
@@ -58,7 +59,8 @@ export function applyFrozenFloorSemanticPass(baseOutput, events, userOptions = {
 }
 
 export function structuralDigests(document) {
-  const active = SPEAKERS.map((speaker) => {
+  const speakers = speakersFromTextGrid(document);
+  const active = speakers.map((speaker) => {
     const tier = document.tiers.find((item) => item.name === speaker);
     return {
       speaker,
@@ -87,7 +89,8 @@ function mergeActiveIntervals(intervals) {
 function isFrozenFloorBackchannel(event, events, floorTier, options) {
   const mid = (activityStart(event) + activityEnd(event)) / 2;
   const holder = floorTier.intervals.find((interval) => interval.start <= mid + EPSILON && mid < interval.end - EPSILON)?.text;
-  if (!SPEAKERS.includes(holder) || holder === event.speaker) return false;
+  const speakers = [...new Set(events.map((item) => item.speaker))];
+  if (!speakers.includes(holder) || holder === event.speaker) return false;
   const tokens = interactionTokens(event);
   if (tokens.length === 0 || tokens.length > Number(options.backchannelMaxWords)) return false;
   const lexicon = new Set(options.backchannelLexicon);

@@ -66,6 +66,12 @@ export function readWavForMuting(audioPath) {
         bitsPerSample: buffer.readUInt16LE(chunkStart + 14),
       };
     } else if (chunkId === 'data') {
+      const availableBytes = Math.max(0, buffer.length - chunkStart);
+      if (chunkSize > availableBytes) {
+        throw new Error(
+          `WAV data is truncated: header declares ${chunkSize} bytes but only ${availableBytes} bytes are present. Re-download or re-export the WAV before diarization.`,
+        );
+      }
       data = { start: chunkStart, end: chunkEnd, size: chunkSize };
     }
 

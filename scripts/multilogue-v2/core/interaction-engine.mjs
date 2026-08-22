@@ -3,6 +3,7 @@ import {
   FRAME_STEP_SECONDS,
   SPEAKERS,
   SPEAKER_LABELS,
+  canonicalSpeakers,
   phonationIncluded,
   round,
   sortedUnique,
@@ -29,6 +30,7 @@ export const DEFAULT_RESPONSE_ACKNOWLEDGEMENT_LEXICON = Object.freeze([
 ]);
 
 export function evaluateBackchannel(event, holder, events, config = {}) {
+  const speakers = config.speakers || SPEAKERS;
   const lexicon = new Set(config.backchannelLexicon || DEFAULT_BACKCHANNEL_LEXICON);
   const projectors = config.turnProjectors || DEFAULT_TURN_PROJECTORS;
   const maxWords = Number(config.backchannelMaxWords ?? 3);
@@ -50,7 +52,7 @@ export function evaluateBackchannel(event, holder, events, config = {}) {
       continuationWindowSeconds: Number(config.holderContinuationWindowSeconds ?? Number.POSITIVE_INFINITY),
     });
   return {
-    qualifies: SPEAKERS.includes(holder) && event.speaker !== holder && condition1 && condition2 && condition3 && condition4,
+    qualifies: speakers.includes(holder) && event.speaker !== holder && condition1 && condition2 && condition3 && condition4,
     conditions: {
       short_or_nonlexical: condition1,
       lexical_majority: condition2,
@@ -64,11 +66,13 @@ export function runInteractionEngine({
   duration,
   sharedActivity,
   events,
+  speakers = SPEAKERS,
   overlapEvidence = [],
   initialFlags = [],
   config = {},
 }) {
   const settings = {
+    speakers: canonicalSpeakers(speakers),
     frameStep: FRAME_STEP_SECONDS,
     floorReleaseSeconds: Number(config.floorReleaseSeconds ?? 1),
     minOverlapSeconds: Number(config.minOverlapSeconds ?? 0.1),
@@ -119,7 +123,7 @@ export function runInteractionEngine({
     return new Set(active.map((event) => event.speaker)).size >= 2;
   });
   const qualifiedOverlap = qualifyOverlapRuns(sharedActivity.frames, rawOverlap, settings.minOverlapSeconds, flags);
-  const speakerFrameLabels = Object.fromEntries(SPEAKERS.map((speaker) => [speaker, []]));
+  const speakerFrameLabels = Object.fromEntries(settings.speakers.map((speaker) => [speaker, []]));
 
   for (const frame of sharedActivity.frames) {
     const mid = midpoint(frame);
@@ -128,7 +132,7 @@ export function runInteractionEngine({
     const activeVocalisations = active.filter((event) => event.provisional_kind === 'vocalisation');
     const floor = floorAt(floorTier, mid);
     const thresholdFilledSpeaker = frame.filled_by_threshold
-      ? bridgeSpeakerForThresholdFill(frame, interactionEvents, eventAnalysis.bcEventIds, floor)
+      ? bridgeSpeakerForThresholdFill(frame, interactionEvents, eventAnalysis.bcEventIds, floor, settings.speakers)
       : null;
     if (frame.sounding && !activeAttributed && !thresholdFilledSpeaker) {
       flags.push(makeFlag(frame.start, frame.end, 'unattributed_sounding', 'review', 'timeline'));
@@ -136,7 +140,7 @@ export function runInteractionEngine({
     if (!frame.sounding && activeVocalisations.length > 0) {
       flags.push(makeFlag(frame.start, frame.end, 'attribution_in_room_silence', 'review', 'timeline'));
     }
-    for (const speaker of SPEAKERS) {
+    for (const speaker of settings.speakers) {
       const own = active.filter((event) => event.speaker === speaker);
       const text = labelForFrame({
         speaker,
@@ -146,6 +150,7 @@ export function runInteractionEngine({
         qualifiedOverlap: qualifiedOverlap[frame.index],
         thresholdFilledSpeaker,
         strictEvidenceRoles: settings.strictEvidenceRoles,
+        speakers: settings.speakers,
       });
       if (!SPEAKER_LABELS.includes(text)) throw new Error(`label engine emitted invalid label ${text}`);
       speakerFrameLabels[speaker].push({ start: frame.start, end: frame.end, text, floor: floor.text });
@@ -153,12 +158,12 @@ export function runInteractionEngine({
   }
 
   const speakerTiers = Object.fromEntries(
-    SPEAKERS.map((speaker) => [speaker, mergeLabelFrames(speakerFrameLabels[speaker])]),
+    settings.speakers.map((speaker) => [speaker, mergeLabelFrames(speakerFrameLabels[speaker])]),
   );
-  flagLongOwnPauses(speakerTiers, settings.floorReleaseSeconds, flags);
+  flagLongOwnPauses(speakerTiers, settings.floorReleaseSeconds, flags, settings.speakers);
 
   const floorTransfers = settings.rebuildTransitionsFromFloor
-    ? rebuildTransferCandidatesFromFloor(floorTier, eventAnalysis.transfers)
+    ? rebuildTransferCandidatesFromFloor(floorTier, eventAnalysis.transfers, settings.speakers)
     : eventAnalysis.transfers;
   const transitions = [];
   const transitionEvidence = [];
@@ -254,7 +259,8 @@ export function runInteractionEngine({
     transitionEvidence,
     flagsTier,
     flags: orderedFlags,
-    metrics: summarizeInteraction(duration, speakerTiers, floorTier, transitions),
+    speakers: settings.speakers,
+    metrics: summarizeInteraction(duration, speakerTiers, floorTier, transitions, settings.speakers),
     diagnostics: {
       bc_event_ids: [...eventAnalysis.bcEventIds].sort(),
       failed_bid_event_ids: [...eventAnalysis.failedBidIds].sort(),
@@ -326,6 +332,7 @@ function isAdministrativeStopCue(tokens) {
 
 export function classifyPreFloorBackchannels(events, settings = {}, preliminaryFloor = null) {
   const options = {
+    speakers: settings.speakers || SPEAKERS,
     backchannelLexicon: settings.backchannelLexicon || DEFAULT_BACKCHANNEL_LEXICON,
     turnProjectors: settings.turnProjectors || DEFAULT_TURN_PROJECTORS,
     backchannelMaxWords: Number(settings.backchannelMaxWords ?? 3),
@@ -948,13 +955,13 @@ function buildFloorTier(duration, analysis, settings) {
   return mergeFloorIntervals(fillFloorGaps(intervals, duration));
 }
 
-function rebuildTransferCandidatesFromFloor(floorTier, eventCandidates) {
+function rebuildTransferCandidatesFromFloor(floorTier, eventCandidates, speakers = SPEAKERS) {
   const transfers = [];
   let previousHolder = null;
   let pendingDeparture = null;
 
   for (const interval of floorTier) {
-    if (!SPEAKERS.includes(interval.text)) {
+    if (!speakers.includes(interval.text)) {
       if (previousHolder && pendingDeparture === null) pendingDeparture = interval.start;
       continue;
     }
@@ -1018,6 +1025,7 @@ function labelForFrame({
   qualifiedOverlap,
   thresholdFilledSpeaker,
   strictEvidenceRoles,
+  speakers = SPEAKERS,
 }) {
   const excluded = own.find((event) =>
     event.provisional_kind === 'artifact'
@@ -1036,7 +1044,7 @@ function labelForFrame({
   }
   if (thresholdFilledSpeaker === speaker && floor.text === speaker) return 's';
   if (floor.text === speaker) return 'op';
-  if (SPEAKERS.includes(floor.text)) return 'pf';
+  if (speakers.includes(floor.text)) return 'pf';
   return floor.free_kind || 'shs';
 }
 
@@ -1117,8 +1125,8 @@ function consolidateTransferTargets(candidates) {
   }).sort((left, right) => left.to.localeCompare(right.to));
 }
 
-function bridgeSpeakerForThresholdFill(frame, events, bcEventIds, floor) {
-  if (!SPEAKERS.includes(floor.text)) return null;
+function bridgeSpeakerForThresholdFill(frame, events, bcEventIds, floor, speakers = SPEAKERS) {
+  if (!speakers.includes(floor.text)) return null;
   const turnTaking = events.filter((event) =>
     event.provisional_kind === 'vocalisation'
     && event.floor_eligible !== false
@@ -1246,7 +1254,7 @@ function surroundingHolderSupport(event, events, options, preliminaryFloor = nul
     ? floorAt(preliminaryFloor, (eventStart + eventEnd) / 2)?.text
     : null;
   for (const [speaker, candidates] of bySpeaker) {
-    if (SPEAKERS.includes(priorHolder) && speaker !== priorHolder) continue;
+    if (options.speakers.includes(priorHolder) && speaker !== priorHolder) continue;
     const concurrent = candidates.filter((candidate) => activitySegments(candidate).some((segment) =>
       segment.start < eventEnd - EPSILON
       && segment.end > eventStart + EPSILON
@@ -1434,8 +1442,8 @@ function mergeFloorIntervals(intervals) {
   return merged.map((interval) => ({ ...interval, start: round(interval.start), end: round(interval.end) }));
 }
 
-function flagLongOwnPauses(speakerTiers, limit, flags) {
-  for (const speaker of SPEAKERS) {
+function flagLongOwnPauses(speakerTiers, limit, flags, speakers = SPEAKERS) {
+  for (const speaker of speakers) {
     for (const interval of speakerTiers[speaker]) {
       if (interval.text === 'op' && interval.end - interval.start > limit + EPSILON) {
         flags.push(makeFlag(interval.start, interval.end, 'own_pause_exceeds_L', 'review', 'floor', speaker));
@@ -1449,8 +1457,8 @@ function formatSigned(value) {
   return `${numeric >= 0 ? '+' : '-'}${Math.abs(numeric).toFixed(3)}`;
 }
 
-function summarizeInteraction(duration, speakerTiers, floorTier, transitions) {
-  return Object.fromEntries(SPEAKERS.map((speaker) => {
+function summarizeInteraction(duration, speakerTiers, floorTier, transitions, speakers = SPEAKERS) {
+  return Object.fromEntries(speakers.map((speaker) => {
     const totals = Object.fromEntries(SPEAKER_LABELS.map((label) => [label, 0]));
     const counts = Object.fromEntries(SPEAKER_LABELS.map((label) => [label, 0]));
     for (const interval of speakerTiers[speaker]) {

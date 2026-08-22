@@ -23,6 +23,8 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import { ValidationRunner } from './ValidationConsole';
 import { MultilogueV2Runner } from './MultilogueV2Runner';
+import { L1aRunner } from './L1aRunner';
+import { L1bRunner } from './L1bRunner';
 
 type LayerKey = 'l1a' | 'l1b' | 'l2' | 'l3';
 
@@ -47,34 +49,30 @@ const LAYERS: LayerDefinition[] = [
     key: 'l1a',
     short: 'L1a',
     phase: 'Phase I',
-    title: 'Shared Evidence, Speaker Attribution & Isolation',
+    title: 'Speaker Evidence & Participant Review',
     nav: 'Speaker Evidence',
     navDetail: 'Attribution · N listening tracks',
-    summary: 'Establish one canonical audio clock, attribute speaker activity and preserve the evidence needed to build the interaction timeline.',
+    summary: 'Generate all acoustic candidates, let the researcher decide which voices belong in the study and confirm the canonical S1-SN mapping.',
     icon: UsersRound,
     inputs: [
       'Original room-mix WAV',
-      'Task start and end boundaries',
-      'Automatic or configured speaker count (two or more)',
-      'Canonical speaker IDs',
       'Approved AI-provider configuration',
+      'Researcher candidate decisions',
     ],
     process: [
       { title: 'Audio preflight', detail: 'Validate PCM/WAV and establish the canonical timeline.' },
-      { title: 'Evidence extraction', detail: 'Collect diarization, timed-word and room-activity evidence.' },
-      { title: 'Speaker mapping', detail: 'Map provider identities to canonical speaker IDs.' },
-      { title: 'Stage 1 classification', detail: 'Record vocalisation, laughter, artifact and uncertainty evidence.' },
+      { title: 'Candidate extraction', detail: 'Return every provider acoustic cluster for researcher review.' },
+      { title: 'Researcher review', detail: 'Listen, include, exclude, merge or leave a candidate uncertain.' },
+      { title: 'Canonical mapping', detail: 'Confirm retained candidates as contiguous S1-SN identifiers.' },
     ],
     outputs: [
       'Speaker activity RTTM, CSV and JSON',
-      'Speaker-attribution TextGrid',
+      'Reviewed speaker-activity TextGrid',
       'One full-duration muted-mirror WAV per speaker',
-      'Confidence and review flags',
-      'Provider evidence archive',
-      'Phase I manifest and canonical-clock report',
-      'Callable floor and nine-label engine',
+      'Versioned review record and provider evidence summary',
+      'Review flags and Phase II handoff manifest',
     ],
-    handoff: 'Phase I evidence and the callable label engine continue to L1b. Timed transcript evidence also continues to Layer 2.',
+    handoff: 'Only the researcher-accepted S1-SN mapping and rebuilt artifacts continue to L1b. Muted mirrors are masked room-mix evidence, not clean source separation.',
   },
   {
     key: 'l1b',
@@ -464,7 +462,13 @@ export function ValidationApp() {
               <div className="vc-scope"><Gauge size={14} /> Original WAV is the canonical acoustic clock. Draft evidence remains distinct from researcher-reviewed data.</div>
             </aside>
             <div className="panel">
-              {internalValidation ? <InternalValidation mode={internalMode} setMode={setInternalMode} /> : <LayerWorkspace layer={selected} />}
+              {internalValidation
+                ? <InternalValidation mode={internalMode} setMode={setInternalMode} />
+                : selectedLayer === 'l1a'
+                  ? <L1aRunner />
+                  : selectedLayer === 'l1b'
+                    ? <L1bRunner />
+                    : <LayerWorkspace layer={selected} />}
             </div>
           </div>
         </main>

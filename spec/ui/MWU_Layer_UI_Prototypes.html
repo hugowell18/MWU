@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MWU Layer UI Baseline</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root{
+      color-scheme:light;
+      --slate-50:#f8fafc;--slate-100:#f1f5f9;--slate-200:#e2e8f0;--slate-300:#cbd5e1;
+      --slate-400:#94a3b8;--slate-500:#64748b;--slate-600:#475569;--slate-700:#334155;
+      --slate-800:#1e293b;--slate-900:#0f172a;--blue-50:#eff6ff;--blue-100:#dbeafe;
+      --blue-600:#2563eb;--blue-700:#1d4ed8;--green-50:#f0fdf4;--green-200:#bbf7d0;
+      --green-600:#16a34a;--green-700:#15803d;--amber-50:#fffbeb;--amber-200:#fde68a;
+      --amber-600:#d97706;--amber-700:#b45309;--red-50:#fef2f2;--red-200:#fecaca;
+      --red-600:#dc2626;--red-700:#b91c1c;--white:#fff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--slate-50);color:var(--slate-900);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:0;-webkit-font-smoothing:antialiased}
+    button,select,input{font:inherit}
+    button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid rgba(37,99,235,.25);outline-offset:2px}
+    .topbar{position:sticky;top:0;z-index:20;height:64px;border-bottom:1px solid var(--slate-200);background:rgba(255,255,255,.94);backdrop-filter:blur(10px)}
+    .topbar-inner{max-width:1440px;height:100%;margin:auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+    .brand{display:flex;align-items:center;gap:10px;min-width:205px}
+    .brand-mark{width:32px;height:32px;border-radius:8px;background:var(--blue-600);color:#fff;display:grid;place-items:center;font-weight:850}
+    .brand b{font-size:18px;color:var(--slate-800)}.brand b span{color:var(--blue-600)}
+    .top-tabs{display:flex;gap:4px}
+    .top-tabs span{padding:8px 12px;border-radius:8px;color:var(--slate-500);font-size:13px;font-weight:700}
+    .top-tabs .active{background:var(--blue-50);color:var(--blue-700)}
+    .top-meta{display:flex;align-items:center;gap:10px;color:var(--slate-500);font-size:12px;font-weight:700}
+    .prototype-pill{padding:5px 8px;border:1px solid var(--amber-200);border-radius:999px;background:var(--amber-50);color:var(--amber-700)}
+    .avatar{width:30px;height:30px;border-radius:999px;background:var(--blue-600);color:#fff;display:grid;place-items:center;font-size:12px}
+
+    .record-bar{border-bottom:1px solid var(--slate-200);background:#fff}
+    .record-inner{max-width:1440px;margin:auto;padding:10px 24px;display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:22px;align-items:center}
+    .record-name{display:flex;align-items:center;gap:10px;min-width:0}.file-icon{width:30px;height:30px;border-radius:7px;background:var(--slate-100);color:var(--blue-700);display:grid;place-items:center;font-weight:900}
+    .record-name b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.record-name span,.record-fact span{display:block;color:var(--slate-400);font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:800}.record-fact b{font-size:12px}
+    .record-state{display:inline-flex;align-items:center;gap:6px;color:var(--green-700);font-weight:800;font-size:12px}.dot{width:8px;height:8px;border-radius:999px;background:currentColor}
+
+    .app{max-width:1440px;margin:auto;padding:22px 24px 48px;display:grid;grid-template-columns:238px minmax(0,1fr);gap:20px;align-items:start}
+    .rail{position:sticky;top:108px;border:1px solid var(--slate-200);border-radius:8px;background:#fff;padding:12px;box-shadow:0 8px 24px rgba(15,23,42,.04)}
+    .rail-label{padding:4px 8px 10px;color:var(--slate-400);font-size:10px;font-weight:850;text-transform:uppercase;letter-spacing:.07em}
+    .rail button{position:relative;width:100%;display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:9px;align-items:center;padding:9px;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--slate-700);text-align:left;cursor:pointer}
+    .rail button:hover{background:var(--slate-50)}.rail button.active{border-color:var(--slate-200);background:#fff;box-shadow:0 5px 14px rgba(15,23,42,.07)}
+    .rail button.active::before{content:"";position:absolute;left:-13px;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;background:var(--blue-600)}
+    .rail-num{width:34px;height:34px;border:1px solid var(--slate-200);border-radius:7px;background:var(--slate-100);color:var(--slate-500);display:grid;place-items:center;font-size:10px;font-weight:850}
+    .rail button.active .rail-num{border-color:var(--blue-600);background:var(--blue-600);color:#fff}
+    .rail-copy b{display:block;font-size:12px}.rail-copy span{display:block;margin-top:2px;color:var(--slate-400);font-size:9.5px;line-height:1.3}
+    .rail-state{width:8px;height:8px;border-radius:999px;background:var(--slate-300)}.rail-state.ready{background:var(--green-600)}.rail-state.review{background:var(--amber-600)}.rail-state.blocked{background:var(--red-600)}
+    .rail-note{margin-top:12px;padding:11px 8px 2px;border-top:1px dashed var(--slate-200);color:var(--slate-500);font-size:10px;line-height:1.5}
+
+    .workspace{min-width:0}.screen{display:none}.screen.active{display:block}
+    .page-head{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:14px;align-items:start;margin-bottom:14px;padding:18px;border:1px solid var(--slate-200);border-radius:8px;background:#fff;box-shadow:0 8px 24px rgba(15,23,42,.04)}
+    .layer-icon{width:48px;height:48px;border-radius:8px;background:var(--blue-600);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:850}
+    .eyebrow{display:flex;align-items:center;gap:8px;color:var(--slate-400);font-size:10px;font-weight:850;text-transform:uppercase;letter-spacing:.06em}.eyebrow b{padding:3px 7px;border-radius:4px;background:var(--blue-50);color:var(--blue-700)}
+    h1{margin:4px 0 5px;font-size:23px;line-height:1.2}h2{margin:0;font-size:16px}h3{margin:0;font-size:13px}.page-head p{max-width:760px;margin:0;color:var(--slate-500);font-size:12px}
+    .head-actions{display:flex;align-items:center;gap:8px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:8px 13px;border:1px solid var(--slate-200);border-radius:7px;background:#fff;color:var(--slate-700);font-size:12px;font-weight:800;cursor:pointer}.btn:hover{background:var(--slate-50)}.btn.primary{border-color:var(--blue-600);background:var(--blue-600);color:#fff}.btn.primary:hover{background:var(--blue-700)}.btn:disabled{cursor:not-allowed;opacity:.48}.btn.danger{color:var(--red-700)}
+    .icon-btn{width:30px;height:30px;padding:0;border:1px solid var(--slate-200);border-radius:6px;background:#fff;color:var(--blue-700);display:grid;place-items:center;cursor:pointer;font-size:12px}.icon-btn:hover{background:var(--blue-50)}
+
+    .facts{display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:14px;border:1px solid var(--slate-200);border-radius:8px;background:#fff;overflow:hidden}.fact{padding:13px 15px;border-right:1px solid var(--slate-200)}.fact:last-child{border:0}.fact span{display:block;color:var(--slate-400);font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:800}.fact b{display:block;margin-top:4px;font-size:13px}.fact .ok{color:var(--green-700)}.fact .warn{color:var(--amber-700)}.fact .fail{color:var(--red-700)}
+    .section{margin-bottom:14px;border:1px solid var(--slate-200);border-radius:8px;background:#fff;box-shadow:0 6px 20px rgba(15,23,42,.03);overflow:hidden}.section-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border-bottom:1px solid var(--slate-200)}.section-head-copy span{display:block;margin-bottom:3px;color:var(--blue-700);font-size:9.5px;font-weight:850;text-transform:uppercase;letter-spacing:.07em}.section-head-copy p{margin:4px 0 0;color:var(--slate-500);font-size:10.5px}.section-body{padding:15px 16px}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .segmented{display:inline-flex;padding:3px;border:1px solid var(--slate-200);border-radius:7px;background:var(--slate-100)}.segmented button{padding:6px 10px;border:0;border-radius:5px;background:transparent;color:var(--slate-500);font-size:11px;font-weight:800;cursor:pointer}.segmented button.active{background:#fff;color:var(--blue-700);box-shadow:0 1px 4px rgba(15,23,42,.1)}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{display:block;margin-bottom:5px;color:var(--slate-500);font-size:10px;font-weight:800}.input{width:100%;height:34px;padding:0 10px;border:1px solid var(--slate-200);border-radius:6px;background:#fff;color:var(--slate-800);font-size:11px}.input:disabled{background:var(--slate-100);color:var(--slate-400)}
+    .note{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:1px solid var(--amber-200);border-left:4px solid var(--amber-600);border-radius:6px;background:var(--amber-50);color:var(--slate-600);font-size:10.5px;line-height:1.5}.note b{color:var(--amber-700)}.note.info{border-color:var(--blue-100);border-left-color:var(--blue-600);background:var(--blue-50)}.note.info b{color:var(--blue-700)}.note.fail{border-color:var(--red-200);border-left-color:var(--red-600);background:var(--red-50)}.note.fail b{color:var(--red-700)}
+    .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.step{position:relative;min-height:78px;padding:10px;border:1px solid var(--slate-200);border-radius:7px;background:var(--slate-50)}.step b{display:block;margin-top:8px;font-size:10.5px}.step span{font-size:9px;color:var(--slate-400)}.step-num{width:22px;height:22px;border-radius:5px;background:var(--slate-800);color:#fff;display:grid;place-items:center;font-size:8px;font-weight:850}.step.done{border-color:var(--green-200);background:var(--green-50)}.step.done .step-num{background:var(--green-600)}.step.current{border-color:var(--blue-100);background:var(--blue-50)}.step.current .step-num{background:var(--blue-600)}.step.blocked{border-color:var(--red-200);background:var(--red-50)}.step.blocked .step-num{background:var(--red-600)}
+    .table-wrap{overflow-x:auto}.data-table{width:100%;border-collapse:collapse;min-width:880px}.data-table th{padding:9px 10px;border-bottom:1px solid var(--slate-200);background:var(--slate-50);color:var(--slate-500);font-size:9px;text-align:left;text-transform:uppercase;letter-spacing:.05em}.data-table td{padding:10px;border-bottom:1px solid var(--slate-100);vertical-align:middle;font-size:10.5px}.data-table tr:last-child td{border-bottom:0}.candidate b{display:block;font-size:11px}.candidate span{display:block;color:var(--slate-400);font-size:9px}.clips{display:flex;gap:4px;flex-wrap:wrap}.clip{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 7px;border:1px solid var(--slate-200);border-radius:6px;background:#fff;color:var(--slate-600);font-size:9px;font-weight:750;cursor:pointer}.clip:hover{border-color:var(--blue-100);background:var(--blue-50);color:var(--blue-700)}.play{color:var(--blue-600);font-size:8px}.tiny-select{height:30px;padding:0 7px;border:1px solid var(--slate-200);border-radius:6px;background:#fff;color:var(--slate-700);font-size:10px}.status{display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:850;white-space:nowrap}.status::before{content:"";width:6px;height:6px;border-radius:999px;background:currentColor}.status.accepted,.status.passed{background:var(--green-50);color:var(--green-700)}.status.review{background:var(--amber-50);color:var(--amber-700)}.status.blocked,.status.failed{background:var(--red-50);color:var(--red-700)}.status.draft,.status.pending{background:var(--blue-50);color:var(--blue-700)}.status.muted{background:var(--slate-100);color:var(--slate-500)}
+    .gate{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:12px;align-items:center;margin-top:14px;padding:13px 14px;border:1px solid var(--amber-200);border-radius:8px;background:var(--amber-50)}.gate-icon{width:38px;height:38px;border-radius:7px;background:var(--amber-600);color:#fff;display:grid;place-items:center;font-weight:900}.gate b{display:block;color:var(--slate-800);font-size:11px}.gate p{margin:3px 0 0;color:var(--slate-600);font-size:10px}.gate.ok{border-color:var(--green-200);background:var(--green-50)}.gate.ok .gate-icon{background:var(--green-600)}.gate.fail{border-color:var(--red-200);background:var(--red-50)}.gate.fail .gate-icon{background:var(--red-600)}
+
+    .thresholds{display:flex;gap:8px;flex-wrap:wrap}.threshold{min-width:104px;padding:10px;border:1px solid var(--blue-100);border-radius:7px;background:var(--blue-50)}.threshold b{display:block;color:var(--blue-700);font-size:14px}.threshold span{color:var(--slate-500);font-size:9px}.method-list{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.method-item{padding:9px;border-left:3px solid var(--blue-600);background:var(--slate-50)}.method-item span{display:block;color:var(--slate-400);font-size:9px}.method-item b{font-size:11px}.labels{display:grid;grid-template-columns:repeat(9,1fr);gap:5px}.label-chip{min-height:46px;padding:7px 5px;border:1px solid var(--slate-200);border-radius:6px;background:#fff;text-align:center}.label-chip b{display:block;color:var(--blue-700);font-size:11px}.label-chip span{display:block;margin-top:2px;color:var(--slate-400);font-size:7.5px;line-height:1.2}
+    .artifact-groups{display:grid;grid-template-columns:1fr 1fr;gap:12px}.artifact-group{border:1px solid var(--slate-200);border-radius:7px;overflow:hidden}.artifact-group-head{padding:10px 12px;border-bottom:1px solid var(--slate-200);background:var(--slate-50)}.artifact-group-head span{display:block;color:var(--slate-400);font-size:8.5px;text-transform:uppercase;font-weight:850}.artifact-group-head b{font-size:11px}.artifact-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 11px;border-bottom:1px solid var(--slate-100)}.artifact-row:last-child{border-bottom:0}.artifact-row b{display:block;font-size:10.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.artifact-row span{display:block;color:var(--slate-400);font-size:8.5px}.download{color:var(--blue-700);font-size:10px;font-weight:850;text-decoration:none}.upload-box{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px;border:1px dashed var(--slate-300);border-radius:7px;background:var(--slate-50)}.upload-box b{display:block;font-size:11px}.upload-box span{color:var(--slate-500);font-size:9.5px}
+
+    .readiness{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.ready-item{padding:10px;border:1px solid var(--slate-200);border-radius:7px;background:#fff}.ready-item span{display:block;color:var(--slate-400);font-size:8.5px;text-transform:uppercase;font-weight:850}.ready-item b{display:block;margin:5px 0 7px;font-size:10.5px}.modules{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.module{min-height:116px;padding:11px;border:1px solid var(--slate-200);border-radius:7px;background:var(--slate-50)}.module .module-num{width:24px;height:24px;border-radius:5px;background:var(--slate-800);color:#fff;display:grid;place-items:center;font-size:8px;font-weight:850}.module h3{margin-top:12px;font-size:11px}.module p{margin:5px 0 10px;color:var(--slate-500);font-size:9px;line-height:1.45}
+    .metrics{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--slate-200);border-radius:8px;background:#fff;overflow:hidden;margin-bottom:14px}.metric{padding:14px;border-right:1px solid var(--slate-200)}.metric:last-child{border:0}.metric b{display:block;font-size:18px}.metric span{color:var(--slate-400);font-size:9px;text-transform:uppercase;font-weight:800}.metric .bad{color:var(--red-700)}.metric .good{color:var(--green-700)}
+    .matrix-preview{overflow-x:auto}.matrix{width:100%;min-width:820px;border-collapse:collapse}.matrix th,.matrix td{padding:8px 9px;border:1px solid var(--slate-200);font-size:9px;text-align:left}.matrix th{background:var(--slate-800);color:#fff}.matrix td.pending-cell{background:var(--amber-50);color:var(--amber-700);font-weight:800}.provenance{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.prov{padding:9px;border-left:3px solid var(--green-600);background:var(--slate-50)}.prov span{display:block;color:var(--slate-400);font-size:8.5px}.prov b{font-size:10px}
+    .screen-caption{margin-top:16px;padding:10px 12px;border-top:1px solid var(--slate-200);color:var(--slate-400);font-size:9.5px;text-align:right}
+
+    @media(max-width:1050px){.app{grid-template-columns:1fr}.rail{position:static;display:flex;gap:6px;overflow-x:auto}.rail-label,.rail-note{display:none}.rail button{min-width:180px}.facts,.readiness,.modules{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.labels{grid-template-columns:repeat(5,1fr)}}
+    @media(max-width:720px){.top-tabs,.top-meta .prototype-pill{display:none}.record-inner{grid-template-columns:1fr 1fr}.record-name{grid-column:1/-1}.app{padding:16px}.page-head{grid-template-columns:42px minmax(0,1fr)}.head-actions{grid-column:2;justify-content:flex-start}.facts,.two-col,.artifact-groups,.readiness,.modules,.metrics,.provenance{grid-template-columns:1fr}.fact,.metric{border-right:0;border-bottom:1px solid var(--slate-200)}.fact:last-child,.metric:last-child{border-bottom:0}.steps{grid-template-columns:1fr}.labels{grid-template-columns:repeat(3,1fr)}.gate{grid-template-columns:38px minmax(0,1fr)}.gate .btn{grid-column:2;justify-self:start}}
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><div class="brand-mark">M</div><b>MWU <span>Pipeline</span></b></div>
+      <div class="top-tabs"><span>Overview</span><span class="active">Workspace</span><span>Methodology</span></div>
+      <div class="top-meta"><span class="prototype-pill">Approved target UI · implementation pending</span><span class="avatar">H</span></div>
+    </div>
+  </nav>
+  <div class="record-bar">
+    <div class="record-inner">
+      <div class="record-name"><span class="file-icon">W</span><div><span>Active recording · illustrative fixture</span><b>Study_Group_Example_04.wav</b></div></div>
+      <div class="record-fact"><span>Canonical timeline</span><b>00:08:21.013</b></div>
+      <div class="record-fact"><span>Run</span><b>MWU-EX04-R07</b></div>
+      <div class="record-state"><i class="dot"></i> Single task active</div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="rail" aria-label="Layer prototype navigation">
+      <div class="rail-label">Delivery layers</div>
+      <button data-screen="l1a"><span class="rail-num">L1a</span><span class="rail-copy"><b>Speaker evidence</b><span>Candidates · S1-SN mapping</span></span><i class="rail-state review"></i></button>
+      <button data-screen="l1b"><span class="rail-num">L1b</span><span class="rail-copy"><b>Interaction timing</b><span>Thresholds · N+3 TextGrid</span></span><i class="rail-state ready"></i></button>
+      <button data-screen="l2"><span class="rail-num">L2</span><span class="rail-copy"><b>Research analysis</b><span>Transcript · AS-units · MWU</span></span><i class="rail-state blocked"></i></button>
+      <button data-screen="l3"><span class="rail-num">L3</span><span class="rail-copy"><b>Final synthesis</b><span>Matrix · validation · release</span></span><i class="rail-state review"></i></button>
+      <div class="rail-note">Approved target screens use illustrative data. Status markers are not current production results.</div>
+    </aside>
+
+    <main class="workspace">
+      <section class="screen" data-view="l1a">
+        <header class="page-head">
+          <div class="layer-icon">L1a</div>
+          <div><div class="eyebrow"><b>Layer 1a</b> Phase I · target workspace</div><h1>Speaker evidence and participant review</h1><p>Generate acoustic candidates, listen to representative evidence and confirm the participant-to-S1-SN mapping before Phase II starts.</p></div>
+          <div class="head-actions"><button class="btn primary">Accept mapping &amp; build outputs</button></div>
+        </header>
+        <div class="facts">
+          <div class="fact"><span>WAV preflight</span><b class="ok">Passed · 48 kHz PCM</b></div>
+          <div class="fact"><span>Layer 1a input</span><b>1 room-mix WAV</b></div>
+          <div class="fact"><span>Provider candidates</span><b>4 acoustic clusters</b></div>
+          <div class="fact"><span>Researcher review</span><b class="warn">3 resolved · 1 open</b></div>
+        </div>
+        <div class="two-col">
+          <section class="section">
+            <div class="section-head"><div class="section-head-copy"><span>Layer 1a input</span><h2>Upload room-mix audio</h2></div><span class="status passed">Input ready</span></div>
+            <div class="section-body">
+              <div class="upload-box"><div><b>Study_Group_Example_04.wav</b><span>WAV · 48 kHz PCM · 501.013 s · full file is the canonical timeline</span></div><button class="btn">Replace WAV</button></div>
+              <div class="note info" style="margin-top:10px"><span>i</span><div><b>Candidate review follows diarization.</b> The provider returns acoustic candidates; the researcher decides below which candidates belong in the study.</div></div>
+            </div>
+          </section>
+          <section class="section">
+            <div class="section-head"><div class="section-head-copy"><span>Processing state</span><h2>Phase I evidence path</h2></div><span class="status review">Review required</span></div>
+            <div class="section-body"><div class="steps"><div class="step done"><span class="step-num">01</span><b>Preflight</b><span>Canonical clock sealed</span></div><div class="step done"><span class="step-num">02</span><b>Diarization</b><span>Candidates generated</span></div><div class="step current"><span class="step-num">03</span><b>Review</b><span>Resolve identity evidence</span></div><div class="step"><span class="step-num">04</span><b>Mapping</b><span>Confirm S1-SN</span></div><div class="step"><span class="step-num">05</span><b>Artifacts</b><span>Rebuild handoff</span></div></div></div>
+          </section>
+        </div>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Candidate evidence</span><h2>Listen, decide and map</h2><p>Representative clips are sampled from early, middle and late candidate turns. Muted-mirror output preserves the room mix inside retained intervals.</p></div><span class="status draft">Illustrative data</span></div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Candidate</th><th>Representative evidence</th><th>Activity</th><th>Research role</th><th>Decision</th><th>Canonical map</th><th>Review state</th></tr></thead>
+              <tbody>
+                <tr><td class="candidate"><b>SPEAKER_00</b><span>Provider cluster A</span></td><td><div class="clips"><button class="clip" title="Play early representative clip"><i class="play">▶</i> Early 00:18</button><button class="clip" title="Play middle representative clip"><i class="play">▶</i> Mid 03:44</button><button class="clip" title="Play late representative clip"><i class="play">▶</i> Late 07:31</button></div></td><td>189.42 s · 62 intervals</td><td><select class="tiny-select"><option selected>Participant</option><option>Other</option><option>Uncertain</option></select></td><td><select class="tiny-select"><option selected>Include</option><option>Exclude</option><option>Uncertain</option><option>Merge</option></select></td><td><select class="tiny-select"><option selected>S1</option><option>S2</option><option>S3</option><option>S4</option></select></td><td><span class="status accepted">Resolved</span></td></tr>
+                <tr><td class="candidate"><b>SPEAKER_01</b><span>Provider cluster B</span></td><td><div class="clips"><button class="clip"><i class="play">▶</i> Early 00:41</button><button class="clip"><i class="play">▶</i> Mid 04:06</button><button class="clip"><i class="play">▶</i> Late 06:55</button></div></td><td>141.80 s · 54 intervals</td><td><select class="tiny-select"><option selected>Participant</option><option>Other</option><option>Uncertain</option></select></td><td><select class="tiny-select"><option selected>Include</option><option>Exclude</option><option>Uncertain</option><option>Merge</option></select></td><td><select class="tiny-select"><option>S1</option><option selected>S2</option><option>S3</option><option>S4</option></select></td><td><span class="status accepted">Resolved</span></td></tr>
+                <tr><td class="candidate"><b>SPEAKER_02</b><span>Provider cluster C</span></td><td><div class="clips"><button class="clip"><i class="play">▶</i> Early 01:12</button><button class="clip"><i class="play">▶</i> Mid 05:13</button><button class="clip"><i class="play">▶</i> Late 08:02</button></div></td><td>120.37 s · 47 intervals</td><td><select class="tiny-select"><option selected>Participant</option><option>Other</option><option>Uncertain</option></select></td><td><select class="tiny-select"><option selected>Include</option><option>Exclude</option><option>Uncertain</option><option>Merge</option></select></td><td><select class="tiny-select"><option>S1</option><option>S2</option><option selected>S3</option><option>S4</option></select></td><td><span class="status accepted">Resolved</span></td></tr>
+                <tr><td class="candidate"><b>SPEAKER_03</b><span>Low-duration cluster D</span></td><td><div class="clips"><button class="clip"><i class="play">▶</i> Early 00:07</button><button class="clip"><i class="play">▶</i> Mid 04:58</button></div></td><td>8.22 s · 3 intervals</td><td><select class="tiny-select"><option>Participant</option><option>Other</option><option selected>Uncertain</option></select></td><td><select class="tiny-select"><option>Include</option><option>Exclude</option><option selected>Uncertain</option><option>Merge</option></select></td><td><select class="tiny-select" disabled><option selected>Not assigned</option></select></td><td><span class="status review">Decision needed</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Layer 1a outputs</span><h2>Speaker evidence and Phase II handoff</h2><p>Draft evidence is available immediately. Canonical S1-SN artifacts are rebuilt only after the participant mapping is confirmed.</p></div><span class="status review">Final package waiting</span></div>
+          <div class="section-body"><div class="artifact-groups">
+            <div class="artifact-group"><div class="artifact-group-head"><span>Current draft evidence</span><b>Provider candidate outputs</b></div><div class="artifact-row"><div><b>provider_speaker_turns.rttm + .csv</b><span>Timed acoustic candidate intervals</span></div><span class="status draft">Ready</span></div><div class="artifact-row"><div><b>candidate_activity.TextGrid</b><span>Provider labels on the canonical timeline</span></div><span class="status draft">Ready</span></div><div class="artifact-row"><div><b>candidate_review_draft.json</b><span>Research role, decision and mapping draft</span></div><span class="status draft">Ready</span></div></div>
+            <div class="artifact-group"><div class="artifact-group-head"><span>After human gate</span><b>Accepted L1a handoff</b></div><div class="artifact-row"><div><b>S1-SN speaker TextGrid</b><span>Canonical researcher-confirmed speaker mapping</span></div><span class="status muted">Waiting</span></div><div class="artifact-row"><div><b>N full-duration muted-mirror WAVs</b><span>Room mix retained only in accepted speaker intervals</span></div><span class="status muted">Waiting</span></div><div class="artifact-row"><div><b>phase1_handoff_manifest.json</b><span>Mapping, evidence, overlap and provenance for L1b</span></div><span class="status muted">Waiting</span></div></div>
+          </div></div>
+        </section>
+        <div class="gate"><div class="gate-icon">!</div><div><b>L1a human gate is not complete</b><p>Resolve SPEAKER_03, then confirm unique S1-SN assignments. Confirming a changed mapping invalidates downstream L1b drafts from the previous mapping.</p></div><button class="btn primary" disabled>Confirm and rebuild Phase I artifacts</button></div>
+        <div class="screen-caption">Maps to L1A-001 through L1A-009 and UI-001 through UI-010.</div>
+      </section>
+
+      <section class="screen" data-view="l1b">
+        <header class="page-head">
+          <div class="layer-icon">L1b</div>
+          <div><div class="eyebrow"><b>Layer 1b</b> Phase II · target workspace</div><h1>Acoustic timing and interaction TextGrid</h1><p>Run independent threshold drafts on the sealed L1a handoff, inspect Path B evidence, review in Praat and finalize metrics from corrected boundaries.</p></div>
+          <div class="head-actions"><button class="btn">Method parameters</button><button class="btn primary">Run Layer 1b</button></div>
+        </header>
+        <div class="facts">
+          <div class="fact"><span>L1a handoff</span><b class="ok">Accepted · map v3</b></div><div class="fact"><span>Canonical speakers</span><b>4 · dynamic N+3</b></div><div class="fact"><span>Thresholds</span><b>P025 + P035</b></div><div class="fact"><span>Review state</span><b class="warn">Drafts ready for Praat</b></div>
+        </div>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Layer 1b input</span><h2>Latest accepted L1a handoff</h2><p>The workspace automatically links the newest confirmed L1a output for this recording. Earlier accepted versions remain selectable for traceable reruns.</p></div><span class="status passed">Auto-linked</span></div>
+          <div class="section-body"><div class="field-row"><div class="field"><label>Input source</label><select class="input"><option selected>Latest accepted · MWU-EX04-R07 · map v3</option><option>Previous accepted · MWU-EX04-R05 · map v2</option></select></div><div class="field"><label>Canonical timeline</label><input class="input" value="Study_Group_Example_04.wav · 501.013 seconds" readonly></div></div><div class="artifact-groups" style="margin-top:12px"><div class="artifact-group"><div class="artifact-group-head"><span>Canonical speaker evidence</span><b>Accepted mapping and tracks</b></div><div class="artifact-row"><div><b>phase1_handoff_manifest.json</b><span>S1-S4 map · provider evidence · overlap references</span></div><button class="icon-btn" title="Inspect handoff manifest">↗</button></div><div class="artifact-row"><div><b>4 muted-mirror WAVs</b><span>Full-duration L1a listening tracks</span></div><button class="icon-btn" title="Inspect L1a speaker outputs">↗</button></div></div><div class="artifact-group"><div class="artifact-group-head"><span>Required timing inputs</span><b>Full-timeline evidence</b></div><div class="artifact-row"><div><b>S1-S4 speaker TextGrid</b><span>Canonical speaker activity on the original clock</span></div><span class="status accepted">Accepted</span></div><div class="artifact-row"><div><b>Overlap and invalid evidence</b><span>Underlying intervals retained for Path B</span></div><span class="status accepted">Accepted</span></div></div></div></div>
+        </section>
+        <div class="two-col">
+          <section class="section">
+            <div class="section-head"><div class="section-head-copy"><span>Run settings</span><h2>Independent pause thresholds</h2></div><span class="status draft">Configurable</span></div>
+            <div class="section-body"><div class="thresholds"><div class="threshold"><b>0.25 s</b><span>Required independent run</span></div><div class="threshold"><b>0.35 s</b><span>Required independent run</span></div><button class="btn">+ Additional threshold</button></div><div class="field-row" style="margin-top:12px"><div class="field"><label>Intensity window</label><input class="input" value="200 seconds" readonly></div><div class="field"><label>Review strategy</label><select class="input"><option selected>Review both thresholds</option><option>Review primary; regenerate secondary</option></select></div></div></div>
+          </section>
+          <section class="section">
+            <div class="section-head"><div class="section-head-copy"><span>Deterministic method</span><h2>Path B baseline</h2></div><span class="status passed">Evidence retained</span></div>
+            <div class="section-body"><div class="method-list"><div class="method-item"><span>Timeline</span><b>Scale times · full WAV</b></div><div class="method-item"><span>Schema</span><b>4 speakers + 3 shared tiers</b></div><div class="method-item"><span>Overlap transition</span><b>Offset not measured</b></div><div class="method-item"><span>Underlying evidence</span><b>Turn-end/start + raw gap</b></div></div><div class="note info" style="margin-top:10px"><span>i</span><div><b>Missing stays visible.</b> Overlap FTO is never serialized as zero; the evidence remains available for later recomputation.</div></div></div>
+          </section>
+        </div>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Execution</span><h2>Threshold and evidence pipeline</h2></div><span class="status passed">10/10 jobs passed</span></div>
+          <div class="section-body"><div class="steps"><div class="step done"><span class="step-num">01</span><b>L1a handoff</b><span>Map and tracks sealed</span></div><div class="step done"><span class="step-num">02</span><b>Praat extraction</b><span>Threshold drafts built</span></div><div class="step done"><span class="step-num">03</span><b>R1-R5 floor</b><span>Persistent floor resolved</span></div><div class="step done"><span class="step-num">04</span><b>Nine labels</b><span>Evidence table complete</span></div><div class="step current"><span class="step-num">05</span><b>Praat review</b><span>Researcher correction pending</span></div></div></div>
+        </section>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Method vocabulary</span><h2>Nine timeline labels</h2></div><span class="status draft">R1-R5 applied</span></div>
+          <div class="section-body"><div class="labels"><div class="label-chip"><b>s</b><span>speech</span></div><div class="label-chip"><b>f</b><span>filled hesitation</span></div><div class="label-chip"><b>bc</b><span>backchannel</span></div><div class="label-chip"><b>ol</b><span>overlap</span></div><div class="label-chip"><b>op</b><span>own pause</span></div><div class="label-chip"><b>pf</b><span>passive floor</span></div><div class="label-chip"><b>tr</b><span>transition</span></div><div class="label-chip"><b>shs</b><span>shared silence</span></div><div class="label-chip"><b>x</b><span>unusable audio</span></div></div></div>
+        </section>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Layer 1b outputs</span><h2>Review package by threshold</h2></div><span class="status review">Praat review required</span></div>
+          <div class="section-body"><div class="artifact-groups">
+            <div class="artifact-group"><div class="artifact-group-head"><span>Threshold P025</span><b>0.25 s review set</b></div><div class="artifact-row"><div><b>Study_Group_Example_04_P025.7tier.TextGrid</b><span>S1-S4 · floor · transitions · flags</span></div><a class="download" href="#">Download ↓</a></div><div class="artifact-row"><div><b>P025_intervals_and_transitions.xlsx</b><span>Nine labels · gaps · overlap capability</span></div><a class="download" href="#">Download ↓</a></div><div class="artifact-row"><div><b>P025_duration_summary.xlsx</b><span>Pre-review diagnostic values</span></div><a class="download" href="#">Download ↓</a></div></div>
+            <div class="artifact-group"><div class="artifact-group-head"><span>Threshold P035</span><b>0.35 s review set</b></div><div class="artifact-row"><div><b>Study_Group_Example_04_P035.7tier.TextGrid</b><span>S1-S4 · floor · transitions · flags</span></div><a class="download" href="#">Download ↓</a></div><div class="artifact-row"><div><b>P035_intervals_and_transitions.xlsx</b><span>Nine labels · gaps · overlap capability</span></div><a class="download" href="#">Download ↓</a></div><div class="artifact-row"><div><b>P035_duration_summary.xlsx</b><span>Pre-review diagnostic values</span></div><a class="download" href="#">Download ↓</a></div></div>
+          </div><div class="upload-box" style="margin-top:12px"><div><b>Upload Praat-reviewed TextGrid set</b><span>Final metrics are recomputed from corrected boundaries; automatic draft metrics are not promoted.</span></div><button class="btn">Choose reviewed files</button></div></div>
+        </section>
+        <div class="gate"><div class="gate-icon">P</div><div><b>L1b human gate</b><p>Reviewed TextGrid files and reviewer identity are required before Layer 2 receives the accepted nine-label timeline.</p></div><button class="btn primary" disabled>Finalize reviewed L1b outputs</button></div>
+        <div class="screen-caption">Maps to L1B-001 through L1B-006, Path B requirements and UI-002 through UI-007.</div>
+      </section>
+
+      <section class="screen" data-view="l2">
+        <header class="page-head">
+          <div class="layer-icon">L2</div>
+          <div><div class="eyebrow"><b>Layer 2</b> Phases III-IV + early V · target workspace</div><h1>Transcript and linguistic analysis</h1><p>Activate Layer 2 only after the reviewed evidence and research definitions are approved, then run the contracted analysis and prepare the Layer 3 handoff.</p></div>
+          <div class="head-actions"><button class="btn">Import Layer 2 input pack</button><button class="btn primary" disabled>Run Layer 2</button></div>
+        </header>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Step 1 · Layer 2 inputs</span><h2>Evidence and research definitions</h2><p>The delivery clock starts only when every required item is approved. Conditional word alignment may remain not required.</p></div><span class="status blocked">2 activation items open</span></div>
+          <div class="section-body"><div class="artifact-groups">
+            <div class="artifact-group"><div class="artifact-group-head"><span>Reviewed evidence</span><b>Files entering Layer 2</b></div><div class="artifact-row"><div><b>P025 reviewed TextGrid + nine-label timeline</b><span>Accepted L1 evidence · canonical clock retained</span></div><span class="status accepted">Accepted</span></div><div class="artifact-row"><div><b>Verbatim transcript v2</b><span>Fillers, repetitions, false starts and repairs retained</span></div><span class="status accepted">Accepted</span></div><div class="artifact-row"><div><b>Representative expected outputs</b><span>Gold examples for calculation and format checks</span></div><span class="status accepted">Accepted</span></div></div>
+            <div class="artifact-group"><div class="artifact-group-head"><span>Research definition pack</span><b>Rules supplied or approved by the research team</b></div><div class="artifact-row"><div><b>AS-unit, clause and pause-location rules</b><span>Representative boundaries and mid/end classification</span></div><span class="status accepted">Approved</span></div><div class="artifact-row"><div><b>Repair coding and rate definitions</b><span>Fillers · repairs · syllable/word count · time denominator</span></div><span class="status accepted">Approved</span></div><div class="artifact-row"><div><b>MWU operational definition</b><span>Rule/list, inclusion threshold and examples are missing</span></div><span class="status blocked">Required</span></div><div class="artifact-row"><div><b>TAALES, TAALED and AntConc settings</b><span>Versions, requested variables and configuration are pending</span></div><span class="status review">Confirm</span></div><div class="artifact-row"><div><b>Reviewed word alignment</b><span>Required only for selected word-level timing claims</span></div><span class="status muted">Not required</span></div></div>
+          </div><div class="note fail" style="margin-top:12px"><span>!</span><div><b>Activation boundary.</b> Missing or changing research definitions pause Layer 2; the system does not infer substitute values.</div></div></div>
+        </section>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Step 2 · Processing</span><h2>Run the approved analysis modules</h2><p>Each module records the governing rule version and transformation log.</p></div><span class="status pending">Waiting for activation</span></div>
+          <div class="section-body"><div class="modules"><div class="module"><span class="module-num">01</span><h3>Transcript split</h3><p>Produce RAW-TIMING and TIDY-PHRASE while preserving verbatim repair evidence.</p><span class="status draft">Inputs ready</span></div><div class="module"><span class="module-num">02</span><h3>AS-unit / clause map</h3><p>Apply only the approved segmentation rules and report unresolved boundaries.</p><span class="status draft">Inputs ready</span></div><div class="module"><span class="module-num">03</span><h3>Pause and rate</h3><p>Combine reviewed timing with approved location and rate definitions.</p><span class="status draft">Inputs ready</span></div><div class="module"><span class="module-num">04</span><h3>Lexical / MWU</h3><p>Run versioned lexical tools and the signed MWU operational rule.</p><span class="status blocked">Inputs missing</span></div></div></div>
+        </section>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Step 3 · Layer 2 outputs</span><h2>Research artifacts and Layer 3 handoff</h2><p>Only approved variables are populated; unresolved values remain pending with a reason.</p></div><span class="status muted">Not generated</span></div>
+          <div class="section-body"><div class="artifact-groups"><div class="artifact-group"><div class="artifact-group-head"><span>Transcript and units</span><b>Reviewable text outputs</b></div><div class="artifact-row"><div><b>RAW-TIMING + TIDY-PHRASE</b><span>Pending Layer 2 run</span></div><span class="status muted">Waiting</span></div><div class="artifact-row"><div><b>AS-unit / clause mapping</b><span>Includes unresolved boundary report</span></div><span class="status muted">Waiting</span></div></div><div class="artifact-group"><div class="artifact-group-head"><span>Features and handoff</span><b>Research analysis outputs</b></div><div class="artifact-row"><div><b>Pause, rate, lexical and MWU tables</b><span>Only approved variables are populated</span></div><span class="status muted">Waiting</span></div><div class="artifact-row"><div><b>Early Phase V merge table</b><span>Field provenance retained</span></div><span class="status muted">Waiting</span></div></div></div></div>
+        </section>
+        <div class="gate fail"><div class="gate-icon">×</div><div><b>Layer 2 activation is blocked</b><p>Provide the MWU operational definition and confirm lexical-tool versions. The five-day target begins only after the complete Layer 2 input pack is approved.</p></div><button class="btn primary" disabled>Run Layer 2</button></div>
+        <div class="screen-caption">Maps to Layer 2 required inputs, outputs and definition boundaries in requirements.md.</div>
+      </section>
+
+      <section class="screen" data-view="l3">
+        <header class="page-head">
+          <div class="layer-icon">L3</div>
+          <div><div class="eyebrow"><b>Layer 3</b> Phase V · target workspace</div><h1>Matrix validation and research release</h1><p>Merge accepted upstream evidence, reconcile every field to the signed codebook and create a release only when unresolved values remain visible.</p></div>
+          <div class="head-actions"><button class="btn">Export validation report</button><button class="btn primary" disabled>Create release candidate</button></div>
+        </header>
+        <div class="facts">
+          <div class="fact"><span>L1 evidence</span><b class="ok">Accepted · P025 reviewed</b></div><div class="fact"><span>L2 feature table</span><b class="ok">Accepted · schema v2</b></div><div class="fact"><span>Matrix codebook</span><b class="ok">Signed · v1.3</b></div><div class="fact"><span>Release state</span><b class="warn">2 exceptions open</b></div>
+        </div>
+        <div class="metrics"><div class="metric"><b>124</b><span>analysis rows</span></div><div class="metric"><b>52</b><span>signed fields</span></div><div class="metric"><b class="good">100%</b><span>source lineage</span></div><div class="metric"><b class="bad">2</b><span>blocking exceptions</span></div><div class="metric"><b>3</b><span>explicit NA values</span></div></div>
+        <div class="two-col">
+          <section class="section">
+            <div class="section-head"><div class="section-head-copy"><span>Layer 3 inputs</span><h2>Cross-layer input ledger</h2></div><span class="status passed">Version locked</span></div>
+            <div class="section-body"><div class="artifact-row"><div><b>L1_interaction_metrics_v4.parquet</b><span>Reviewed timing · speaker · floor · transitions</span></div><span class="status accepted">Accepted</span></div><div class="artifact-row"><div><b>L2_research_features_v2.parquet</b><span>Transcript · units · lexical · MWU features</span></div><span class="status accepted">Accepted</span></div><div class="artifact-row"><div><b>matrix_codebook_v1.3.xlsx</b><span>Names · types · units · missing-value policy</span></div><span class="status accepted">Signed</span></div></div>
+          </section>
+          <section class="section">
+            <div class="section-head"><div class="section-head-copy"><span>Field provenance</span><h2>Selected lineage sample</h2></div><span class="status passed">52/52 mapped</span></div>
+            <div class="section-body"><div class="provenance"><div class="prov"><span>pause_total_s</span><b>L1b reviewed duration</b></div><div class="prov"><span>speaker_id</span><b>L1a canonical map</b></div><div class="prov"><span>mwu_count</span><b>L2 approved rule</b></div><div class="prov"><span>alignment_status</span><b>L2 evidence state</b></div></div><div class="note info" style="margin-top:10px"><span>i</span><div><b>Unsupported stays missing.</b> Field-level source IDs and method versions remain attached to the release matrix.</div></div></div>
+          </section>
+        </div>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Matrix preview</span><h2>Signed schema sample</h2></div><span class="status review">2 cells require disposition</span></div>
+          <div class="matrix-preview"><table class="matrix"><thead><tr><th>recording_id</th><th>speaker_id</th><th>threshold_s</th><th>pause_total_s</th><th>pause_density</th><th>mwu_count</th><th>overlap_fto_ms</th><th>alignment_status</th></tr></thead><tbody><tr><td>EX04</td><td>S1</td><td>0.25</td><td>83.42</td><td>4.81</td><td>17</td><td class="pending-cell">NA · overlap present</td><td>not_required</td></tr><tr><td>EX04</td><td>S2</td><td>0.25</td><td>64.10</td><td>5.09</td><td>11</td><td>182</td><td>not_required</td></tr><tr><td>EX04</td><td>S3</td><td>0.25</td><td>71.23</td><td>4.63</td><td class="pending-cell">Pending review</td><td>94</td><td>reviewed</td></tr></tbody></table></div>
+        </section>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Validation exceptions</span><h2>Open release blockers</h2></div><span class="status blocked">2 blocking</span></div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>Record / field</th><th>Rule</th><th>Source evidence</th><th>Current value</th><th>Required disposition</th></tr></thead><tbody><tr><td>EX04 / S1 / overlap_fto_ms</td><td>Do not serialize unsupported FTO as zero</td><td>Path B overlap event #T018</td><td>NA</td><td><span class="status review">Confirm explicit NA</span></td></tr><tr><td>EX04 / S3 / mwu_count</td><td>Accepted Layer 2 feature required</td><td>L2 unresolved item #U004</td><td>Pending</td><td><span class="status blocked">Resolve or exclude field</span></td></tr></tbody></table></div>
+        </section>
+        <section class="section">
+          <div class="section-head"><div class="section-head-copy"><span>Layer 3 outputs</span><h2>Archive-ready research package</h2></div><span class="status muted">Candidate not created</span></div>
+          <div class="section-body"><div class="artifact-groups"><div class="artifact-group"><div class="artifact-group-head"><span>Research data</span><b>Analysis-ready formats</b></div><div class="artifact-row"><div><b>mwu_final_matrix.csv + .parquet</b><span>R/Python-ready signed schema</span></div><span class="status muted">Waiting</span></div><div class="artifact-row"><div><b>mwu_research_workbook.xlsx</b><span>Matrix · codebook · validation summary</span></div><span class="status muted">Waiting</span></div></div><div class="artifact-group"><div class="artifact-group-head"><span>Evidence and archive</span><b>Reproducible release record</b></div><div class="artifact-row"><div><b>validation_and_gold_index.xlsx</b><span>Calibration/holdout status distinguished</span></div><span class="status muted">Waiting</span></div><div class="artifact-row"><div><b>release_manifest.json + method logs</b><span>Versions, inputs and artifact checksums</span></div><span class="status muted">Waiting</span></div></div></div></div>
+        </section>
+        <div class="gate fail"><div class="gate-icon">×</div><div><b>Release candidate blocked</b><p>Two exceptions require explicit disposition. The system will not present pending or unsupported fields as validated.</p></div><button class="btn primary" disabled>Create release candidate</button></div>
+        <div class="screen-caption">Maps to Layer 3 inputs, outputs, field-provenance design and UI release states.</div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    const allowed = ['l1a', 'l1b', 'l2', 'l3'];
+    const params = new URLSearchParams(window.location.search);
+    let active = allowed.includes(params.get('screen')) ? params.get('screen') : 'l1a';
+    function showScreen(screen) {
+      active = allowed.includes(screen) ? screen : 'l1a';
+      document.querySelectorAll('[data-screen]').forEach((button) => button.classList.toggle('active', button.dataset.screen === active));
+      document.querySelectorAll('[data-view]').forEach((view) => view.classList.toggle('active', view.dataset.view === active));
+      const url = new URL(window.location.href);
+      url.searchParams.set('screen', active);
+      history.replaceState(null, '', url);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    document.querySelectorAll('[data-screen]').forEach((button) => button.addEventListener('click', () => showScreen(button.dataset.screen)));
+    showScreen(active);
+  </script>
+</body>
+</html>

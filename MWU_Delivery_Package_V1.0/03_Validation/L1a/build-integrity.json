@@ -1,0 +1,12 @@
+{
+  "schema_version": "validation-build-integrity-v1",
+  "checked_at": "2026-08-22T06:31:43.479Z",
+  "build_dir": "/Users/nedved/Tool/Workspace/MWU/MWU/build-validation.next",
+  "html": "/Users/nedved/Tool/Workspace/MWU/MWU/build-validation.next/validation.html",
+  "references": [
+    "/assets/validation-Bhm0TEuQ.js",
+    "/assets/validation-CrYqp-dY.css"
+  ],
+  "missing": [],
+  "ok": true
+}

@@ -8,12 +8,13 @@ import {
   Download,
   FileAudio,
   FileText,
+  Layers3,
   Package,
   Play,
+  RotateCcw,
   Settings2,
   Sheet,
   ShieldCheck,
-  Users,
 } from 'lucide-react';
 
 type L1bRunnerProps = {
@@ -21,14 +22,21 @@ type L1bRunnerProps = {
 };
 
 const DEFAULT_THRESHOLDS = [0.25, 0.35];
+const FLOW_STAGES = [
+  ['l1a_handoff_gate', 'L1a handoff gate'],
+  ['assemblyai_timed_words', 'Timed-word evidence'],
+  ['stage1_evidence', 'Stage-1 evidence'],
+  ['path_b_thresholds', 'P025 + P035 Path B'],
+] as const;
 
 export function L1bRunner({ onReport }: L1bRunnerProps) {
   const [input, setInput] = useState<any>(null);
+  const [selectedManifest, setSelectedManifest] = useState('');
   const [report, setReport] = useState<any>(null);
   const [progress, setProgress] = useState<any>(null);
   const [runState, setRunState] = useState<'idle' | 'running' | 'done' | 'failed'>('idle');
   const [customOn, setCustomOn] = useState(false);
-  const [customThreshold, setCustomThreshold] = useState('0.5');
+  const [customThreshold, setCustomThreshold] = useState('0.50');
   const [error, setError] = useState<string | null>(null);
   const poll = useRef<number | null>(null);
 
@@ -37,7 +45,7 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
     const values = [...DEFAULT_THRESHOLDS];
     const custom = Number(customThreshold);
     if (customOn && custom > 0 && custom < 5 && !values.includes(custom)) values.push(custom);
-    return values.sort((a, b) => a - b);
+    return values.sort((left, right) => left - right);
   }, [customOn, customThreshold]);
 
   async function loadInput() {
@@ -47,8 +55,9 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
     return value;
   }
 
-  async function loadReport() {
-    const response = await fetch('/api/l1b/report');
+  async function loadReport(manifestPath = selectedManifest) {
+    const suffix = manifestPath ? `?manifest=${encodeURIComponent(manifestPath)}` : '';
+    const response = await fetch(`/api/l1b/report${suffix}`);
     const value = await response.json();
     const usable = value && value.status !== 'idle' ? value : null;
     setReport(usable);
@@ -57,7 +66,8 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
   }
 
   useEffect(() => {
-    Promise.all([loadInput(), loadReport()]).catch((reason) => setError(String(reason)));
+    loadInput()
+      .catch((reason) => setError(String(reason)));
     return () => {
       if (poll.current) window.clearInterval(poll.current);
     };
@@ -65,19 +75,21 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
   }, []);
 
   async function run() {
-    if (busy || !input?.ready) return;
+    if (busy || !selectedReady) return;
     setError(null);
     setProgress(null);
+    setReport(null);
+    onReport?.(null);
     setRunState('running');
     try {
       const response = await fetch('/api/l1b/run', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ manifest: input.selected.path, thresholds }),
+        body: JSON.stringify({ manifest: selected.path, thresholds }),
       });
       const value = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(value.error || 'L1b could not start');
-      poll.current = window.setInterval(tick, 300);
+      poll.current = window.setInterval(tick, 500);
     } catch (reason: any) {
       setError(reason.message || String(reason));
       setRunState('failed');
@@ -91,55 +103,104 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
       setProgress(value);
       if (value.done) {
         if (poll.current) window.clearInterval(poll.current);
-        const latest = await loadReport();
+        const latest = await loadReport(selectedManifest);
         setRunState(value.status === 'ready_for_praat_review' && latest ? 'done' : 'failed');
         if (value.error) setError(value.error);
       }
     } catch {
-      // The next poll can recover from an incomplete progress-file read.
+      // The next poll can recover from a partially written progress file.
     }
   }
 
-  const selected = input?.selected;
+  const sessionInputs = input?.accepted || input?.available || [];
+  const runnableInputs = input?.available || [];
+  const selected = sessionInputs.find((item: any) => item.path === selectedManifest) || null;
   const speakers = selected?.speakers || [];
-  const progressJobs = progress?.jobs?.length ? progress.jobs : jobsFromReport(report);
+  const selectedReady = selected?.l1b_runnable === true;
+
+  function clearRunView() {
+    if (poll.current) window.clearInterval(poll.current);
+    poll.current = null;
+    setReport(null);
+    setProgress(null);
+    setRunState('idle');
+    setError(null);
+    onReport?.(null);
+  }
+
+  function chooseInput(manifestPath: string) {
+    setSelectedManifest(manifestPath);
+    clearRunView();
+  }
+
+  function resetWorkspace() {
+    if (busy) return;
+    setSelectedManifest('');
+    setCustomOn(false);
+    setCustomThreshold('0.50');
+    clearRunView();
+  }
 
   return (
     <div className="l1b-page">
       <header className="vc-head l1b-head">
         <div>
-          <div className="vc-crumb">
-            <span>Validation Sprint</span><span>/</span><span>Multilogue benchmark</span><span>/</span><span>L1a → L1b</span>
-          </div>
-          <h1>Multilogue L1b pause benchmark</h1>
-          <p className="sub">Continue from the latest L1a speaker handoff and generate threshold-specific Praat TextGrids, duration metrics, and the L1b PoC package.</p>
+          <div className="vc-crumb"><span>Layer 1</span><span>/</span><span>L1b</span><span>/</span><span>Phase II</span></div>
+          <h1>Path B interaction timing</h1>
+          <p className="sub">Continue only from the latest accepted L1a handoff, then generate threshold-specific nine-label TextGrids and timing evidence.</p>
         </div>
-        <button className="vc-runbtn lg" onClick={run} disabled={!input?.ready || busy}>
-          {busy ? <Clock3 size={17} /> : <Play size={17} />}
-          {busy ? 'Running validation...' : report ? 'Run multilogue again' : 'Run multilogue validation'}
-        </button>
+        <div className="l1b-head-actions">
+          <button className="vc-runbtn lg" onClick={run} disabled={!selectedReady || busy} title={selectedReady ? 'Generate L1b drafts from the selected L1a session' : 'Select an accepted L1a session first'}>
+            {busy ? <Clock3 size={17} /> : <Play size={17} />}
+            {busy ? 'Generating Path B...' : 'Generate L1b drafts'}
+          </button>
+          <button className="vc-runbtn lg secondary" onClick={resetWorkspace} disabled={busy || (!selectedManifest && !report && !progress && !customOn && !error)} title="Clear the selected L1a session and current L1b workspace state">
+            <RotateCcw size={17} /> Reset
+          </button>
+        </div>
       </header>
 
-      {error && <Message tone="fail" title="L1b could not complete" text={error} />}
+      {error && <Message tone="fail" title="L1b needs attention" text={error} />}
 
       <section className="l1b-section" aria-labelledby="l1b-input-title">
-        <SectionHeading icon={<Users size={18} />} eyebrow="Input from L1a" title="Phase I speaker handoff" id="l1b-input-title" status={input?.ready ? 'Benchmark ready' : 'Blocked'} />
+        <SectionHeading icon={<ShieldCheck size={18} />} eyebrow="Input from L1a" title="Accepted handoff gate" id="l1b-input-title" status={!input ? 'LOADING' : !sessionInputs.length ? 'BLOCKED' : !selectedManifest ? 'WAITING' : selectedReady ? 'PASS' : 'BLOCKED'} />
+        <label className="l1b-input-picker">
+          <span>Accepted L1a session input</span>
+          <select value={selectedManifest} onChange={(event) => chooseInput(event.target.value)} disabled={busy || !sessionInputs.length}>
+            {sessionInputs.length
+              ? <option value="">Choose an accepted L1a session</option>
+              : <option value="">No accepted L1a session available</option>}
+            {sessionInputs.map((item: any) => (
+              <option key={item.path} value={item.path}>
+                {item.l1b_runnable ? 'Ready' : 'Blocked'} · {item.recording_id} · {item.speakers?.length || 0} speakers · review-v{String(item.review_revision || 0).padStart(4, '0')} · {item.session_id}
+              </option>
+            ))}
+          </select>
+          <small>{sessionInputs.length} accepted session{sessionInputs.length === 1 ? '' : 's'} · {runnableInputs.length} ready for L1b</small>
+        </label>
         <div className="l1b-input-summary">
-          <div><span>Recording</span><strong>{selected?.source_audio || 'No L1a run found'}</strong></div>
-          <div><span>Speakers</span><strong>{speakers.length || 0}</strong></div>
-          <div><span>Timeline</span><strong>{formatSeconds(selected?.duration_seconds)}</strong></div>
-          <div><span>Overlap detected</span><strong>{selected?.overlap ? `${selected.overlap.count} regions` : 'Not reported'}</strong></div>
+          <div><span>Recording</span><strong>{selected?.source_audio || 'No accepted L1a run'}</strong></div>
+          <div><span>Canonical speakers</span><strong>{speakers.length ? `S1-S${speakers.length}` : 'Not available'}</strong></div>
+          <div><span>Master clock</span><strong>{formatSeconds(selected?.duration_seconds)}</strong></div>
+          <div><span>TextGrid contract</span><strong>{speakers.length ? `${speakers.length + 3} tiers (N+3)` : 'Blocked'}</strong></div>
+        </div>
+        <div className="l1b-gate-grid">
+          <GateItem passed={selected?.handoff_gate?.passed} label="Latest accepted revision" />
+          <GateItem passed={selected?.handoff_gate?.passed} label="Source WAV and hashes sealed" />
+          <GateItem passed={selected?.handoff_gate?.passed} label="Canonical S1-SN mapping" />
+          <GateItem passed={speakers.length >= 2 && speakers.every((speaker: any) => speaker.wav_ready && speaker.invalid_ready)} label="N speaker handoff artifacts ready" />
         </div>
         <div className="l1b-speaker-grid">
           {speakers.map((speaker: any) => (
             <article className="l1b-speaker-input" key={speaker.speaker}>
               <div className="l1b-speaker-title"><span>{speaker.speaker}</span><CheckCircle2 size={16} /></div>
-              <FileLine icon={<FileAudio size={15} />} label="Muted mirror" value={speaker.wav_name} ready={speaker.wav_ready} />
-              <FileLine icon={<FileText size={15} />} label="Invalid ranges" value={speaker.invalid_name} ready={speaker.invalid_ready} />
+              <FileLine icon={<FileAudio size={15} />} label="Muted-mirror input" value={speaker.wav_name} ready={speaker.wav_ready} />
+              <FileLine icon={<FileText size={15} />} label="Invalid evidence" value={speaker.invalid_name} ready={speaker.invalid_ready} />
             </article>
           ))}
-          {!speakers.length && <div className="l1b-inline-empty">Run L1a first or place a valid Phase I manifest in the multilogue output folder.</div>}
+          {!speakers.length && <div className="l1b-inline-empty">{sessionInputs.length ? 'Select an accepted L1a session to inspect its handoff.' : 'Complete and accept L1a before starting this layer.'}</div>}
         </div>
+        {selected && !selectedReady && <p className="l1b-blocker-note">Blocked: {(selected.l1b_blockers || ['Accepted L1a handoff is not ready for L1b.']).join(' ')}</p>}
       </section>
 
       <div className="l1b-two-col">
@@ -147,9 +208,7 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
           <SectionHeading icon={<Settings2 size={18} />} eyebrow="Run settings" title="Pause thresholds" id="l1b-params-title" />
           <div className="l1b-thresholds">
             {DEFAULT_THRESHOLDS.map((threshold) => (
-              <div className="l1b-threshold selected" key={threshold}>
-                <Check size={15} /><strong>{threshold}s</strong><span>required run</span>
-              </div>
+              <div className="l1b-threshold selected" key={threshold}><Check size={15} /><strong>{threshold.toFixed(2)} s</strong><span>required run</span></div>
             ))}
           </div>
           <label className="l1b-custom-control">
@@ -161,176 +220,115 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
         </section>
 
         <section className="l1b-section" aria-labelledby="l1b-method-title">
-          <SectionHeading icon={<ShieldCheck size={18} />} eyebrow="Deterministic method" title="Praat contract" id="l1b-method-title" />
+          <SectionHeading icon={<Layers3 size={18} />} eyebrow="Method" title="Path B contract" id="l1b-method-title" />
           <div className="l1b-method-grid">
-            <div><span>Window</span><strong>200 seconds</strong></div>
-            <div><span>Scale times</span><strong>Full timeline</strong></div>
-            <div><span>Labels</span><strong>sounding / silent / invalid</strong></div>
-            <div><span>Duration engine</span><strong>Praat Script 2</strong></div>
+            <div><span>Speaker tiers</span><strong>S1-SN</strong></div>
+            <div><span>Shared tiers</span><strong>floor / transitions / flags</strong></div>
+            <div><span>Label set</span><strong>s · f · bc · ol · op · pf · tr · shs · x</strong></div>
+            <div><span>Floor policy</span><strong>R1-R5 · Path B</strong></div>
           </div>
-          <p className="l1b-small-note">All parameters and the exact Praat version are written into the method log and delivery workbook.</p>
+          <p className="l1b-small-note">Overlap remains visible as evidence; signed FTO is not claimed where overlap offset is not measured.</p>
         </section>
       </div>
 
       <section className="l1b-section" aria-labelledby="l1b-run-title">
-        <SectionHeading icon={<Activity size={18} />} eyebrow="Execution" title="L1a to L1b pipeline" id="l1b-run-title" status={runStatusLabel(runState, report)} />
+        <SectionHeading icon={<Activity size={18} />} eyebrow="Execution" title="Accepted L1a to L1b" id="l1b-run-title" status={runStatusLabel(runState, report, selectedReady)} />
         <div className="l1b-flow">
-          <FlowStep label="L1a handoff" state={selected?.ready ? 'passed' : 'pending'} />
-          <FlowStep label="Praat extraction" state={stageState(progressJobs, 'praat_extraction', busy)} />
-          <FlowStep label="TextGrid QA" state={stageState(progressJobs, 'textgrid_qa', busy)} />
-          <FlowStep label="Duration metrics" state={stageState(progressJobs, 'duration_calculation', busy)} />
+          {FLOW_STAGES.map(([id, label]) => <FlowStep key={id} label={label} state={flowState(id, progress, report, selected)} />)}
           <FlowStep label="Delivery package" state={report?.status === 'ready_for_praat_review' ? 'passed' : busy ? 'running' : 'pending'} />
         </div>
-        <div className="l1b-job-grid">
-          {(speakers.length ? speakers.map((speaker: any) => speaker.speaker) : uniqueSpeakers(progressJobs)).map((speaker: string) => (
-            <SpeakerJobs key={speaker} speaker={speaker} thresholds={thresholds} jobs={progressJobs} />
-          ))}
-        </div>
-        <p className="l1b-small-note">This validation run uses the accepted L1a draft handoff. Production L1b requires the Phase I reviewed baseline; any corrected invalid boundaries must remain identical across the 0.25 s and 0.35 s reviewed TextGrids.</p>
+        <p className="l1b-small-note">The accepted S1-SN mapping fixes N for this run. L1b then prepares or reuses timed-word and Stage-1 evidence before generating the dynamic N+3 outputs.</p>
       </section>
 
       {!report ? (
-        <div className="l1b-results-empty">
-          <Activity size={24} />
-          <div><h3>Results will appear here by section</h3><p>Run L1b to generate TextGrids, duration metrics, the method record and the client delivery package.</p></div>
-        </div>
+        <div className="l1b-results-empty"><Activity size={24} /><div><h3>Results will appear by threshold</h3><p>Run L1b after the accepted L1a handoff is available.</p></div></div>
       ) : report.status === 'ready_for_praat_review' ? (
         <L1bResults report={report} />
       ) : (
-        <Message tone="fail" title="Latest L1b run failed" text={report.error || 'No delivery package was created.'} />
+        <Message tone="fail" title="Latest L1b result is not current" text={report.error || report.stale_reason || 'A new run is required.'} />
       )}
     </div>
   );
 }
 
 function L1bResults({ report }: any) {
-  const grouped = groupSummary(report.summary || []);
   const artifacts = report.artifacts || [];
-  const textgrids = artifacts.filter((artifact: any) => artifact.group === 'textgrids');
   const workbook = artifacts.find((artifact: any) => artifact.group === 'metrics');
-  const method = artifacts.find((artifact: any) => artifact.group === 'method');
   const delivery = artifacts.find((artifact: any) => artifact.group === 'package');
-
   return (
     <div className="l1b-results">
-      <Message tone="pass" title="L1b PoC outputs ready" text={`${report.qa.jobs_passed}/${report.qa.jobs_total} speaker-threshold jobs completed. The TextGrids, duration diagnostics, method record, and package are available below.`} />
-
+      <Message tone="pass" title="L1b drafts generated" text={`${report.threshold_reports?.length || 0} threshold runs passed structural validation. These are automatic drafts for Praat/researcher correction.`} />
       <section className="l1b-section" aria-labelledby="l1b-result-overview">
-        <SectionHeading icon={<CheckCircle2 size={18} />} eyebrow="Results" title="Quality overview" id="l1b-result-overview" />
+        <SectionHeading icon={<CheckCircle2 size={18} />} eyebrow="Results" title="Run overview" id="l1b-result-overview" />
         <div className="l1b-kpis">
-          <Kpi value={report.speakers?.length || 0} label="speakers" />
-          <Kpi value={report.qa.textgrids_generated} label="TextGrid drafts" />
-          <Kpi value={report.thresholds?.map((value: number) => `${value}s`).join(' + ')} label="thresholds" />
+          <Kpi value={report.speakers?.length || 0} label="canonical speakers" />
+          <Kpi value={report.threshold_reports?.length || 0} label="TextGrid drafts" />
+          <Kpi value="9" label="interaction labels" />
           <Kpi value={formatSeconds(report.duration_seconds)} label="full timeline" />
         </div>
         <div className="l1b-qa-strip">
-          <QaItem passed={report.qa.no_blank_intervals} label="No blank intervals" />
-          <QaItem passed={report.qa.full_timeline} label="Full timeline covered" />
-          <QaItem passed={report.qa.invalid_duration_match} label="Invalid duration matched" />
-          <QaItem passed={report.qa.script2_parity} label="Script 2 parity" />
+          <QaItem passed={report.handoff_gate?.passed} label="L1a gate sealed" />
+          <QaItem passed={report.threshold_reports?.every((item: any) => item.schema_valid)} label="N+3 schema valid" />
+          <QaItem passed={report.threshold_reports?.every((item: any) => item.tier5_consistent)} label="Transition tier consistent" />
+          <QaItem passed={Boolean(delivery)} label="Package built" />
         </div>
       </section>
-
-      <section className="l1b-section" aria-labelledby="l1b-speaker-results">
-        <SectionHeading icon={<Users size={18} />} eyebrow="Duration metrics" title="Results by speaker" id="l1b-speaker-results" />
-        <div className="l1b-result-speakers">
-          {Object.entries(grouped).map(([speaker, rows]: any) => (
-            <article className="l1b-result-speaker" key={speaker}>
-              <div className="l1b-result-speaker-head"><strong>{speaker}</strong><span>{rows.length} threshold runs</span></div>
-              <div className="l1b-mini-table" role="table" aria-label={`${speaker} duration results`}>
-                <div className="l1b-mini-row head" role="row"><span>Threshold</span><span>Sounding</span><span>Silent</span><span>Pauses</span></div>
-                {rows.map((row: any) => (
-                  <div className="l1b-mini-row" role="row" key={row['Threshold (s)']}>
-                    <strong>{row['Threshold (s)']}s</strong>
-                    <span>{numberSeconds(row['Total sounding (s)'])}</span>
-                    <span>{numberSeconds(row['Total silent (s)'])}</span>
-                    <span>{row['Silent pause count']}</span>
-                  </div>
-                ))}
-              </div>
-            </article>
-          ))}
+      <section className="l1b-section" aria-labelledby="l1b-threshold-results">
+        <SectionHeading icon={<Layers3 size={18} />} eyebrow="Praat drafts" title="Outputs by threshold" id="l1b-threshold-results" />
+        <div className="l1b-threshold-result-grid">
+          {(report.threshold_reports || []).map((threshold: any) => <ThresholdResult key={threshold.threshold_key} threshold={threshold} />)}
         </div>
       </section>
-
       <section className="l1b-section" aria-labelledby="l1b-deliverables">
-        <SectionHeading icon={<Package size={18} />} eyebrow="L1b outputs" title="Download package" id="l1b-deliverables" />
+        <SectionHeading icon={<Package size={18} />} eyebrow="Shared outputs" title="Metrics and delivery package" id="l1b-deliverables" />
         <div className="l1b-package-primary">
           <div className="l1b-package-primary-icon"><Package size={23} /></div>
-          <div className="l1b-package-primary-copy">
-            <span>L1b PoC package</span>
-            <strong>{delivery?.name || 'Package not generated'}</strong>
-            <p>Six threshold-specific TextGrids plus duration diagnostics and the reproducible method record.</p>
-          </div>
-          {delivery && <DownloadLink artifact={delivery} primary label="Download L1b package" />}
+          <div className="l1b-package-primary-copy"><span>L1b Path B package</span><strong>{artifactName(delivery) || 'Package not generated'}</strong><p>P025/P035 TextGrids, nine-label tables, transition evidence, parameters and hashes.</p></div>
+          {delivery && <DownloadLink artifact={delivery} primary label="Download ZIP" />}
         </div>
-
-        <div className="l1b-delivery-columns">
-          <section className="l1b-delivery-group" aria-label="Metrics and method files">
-            <div className="l1b-delivery-group-head"><span>Supporting outputs</span><strong>Metrics and method files</strong></div>
-            {workbook && <ArtifactRow artifact={workbook} icon={<Sheet size={18} />} kind="Duration diagnostics" description="Praat Script 2 metrics for the generated TextGrids" />}
-            {method && <ArtifactRow artifact={method} icon={<FileText size={18} />} kind="Method record" description="Parameters · labels · Praat version · 200 s window" />}
-          </section>
-
-          <section className="l1b-delivery-group" aria-label="TextGrid drafts by speaker">
-            <div className="l1b-delivery-group-head"><span>Praat outputs</span><strong>TextGrids by speaker</strong></div>
-            <div className="l1b-textgrid-groups">
-              {uniqueSpeakers(textgrids).map((speaker) => (
-                <div className="l1b-textgrid-group" key={speaker}>
-                  <div><Users size={15} /><strong>{speaker}</strong></div>
-                  {textgrids.filter((artifact: any) => artifact.speaker === speaker).map((artifact: any) => (
-                    <div className="l1b-textgrid-row" key={artifact.name}>
-                      <span>{Number(artifact.threshold).toFixed(2)}s</span>
-                      <strong title={artifact.name}>Pause segmentation</strong>
-                      <DownloadLink artifact={artifact} label="Download" />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
+        {workbook && <div className="l1b-shared-file"><ArtifactRow artifact={workbook} icon={<Sheet size={18} />} kind="Timing workbook" description="Summary, per-pause, transition and method sheets" /></div>}
       </section>
-
-      <div className="l1b-review-boundary">
-        <ShieldCheck size={21} />
-        <div><strong>PoC output boundary</strong><p>Expert inspection and any correction in Praat take place outside this validation console before research use.</p></div>
-      </div>
     </div>
   );
 }
 
-function SectionHeading({ icon, eyebrow, title, id, status }: any) {
+function ThresholdResult({ threshold }: any) {
+  const files = threshold.files || [];
+  const textgrid = files.find((item: any) => String(item.path).endsWith('.TextGrid'));
+  const nine = findArtifact(files, 'nine_label_intervals.csv');
+  const transitions = findArtifact(files, 'transition_evidence.csv');
+  const overlap = findArtifact(files, 'overlap-capability-evidence.json');
+  const method = findArtifact(files, 'method-manifest.json');
   return (
-    <div className="l1b-section-head">
-      <div className="l1b-section-icon">{icon}</div>
-      <div><span>{eyebrow}</span><h2 id={id}>{title}</h2></div>
-      {status && <span className="l1b-section-status">{status}</span>}
-    </div>
+    <article className="l1b-threshold-result">
+      <div className="l1b-threshold-result-head"><div><span>{threshold.threshold_key}</span><strong>{Number(threshold.threshold_sec).toFixed(2)} second pause threshold</strong></div><span className="l1b-threshold-pass"><Check size={14} /> Valid</span></div>
+      {textgrid && <ArtifactRow artifact={textgrid} icon={<FileText size={18} />} kind="Praat TextGrid" description="S1-SN + floor + transitions + flags" />}
+      <div className="l1b-compact-downloads">
+        {nine && <DownloadLink artifact={nine} label="Nine-label CSV" />}
+        {transitions && <DownloadLink artifact={transitions} label="Transitions" />}
+        {overlap && <DownloadLink artifact={overlap} label="Overlap evidence" />}
+        {method && <DownloadLink artifact={method} label="Method" />}
+      </div>
+    </article>
   );
+}
+
+function SectionHeading({ icon, eyebrow, title, id, status }: any) {
+  return <div className="l1b-section-head"><div className="l1b-section-icon">{icon}</div><div><span>{eyebrow}</span><h2 id={id}>{title}</h2></div>{status && <span className="l1b-section-status">{status}</span>}</div>;
 }
 
 function FileLine({ icon, label, value, ready }: any) {
   return <div className="l1b-file-line"><span>{icon}</span><div><small>{label}</small><p>{value}</p></div>{ready ? <Check size={15} /> : <AlertCircle size={15} />}</div>;
 }
 
-function FlowStep({ label, state }: { label: string; state: string }) {
-  return <div className={`l1b-flow-step ${state}`}><span>{state === 'passed' ? <Check size={14} /> : state === 'running' ? <Clock3 size={14} /> : null}</span><strong>{label}</strong></div>;
+function GateItem({ passed, label }: { passed?: boolean; label: string }) {
+  const state = passed === undefined ? 'pending' : passed ? 'passed' : 'failed';
+  const icon = passed === undefined ? <Clock3 size={16} /> : passed ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />;
+  return <div className={state}>{icon}<span>{label}</span></div>;
 }
 
-function SpeakerJobs({ speaker, thresholds, jobs }: any) {
-  return (
-    <article className="l1b-speaker-jobs">
-      <div className="l1b-speaker-jobs-head"><strong>{speaker}</strong><span>Praat jobs</span></div>
-      <div className="l1b-speaker-job-runs">
-        {thresholds.map((threshold: number) => {
-          const job = jobs.find((candidate: any) => candidate.speaker === speaker && Number(candidate.threshold) === Number(threshold));
-          const state = job?.state || 'pending';
-          return <div className={`l1b-job ${state}`} key={threshold}><span>{threshold}s</span><strong>{stateLabel(state)}</strong></div>;
-        })}
-      </div>
-    </article>
-  );
+function FlowStep({ label, state }: { label: string; state: string }) {
+  return <div className={`l1b-flow-step ${state}`}><span>{state === 'passed' ? <Check size={14} /> : state === 'running' ? <Clock3 size={14} /> : null}</span><strong>{label}</strong></div>;
 }
 
 function Message({ tone, title, text }: { tone: 'pass' | 'fail'; title: string; text: string }) {
@@ -350,69 +348,34 @@ function DownloadLink({ artifact, primary = false, label }: any) {
 }
 
 function ArtifactRow({ artifact, icon, kind, description }: any) {
-  return (
-    <div className="l1b-artifact-row">
-      <div className="l1b-artifact-icon">{icon}</div>
-      <div className="l1b-artifact-copy">
-        <span>{kind}</span>
-        <strong title={artifact.name}>{artifact.name}</strong>
-        <p>{description}</p>
-      </div>
-      <DownloadLink artifact={artifact} />
-    </div>
-  );
+  return <div className="l1b-artifact-row"><div className="l1b-artifact-icon">{icon}</div><div className="l1b-artifact-copy"><span>{kind}</span><strong title={artifactName(artifact)}>{artifactName(artifact)}</strong><p>{description}</p></div><DownloadLink artifact={artifact} /></div>;
 }
 
-function jobsFromReport(report: any) {
-  return (report?.jobs || []).map((job: any) => ({
-    speaker: job.speaker,
-    threshold: job.threshold,
-    state: job.qa?.passed ? 'passed' : 'failed',
-    stages: {
-      praat_extraction: job.qa?.passed ? 'passed' : 'failed',
-      textgrid_qa: job.qa?.passed ? 'passed' : 'failed',
-      duration_calculation: job.qa?.script2_parity_ok ? 'passed' : 'failed',
-    },
-  }));
+function flowState(id: string, progress: any, report: any, selected: any) {
+  if (id === 'l1a_handoff_gate' && selected?.handoff_gate?.passed) return 'passed';
+  const stage = progress?.stages?.find((item: any) => item.id === id);
+  if (stage?.status) return stage.status;
+  if (report?.status === 'ready_for_praat_review') return 'passed';
+  return progress?.status === 'running' ? 'running' : 'pending';
 }
 
-function stageState(jobs: any[], stage: string, busy: boolean) {
-  if (!jobs.length) return busy ? 'running' : 'pending';
-  if (jobs.some((job) => job.stages?.[stage] === 'failed')) return 'failed';
-  if (jobs.every((job) => job.stages?.[stage] === 'passed')) return 'passed';
-  if (jobs.some((job) => job.stages?.[stage] === 'running')) return 'running';
-  return 'pending';
+function findArtifact(files: any[], suffix: string) {
+  return files.find((item: any) => String(item.path || '').endsWith(suffix));
 }
 
-function stateLabel(state: string) {
-  if (state === 'passed') return 'Ready';
-  if (state === 'running') return 'Running';
-  if (state === 'failed') return 'Failed';
-  return 'Queued';
+function artifactName(artifact: any) {
+  if (!artifact) return '';
+  const pieces = String(artifact.name || artifact.path || '').split('/');
+  return pieces[pieces.length - 1];
 }
 
-function runStatusLabel(runState: string, report: any) {
+function runStatusLabel(runState: string, report: any, selectedReady: boolean) {
   if (runState === 'running') return 'Running';
   if (runState === 'failed') return 'Failed';
   if (report?.status === 'ready_for_praat_review') return 'Outputs ready';
-  return 'Ready to run';
-}
-
-function groupSummary(rows: any[]) {
-  return rows.reduce((output, row) => {
-    (output[row.Speaker] ||= []).push(row);
-    return output;
-  }, {} as Record<string, any[]>);
-}
-
-function uniqueSpeakers(items: any[]) {
-  return [...new Set((items || []).map((item: any) => item.speaker).filter(Boolean))] as string[];
+  return selectedReady ? 'Ready to run' : 'Waiting for input';
 }
 
 function formatSeconds(value: any) {
-  return Number.isFinite(Number(value)) ? `${Number(value).toFixed(2)}s` : 'Not available';
-}
-
-function numberSeconds(value: any) {
-  return Number.isFinite(Number(value)) ? `${Number(value).toFixed(2)}s` : '-';
+  return Number.isFinite(Number(value)) ? `${Number(value).toFixed(3)} s` : 'Not available';
 }

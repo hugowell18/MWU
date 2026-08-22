@@ -1,6 +1,10 @@
 /node_modules/
 /build/
-/build-validation/
+/build-validation/*
+!/build-validation/validation.html
+!/build-validation/methodology-atlas.html
+!/build-validation/assets/
+!/build-validation/assets/**
 /output/
 /tmp/
 html/MWU Pipeline copy.html

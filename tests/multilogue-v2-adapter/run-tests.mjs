@@ -63,6 +63,43 @@ test('builds an explicit bijective provider mapping with provenance', () => {
   assert.equal(result.provenance.accuracy_claim, false);
 });
 
+test('adapts the Stage-1 evidence contract to four accepted speakers', () => {
+  const comparison = {
+    mapping_candidate_to_reference: { P0: 'A', P1: 'B', P2: 'C', P3: 'D' },
+  };
+  const result = buildStage1Evidence({
+    duration: 2.5,
+    pyannoteRaw: {
+      turns: Array.from({ length: 4 }, (_, index) => ({
+        start: index * 0.5,
+        end: index * 0.5 + 0.4,
+        speaker: `P${index}`,
+        confidence: 0.9,
+      })),
+    },
+    assemblyRaw: {
+      words: Array.from({ length: 4 }, (_, index) => ({
+        start: index * 500,
+        end: index * 500 + 400,
+        speaker: String.fromCharCode(65 + index),
+        confidence: 0.9,
+        text: 'hello',
+      })),
+    },
+    comparison,
+    roomSoundingIntervals: Array.from({ length: 4 }, (_, index) => ({
+      start: index * 0.5,
+      end: index * 0.5 + 0.4,
+    })),
+  });
+  assert.deepEqual(result.pipelineInput.speakers, ['S1', 'S2', 'S3', 'S4']);
+  const output = runMultilogueV2(result.pipelineInput).thresholds.P250;
+  assert.deepEqual(output.textgrid_document.tiers.map((tier) => tier.name), [
+    'S1', 'S2', 'S3', 'S4', 'floor', 'transitions', 'flags',
+  ]);
+  assert.equal(output.validation.valid, true);
+});
+
 test('assigns words and applies only the controlled filled-pause rule', () => {
   const fixture = providerFixture();
   const result = buildStage1Evidence({

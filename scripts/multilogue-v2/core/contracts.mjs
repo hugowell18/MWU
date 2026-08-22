@@ -44,6 +44,40 @@ export function invariant(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+export function canonicalSpeakers(value = SPEAKERS) {
+  const speakers = Number.isInteger(Number(value)) && !Array.isArray(value)
+    ? Array.from({ length: Number(value) }, (_, index) => `S${index + 1}`)
+    : [...new Set((value || []).map(String))].sort(compareCanonicalSpeaker);
+  invariant(speakers.length >= 2, 'at least two canonical speakers are required');
+  const expected = Array.from({ length: speakers.length }, (_, index) => `S${index + 1}`);
+  invariant(
+    speakers.every((speaker, index) => speaker === expected[index]),
+    `canonical speakers must be contiguous ${expected.join('/')}`,
+  );
+  return Object.freeze(speakers);
+}
+
+export function speakersFromMapping(mapping) {
+  const providerValues = ['pyannote', 'assemblyai']
+    .flatMap((provider) => Object.values(mapping?.[provider] || {}));
+  return canonicalSpeakers(providerValues.length ? providerValues : SPEAKERS);
+}
+
+export function speakersFromTextGrid(document) {
+  const names = (document?.tiers || [])
+    .filter((tier) => tier?.class === 'IntervalTier' && /^S\d+$/.test(String(tier.name)))
+    .map((tier) => String(tier.name));
+  return canonicalSpeakers(names);
+}
+
+export function floorLabels(speakers = SPEAKERS) {
+  return Object.freeze([...canonicalSpeakers(speakers), 'FREE']);
+}
+
+function compareCanonicalSpeaker(left, right) {
+  return Number(left.slice(1)) - Number(right.slice(1)) || left.localeCompare(right);
+}
+
 export function round(value, digits = 6) {
   const factor = 10 ** digits;
   return Math.round((Number(value) + Number.EPSILON) * factor) / factor;

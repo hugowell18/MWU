@@ -1,0 +1,73 @@
+{
+  "schema_version": "l1a-test-report-v1",
+  "generated_at": "2026-08-22T06:35:49.628Z",
+  "suite": "Layer 1a candidate review and Phase II handoff",
+  "requirements": [
+    "L1A-001",
+    "L1A-002",
+    "L1A-003",
+    "L1A-004",
+    "L1A-005",
+    "L1A-006",
+    "L1A-007",
+    "L1A-008",
+    "L1A-009",
+    "L1A-011",
+    "L1A-013"
+  ],
+  "passed": 10,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "2-candidate fixture completes review, canonical mapping and Phase II handoff",
+      "status": "passed",
+      "duration_ms": 33
+    },
+    {
+      "name": "3-candidate fixture completes review, canonical mapping and Phase II handoff",
+      "status": "passed",
+      "duration_ms": 23
+    },
+    {
+      "name": "4-candidate fixture completes review, canonical mapping and Phase II handoff",
+      "status": "passed",
+      "duration_ms": 23
+    },
+    {
+      "name": "Merge and Exclude produce two canonical speakers while excluded activity remains invalid evidence",
+      "status": "passed",
+      "duration_ms": 21
+    },
+    {
+      "name": "Uncertain candidate is versioned but blocked at confirmation",
+      "status": "passed",
+      "duration_ms": 18
+    },
+    {
+      "name": "Reviewer identity is explicit and cannot be silently defaulted",
+      "status": "passed",
+      "duration_ms": 17
+    },
+    {
+      "name": "Representative clips prefer clean turns and flag overlap-only evidence",
+      "status": "passed",
+      "duration_ms": 35
+    },
+    {
+      "name": "Changing an accepted mapping invalidates downstream evidence before rebuild",
+      "status": "passed",
+      "duration_ms": 23
+    },
+    {
+      "name": "Accepted artifact resolver rejects path traversal",
+      "status": "passed",
+      "duration_ms": 22
+    },
+    {
+      "name": "HTTP workflow uploads WAV, exposes all candidates, streams ranges, reviews and confirms",
+      "status": "passed",
+      "duration_ms": 155
+    }
+  ],
+  "data_boundary": "Synthetic WAV and synthetic candidate turns only; no participant data or provider credentials used."
+}

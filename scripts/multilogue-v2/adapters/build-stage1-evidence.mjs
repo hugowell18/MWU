@@ -12,7 +12,7 @@ import {
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { computeLocalAcousticVad, defaultVadOptions } from '../../local-acoustic-vad.mjs';
-import { canonicalJson, round } from '../core/contracts.mjs';
+import { canonicalJson, canonicalSpeakers, round } from '../core/contracts.mjs';
 import {
   assignWordsByMaximumOverlap,
   mapAttributionTurns,
@@ -61,7 +61,8 @@ export function buildStage1Evidence({
   if (!(Number(duration) > 0)) throw new Error('canonical duration must be positive');
   const canonicalDuration = Number(duration);
   const mappingDocument = buildCanonicalMapping(comparison);
-  const mapping = validateMappingContract(mappingDocument.mapping);
+  const mapping = validateMappingContract(mappingDocument.mapping, mappingDocument.speakers);
+  const speakers = mapping.speakers;
   const clockFlags = [];
   const attributionTurns = normalizePyannoteTurns(pyannoteRaw, canonicalDuration, clockFlags);
   const wordsWithTokens = normalizeAssemblyWords(assemblyRaw, canonicalDuration, clockFlags);
@@ -109,6 +110,7 @@ export function buildStage1Evidence({
     taskId,
     duration: round(canonicalDuration, 6),
     thresholds: [0.25, 0.35],
+    speakers,
     speakerMapping: mappingDocument.mapping,
     attributionTurns,
     words,
@@ -259,8 +261,8 @@ export function buildCanonicalMapping(comparison) {
     throw new Error('comparison mapping_candidate_to_reference is required');
   }
   const pyannoteSpeakers = Object.keys(candidateToReference).sort((left, right) => left.localeCompare(right));
-  if (pyannoteSpeakers.length !== 3) throw new Error('exactly three Pyannote speakers are required for this PoC');
-  const canonical = ['S1', 'S2', 'S3'];
+  if (pyannoteSpeakers.length < 2) throw new Error('at least two Pyannote speakers are required');
+  const canonical = canonicalSpeakers(pyannoteSpeakers.length);
   const pyannote = Object.fromEntries(pyannoteSpeakers.map((speaker, index) => [speaker, canonical[index]]));
   const assemblyai = {};
   for (const [pyannoteSpeaker, assemblySpeaker] of Object.entries(candidateToReference)) {
@@ -270,9 +272,10 @@ export function buildCanonicalMapping(comparison) {
     }
     assemblyai[String(assemblySpeaker)] = canonicalSpeaker;
   }
-  validateMappingContract({ pyannote, assemblyai });
+  validateMappingContract({ pyannote, assemblyai }, canonical);
   return {
     contract_version: 'canonical-speaker-map-v1',
+    speakers: canonical,
     mapping: { pyannote, assemblyai },
     provenance: {
       basis: 'cached_system_to_system_maximum_overlap_mapping',
@@ -504,7 +507,7 @@ export function runAdapter(userOptions = {}) {
         provider: pyannoteManifest?.method?.provider ?? 'pyannoteAI',
         model: pyannoteManifest?.method?.model ?? null,
         model_revision: pyannoteManifest?.method?.model_revision ?? null,
-        expected_speakers: 3,
+        expected_speakers: built.pipelineInput.speakers.length,
         gap_filling_seconds: 0,
       },
       assemblyai: {
@@ -597,7 +600,7 @@ export function runAdapter(userOptions = {}) {
     security: inputManifest.execution,
     gate_checks: gateChecks,
     assertions: {
-      canonical_speakers_present: built.stats.speaker_count === 3,
+      canonical_speakers_present: built.stats.speaker_count === built.pipelineInput.speakers.length,
       threshold_neutral_base: true,
       phase_ii_gap_fill_not_run: true,
       full_transcript_not_exported: true,
@@ -732,7 +735,8 @@ function normalizeRoomIntervals(intervals, duration) {
 
 function mergeMappedTurns(turns, duration) {
   const merged = [];
-  for (const speaker of ['S1', 'S2', 'S3']) {
+  const speakers = canonicalSpeakers([...new Set(turns.map((turn) => turn.speaker))]);
+  for (const speaker of speakers) {
     const ordered = turns
       .filter((turn) => turn.speaker === speaker)
       .map((turn) => ({ ...turn, start: Math.max(0, turn.start), end: Math.min(duration, turn.end) }))
@@ -824,7 +828,12 @@ function safeFileIdentifier(filePath) {
 }
 
 function mappingIsBijective(mapping) {
-  const expected = ['S1', 'S2', 'S3'];
+  let expected;
+  try {
+    expected = canonicalSpeakers(Object.values(mapping?.pyannote || {}));
+  } catch {
+    return false;
+  }
   return ['pyannote', 'assemblyai'].every((provider) => {
     const values = Object.values(mapping?.[provider] || {}).sort();
     return values.length === expected.length && values.every((value, index) => value === expected[index]);

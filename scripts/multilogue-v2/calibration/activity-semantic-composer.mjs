@@ -1,18 +1,20 @@
-import { EPSILON, SPEAKERS, round } from '../core/contracts.mjs';
+import { EPSILON, canonicalSpeakers, round, speakersFromTextGrid } from '../core/contracts.mjs';
 
 const ACTIVE_LABELS = new Set(['s', 'f', 'bc', 'ol']);
 
 export function composeActivityTopologyWithSemantics(topology, semantic, userOptions = {}) {
-  validateDocuments(topology, semantic);
+  const speakers = speakersFromTextGrid(semantic);
+  validateDocuments(topology, semantic, speakers);
   const duration = Number(semantic.xmax);
   const preservedEvidence = normalizePreservedEvidence(
     userOptions.preserveSemanticActivityIntervals || [],
     duration,
+    speakers,
   );
   const floorTier = tier(semantic, 'floor');
   const mismatches = [];
   const preservations = [];
-  const speakerTiers = SPEAKERS.map((speaker) => {
+  const speakerTiers = speakers.map((speaker) => {
     const topologyTier = tier(topology, speaker);
     const semanticTier = tier(semantic, speaker);
     const speakerEvidence = preservedEvidence.filter((item) => item.speaker === speaker);
@@ -40,7 +42,7 @@ export function composeActivityTopologyWithSemantics(topology, semantic, userOpt
       if (semanticLabel === 'x') text = 'x';
       else if (preserveSemanticActivity) text = preservationEvidence.label || semanticLabel;
       else if (topologyActive) text = semanticActive ? semanticLabel : 's';
-      else text = semanticActive ? inactiveLabel(speaker, floorLabel) : semanticLabel;
+      else text = semanticActive ? inactiveLabel(speaker, floorLabel, speakers) : semanticLabel;
       appendInterval(intervals, { start, end, text });
       if (preserveSemanticActivity && !topologyActive) {
         preservations.push({
@@ -59,7 +61,7 @@ export function composeActivityTopologyWithSemantics(topology, semantic, userOpt
     }
     return { class: 'IntervalTier', name: speaker, xmin: 0, xmax: duration, intervals };
   });
-  const overlapRepairs = repairOneSidedOverlap(speakerTiers, floorTier, duration);
+  const overlapRepairs = repairOneSidedOverlap(speakerTiers, floorTier, duration, speakers);
   const flagsTier = composeFlags(
     tier(semantic, 'flags'),
     [...mismatches, ...preservations, ...overlapRepairs],
@@ -102,7 +104,7 @@ export function composeActivityTopologyWithSemantics(topology, semantic, userOpt
   };
 }
 
-function repairOneSidedOverlap(speakerTiers, floorTier, duration) {
+function repairOneSidedOverlap(speakerTiers, floorTier, duration, speakers) {
   const boundaries = unionBoundaries([...speakerTiers, floorTier], duration);
   const repairs = [];
   const rebuilt = Object.fromEntries(speakerTiers.map((item) => [item.name, []]));
@@ -112,9 +114,9 @@ function repairOneSidedOverlap(speakerTiers, floorTier, duration) {
     if (!(end > start + EPSILON)) continue;
     const time = start + (end - start) / 2;
     const labels = Object.fromEntries(speakerTiers.map((item) => [item.name, labelAt(item, time)]));
-    const overlapSpeakers = SPEAKERS.filter((speaker) => labels[speaker] === 'ol');
+    const overlapSpeakers = speakers.filter((speaker) => labels[speaker] === 'ol');
     const floorLabel = labelAt(floorTier, time);
-    for (const speaker of SPEAKERS) {
+    for (const speaker of speakers) {
       let text = labels[speaker];
       if (overlapSpeakers.length === 1 && overlapSpeakers[0] === speaker) {
         text = floorLabel === speaker ? 's' : 'bc';
@@ -132,23 +134,23 @@ function repairOneSidedOverlap(speakerTiers, floorTier, duration) {
   return repairs;
 }
 
-function normalizePreservedEvidence(items, duration) {
+function normalizePreservedEvidence(items, duration, speakers) {
   return items.map((item) => ({
     speaker: String(item.speaker),
     start: Math.max(0, Number(item.start)),
     end: Math.min(duration, Number(item.end)),
     evidence_id: String(item.evidence_id || item.event_id || ''),
     label: String(item.label || ''),
-  })).filter((item) => SPEAKERS.includes(item.speaker)
+  })).filter((item) => speakers.includes(item.speaker)
     && Number.isFinite(item.start) && Number.isFinite(item.end)
     && item.end > item.start + EPSILON)
     .sort((left, right) => left.start - right.start || left.end - right.end
       || left.speaker.localeCompare(right.speaker));
 }
 
-function inactiveLabel(speaker, floorLabel) {
+function inactiveLabel(speaker, floorLabel, speakers) {
   if (floorLabel === speaker) return 'op';
-  if (SPEAKERS.includes(floorLabel)) return 'pf';
+  if (speakers.includes(floorLabel)) return 'pf';
   return floorLabel === 'tr' ? 'tr' : 'shs';
 }
 
@@ -204,11 +206,11 @@ function tier(document, name) {
   return item;
 }
 
-function validateDocuments(topology, semantic) {
+function validateDocuments(topology, semantic, speakers) {
   if (!(Number(topology?.xmax) > 0) || Math.abs(Number(topology.xmax) - Number(semantic?.xmax)) > 1e-6) {
     throw new Error('topology and semantic documents must share a positive duration');
   }
-  for (const name of [...SPEAKERS, 'floor', 'transitions', 'flags']) {
+  for (const name of [...speakers, 'floor', 'transitions', 'flags']) {
     tier(topology, name);
     tier(semantic, name);
   }

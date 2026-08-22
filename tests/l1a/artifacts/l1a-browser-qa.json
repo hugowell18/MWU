@@ -1,0 +1,60 @@
+{
+  "schema_version": "l1a-browser-qa-v1",
+  "generated_at": "2026-08-22T12:01:43.272Z",
+  "requirements": [
+    "UI-006",
+    "L1A-003",
+    "L1A-004",
+    "L1A-005",
+    "L1A-006",
+    "L1A-009"
+  ],
+  "status": "pass",
+  "checks": {
+    "three_candidates_reviewed": true,
+    "progressive_controls": true,
+    "candidate_defaults_applied": true,
+    "exclusion_reindexes_canonical_speakers": true,
+    "phase_evidence_state_machine": true,
+    "representative_audio_playback": true,
+    "reviewer_persisted": true,
+    "accepted_artifacts_visible": true,
+    "second_upload_resets_prior_session": true,
+    "console_clean": true,
+    "viewport_checks": {
+      "desktop": {
+        "innerWidth": 1440,
+        "pageOverflow": false,
+        "headingVisible": true,
+        "reviewerVisible": true,
+        "acceptedVisible": true,
+        "outputLinks": 6,
+        "reviewerValue": "browser-rater-01",
+        "expected_width": 1440,
+        "ok": true
+      },
+      "mobile": {
+        "innerWidth": 390,
+        "pageOverflow": false,
+        "headingVisible": true,
+        "reviewerVisible": true,
+        "acceptedVisible": true,
+        "outputLinks": 6,
+        "reviewerValue": "browser-rater-01",
+        "expected_width": 390,
+        "ok": true
+      }
+    }
+  },
+  "screenshots": [
+    {
+      "path": "tests/l1a/artifacts/l1a-browser-desktop.png",
+      "bytes": 307681
+    },
+    {
+      "path": "tests/l1a/artifacts/l1a-browser-mobile.png",
+      "bytes": 261092
+    }
+  ],
+  "data_boundary": "Synthetic WAV and test-mode candidate turns only."
+}

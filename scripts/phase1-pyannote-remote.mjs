@@ -44,7 +44,7 @@ function parseArgs(argv) {
     audioUrl: '',
     outDir: '',
     prefix: '',
-    speakers: 3,
+    speakers: null,
     minSpeakers: null,
     maxSpeakers: null,
     model: 'community-1',
@@ -182,7 +182,7 @@ Options:
   --audio-url <url>            Public/signed URL or media:// key; skips upload, but --audio is still required for muted mirrors.
   --model <community-1|precision-2>
                                Default: community-1.
-  --speakers <n>               Expected speaker count. Default: 3.
+  --speakers <n>               Optional exact speaker-count constraint.
   --min-speakers <n>           Optional minSpeakers.
   --max-speakers <n>           Optional maxSpeakers.
   --poll-ms <ms>               Polling interval. Default: 10000.

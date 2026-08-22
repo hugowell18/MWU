@@ -143,12 +143,15 @@ export function candidateSelectionVector(rawMetrics, outputMetrics) {
 }
 
 export function deriveFloorHandoffs(document) {
+  const speakers = (document?.tiers || [])
+    .filter((tier) => tier?.class === 'IntervalTier' && /^S\d+$/.test(String(tier.name)))
+    .map((tier) => String(tier.name));
   const floor = tierByName(document, 'floor');
   const handoffs = [];
   let holder = null;
   let turnEnd = null;
   for (const interval of floor.intervals) {
-    if (!SPEAKERS.includes(interval.text)) {
+    if (!speakers.includes(interval.text)) {
       if (holder && turnEnd == null) turnEnd = Number(interval.start);
       continue;
     }

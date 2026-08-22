@@ -200,8 +200,8 @@ async function main() {
     assert(js.includes('Delivery layers'), 'layer sidebar missing');
     for (const marker of [
       'Original room-mix WAV',
-      'Automatic or configured speaker count (two or more)',
-      'Callable floor and nine-label engine',
+      'Researcher candidate decisions',
+      'L1a evidence and callable engine',
       'One dynamic N+3-tier TextGrid per threshold',
       'Nine timeline labels',
       'overlap present with offset not measured',

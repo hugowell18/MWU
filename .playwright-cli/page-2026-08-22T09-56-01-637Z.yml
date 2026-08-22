@@ -1,0 +1,133 @@
+- generic [ref=f1e3]:
+  - navigation [ref=f1e4]:
+    - generic [ref=f1e5]:
+      - button "M MWU Pipeline" [ref=f1e6] [cursor=pointer]:
+        - generic [ref=f1e7]: M
+        - generic [ref=f1e8]: MWU Pipeline
+      - generic [ref=f1e9]:
+        - button "Overview" [ref=f1e10] [cursor=pointer]
+        - button "Workspace" [ref=f1e15] [cursor=pointer]
+        - button "Methodology" [ref=f1e20] [cursor=pointer]
+      - generic [ref=f1e24]: H
+  - main [ref=f1e25]:
+    - generic [ref=f1e26]:
+      - generic [ref=f1e27]: Operational workspace
+      - heading "Layer workflow" [level=2] [ref=f1e28]
+      - paragraph [ref=f1e29]: Inspect the formal input, processing and output contract for each delivery layer.
+    - generic [ref=f1e30]:
+      - complementary [ref=f1e31]:
+        - generic [ref=f1e32]: Delivery layers
+        - generic [ref=f1e33]:
+          - button "L1a · Speaker Evidence Attribution · N listening tracks" [ref=f1e34] [cursor=pointer]:
+            - generic [ref=f1e40]:
+              - generic [ref=f1e41]: L1a · Speaker Evidence
+              - generic [ref=f1e42]: Attribution · N listening tracks
+          - button "L1b · Interaction Timing P025/P035 · N+3 TextGrid" [ref=f1e45] [cursor=pointer]:
+            - generic [ref=f1e49]:
+              - generic [ref=f1e50]: L1b · Interaction Timing
+              - generic [ref=f1e51]: P025/P035 · N+3 TextGrid
+          - button "L2 · Research Analysis Transcript · AS-units · MWU" [ref=f1e54] [cursor=pointer]:
+            - generic [ref=f1e59]:
+              - generic [ref=f1e60]: L2 · Research Analysis
+              - generic [ref=f1e61]: Transcript · AS-units · MWU
+          - button "L3 · Final Synthesis Matrix · reports · archive" [ref=f1e64] [cursor=pointer]:
+            - generic [ref=f1e68]:
+              - generic [ref=f1e69]: L3 · Final Synthesis
+              - generic [ref=f1e70]: Matrix · reports · archive
+        - generic [ref=f1e73]: Original WAV is the canonical acoustic clock. Draft evidence remains distinct from researcher-reviewed data.
+      - generic [ref=f1e78]:
+        - generic [ref=f1e79]:
+          - generic [ref=f1e80]:
+            - generic [ref=f1e81]:
+              - generic [ref=f1e82]: Layer 1
+              - generic [ref=f1e83]: /
+              - generic [ref=f1e84]: L1b
+              - generic [ref=f1e85]: /
+              - generic [ref=f1e86]: Phase II
+            - heading "Path B interaction timing" [level=1] [ref=f1e87]
+            - paragraph [ref=f1e88]: Continue only from the latest accepted L1a handoff, then generate threshold-specific nine-label TextGrids and timing evidence.
+          - generic [ref=f1e89]:
+            - button "Generate L1b drafts" [disabled] [ref=f1e90]
+            - button "Reset" [disabled] [ref=f1e93]
+        - region [ref=f1e97]:
+          - generic [ref=f1e98]:
+            - generic [ref=f1e103]:
+              - generic [ref=f1e104]: Input from L1a
+              - heading "Accepted handoff gate" [level=2] [ref=f1e105]
+            - generic [ref=f1e106]: WAITING
+          - generic [ref=f1e107]:
+            - generic [ref=f1e108]: Accepted L1a session input
+            - combobox "Accepted L1a session input 1 sealed session input available" [ref=f1e225]:
+              - option "Choose an accepted L1a session" [selected]
+              - option "Multilogue04_C_Level30_D1G4 · review-v0006 · Multilogue04_C_Level30_D1G4-1787382481013-2798df"
+            - generic [ref=f1e110]: 1 sealed session input available
+          - generic [ref=f1e111]:
+            - generic [ref=f1e112]:
+              - generic [ref=f1e113]: Recording
+              - strong [ref=f1e114]: No accepted L1a run
+            - generic [ref=f1e115]:
+              - generic [ref=f1e116]: Canonical speakers
+              - strong [ref=f1e117]: Not available
+            - generic [ref=f1e118]:
+              - generic [ref=f1e119]: Master clock
+              - strong [ref=f1e120]: Not available
+            - generic [ref=f1e121]:
+              - generic [ref=f1e122]: Client contract
+              - strong [ref=f1e123]: Blocked
+          - generic [ref=f1e124]:
+            - generic [ref=f1e125]: Latest accepted revision
+            - generic [ref=f1e129]: Source WAV and hashes sealed
+            - generic [ref=f1e133]: Canonical S1-SN mapping
+            - generic [ref=f1e137]: Path B evidence sealed
+          - generic [ref=f1e141]: Select an accepted L1a session to inspect its handoff.
+        - generic [ref=f1e143]:
+          - region [ref=f1e144]:
+            - generic [ref=f1e150]:
+              - generic [ref=f1e151]: Run settings
+              - heading "Pause thresholds" [level=2] [ref=f1e152]
+            - generic [ref=f1e153]:
+              - generic [ref=f1e154]:
+                - strong [ref=f1e157]: 0.25 s
+                - generic [ref=f1e158]: required run
+              - generic [ref=f1e159]:
+                - strong [ref=f1e162]: 0.35 s
+                - generic [ref=f1e163]: required run
+            - generic [ref=f1e164]:
+              - checkbox "Additional threshold 0.50 seconds" [ref=f1e165]
+              - generic [ref=f1e166]: Additional threshold
+              - spinbutton "Additional pause threshold in seconds" [disabled] [ref=f1e167]: "0.50"
+              - generic [ref=f1e168]: seconds
+          - region [ref=f1e169]:
+            - generic [ref=f1e176]:
+              - generic [ref=f1e177]: Method
+              - heading "Path B contract" [level=2] [ref=f1e178]
+            - generic [ref=f1e179]:
+              - generic [ref=f1e180]:
+                - generic [ref=f1e181]: Speaker tiers
+                - strong [ref=f1e182]: S1-SN
+              - generic [ref=f1e183]:
+                - generic [ref=f1e184]: Shared tiers
+                - strong [ref=f1e185]: floor / transitions / flags
+              - generic [ref=f1e186]:
+                - generic [ref=f1e187]: Label set
+                - strong [ref=f1e188]: s · f · bc · ol · op · pf · tr · shs · x
+              - generic [ref=f1e189]:
+                - generic [ref=f1e190]: Floor policy
+                - strong [ref=f1e191]: R1-R5 · Path B
+            - paragraph [ref=f1e192]: Overlap remains visible as evidence; signed FTO is not claimed where overlap offset is not measured.
+        - region [ref=f1e193]:
+          - generic [ref=f1e194]:
+            - generic [ref=f1e198]:
+              - generic [ref=f1e199]: Execution
+              - heading "Accepted L1a to L1b" [level=2] [ref=f1e200]
+            - generic [ref=f1e201]: Waiting for input
+          - generic [ref=f1e202]:
+            - strong [ref=f1e205]: L1a handoff gate
+            - strong [ref=f1e208]: Timed-word evidence
+            - strong [ref=f1e211]: Stage-1 evidence
+            - strong [ref=f1e214]: P025 + P035 Path B
+            - strong [ref=f1e217]: Delivery package
+          - paragraph [ref=f1e218]: Generation is blocked unless the selected L1a revision, canonical clock, S1-SN mapping and N+3 artifacts all pass the sealed handoff gate.
+        - generic [ref=f1e222]:
+          - heading "Results will appear by threshold" [level=3] [ref=f1e223]
+          - paragraph [ref=f1e224]: Run L1b after the accepted L1a handoff is available.

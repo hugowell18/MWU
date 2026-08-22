@@ -63,11 +63,15 @@
             "sprint:run": "node scripts/validation-sprint/run-sprint.mjs",
             "sprint:test": "node tests/validation-sprint/run-tests.mjs",
             "sprint:test:offline": "node scripts/validation-sprint/run-sprint.mjs --phase all --no-asr && node tests/validation-sprint/run-tests.mjs",
-            "sprint:build-ui": "vite build --config vite.validation.config.mjs",
+            "sprint:build-ui": "node scripts/validation-sprint/build-ui.mjs",
             "sprint:serve": "node scripts/validation-sprint/server.mjs",
             "sprint:ui-test": "node tests/validation-sprint/ui-tests.mjs",
             "sprint:finalize": "node scripts/validation-sprint/finalize-report.mjs",
     "phase1:pyannote:test": "node tests/phase1-remote-diarization/run-tests.mjs",
+    "l1a:test": "node tests/l1a/run-tests.mjs",
+    "l1a:api-test": "node tests/l1a/api-tests.mjs",
+    "l1a:browser-qa": "node tests/l1a/browser-qa.mjs",
+    "release:inventory-check": "node scripts/release/check-source-inventory.mjs",
     "multilogue:v2:stage1": "node scripts/multilogue-v2/adapters/build-stage1-evidence.mjs",
     "multilogue:v2:stage1:test": "node tests/multilogue-v2-adapter/run-tests.mjs",
     "multilogue:v2:path-b": "node scripts/multilogue-v2/run-path-b-poc.mjs",
@@ -80,6 +84,9 @@
     "multilogue:v2:finalize": "node scripts/multilogue-v2/finalize-reviewed-path-b.mjs",
     "multilogue:v2:calibrate:p025": "node scripts/multilogue-v2/calibration/run-p025-calibration.mjs",
     "multilogue:v2:calibrate:test": "node tests/multilogue-v2-calibration/run-tests.mjs",
-    "l1b:test": "node tests/l1b/run-tests.mjs"
+    "l1b:test": "node tests/l1b/path-b-handoff-tests.mjs",
+    "l1b:dynamic-test": "node tests/l1b/dynamic-n-plus-3-tests.mjs",
+    "l1b:exclude-test": "node tests/l1b/excluded-candidates-handoff-tests.mjs",
+    "l1b:legacy-test": "node tests/l1b/run-tests.mjs"
       }
 }

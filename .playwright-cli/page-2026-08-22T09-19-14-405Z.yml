@@ -1,0 +1,151 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - button "M MWU Pipeline" [ref=e6] [cursor=pointer]:
+        - generic [ref=e7]: M
+        - generic [ref=e8]: MWU Pipeline
+      - generic [ref=e9]:
+        - button "Overview" [ref=e10] [cursor=pointer]
+        - button "Workspace" [ref=e15] [cursor=pointer]
+        - button "Methodology" [ref=e20] [cursor=pointer]
+      - generic [ref=e24]: H
+  - main [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e27]: Operational workspace
+      - heading "Layer workflow" [level=2] [ref=e28]
+      - paragraph [ref=e29]: Inspect the formal input, processing and output contract for each delivery layer.
+    - generic [ref=e30]:
+      - complementary [ref=e31]:
+        - generic [ref=e32]: Delivery layers
+        - generic [ref=e33]:
+          - button "L1a · Speaker Evidence Attribution · N listening tracks" [ref=e34] [cursor=pointer]:
+            - generic [ref=e40]:
+              - generic [ref=e41]: L1a · Speaker Evidence
+              - generic [ref=e42]: Attribution · N listening tracks
+          - button "L1b · Interaction Timing P025/P035 · N+3 TextGrid" [ref=e45] [cursor=pointer]:
+            - generic [ref=e49]:
+              - generic [ref=e50]: L1b · Interaction Timing
+              - generic [ref=e51]: P025/P035 · N+3 TextGrid
+          - button "L2 · Research Analysis Transcript · AS-units · MWU" [ref=e54] [cursor=pointer]:
+            - generic [ref=e59]:
+              - generic [ref=e60]: L2 · Research Analysis
+              - generic [ref=e61]: Transcript · AS-units · MWU
+          - button "L3 · Final Synthesis Matrix · reports · archive" [ref=e64] [cursor=pointer]:
+            - generic [ref=e68]:
+              - generic [ref=e69]: L3 · Final Synthesis
+              - generic [ref=e70]: Matrix · reports · archive
+        - generic [ref=e73]: Original WAV is the canonical acoustic clock. Draft evidence remains distinct from researcher-reviewed data.
+      - generic [ref=e78]:
+        - generic [ref=e79]:
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - generic [ref=e85]: L1b
+              - text: Phase II
+            - heading "Multi-Threshold Praat/TextGrid Automation" [level=1] [ref=e86]
+            - paragraph [ref=e87]: Run the approved interaction method independently for each pause threshold and package a Praat-readable draft for researcher correction.
+          - generic [ref=e88]: Method baseline
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - generic [ref=e94]: Inputs
+            - list [ref=e100]:
+              - listitem [ref=e101]: Original room-mix WAV
+              - listitem [ref=e105]: L1a evidence and callable engine
+              - listitem [ref=e109]: Versioned method parameters
+              - listitem [ref=e113]: P025/P035 or another configured threshold list
+              - listitem [ref=e117]: Research-team review strategy
+          - generic [ref=e121]:
+            - generic [ref=e122]: Outputs
+            - list [ref=e130]:
+              - listitem [ref=e131]: One dynamic N+3-tier TextGrid per threshold
+              - listitem [ref=e134]: Nine-label interval table
+              - listitem [ref=e137]: Floor timeline, turn-end/start, raw-gap and transition evidence
+              - listitem [ref=e140]: Review flags and interaction summary
+              - listitem [ref=e143]: Duration summary and per-pause table
+              - listitem [ref=e146]: Overlap capability, evidence IDs and missing-FTO flags
+              - listitem [ref=e149]: Method, provenance and validation reports
+        - generic [ref=e152]:
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - generic [ref=e155]: Automation path
+              - heading "Canonical evidence processing" [level=2] [ref=e156]
+            - generic [ref=e157]: Path B baseline
+          - generic [ref=e163]:
+            - generic [ref=e164]:
+              - generic [ref=e165]: "01"
+              - strong [ref=e166]: Independent threshold runs
+              - paragraph [ref=e167]: Execute P025 and P035 separately on the canonical timeline.
+            - generic [ref=e170]:
+              - generic [ref=e171]: "02"
+              - strong [ref=e172]: Floor resolution
+              - paragraph [ref=e173]: Apply persistent floor rules R1–R5.
+            - generic [ref=e176]:
+              - generic [ref=e177]: "03"
+              - strong [ref=e178]: Nine-label timeline
+              - paragraph [ref=e179]: Assign s, f, bc, ol, op, pf, tr, shs and x.
+            - generic [ref=e182]:
+              - generic [ref=e183]: "04"
+              - strong [ref=e184]: Path B transitions
+              - paragraph [ref=e185]: Record overlap present with offset not measured; never serialize missing FTO as zero.
+            - generic [ref=e188]:
+              - generic [ref=e189]: "05"
+              - strong [ref=e190]: Praat validation
+              - paragraph [ref=e191]: Check full coverage, tier schema and replay manifests.
+        - generic [ref=e192]:
+          - generic [ref=e193]:
+            - generic [ref=e194]: Threshold configuration
+            - generic [ref=e197]:
+              - generic [ref=e198]:
+                - generic [ref=e199]: P025
+                - generic [ref=e200]: 0.25 s independent run
+              - generic [ref=e201]:
+                - generic [ref=e202]: P035
+                - generic [ref=e203]: 0.35 s independent run
+              - generic [ref=e204]:
+                - generic [ref=e205]: 200 s
+                - generic [ref=e206]: intensity window
+              - generic [ref=e207]:
+                - generic [ref=e208]: N+3
+                - generic [ref=e209]: dynamic tier schema
+          - generic [ref=e210]:
+            - generic [ref=e211]: Nine timeline labels
+            - generic [ref=e217]:
+              - generic [ref=e218]:
+                - generic [ref=e219]: s
+                - text: speech
+              - generic [ref=e220]:
+                - generic [ref=e221]: f
+                - text: filled hesitation
+              - generic [ref=e222]:
+                - generic [ref=e223]: bc
+                - text: backchannel
+              - generic [ref=e224]:
+                - generic [ref=e225]: ol
+                - text: overlap
+              - generic [ref=e226]:
+                - generic [ref=e227]: op
+                - text: own pause
+              - generic [ref=e228]:
+                - generic [ref=e229]: pf
+                - text: passive floor
+              - generic [ref=e230]:
+                - generic [ref=e231]: tr
+                - text: transition
+              - generic [ref=e232]:
+                - generic [ref=e233]: shs
+                - text: shared silence
+              - generic [ref=e234]:
+                - generic [ref=e235]: x
+                - text: unusable audio
+        - generic [ref=e236]:
+          - strong [ref=e241]: Floor rules
+          - generic [ref=e242]: R1 start FREE
+          - generic [ref=e243]: R2 claim floor
+          - generic [ref=e244]: R3 retain floor
+          - generic [ref=e245]: R4 competing turn
+          - generic [ref=e246]: R5 resolve silence
+        - generic [ref=e250]:
+          - strong [ref=e251]: Review state
+          - paragraph [ref=e252]: Draft outputs remain reviewable. The researcher-corrected TextGrid becomes the accepted downstream artifact.
+        - generic [ref=e259]:
+          - generic [ref=e260]: Downstream handoff
+          - paragraph [ref=e261]: The researcher-reviewed nine-label timeline continues to Phase IV. Signed FTO, where supported, is reserved for Phase V.

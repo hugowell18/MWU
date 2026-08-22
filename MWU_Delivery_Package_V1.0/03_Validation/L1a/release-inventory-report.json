@@ -1,0 +1,538 @@
+{
+  "schema_version": "mwu-source-release-inventory-v1",
+  "generated_at": "2026-08-22T06:49:41.720Z",
+  "status": "ready_for_qa_review",
+  "policy": {
+    "include_roots": [
+      "src/",
+      "scripts/",
+      "tests/",
+      "spec/",
+      "public/",
+      "package.json",
+      "package-lock.json",
+      "vite.config.ts",
+      "vite.validation.config.mjs",
+      "validation.html"
+    ],
+    "exclusions": [
+      {
+        "pattern": "(^|\\/)\\.env(?:\\.|$)",
+        "reason": "local environment or credentials"
+      },
+      {
+        "pattern": "(^|\\/)(sample|samples|outputs?|tmp|node_modules|\\.git)(\\/|$)",
+        "reason": "participant data, runtime output or local dependency"
+      },
+      {
+        "pattern": "\\.(wav|mp3|m4a|flac|aac|ogg|rttm)$",
+        "reason": "audio or diarization data"
+      },
+      {
+        "pattern": "(assemblyai|pyannote).*(raw|response|payload).*\\.json$",
+        "reason": "provider raw payload"
+      },
+      {
+        "pattern": "(^|\\/)\\.DS_Store$",
+        "reason": "local filesystem metadata"
+      }
+    ],
+    "note": "This inventory defines the source handover candidate set. It does not delete or reclassify repository history."
+  },
+  "counts": {
+    "included": 261,
+    "excluded": 4694,
+    "outside_allowlist": 111,
+    "violations": 0
+  },
+  "included": [
+    "package-lock.json",
+    "package.json",
+    "public/assets/overview/overview-campus-dialogue.png",
+    "public/assets/overview/overview-l2-seminar.png",
+    "public/assets/overview/overview-language-class.png",
+    "scripts/assemblyai-json-to-textgrid.mjs",
+    "scripts/assemblyai-transcribe-test.mjs",
+    "scripts/check_ami_textgrid_in_praat.praat",
+    "scripts/check_assemblyai_4tier_textgrid_in_praat.praat",
+    "scripts/check_review_6tier_textgrid_in_praat.praat",
+    "scripts/classify-pause-location.mjs",
+    "scripts/compute-rate-metrics.mjs",
+    "scripts/export-research-excel.mjs",
+    "scripts/extract-elllo-transcript.mjs",
+    "scripts/extract-pause-segments.mjs",
+    "scripts/extract-reviewed-units.mjs",
+    "scripts/inspect_textgrid_name.praat",
+    "scripts/l1a/review-core.mjs",
+    "scripts/l1b/finalize-reviewed.mjs",
+    "scripts/l1b/run-l1b.mjs",
+    "scripts/local-acoustic-vad.mjs",
+    "scripts/merge-mfa-word-alignments.mjs",
+    "scripts/multilogue-v2/acoustic/local-boundary-crossing.mjs",
+    "scripts/multilogue-v2/acoustic/speaker-acoustic-support.mjs",
+    "scripts/multilogue-v2/acoustic/speaker-local-boundary-refinement.mjs",
+    "scripts/multilogue-v2/acoustic/speaker-local-internal-gap-refinement.mjs",
+    "scripts/multilogue-v2/acoustic/speaker-local-uncovered-activity.mjs",
+    "scripts/multilogue-v2/adapters/build-stage1-evidence.mjs",
+    "scripts/multilogue-v2/adapters/build-v22-stage1-candidate.mjs",
+    "scripts/multilogue-v2/adapters/build-v23-stage1-candidate.mjs",
+    "scripts/multilogue-v2/adapters/build-v23c-stage1-candidate.mjs",
+    "scripts/multilogue-v2/blind/generate-frozen-v23-blind-draft.mjs",
+    "scripts/multilogue-v2/build-r32-calibration-delivery.mjs",
+    "scripts/multilogue-v2/calibration/activity-semantic-composer.mjs",
+    "scripts/multilogue-v2/calibration/build-r32-technical-assessment.mjs",
+    "scripts/multilogue-v2/calibration/frozen-semantic-pass.mjs",
+    "scripts/multilogue-v2/calibration/metrics.mjs",
+    "scripts/multilogue-v2/calibration/overlap-semantic-preservation.mjs",
+    "scripts/multilogue-v2/calibration/r11-boundary-generator.mjs",
+    "scripts/multilogue-v2/calibration/r11-boundary-scorer.mjs",
+    "scripts/multilogue-v2/calibration/r12-internal-gap-generator.mjs",
+    "scripts/multilogue-v2/calibration/r12-internal-gap-scorer.mjs",
+    "scripts/multilogue-v2/calibration/r14-uncovered-activity-generator.mjs",
+    "scripts/multilogue-v2/calibration/r14-uncovered-activity-scorer.mjs",
+    "scripts/multilogue-v2/calibration/r16-topology-generator.mjs",
+    "scripts/multilogue-v2/calibration/r16-topology-scorer.mjs",
+    "scripts/multilogue-v2/calibration/run-p025-calibration.mjs",
+    "scripts/multilogue-v2/calibration/run-p025-v22-calibration.mjs",
+    "scripts/multilogue-v2/calibration/run-p025-v23-calibration.mjs",
+    "scripts/multilogue-v2/calibration/run-p025-v23-final-gate.mjs",
+    "scripts/multilogue-v2/calibration/run-p025-v23c-calibration.mjs",
+    "scripts/multilogue-v2/calibration/run-r11-boundary-refinement.mjs",
+    "scripts/multilogue-v2/calibration/run-r12-internal-gap-refinement.mjs",
+    "scripts/multilogue-v2/calibration/run-r14-uncovered-activity.mjs",
+    "scripts/multilogue-v2/calibration/run-r16-topology-search.mjs",
+    "scripts/multilogue-v2/calibration/run-r20-overlap-corroboration.mjs",
+    "scripts/multilogue-v2/calibration/run-r25-overlap-topology-composition.mjs",
+    "scripts/multilogue-v2/calibration/score-customer-edge-cases.mjs",
+    "scripts/multilogue-v2/calibration/v23-final-generator.mjs",
+    "scripts/multilogue-v2/calibration/v23-final-scorer.mjs",
+    "scripts/multilogue-v2/calibration/v23c-generator.mjs",
+    "scripts/multilogue-v2/calibration/v23c-scorer.mjs",
+    "scripts/multilogue-v2/calibration/v23c-semantic-pass.mjs",
+    "scripts/multilogue-v2/core/contracts.mjs",
+    "scripts/multilogue-v2/core/interaction-engine.mjs",
+    "scripts/multilogue-v2/core/mapping.mjs",
+    "scripts/multilogue-v2/core/pipeline.mjs",
+    "scripts/multilogue-v2/core/textgrid.mjs",
+    "scripts/multilogue-v2/core/timeline.mjs",
+    "scripts/multilogue-v2/core/validator.mjs",
+    "scripts/multilogue-v2/finalize-reviewed-path-b.mjs",
+    "scripts/multilogue-v2/io/artifact-utils.mjs",
+    "scripts/multilogue-v2/io/parse-six-tier-textgrid.mjs",
+    "scripts/multilogue-v2/run-path-b-poc.mjs",
+    "scripts/multilogue-v2/run-validation-poc.mjs",
+    "scripts/open_ami_textgrid_in_praat.praat",
+    "scripts/open_assemblyai_4tier_textgrid_in_praat.praat",
+    "scripts/open_elllo_425_6tier_in_praat.praat",
+    "scripts/open_elllo_425_reviewed_in_praat.praat",
+    "scripts/open_review_6tier_textgrid_in_praat.praat",
+    "scripts/open_stage_d_word_alignment_in_praat.praat",
+    "scripts/phase1-artifacts-from-turns.mjs",
+    "scripts/phase1-compare-diarization.mjs",
+    "scripts/phase1-muted-mirror-from-assemblyai.mjs",
+    "scripts/phase1-pyannote-remote.mjs",
+    "scripts/phase1-verify-handoff.mjs",
+    "scripts/phase1/lib/diarization-artifacts.mjs",
+    "scripts/praat-silence-to-textgrid.praat",
+    "scripts/praat_send_ping.praat",
+    "scripts/prepare-mfa-corpus.mjs",
+    "scripts/release/check-source-inventory.mjs",
+    "scripts/run-forced-alignment.mjs",
+    "scripts/simulate-elllo-425-reviewed-textgrid.mjs",
+    "scripts/tag-clause-boundaries.mjs",
+    "scripts/test-6tier-pipeline.mjs",
+    "scripts/test-stage-c.mjs",
+    "scripts/test-stage-d.mjs",
+    "scripts/test-stage-e.mjs",
+    "scripts/textgrid-to-review-excel.mjs",
+    "scripts/textgrid-utils.mjs",
+    "scripts/validation-sprint/README.md",
+    "scripts/validation-sprint/build-ui.mjs",
+    "scripts/validation-sprint/config.mjs",
+    "scripts/validation-sprint/finalize-report.mjs",
+    "scripts/validation-sprint/lib/asr.mjs",
+    "scripts/validation-sprint/lib/comparator.mjs",
+    "scripts/validation-sprint/lib/durations.mjs",
+    "scripts/validation-sprint/lib/excel-baseline.mjs",
+    "scripts/validation-sprint/lib/fsutil.mjs",
+    "scripts/validation-sprint/lib/matrix.mjs",
+    "scripts/validation-sprint/lib/praat.mjs",
+    "scripts/validation-sprint/lib/script2.mjs",
+    "scripts/validation-sprint/lib/textgrid.mjs",
+    "scripts/validation-sprint/lib/transcript-split.mjs",
+    "scripts/validation-sprint/lib/wer.mjs",
+    "scripts/validation-sprint/lib/xlsxio.mjs",
+    "scripts/validation-sprint/praat/calculate_segment_durations.praat",
+    "scripts/validation-sprint/praat/silences.praat",
+    "scripts/validation-sprint/run-sprint.mjs",
+    "scripts/validation-sprint/server.mjs",
+    "scripts/validation-sprint/verify-build.mjs",
+    "spec/README.md",
+    "spec/design.md",
+    "spec/requirements.md",
+    "spec/tasks.md",
+    "spec/ui-design.md",
+    "spec/ui/MWU_Layer_UI_Prototypes.html",
+    "spec/ui/README.md",
+    "spec/ui/prototypes/01-l1a-speaker-review.png",
+    "spec/ui/prototypes/02-l1b-interaction-timing.png",
+    "spec/ui/prototypes/03-l2-research-analysis.png",
+    "spec/ui/prototypes/04-l3-matrix-validation.png",
+    "src/App.tsx",
+    "src/Attributions.md",
+    "src/components/admin/AdminDashboard.tsx",
+    "src/components/auth/AuthProvider.tsx",
+    "src/components/auth/Login.tsx",
+    "src/components/auth/LoginForm.tsx",
+    "src/components/auth/PasswordChangeForm.tsx",
+    "src/components/auth/Signup.tsx",
+    "src/components/community.tsx",
+    "src/components/dashboard/CBTManagement.tsx",
+    "src/components/dashboard/DashboardHome.tsx",
+    "src/components/dashboard/ResourceManagement.tsx",
+    "src/components/dashboard/ResultsManagement.tsx",
+    "src/components/data-analytics.tsx",
+    "src/components/docs.tsx",
+    "src/components/download-section.tsx",
+    "src/components/figma/ImageWithFallback.tsx",
+    "src/components/hero.tsx",
+    "src/components/layout/Sidebar.tsx",
+    "src/components/practice-task.tsx",
+    "src/components/ui/accordion.tsx",
+    "src/components/ui/alert-dialog.tsx",
+    "src/components/ui/alert.tsx",
+    "src/components/ui/aspect-ratio.tsx",
+    "src/components/ui/avatar.tsx",
+    "src/components/ui/badge.tsx",
+    "src/components/ui/breadcrumb.tsx",
+    "src/components/ui/button.tsx",
+    "src/components/ui/calendar.tsx",
+    "src/components/ui/card.tsx",
+    "src/components/ui/carousel.tsx",
+    "src/components/ui/chart.tsx",
+    "src/components/ui/checkbox.tsx",
+    "src/components/ui/collapsible.tsx",
+    "src/components/ui/command.tsx",
+    "src/components/ui/context-menu.tsx",
+    "src/components/ui/dialog.tsx",
+    "src/components/ui/drawer.tsx",
+    "src/components/ui/dropdown-menu.tsx",
+    "src/components/ui/form.tsx",
+    "src/components/ui/hover-card.tsx",
+    "src/components/ui/input-otp.tsx",
+    "src/components/ui/input.tsx",
+    "src/components/ui/label.tsx",
+    "src/components/ui/menubar.tsx",
+    "src/components/ui/navigation-menu.tsx",
+    "src/components/ui/pagination.tsx",
+    "src/components/ui/popover.tsx",
+    "src/components/ui/progress.tsx",
+    "src/components/ui/radio-group.tsx",
+    "src/components/ui/resizable.tsx",
+    "src/components/ui/scroll-area.tsx",
+    "src/components/ui/select.tsx",
+    "src/components/ui/separator.tsx",
+    "src/components/ui/sheet.tsx",
+    "src/components/ui/sidebar.tsx",
+    "src/components/ui/skeleton.tsx",
+    "src/components/ui/slider.tsx",
+    "src/components/ui/sonner.tsx",
+    "src/components/ui/switch.tsx",
+    "src/components/ui/table.tsx",
+    "src/components/ui/tabs.tsx",
+    "src/components/ui/textarea.tsx",
+    "src/components/ui/toggle-group.tsx",
+    "src/components/ui/toggle.tsx",
+    "src/components/ui/tooltip.tsx",
+    "src/components/ui/use-mobile.ts",
+    "src/components/ui/utils.ts",
+    "src/components/validation/ArtifactDownloads.tsx",
+    "src/components/validation/FileChecklist.tsx",
+    "src/components/validation/L1aRunner.tsx",
+    "src/components/validation/L1bRunner.tsx",
+    "src/components/validation/MatrixPanel.tsx",
+    "src/components/validation/MetricComparisonTable.tsx",
+    "src/components/validation/MultilogueV2Runner.tsx",
+    "src/components/validation/RunStepper.tsx",
+    "src/components/validation/StatusBadge.tsx",
+    "src/components/validation/ThresholdConfig.tsx",
+    "src/components/validation/TranscriptSplitPanel.tsx",
+    "src/components/validation/ValidationApp.tsx",
+    "src/components/validation/ValidationConsole.tsx",
+    "src/components/validation/validation-console.css",
+    "src/guidelines/Guidelines.md",
+    "src/index.css",
+    "src/main.tsx",
+    "src/server/uploadHandler.ts",
+    "src/styles/globals.css",
+    "src/supabase/functions/server/index.tsx",
+    "src/supabase/functions/server/kv_store.tsx",
+    "src/utils/fileValidation.ts",
+    "src/utils/supabase/info.tsx",
+    "src/validation-main.tsx",
+    "tests/l1a/api-tests.mjs",
+    "tests/l1a/artifacts/l1a-accepted-desktop.png",
+    "tests/l1a/artifacts/l1a-accepted-mobile.png",
+    "tests/l1a/artifacts/l1a-api-test-report.json",
+    "tests/l1a/artifacts/l1a-browser-desktop.png",
+    "tests/l1a/artifacts/l1a-browser-mobile.png",
+    "tests/l1a/artifacts/l1a-browser-qa.json",
+    "tests/l1a/artifacts/l1a-test-report.json",
+    "tests/l1a/artifacts/release-inventory-report.json",
+    "tests/l1a/browser-qa.mjs",
+    "tests/l1a/run-tests.mjs",
+    "tests/l1b/run-tests.mjs",
+    "tests/multilogue-v2-adapter/artifacts/test-report.json",
+    "tests/multilogue-v2-adapter/run-tests.mjs",
+    "tests/multilogue-v2-calibration/artifacts/test-report.json",
+    "tests/multilogue-v2-calibration/run-tests.mjs",
+    "tests/multilogue-v2-delivery/artifacts/browser-qa-report.json",
+    "tests/multilogue-v2-delivery/artifacts/regression-report.json",
+    "tests/multilogue-v2-delivery/artifacts/test-report.json",
+    "tests/multilogue-v2-delivery/run-browser-qa.mjs",
+    "tests/multilogue-v2-delivery/run-regressions.mjs",
+    "tests/multilogue-v2-delivery/run-tests.mjs",
+    "tests/multilogue-v2-delivery/write-gate.mjs",
+    "tests/multilogue-v2-path-b/artifacts/test-report.json",
+    "tests/multilogue-v2-path-b/run-tests.mjs",
+    "tests/multilogue-v2/artifacts/deterministic-replay.json",
+    "tests/multilogue-v2/artifacts/synthetic-six-tier.TextGrid",
+    "tests/multilogue-v2/artifacts/test-report.json",
+    "tests/multilogue-v2/artifacts/timeline-invariant-report.json",
+    "tests/multilogue-v2/fixtures.mjs",
+    "tests/multilogue-v2/run-tests.mjs",
+    "tests/phase1-remote-diarization/run-tests.mjs",
+    "tests/validation-sprint/run-tests.mjs",
+    "tests/validation-sprint/ui-tests.mjs",
+    "validation.html",
+    "vite.config.ts",
+    "vite.validation.config.mjs"
+  ],
+  "excluded_summary": [
+    {
+      "reason": "local filesystem metadata",
+      "count": 2
+    },
+    {
+      "reason": "local environment or credentials",
+      "count": 2
+    },
+    {
+      "reason": "participant data, runtime output or local dependency",
+      "count": 4684
+    },
+    {
+      "reason": "audio or diarization data",
+      "count": 4
+    },
+    {
+      "reason": "provider raw payload",
+      "count": 2
+    }
+  ],
+  "excluded_examples": [
+    {
+      "path": ".DS_Store",
+      "reason": "local filesystem metadata"
+    },
+    {
+      "path": ".env",
+      "reason": "local environment or credentials"
+    },
+    {
+      "path": "MWU_Delivery_Package_V1.0/.DS_Store",
+      "reason": "local filesystem metadata"
+    },
+    {
+      "path": "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Configuration_Templates/.env.example",
+      "reason": "local environment or credentials"
+    },
+    {
+      "path": "output/playwright/multilogue-impact-desktop-full.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-impact-mobile-decisions.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-impact-mobile-top-390-v2.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-impact-mobile-top-390.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-impact-mobile-top.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-v2-analysis-desktop.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-v2-analysis-mobile-appendix.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-v2-analysis-mobile-comparison.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-v2-analysis-mobile-full.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-v2-analysis-mobile-top.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-v2-desktop.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue-v2-mobile.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue04-delivery-guide-desktop-en.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue04-delivery-guide-desktop.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/multilogue04-delivery-guide-mobile.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-method-key-desktop.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-method-key-mobile.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-flow-l1b.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-flow-l2-mobile.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-flow-l2.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-flow-overview.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-l2-change.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-l3-change.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-mobile-round3.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-overview-downstream-change.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-phase1-round3.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-phase2-audit-pass.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-phase2-final-audit.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-phase2-final.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-phase2-final2.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-phase2-round3.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-ref.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-simple-l1b.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-simple-overview.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-simple-sow-mobile-v2.png",
+      "reason": "participant data, runtime output or local dependency"
+    },
+    {
+      "path": "output/playwright/mwu-pipeline-simple-sow-mobile.png",
+      "reason": "participant data, runtime output or local dependency"
+    }
+  ],
+  "outside_allowlist_examples": [
+    ".claude/settings.local.json",
+    ".gitignore",
+    "MWU_Delivery_Package_V1.0/01_Method_and_Design/MWU_System_Design_Specification.pdf",
+    "MWU_Delivery_Package_V1.0/01_Method_and_Design/MWU_Workflow_Atlas.html",
+    "MWU_Delivery_Package_V1.0/01_Method_and_Design/Method_Definition_and_Parameters.xlsx",
+    "MWU_Delivery_Package_V1.0/02_Product/Reference_Output/L1a/README.md",
+    "MWU_Delivery_Package_V1.0/02_Product/Reference_Output/README.md",
+    "MWU_Delivery_Package_V1.0/02_Product/WebUI_Access_and_Release_Notes.html",
+    "MWU_Delivery_Package_V1.0/03_Validation/Gold_Comparison/README.md",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/README.md",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/build-integrity.json",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-accepted-desktop.png",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-accepted-mobile.png",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-api-test-report.json",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-browser-qa.json",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-final-qa-report.json",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-final-qa-report.md",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/l1a-test-report.json",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a/release-inventory-report.json",
+    "MWU_Delivery_Package_V1.0/03_Validation/L1a_QA_Gate_Matrix.md",
+    "MWU_Delivery_Package_V1.0/03_Validation/Validation_Summary.xlsx",
+    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Acceptance_Checklist.xlsx",
+    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Deployment_Scripts/README.md",
+    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Deployment_and_Handover_Guide.pdf",
+    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/Source_Code/README.md",
+    "MWU_Delivery_Package_V1.0/04_Operation_Acceptance_and_Handover/User_Operation_Guide.pdf",
+    "MWU_Delivery_Package_V1.0/START_HERE.html",
+    "README.md",
+    "VPS_DEPLOYMENT_GUIDE_EN.md",
+    "build-validation/assets/overview/overview-campus-dialogue.png",
+    "build-validation/assets/overview/overview-l2-seminar.png",
+    "build-validation/assets/overview/overview-language-class.png",
+    "build-validation/assets/validation-Bhm0TEuQ.js",
+    "build-validation/assets/validation-CrYqp-dY.css",
+    "build-validation/build-integrity.json",
+    "build-validation/methodology-atlas.html",
+    "build-validation/validation.html",
+    "build/assets/index-CguG-Zq_.js",
+    "build/assets/index-CrYqp-dY.css",
+    "build/assets/overview/overview-campus-dialogue.png"
+  ],
+  "violations": []
+}

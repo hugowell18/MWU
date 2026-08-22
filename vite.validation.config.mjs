@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const outputDir = path.resolve(__dirname, process.env.MWU_VALIDATION_BUILD_DIR || 'build-validation');
 
 function copyMethodologyAtlas() {
   return {
@@ -13,7 +14,7 @@ function copyMethodologyAtlas() {
     closeBundle() {
       fs.copyFileSync(
         path.resolve(__dirname, 'html/MWU Pipeline.html'),
-        path.resolve(__dirname, 'build-validation/methodology-atlas.html'),
+        path.join(outputDir, 'methodology-atlas.html'),
       );
     },
   };
@@ -24,7 +25,7 @@ export default defineConfig({
   resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'], alias: { '@': path.resolve(__dirname, './src') } },
   build: {
     target: 'esnext',
-    outDir: 'build-validation',
+    outDir: outputDir,
     emptyOutDir: true,
     rollupOptions: { input: path.resolve(__dirname, 'validation.html') },
   },

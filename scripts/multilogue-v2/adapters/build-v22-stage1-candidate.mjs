@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-import { EPSILON, SPEAKERS, round } from '../core/contracts.mjs';
+import { EPSILON, SPEAKERS, canonicalSpeakers, round } from '../core/contracts.mjs';
 import { DEFAULT_BACKCHANNEL_LEXICON, DEFAULT_TURN_PROJECTORS } from '../core/interaction-engine.mjs';
 
 const V22_BACKCHANNEL_ADDITIONS = Object.freeze(['me too', 'same', 'same here']);
@@ -36,7 +36,11 @@ const DEFAULTS = Object.freeze({
 });
 
 export function buildV22Stage1Candidate(stage1Input, roomSoundingIntervals, userOptions = {}) {
-  const options = { ...DEFAULTS, ...userOptions };
+  const options = {
+    ...DEFAULTS,
+    ...userOptions,
+    speakers: canonicalSpeakers(userOptions.speakers || stage1Input.speakers || Object.values(stage1Input.speakerMapping?.pyannote || {})),
+  };
   validateInput(stage1Input, roomSoundingIntervals, options);
 
   const wordById = new Map((stage1Input.words || []).map((word) => [String(word.id), word]));
@@ -301,11 +305,12 @@ function splitResponseChildren(words, options) {
 
 function fusePhraseSpeaker(group, options) {
   const assemblySpeaker = group.groupingSpeaker;
-  const pyannoteSeconds = Object.fromEntries(SPEAKERS.map((speaker) => [speaker, 0]));
+  const speakers = options.speakers || SPEAKERS;
+  const pyannoteSeconds = Object.fromEntries(speakers.map((speaker) => [speaker, 0]));
   for (const word of group.words) {
-    if (SPEAKERS.includes(word.speaker)) pyannoteSeconds[word.speaker] += word.end - word.start;
+    if (speakers.includes(word.speaker)) pyannoteSeconds[word.speaker] += word.end - word.start;
   }
-  const ranking = SPEAKERS.map((speaker) => ({ speaker, seconds: pyannoteSeconds[speaker] }))
+  const ranking = speakers.map((speaker) => ({ speaker, seconds: pyannoteSeconds[speaker] }))
     .sort((left, right) => right.seconds - left.seconds || left.speaker.localeCompare(right.speaker));
   const pyannoteSpeaker = ranking[0].speaker;
   const pyannoteTotal = ranking.reduce((sum, item) => sum + item.seconds, 0);
@@ -316,7 +321,7 @@ function fusePhraseSpeaker(group, options) {
     : null;
   const tokenCount = group.words.reduce((sum, word) => sum + (word.tokens || []).length, 0);
   const duration = group.end - group.start;
-  const disagreement = SPEAKERS.includes(assemblySpeaker) && assemblySpeaker !== pyannoteSpeaker;
+  const disagreement = speakers.includes(assemblySpeaker) && assemblySpeaker !== pyannoteSpeaker;
   const shortTurn = tokenCount <= options.shortTurnMaxWords
     && duration <= options.shortTurnMaxSeconds + EPSILON;
   const tokens = group.words.flatMap((word) => word.tokens || []);
@@ -383,7 +388,11 @@ function fusePhraseSpeaker(group, options) {
 export function promoteResidualEvidence(unknownEvents, roomSoundingIntervals, phraseCoverage, userOptions = {}) {
   const options = { ...DEFAULTS, ...userOptions };
   const sounding = normalizeIntervals(roomSoundingIntervals);
-  const speakerSounding = normalizeSpeakerIntervals(options.speakerSoundingIntervals, options.speakerAcousticBridgeSeconds);
+  const speakerSounding = normalizeSpeakerIntervals(
+    options.speakerSoundingIntervals,
+    options.speakerAcousticBridgeSeconds,
+    options.speakers,
+  );
   const events = [];
   const flags = [];
   const provenance = [];
@@ -513,10 +522,10 @@ function validateInput(input, roomIntervals, options) {
   }
 }
 
-function normalizeSpeakerIntervals(value, bridgeSeconds = 0) {
+function normalizeSpeakerIntervals(value, bridgeSeconds = 0, speakers = SPEAKERS) {
   if (value == null) return null;
   const output = {};
-  for (const speaker of SPEAKERS) {
+  for (const speaker of speakers) {
     if (!Array.isArray(value[speaker])) throw new Error(`speakerSoundingIntervals.${speaker} must be an array`);
     output[speaker] = mergeActivitySegments(value[speaker], Number(bridgeSeconds));
   }

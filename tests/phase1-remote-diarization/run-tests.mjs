@@ -427,6 +427,32 @@ function main() {
     }
   });
 
+  t('Remote CLI omits speaker-count constraints when L1a does not supply one', () => {
+    const server = startFakePyannoteServer(temp);
+    try {
+      const outDir = path.join(outRoot, 'remote-http-unconstrained');
+      const env = { ...process.env, PYANNOTE_API_KEY: 'test-key' };
+      const r = runNode([
+        REMOTE_CLI,
+        '--audio', audio,
+        '--upload-audio', uploadAudio,
+        '--out-dir', outDir,
+        '--prefix', 'fixture-auto',
+        '--api-base-url', server.baseUrl,
+        '--object-key', 'mwu/test-fixture-auto.wav',
+        '--model', 'community-1',
+        '--poll-ms', '10',
+      ], { env });
+      assert(r.status === 0, `exit=${r.status}\n${r.stderr}\n${r.stdout}`);
+      const capture = readJson(server.captureFile);
+      assert(!Object.hasOwn(capture.diarizePayload, 'numSpeakers'), JSON.stringify(capture.diarizePayload));
+      assert(!Object.hasOwn(capture.diarizePayload, 'minSpeakers'), JSON.stringify(capture.diarizePayload));
+      assert(!Object.hasOwn(capture.diarizePayload, 'maxSpeakers'), JSON.stringify(capture.diarizePayload));
+    } finally {
+      server.stop();
+    }
+  });
+
   t('Remote CLI logs structured runtime error when diarize submit returns HTTP error', () => {
     const server = startFakePyannoteServer(temp, 'submit-429');
     try {

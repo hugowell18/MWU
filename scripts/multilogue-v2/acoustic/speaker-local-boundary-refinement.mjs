@@ -1,4 +1,4 @@
-import { EPSILON, SPEAKERS, round } from '../core/contracts.mjs';
+import { EPSILON, canonicalSpeakers, round } from '../core/contracts.mjs';
 import { findUniqueStableBoundaryCrossing, prepareSmoothedCrossingEvidence } from './local-boundary-crossing.mjs';
 
 export const SPEAKER_LOCAL_BOUNDARY_REFINEMENT_VERSION = 'speaker-local-provider-clipped-boundary-v1';
@@ -224,7 +224,8 @@ function assertMovesWithinProviderTurns(records, turnsBySpeaker) {
 function validateInputs(events, support, options) {
   if (!Array.isArray(events)) throw new Error('events are required');
   if (!support?.boundary_frames_by_speaker) throw new Error('speaker-local boundary frames are required');
-  for (const speaker of SPEAKERS) {
+  const speakers = canonicalSpeakers(support.speakers || Object.keys(support.provider_turns_by_speaker || {}));
+  for (const speaker of speakers) {
     if (!Array.isArray(support.boundary_frames_by_speaker[speaker])) throw new Error(`${speaker} boundary frames missing`);
     if (!Array.isArray(support.provider_turns_by_speaker?.[speaker])) throw new Error(`${speaker} provider turns missing`);
   }
