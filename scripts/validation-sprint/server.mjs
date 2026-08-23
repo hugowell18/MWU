@@ -390,7 +390,7 @@ function walkFiles(dir, output = []) {
   return output;
 }
 
-function l1aManifestSummary(file) {
+function l1aManifestSummary(file, { verify = true } = {}) {
   try {
     const manifest = JSON.parse(fs.readFileSync(file, 'utf8'));
     const handoff = manifest.phase_ii_handoff;
@@ -409,8 +409,20 @@ function l1aManifestSummary(file) {
           && (!externalHandoff.source_manifest_sha256 || externalHandoff.source_manifest_sha256 === sha256(file));
       }
     }
-    const handoffGate = assessL1aHandoff({ manifestPath: file });
-    const pathBReadiness = handoffGate.passed ? assessL1aPathBReadiness({ manifestPath: file }) : null;
+    const storedHandoffReady = lifecycleStatus === 'accepted'
+      && handoff?.ready === true
+      && filesReady
+      && externalHandoffReady;
+    const handoffGate = verify
+      ? assessL1aHandoff({ manifestPath: file })
+      : {
+          passed: storedHandoffReady,
+          blockers: storedHandoffReady ? [] : [{ code: 'stored_handoff_not_ready' }],
+          sealed_handoff_identity: handoff?.sealed_handoff_identity || null,
+        };
+    const pathBReadiness = verify && handoffGate.passed
+      ? assessL1aPathBReadiness({ manifestPath: file })
+      : null;
     const pathBSupported = inputs.length >= 2;
     const pathBEvidenceReady = pathBReadiness?.passed === true;
     const l1bBlockers = [];
@@ -437,7 +449,9 @@ function l1aManifestSummary(file) {
         identity_sha256: handoffGate.sealed_handoff_identity?.identity_sha256 || null,
       },
       path_b_evidence: {
-        ready: pathBEvidenceReady,
+        ready: verify
+          ? pathBEvidenceReady
+          : handoff?.ready_for_path_b === true && handoff?.path_b_gate?.status === 'pass',
         blocker_codes: pathBReadiness?.blockers?.map((item) => item.code) || [],
         identity_sha256: pathBReadiness?.sealed_evidence_identity?.identity_sha256 || null,
       },
@@ -506,7 +520,9 @@ function latestL1bPointer() {
 function listL1aRuns() {
   return walkFiles(MULTILOGUE_OUT)
     .filter((file) => /phase1_manifest\.json$/i.test(file))
-    .map(l1aManifestSummary)
+    // Discovery uses sealed status and file presence. Starting L1b reruns the
+    // complete hash-based handoff gate before any processing begins.
+    .map((file) => l1aManifestSummary(file, { verify: false }))
     .filter(Boolean)
     .sort((a, b) => String(b.generated_at).localeCompare(String(a.generated_at)));
 }

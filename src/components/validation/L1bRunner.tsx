@@ -183,8 +183,8 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
               ? <option value="">Choose an accepted L1a session</option>
               : <option value="">No accepted L1a session available</option>}
             {sessionInputs.map((item: any) => (
-              <option key={item.path} value={item.path}>
-                {item.l1b_runnable ? 'Ready' : 'Blocked'} · {item.recording_id} · {item.speakers?.length || 0} speakers · review-v{String(item.review_revision || 0).padStart(4, '0')} · {item.session_id}
+              <option key={item.path} value={item.path} title={item.session_id || item.path}>
+                {formatSessionOption(item)}
               </option>
             ))}
           </select>
@@ -366,4 +366,16 @@ function runStatusLabel(runState: string, report: any, selectedReady: boolean) {
 
 function formatSeconds(value: any) {
   return Number.isFinite(Number(value)) ? `${Number(value).toFixed(3)} s` : 'Not available';
+}
+
+function formatSessionOption(item: any) {
+  const status = item.l1b_runnable ? 'Ready' : 'Blocked';
+  const recording = item.recording_id || 'Unnamed recording';
+  const speakerCount = item.speakers?.length || 0;
+  const date = item.generated_at
+    ? new Intl.DateTimeFormat('en', { month: 'short', day: '2-digit' }).format(new Date(item.generated_at))
+    : 'No date';
+  const sessionId = String(item.session_id || '');
+  const shortId = sessionId ? sessionId.slice(-6) : 'no-id';
+  return `${status} · ${recording} · ${speakerCount} speakers · ${date} · ${shortId}`;
 }
