@@ -18,14 +18,11 @@ import { selectOverlapCorroboratedBackchannels } from '../calibration/overlap-se
 import { applyV23cFillerPass } from '../calibration/v23c-semantic-pass.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
-const DEFAULT_FROZEN_CONFIG = path.join(
+export const DEFAULT_FROZEN_CONFIG = path.join(
   ROOT,
-  'outputs',
-  'multilogue-v2-calibration',
-  'Multilogue04_C_Level30_D1G4',
-  'P025',
-  'v2.3e-r10-evidence-contract-final-20260809',
-  'frozen-after-D.json',
+  'specs',
+  'multilogue-v2',
+  'l1b-frozen-method-config-v2.3.json',
 );
 
 export const FROZEN_BLIND_CONFIG = Object.freeze({

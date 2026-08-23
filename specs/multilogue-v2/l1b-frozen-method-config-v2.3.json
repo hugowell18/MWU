@@ -1,0 +1,39 @@
+{
+  "adapter": {
+    "phraseGapSeconds": 0.35,
+    "phraseMaxSeconds": 1.5,
+    "parentResponseGapSeconds": 0.5,
+    "parentResponseMaxSeconds": 8,
+    "activityBridgeSeconds": 0,
+    "shortTurnAssemblyOverride": true,
+    "shortTurnMaxWords": 12,
+    "shortTurnMaxSeconds": 3.2,
+    "shortTurnMinAssemblyConfidence": 0.7,
+    "providerScoreMargin": 0.1,
+    "shortQuestionMinAssemblyConfidence": 0.7,
+    "shortQuestionProviderScoreMargin": 0.1,
+    "hardQuestionSpeakerChangeOverride": true,
+    "hardQuestionAssemblySafetyFloor": 0.75,
+    "lexicalBackchannelAssemblyOverride": false,
+    "semanticProjectorScoreBonus": 0.15,
+    "residualMinSeconds": 0.08,
+    "residualNonlexicalMaxSeconds": 0.25,
+    "promoteLongResidual": true,
+    "rebuildTransitionsFromFloor": true,
+    "acousticSupportRatio": 0.5,
+    "acousticThresholdMarginDb": 5,
+    "residualIdentityPolicy": "bounded_margin",
+    "identityMargin": 0.1,
+    "acousticBridgeSeconds": 0
+  },
+  "backchannel": {
+    "mode": "explicit_plus_acoustic",
+    "maxDurationSeconds": 0.6,
+    "continuationSeconds": 1
+  },
+  "filler": {
+    "mode": "acoustic_cell",
+    "expansionCapSeconds": 1,
+    "acousticSupportRatio": 0.5
+  }
+}
