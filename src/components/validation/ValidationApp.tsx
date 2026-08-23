@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   AudioWaveform,
@@ -416,6 +416,19 @@ function InternalValidation({ mode, setMode }: { mode: 'speakerx' | 'multilogue'
 }
 
 function MethodologyAtlas() {
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  const [frameHeight, setFrameHeight] = useState(1900);
+
+  useEffect(() => {
+    const receiveHeight = (event: MessageEvent) => {
+      if (event.source !== frameRef.current?.contentWindow || event.data?.type !== 'mwu-methodology-height') return;
+      const height = Number(event.data.height);
+      if (Number.isFinite(height) && height > 800) setFrameHeight(Math.ceil(height));
+    };
+    window.addEventListener('message', receiveHeight);
+    return () => window.removeEventListener('message', receiveHeight);
+  }, []);
+
   return (
     <main className="vc-atlas-page">
       <header className="vc-atlas-head">
@@ -425,8 +438,14 @@ function MethodologyAtlas() {
           <p>Five-phase workflow, dynamic N+3 TextGrid contract, nine timeline labels and floor rules R1–R5.</p>
         </div>
       </header>
-      <iframe className="vc-atlas-frame" src="/methodology-atlas.html?embed=1#workflow" title="MWU Pipeline Methodology Atlas" />
-      <iframe className="vc-atlas-frame vc-method-key-frame" src="/methodology-atlas.html?embed=1#method-key" title="MWU Pipeline Method Key" />
+      <iframe
+        ref={frameRef}
+        className="vc-atlas-frame vc-atlas-stacked-frame"
+        src="/methodology-atlas.html?embed=stacked"
+        title="MWU Pipeline Methodology Atlas and Method Key"
+        scrolling="no"
+        style={{ height: `${frameHeight}px` }}
+      />
     </main>
   );
 }

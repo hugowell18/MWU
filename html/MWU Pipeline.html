@@ -25,6 +25,10 @@
     }
     body.embed .top-menu { display: none; }
     body.embed .stage { height: 100vh; }
+    body.stacked { height: auto; overflow: visible; }
+    body.stacked .stage { height: auto; }
+    body.stacked .page-frame { height: auto; overflow: hidden; }
+    body.stacked .method-page { height: auto; margin-top: 24px; overflow: visible; border-top: 1px solid var(--line); }
     .top-menu {
       position: relative;
       z-index: 10;
@@ -983,7 +987,9 @@
   </main>
 
   <script>
-    if (new URLSearchParams(location.search).get('embed') === '1') document.body.classList.add('embed');
+    const embedMode = new URLSearchParams(location.search).get('embed');
+    if (embedMode === '1' || embedMode === 'stacked') document.body.classList.add('embed');
+    if (embedMode === 'stacked') document.body.classList.add('stacked');
     const pageButtons = [...document.querySelectorAll('[data-page]')];
     const workflowFrame = document.getElementById('workflowFrame');
     const methodPage = document.getElementById('methodPage');
@@ -1000,8 +1006,42 @@
       history.replaceState(null, '', showWorkflow ? '#workflow' : '#method-key');
     }
 
-    pageButtons.forEach((button) => button.addEventListener('click', () => selectPage(button.dataset.page)));
-    selectPage(location.hash === '#method-key' ? 'method' : 'workflow');
+    function reportStackedHeight() {
+      if (embedMode !== 'stacked' || window.parent === window) return;
+      const height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      window.parent.postMessage({ type: 'mwu-methodology-height', height }, location.origin);
+    }
+
+    function fitWorkflowFrame() {
+      if (embedMode !== 'stacked') return;
+      const frameDocument = workflowFrame.contentDocument;
+      if (!frameDocument) return;
+      const shell = frameDocument.querySelector('.shell');
+      const height = shell
+        ? Math.ceil(shell.getBoundingClientRect().bottom + frameDocument.defaultView.scrollY)
+        : Math.max(frameDocument.body.scrollHeight, frameDocument.documentElement.scrollHeight);
+      workflowFrame.style.height = height + 'px';
+      requestAnimationFrame(reportStackedHeight);
+    }
+
+    if (embedMode === 'stacked') {
+      workflowFrame.classList.add('active');
+      methodPage.classList.add('active');
+      workflowFrame.addEventListener('load', () => {
+        fitWorkflowFrame();
+        const frameDocument = workflowFrame.contentDocument;
+        if (frameDocument && 'ResizeObserver' in window) {
+          new ResizeObserver(fitWorkflowFrame).observe(frameDocument.documentElement);
+        }
+      });
+      window.addEventListener('resize', fitWorkflowFrame);
+      if ('ResizeObserver' in window) new ResizeObserver(reportStackedHeight).observe(document.documentElement);
+      setTimeout(fitWorkflowFrame, 0);
+      setTimeout(fitWorkflowFrame, 400);
+    } else {
+      pageButtons.forEach((button) => button.addEventListener('click', () => selectPage(button.dataset.page)));
+      selectPage(location.hash === '#method-key' ? 'method' : 'workflow');
+    }
   </script>
 </body>
 </html>

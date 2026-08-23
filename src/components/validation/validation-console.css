@@ -316,7 +316,7 @@ body{margin:0;overflow-x:hidden;background:var(--slate-50);color:var(--slate-900
 .vc-atlas-head h1{margin:0;font-size:25px;line-height:1.2;font-weight:820;color:var(--slate-900)}
 .vc-atlas-head p{margin:7px 0 0;color:var(--slate-500);font-size:12.5px;line-height:1.5}
 .vc-atlas-frame{display:block;width:100%;height:calc(100vh - 164px);min-height:680px;border:1px solid var(--slate-200);border-radius:8px;background:#fff;box-shadow:0 12px 30px rgba(15,23,42,.07)}
-.vc-method-key-frame{height:1040px;margin-top:20px}
+.vc-atlas-stacked-frame{min-height:0;overflow:hidden}
 
 @media(max-width:1050px){
   .vc-layer-architecture{grid-template-columns:1fr}
@@ -337,7 +337,7 @@ body{margin:0;overflow-x:hidden;background:var(--slate-50);color:var(--slate-900
   .vc-threshold-row,.vc-label-grid{grid-template-columns:1fr 1fr}
   .vc-atlas-page{padding:16px}
   .vc-atlas-frame{height:calc(100vh - 205px);min-height:620px}
-  .vc-method-key-frame{height:1180px;margin-top:16px}
+  .vc-atlas-stacked-frame{min-height:0}
 }
 @media(max-width:520px){
   .vc-wm{display:none}
