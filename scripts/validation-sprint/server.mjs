@@ -549,7 +549,7 @@ function latestL1bContext() {
     let staleReason = null;
     if (!sourceManifest || !fs.existsSync(sourceManifest)) staleReason = 'source_manifest_missing';
     else {
-      const summary = l1aManifestSummary(sourceManifest);
+      const summary = l1aManifestSummary(sourceManifest, { verify: false });
       if (!summary?.ready) staleReason = summary?.superseded ? 'source_manifest_superseded' : 'source_handoff_not_ready';
       else if (report.source_manifest_sha256 && sha256(sourceManifest) !== report.source_manifest_sha256) staleReason = 'source_manifest_changed';
     }
@@ -572,7 +572,7 @@ function l1bContextForManifest(manifestPath) {
     if (!reportPath.startsWith(`${sessionRoot}${path.sep}`) || !fs.existsSync(reportPath)) return null;
     const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
     if (path.resolve(rebaseRepoPath(report.source_manifest || '')) !== resolvedManifest) return null;
-    const summary = l1aManifestSummary(resolvedManifest);
+    const summary = l1aManifestSummary(resolvedManifest, { verify: false });
     let staleReason = null;
     if (!summary?.ready) staleReason = summary?.superseded ? 'source_manifest_superseded' : 'source_handoff_not_ready';
     else if (report.source_manifest_sha256 && sha256(resolvedManifest) !== report.source_manifest_sha256) staleReason = 'source_manifest_changed';
