@@ -51,6 +51,11 @@ export function L1bRunner({ onReport }: L1bRunnerProps) {
     const response = await fetch('/api/l1b/input');
     const value = await response.json();
     setInput(value);
+    const initial = value?.available?.[0] || value?.accepted?.[0] || null;
+    if (initial?.path) {
+      setSelectedManifest(initial.path);
+      await loadReport(initial.path);
+    }
     return value;
   }
 
