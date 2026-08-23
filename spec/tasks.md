@@ -87,6 +87,11 @@ draft TextGrids, pre-review diagnostic workbook and review note.
 
 ## M4 - Layer 2 research analysis
 
+**Feasibility evidence:** a CLI-first thin slice is implemented and documented in
+`spec/l2-feasibility.md`. It validates that the proposed modules can be connected using the
+Multilogue04 researcher-corrected TextGrid, an AssemblyAI pseudo-gold transcript, local MFA and
+explicitly simulated research definitions. This does not complete any production M4 task below.
+
 - [ ] Implement the approved three-step L2 workspace: activation inputs, analysis modules, outputs/L3 handoff.
 - [ ] Add reviewed L1b TextGrid upload and validate session identity, duration, dynamic N+3 tiers and nine-label vocabulary.
 - [ ] Import and version the complete Layer 2 input pack and representative expected outputs.
@@ -104,6 +109,11 @@ delivery clock starts only from a complete approved input pack; any missing defi
 activation or remains pending and cannot silently become a numeric result.
 
 ## M5 - Layer 3 matrix and reporting
+
+**Feasibility evidence:** a provenance-aware CLI thin slice is documented in
+`spec/l3-feasibility.md`. It compiles the Layer 2 v4 fixture into a participant-level matrix and
+independently reconciles Gold-derived L1 fields. The schema and non-L1 values remain provisional,
+so the production M5 tasks below remain open.
 
 - [ ] Freeze matrix schema, field codebook and representative expected rows.
 - [ ] Merge accepted Layer 1 and Layer 2 outputs with field-level provenance.

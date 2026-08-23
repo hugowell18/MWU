@@ -75,7 +75,8 @@ function printHelp() {
 Options:
   --units <path>        utterance_units.json from extract-reviewed-units.
                         Default: ${DEFAULT_UNITS}
-  --audio <path>        Source audio file. Default: ${DEFAULT_AUDIO}
+  --audio <path>        Default source audio file. A unit-level audio_path overrides it.
+                        Default: ${DEFAULT_AUDIO}
   --output-dir <path>   Output MFA corpus directory. Default: ${DEFAULT_OUTPUT_DIR}
   --ffmpeg-bin <path>   ffmpeg executable. Default: FFMPEG_BIN or ffmpeg
   --include-blocked     Also export units with alignment_allowed=false.
@@ -192,6 +193,11 @@ function main() {
     const wavPath = join(speakerDir, `${clipBase}.wav`);
     const labPath = join(speakerDir, `${clipBase}.lab`);
     const labText = normalizeLabText(unit.text);
+    const unitAudioPath = unit.audio_path ? resolve(unit.audio_path) : audioPath;
+
+    if (!existsSync(unitAudioPath)) {
+      throw new Error(`Unit source audio does not exist for ${unit.utt_id}: ${unitAudioPath}`);
+    }
 
     writeFileSync(labPath, `${labText}\n`);
 
@@ -207,7 +213,7 @@ function main() {
         "-to",
         formatSeconds(unit.end_sec),
         "-i",
-        audioPath,
+        unitAudioPath,
         "-ac",
         String(args.channels),
         "-ar",
@@ -218,11 +224,13 @@ function main() {
 
     manifest.clips.push({
       utt_id: unit.utt_id,
+      parent_utt_id: unit.parent_utt_id ?? unit.utt_id,
       speaker: unit.speaker,
       start_sec: unit.start_sec,
       end_sec: unit.end_sec,
       duration_sec: unit.duration_sec,
       clip_offset_sec: unit.start_sec,
+      source_audio: unitAudioPath,
       wav: relative(outputDir, wavPath),
       lab: relative(outputDir, labPath),
       original_text: unit.text,

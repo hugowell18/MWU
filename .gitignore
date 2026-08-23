@@ -11,6 +11,7 @@ html/MWU Pipeline copy.html
 .venv-pyannote/
 outputs/**/assemblyai-cache/
 outputs/
+sample-inputs/
 sample/Multilogue*.wav
 scripts/__pycache__/
 

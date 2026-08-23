@@ -269,6 +269,7 @@ function main() {
       missingTextGrids.push(relative(mfaOutputDir, textGridPath));
       reviewRecords.push({
         utt_id: clip.utt_id,
+        parent_utt_id: clip.parent_utt_id ?? clip.utt_id,
         speaker,
         start_sec: uttStart,
         end_sec: uttEnd,
@@ -300,6 +301,7 @@ function main() {
         clipWords.push({
           word_id: `${clip.utt_id}_w${String(wordIndex).padStart(3, "0")}`,
           utt_id: clip.utt_id,
+          parent_utt_id: clip.parent_utt_id ?? clip.utt_id,
           speaker,
           text,
           start_sec: globalStart,
@@ -377,6 +379,7 @@ function main() {
 
     reviewRecords.push({
       utt_id: clip.utt_id,
+      parent_utt_id: clip.parent_utt_id ?? clip.utt_id,
       speaker,
       start_sec: uttStart,
       end_sec: uttEnd,

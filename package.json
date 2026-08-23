@@ -89,6 +89,10 @@
     "l1b:exclude-test": "node tests/l1b/excluded-candidates-handoff-tests.mjs",
     "l1b:legacy-test": "node tests/l1b/run-tests.mjs",
     "usage:test": "node tests/usage-ledger/run-tests.mjs",
-    "auth:test": "node tests/auth/run-tests.mjs"
+    "auth:test": "node tests/auth/run-tests.mjs",
+    "l2:feasibility": "node scripts/l2/run-feasibility.mjs",
+    "l2:feasibility:test": "node tests/l2-feasibility/run-tests.mjs",
+    "l3:feasibility": "node scripts/l3/run-feasibility.mjs",
+    "l3:feasibility:test": "node tests/l3-feasibility/run-tests.mjs"
       }
 }

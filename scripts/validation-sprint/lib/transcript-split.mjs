@@ -13,14 +13,19 @@ const LAUGHTER = [/\[laugh[^\]]*\]/gi, /\(laugh[^)]*\)/gi, /\[laughter\]/gi, /\b
 const tokens = (s) => s.match(/\S+/g) || [];
 const wkey = (w) => w.toLowerCase().replace(/[^a-z0-9']/g, '');
 
-// detect speaker turns; "Name:" labels split speakers, otherwise the whole text is one speaker.
+const SPEAKER_LABEL = String.raw`[A-Z][A-Za-z0-9_ .'\u2019\u2013-]{0,30}`;
+
+// Detect speaker turns; labels such as S1:, SPEAKER_01: and Speaker A: split speakers.
 function separateSpeakers(text, defaultName = 'SpeakerX') {
-  const hasLabels = /(^|\n)\s*[A-Z][A-Za-z .'’-]{0,30}:\s/.test(text);
+  const labelAtLineStart = new RegExp(`(^|\\n)\\s*${SPEAKER_LABEL}:\\s`);
+  const splitAtLabel = new RegExp(`(?=(?:^|\\n)\\s*${SPEAKER_LABEL}:\\s)`);
+  const captureLabel = new RegExp(`^\\s*(${SPEAKER_LABEL}):\\s*([\\s\\S]*)$`);
+  const hasLabels = labelAtLineStart.test(text);
   if (!hasLabels) return [{ name: defaultName, turns: [text.trim()] }];
-  const parts = text.split(/(?=(?:^|\n)\s*[A-Z][A-Za-z .'’-]{0,30}:\s)/);
+  const parts = text.split(splitAtLabel);
   const map = new Map();
   for (const p of parts) {
-    const m = p.match(/^\s*([A-Z][A-Za-z .'’-]{0,30}):\s*([\s\S]*)$/);
+    const m = p.match(captureLabel);
     if (!m) continue;
     const name = m[1].trim();
     if (!map.has(name)) map.set(name, []);
