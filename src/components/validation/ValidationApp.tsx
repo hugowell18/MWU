@@ -424,9 +424,9 @@ function MethodologyAtlas() {
           <h1>Methodology Atlas</h1>
           <p>Five-phase workflow, dynamic N+3 TextGrid contract, nine timeline labels and floor rules R1–R5.</p>
         </div>
-        <a href="/methodology-atlas.html#workflow" target="_blank" rel="noreferrer">Open standalone <ArrowRight size={15} /></a>
       </header>
       <iframe className="vc-atlas-frame" src="/methodology-atlas.html?embed=1#workflow" title="MWU Pipeline Methodology Atlas" />
+      <iframe className="vc-atlas-frame vc-method-key-frame" src="/methodology-atlas.html?embed=1#method-key" title="MWU Pipeline Method Key" />
     </main>
   );
 }
