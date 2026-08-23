@@ -193,17 +193,17 @@ const LAYERS: LayerDefinition[] = [
 
 const HERO_SLIDES = [
   {
-    src: '/assets/overview/overview-l2-seminar.png',
+    src: '/assets/overview/overview-l2-seminar.jpg',
     title: 'International L2 speaking data',
     caption: 'Small-group spoken English tasks become analyzable fluency and vocabulary evidence.',
   },
   {
-    src: '/assets/overview/overview-campus-dialogue.png',
+    src: '/assets/overview/overview-campus-dialogue.jpg',
     title: 'Dialogic fluency in context',
     caption: 'The workflow is designed for real conversational performance, not only isolated monologues.',
   },
   {
-    src: '/assets/overview/overview-language-class.png',
+    src: '/assets/overview/overview-language-class.jpg',
     title: 'Research-ready language learning',
     caption: 'Human review remains the final evidence layer while automation reduces repetitive preparation work.',
   },
