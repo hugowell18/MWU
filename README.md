@@ -23,6 +23,18 @@ npm run sprint:serve -- --port 4173
 
 Open `http://localhost:4173`.
 
+The default single-admin login is `admin` / `mwu2026`. Deployment may override
+the credentials and preserve signed sessions across restarts with:
+
+```bash
+MWU_ADMIN_USER=admin
+MWU_ADMIN_PASSWORD=replace-with-a-deployment-secret
+MWU_SESSION_SECRET=replace-with-a-long-random-secret
+```
+
+Set `MWU_COOKIE_SECURE=1` when HTTPS terminates without forwarding
+`X-Forwarded-Proto: https`.
+
 If Praat is not on `PATH`, configure its executable in the untracked `.env`
 file:
 

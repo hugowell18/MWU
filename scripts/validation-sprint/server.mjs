@@ -63,6 +63,16 @@ const PORT = (() => {
   return i >= 0 ? Number(process.argv[i + 1]) : 4173;
 })();
 
+const AUTH_DISABLED = process.env.MWU_AUTH_DISABLED === '1';
+const ADMIN_USER = process.env.MWU_ADMIN_USER || 'admin';
+const ADMIN_PASSWORD = process.env.MWU_ADMIN_PASSWORD || 'mwu2026';
+const SESSION_TTL_SECONDS = Math.max(900, Number(process.env.MWU_SESSION_TTL_SECONDS) || 8 * 60 * 60);
+const SESSION_SECRET = process.env.MWU_SESSION_SECRET || crypto.randomBytes(32).toString('hex');
+const SESSION_COOKIE = 'mwu_session';
+const LOGIN_WINDOW_MS = 5 * 60 * 1000;
+const LOGIN_ATTEMPT_LIMIT = 5;
+const loginAttempts = new Map();
+
 const MIME = {
   '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json',
   '.svg': 'image/svg+xml', '.map': 'application/json', '.txt': 'text/plain', '.csv': 'text/csv',
@@ -122,6 +132,88 @@ function readBody(req, { maxBytes = DEFAULT_MAX_BODY_BYTES } = {}) {
 }
 function sendJson(res, code, value) {
   return send(res, code, JSON.stringify(value));
+}
+
+function safeEqual(left, right) {
+  const leftBuffer = Buffer.from(String(left));
+  const rightBuffer = Buffer.from(String(right));
+  return leftBuffer.length === rightBuffer.length && crypto.timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+function parseCookies(req) {
+  return String(req.headers.cookie || '').split(';').reduce((cookies, item) => {
+    const separator = item.indexOf('=');
+    if (separator < 1) return cookies;
+    const key = item.slice(0, separator).trim();
+    const value = item.slice(separator + 1).trim();
+    cookies[key] = value;
+    return cookies;
+  }, {});
+}
+
+function signSession(payload) {
+  const encoded = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto.createHmac('sha256', SESSION_SECRET).update(encoded).digest('base64url');
+  return `${encoded}.${signature}`;
+}
+
+function readSession(req) {
+  if (AUTH_DISABLED) return { user: ADMIN_USER, expires_at: null, auth_disabled: true };
+  const token = parseCookies(req)[SESSION_COOKIE];
+  if (!token) return null;
+  const separator = token.lastIndexOf('.');
+  if (separator < 1) return null;
+  const encoded = token.slice(0, separator);
+  const signature = token.slice(separator + 1);
+  const expected = crypto.createHmac('sha256', SESSION_SECRET).update(encoded).digest('base64url');
+  if (!safeEqual(signature, expected)) return null;
+  try {
+    const payload = JSON.parse(Buffer.from(encoded, 'base64url').toString('utf8'));
+    if (payload.user !== ADMIN_USER || !Number.isFinite(payload.expires_at) || payload.expires_at <= Date.now()) return null;
+    return payload;
+  } catch {
+    return null;
+  }
+}
+
+function sessionCookie(req, value, maxAge) {
+  const forwardedProto = String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim();
+  const secure = process.env.MWU_COOKIE_SECURE === '1' || forwardedProto === 'https';
+  return [
+    `${SESSION_COOKIE}=${value}`,
+    'Path=/',
+    'HttpOnly',
+    'SameSite=Strict',
+    `Max-Age=${maxAge}`,
+    secure ? 'Secure' : '',
+  ].filter(Boolean).join('; ');
+}
+
+function sendAuthJson(req, res, code, value, token = null, maxAge = SESSION_TTL_SECONDS) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-store',
+    'X-Content-Type-Options': 'nosniff',
+  };
+  if (token !== null) headers['Set-Cookie'] = sessionCookie(req, token, maxAge);
+  res.writeHead(code, headers);
+  res.end(JSON.stringify(value));
+}
+
+function loginAttemptState(req) {
+  const key = String(req.socket.remoteAddress || 'unknown');
+  const now = Date.now();
+  const current = loginAttempts.get(key);
+  if (!current || now - current.started_at >= LOGIN_WINDOW_MS) {
+    const fresh = { key, count: 0, started_at: now };
+    loginAttempts.set(key, fresh);
+    return fresh;
+  }
+  return { key, ...current };
+}
+
+function recordFailedLogin(state) {
+  loginAttempts.set(state.key, { count: state.count + 1, started_at: state.started_at });
 }
 function sha256(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
@@ -584,6 +676,39 @@ function l1bReviewContract() {
 
 const server = http.createServer(async (req, res) => {
   const u = new URL(req.url, `http://localhost:${PORT}`);
+
+  if (u.pathname === '/api/auth/session' && req.method === 'GET') {
+    const session = readSession(req);
+    return session
+      ? sendAuthJson(req, res, 200, { authenticated: true, user: session.user })
+      : sendAuthJson(req, res, 401, { authenticated: false });
+  }
+
+  if (u.pathname === '/api/auth/login' && req.method === 'POST') {
+    const attempt = loginAttemptState(req);
+    if (attempt.count >= LOGIN_ATTEMPT_LIMIT) {
+      return sendAuthJson(req, res, 429, { error: 'Too many sign-in attempts. Try again in a few minutes.' });
+    }
+    let body;
+    try { body = JSON.parse((await readBody(req, { maxBytes: 8 * 1024 })).toString() || '{}'); }
+    catch (error) { return sendAuthJson(req, res, Number(error?.statusCode) || 400, { error: 'Invalid login request' }); }
+    if (!safeEqual(body.username || '', ADMIN_USER) || !safeEqual(body.password || '', ADMIN_PASSWORD)) {
+      recordFailedLogin(attempt);
+      return sendAuthJson(req, res, 401, { error: 'Incorrect username or password' });
+    }
+    loginAttempts.delete(attempt.key);
+    const expiresAt = Date.now() + SESSION_TTL_SECONDS * 1000;
+    const token = signSession({ user: ADMIN_USER, expires_at: expiresAt });
+    return sendAuthJson(req, res, 200, { authenticated: true, user: ADMIN_USER }, token);
+  }
+
+  if (u.pathname === '/api/auth/logout' && req.method === 'POST') {
+    return sendAuthJson(req, res, 200, { authenticated: false }, '', 0);
+  }
+
+  if (u.pathname.startsWith('/api/') && !readSession(req)) {
+    return sendAuthJson(req, res, 401, { error: 'Authentication required' });
+  }
 
   if (u.pathname === '/api/workspace/usage' && req.method === 'GET') {
     try {

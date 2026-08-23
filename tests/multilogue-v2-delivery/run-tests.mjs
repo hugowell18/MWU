@@ -162,7 +162,7 @@ async function main() {
 
   const server = spawn(process.execPath, ['scripts/validation-sprint/server.mjs', '--port', String(PORT)], {
     cwd: ROOT,
-    env: { ...process.env, MWU_V2_POC_ROOT: POC_ROOT },
+    env: { ...process.env, MWU_AUTH_DISABLED: '1', MWU_V2_POC_ROOT: POC_ROOT },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   let serverLog = '';

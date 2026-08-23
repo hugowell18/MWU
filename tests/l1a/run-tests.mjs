@@ -481,7 +481,7 @@ async function main() {
     const acceptedRoot = path.join(base, 'server-accepted');
     const child = spawn(process.execPath, [SERVER, '--port', String(port)], {
       cwd: ROOT,
-      env: { ...process.env, MWU_L1A_TEST_MODE: '1', MWU_L1A_ROOT: reviewRoot, MWU_MULTILOGUE_OUT: acceptedRoot },
+      env: { ...process.env, MWU_AUTH_DISABLED: '1', MWU_L1A_TEST_MODE: '1', MWU_L1A_ROOT: reviewRoot, MWU_MULTILOGUE_OUT: acceptedRoot },
       stdio: 'ignore',
     });
     const baseUrl = `http://127.0.0.1:${port}`;

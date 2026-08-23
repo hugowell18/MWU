@@ -15,6 +15,7 @@ import {
   Gauge,
   Layers3,
   ListChecks,
+  LogOut,
   Network,
   ShieldCheck,
   SlidersHorizontal,
@@ -28,6 +29,7 @@ import { ValidationRunner } from './ValidationConsole';
 import { MultilogueV2Runner } from './MultilogueV2Runner';
 import { L1aRunner } from './L1aRunner';
 import { L1bRunner } from './L1bRunner';
+import { AdminLogin } from './AdminLogin';
 
 type LayerKey = 'l1a' | 'l1b' | 'l2' | 'l3';
 
@@ -210,11 +212,11 @@ const HERO_SLIDES = [
 ];
 
 const OVERVIEW_PHASES = [
-  { roman: 'I', title: 'Speaker Evidence', body: 'Create the canonical clock, review acoustic candidates and publish the accepted S1-SN mapping with N muted-mirror listening tracks.', status: 'Layer 1a' },
-  { roman: 'II', title: 'Interaction Timing', body: 'Resolve floor state and nine labels independently at each configured pause threshold.', status: 'Layer 1b' },
-  { roman: 'III', title: 'Transcript Units', body: 'Prepare verbatim and tidy transcripts with approved AS-unit and clause mappings.', status: 'Layer 2' },
-  { roman: 'IV', title: 'Lexical / MWU', body: 'Combine reviewed interaction timing with lexical, MWU, pause-location and rate features.', status: 'Layer 2' },
-  { roman: 'V', title: 'Research Export', body: 'Compile accepted evidence into the final matrix, codebook, validation and archive package.', status: 'Layer 3' },
+  { roman: 'I', title: 'Speaker Evidence & Mapping', body: 'Upload the room-mix WAV, review AI candidate clips, exclude or merge non-participants, and seal a contiguous S1-SN mapping with N muted-mirror tracks.', status: 'Layer 1a · researcher accepted' },
+  { roman: 'II', title: 'Praat Interaction Timing', body: 'Run P025/P035 or other configured thresholds and generate dynamic N+3 TextGrid drafts with nine labels and floor rules R1-R5.', status: 'Layer 1b · Praat reviewed' },
+  { roman: 'III', title: 'Reviewed Transcript Units', body: 'Combine accepted speaker evidence, the reviewed TextGrid and signed transcript conventions into RAW-TIMING, TIDY-PHRASE and AS-unit structures.', status: 'Layer 2 · definition gated' },
+  { roman: 'IV', title: 'Linguistic Feature Analysis', body: 'Derive pause-location, rate, repair, lexical and MWU features under approved definitions and representative gold examples.', status: 'Layer 2 · definition gated' },
+  { roman: 'V', title: 'Matrix & Validation', body: 'Merge accepted artifacts into the research matrix, codebook, comparison report and archive-ready delivery package.', status: 'Layer 3 · accepted inputs only' },
 ];
 
 const NINE_LABELS = [
@@ -430,11 +432,32 @@ function MethodologyAtlas() {
 }
 
 export function ValidationApp() {
+  const [authState, setAuthState] = useState<'checking' | 'authenticated' | 'unauthenticated'>('checking');
+  const [authenticatedUser, setAuthenticatedUser] = useState('');
   const [view, setView] = useState<'home' | 'workspace' | 'methodology'>('home');
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>('l1a');
   const [heroIndex, setHeroIndex] = useState(0);
   const [internalValidation, setInternalValidation] = useState(false);
   const [internalMode, setInternalMode] = useState<'speakerx' | 'multilogue'>('multilogue');
+
+  useEffect(() => {
+    let active = true;
+    fetch('/api/auth/session', { cache: 'no-store' })
+      .then(async (response) => ({ response, body: await response.json() }))
+      .then(({ response, body }) => {
+        if (!active) return;
+        if (response.ok && body.authenticated) {
+          setAuthenticatedUser(body.user || 'admin');
+          setAuthState('authenticated');
+        } else {
+          setAuthState('unauthenticated');
+        }
+      })
+      .catch(() => {
+        if (active) setAuthState('unauthenticated');
+      });
+    return () => { active = false; };
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -464,7 +487,21 @@ export function ValidationApp() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  async function signOut() {
+    try { await fetch('/api/auth/logout', { method: 'POST' }); } catch { /* local session is cleared below */ }
+    setAuthenticatedUser('');
+    setAuthState('unauthenticated');
+    setView('home');
+  }
+
   const selected = LAYERS.find((layer) => layer.key === selectedLayer)!;
+
+  if (authState !== 'authenticated') {
+    return <AdminLogin checking={authState === 'checking'} onAuthenticated={(user) => {
+      setAuthenticatedUser(user);
+      setAuthState('authenticated');
+    }} />;
+  }
 
   return (
     <div>
@@ -479,7 +516,11 @@ export function ValidationApp() {
             <button title="Workspace" className={`vc-tab ${view === 'workspace' ? 'active' : ''}`} onClick={() => setView('workspace')}><Layers3 size={16} /> Workspace</button>
             <button title="Methodology Atlas" className={`vc-tab ${view === 'methodology' ? 'active' : ''}`} onClick={() => setView('methodology')}><BookOpenCheck size={16} /> Methodology</button>
           </div>
-          <div className="vc-avatar">H</div>
+          <button type="button" className="vc-account" onClick={signOut} title="Sign out" aria-label={`Sign out ${authenticatedUser}`}>
+            <span className="vc-avatar">{authenticatedUser.slice(0, 1).toUpperCase()}</span>
+            <span>{authenticatedUser}</span>
+            <LogOut size={15} />
+          </button>
         </div>
       </nav>
 
@@ -487,8 +528,8 @@ export function ValidationApp() {
         <main className="vc-wrap">
           <section className="vc-hero-new">
             <div className="vc-hero-copy">
-              <h1>From multilogue audio to reviewable research evidence.</h1>
-              <p className="lede">A five-phase workflow for L2 fluency and multiword vocabulary research, combining speaker attribution, Praat-compatible interaction timing, reviewed transcripts and traceable research exports.</p>
+              <h1>From room-mix audio to researcher-reviewed evidence.</h1>
+              <p className="lede">The current workflow connects researcher-approved speaker mapping, Praat-compatible interaction timing, definition-gated transcript analysis and a traceable final research matrix.</p>
               <div className="vc-hero-actions">
                 <button className="vc-btn-lg vc-btn-pri" onClick={() => openLayer('l1a')}><UsersRound size={17} /> Open Layer 1a</button>
                 <button className="vc-btn-lg vc-btn-out" onClick={() => openLayer('l1b')}><AudioWaveform size={17} /> Review Layer 1b</button>
@@ -505,16 +546,16 @@ export function ValidationApp() {
           </section>
 
           <section className="vc-research-band">
-            <div><span className="vc-section-k">Research background</span><h2>Why the workflow exists</h2></div>
+            <div><span className="vc-section-k">Research background</span><h2>What the current method establishes</h2></div>
             <div className="vc-research-grid">
-              <div><h3>Utterance fluency</h3><p>Praat timing supports breakdown and speed measures: pauses, sounding time, articulation rate and pause density.</p></div>
-              <div><h3>Multiword vocabulary</h3><p>Reviewed transcripts support MWU analysis beyond isolated word counts and preserve disfluency evidence.</p></div>
-              <div><h3>Human-verifiable data</h3><p>Automation prepares drafts and evidence packages; researcher-corrected artifacts remain the analytical record.</p></div>
+              <div><h3>Fluency × vocabulary</h3><p>The study links breakdown, speed and repair fluency with lexical and multi-word unit use in L2 multilogue.</p></div>
+              <div><h3>Human-reviewed evidence chain</h3><p>L1a seals the participant map; L1b creates dual-threshold N+3 drafts; Praat correction makes the timing evidence eligible for analysis.</p></div>
+              <div><h3>Definition-gated analysis</h3><p>L2 and L3 begin only from reviewed timing and transcripts plus approved AS-unit, MWU, rate and matrix definitions.</p></div>
             </div>
           </section>
 
           <section className="vc-phase-runway">
-            <div className="vc-section-head"><div><span className="vc-section-k">Five-stage research workflow</span><h2>One traceable chain from audio to analysis matrix</h2></div></div>
+            <div className="vc-section-head"><div><span className="vc-section-k">Five-stage research workflow</span><h2>One accepted handoff from audio to analysis matrix</h2></div></div>
             <div className="vc-phase-grid">
               {OVERVIEW_PHASES.map((phase) => <article key={phase.roman} className="vc-phase-card"><div className="vc-phase-roman">{phase.roman}</div><h3>{phase.title}</h3><p>{phase.body}</p><span>{phase.status}</span></article>)}
             </div>
@@ -523,8 +564,8 @@ export function ValidationApp() {
           <section className="vc-layer-architecture">
             <div className="vc-layer-architecture-copy">
               <span className="vc-section-k">Delivery architecture</span>
-              <h2>Four layers, explicit handoffs</h2>
-              <p>Each layer exposes its required inputs, processing boundary and downloadable outputs. Layer 1 uses the original recording as the canonical acoustic clock; downstream analysis begins from reviewed artifacts.</p>
+              <h2>Four layers, evidence before analysis</h2>
+              <p>Layer 1a converts the original room mix into a researcher-accepted S1-SN map. Layer 1b creates threshold-specific N+3 Praat drafts for correction. Layer 2 starts from reviewed timing, transcripts and signed definitions; Layer 3 compiles only accepted outputs into the final matrix and validation package.</p>
             </div>
             <div className="vc-layer-links">
               {LAYERS.map((layer) => {

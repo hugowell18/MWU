@@ -47,6 +47,7 @@ async function ensureServer(port, base) {
 
   const child = spawn(process.execPath, ['scripts/validation-sprint/server.mjs', '--port', String(port)], {
     cwd: ROOT,
+    env: { ...process.env, MWU_AUTH_DISABLED: '1' },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
 
@@ -185,7 +186,7 @@ async function main() {
     assert(src.includes('Methodology Atlas') && src.includes('/methodology-atlas.html?embed=1#workflow'), 'Methodology menu or iframe is missing');
     assert(fs.existsSync(atlasPath), 'built methodology-atlas.html is missing');
     const atlas = fs.readFileSync(atlasPath, 'utf8');
-    for (const marker of ['all acoustic candidates', 'dynamic N+3 draft', 'three-speaker Gold reference', 'Path B baseline', 'N muted mirrors'])
+    for (const marker of ['all acoustic candidates', 'dynamic N+3 TextGrid draft', 'three-speaker Gold reference', 'Path B baseline', 'N muted mirrors'])
       assert(atlas.includes(marker), `methodology atlas missing "${marker}"`);
     for (const stale of ['current study: 3 fixed', 'Original WAV + task bounds + 3 fixed speaker IDs', 'P025/P035 six-tier TextGrids'])
       assert(!atlas.includes(stale), `methodology atlas retains stale fixed-three wording: "${stale}"`);
@@ -211,7 +212,7 @@ async function main() {
     assert(js.includes('No results yet'), 'no empty-on-load guard');
     assert(js.includes('Run Validation'), 'no single Run Validation control');
     assert(js.includes('Pipeline progress'), 'no pipeline progress');
-    assert(js.includes('From multilogue audio to reviewable research evidence') && js.includes('Five-stage research workflow'), 'formal MWU homepage missing');
+    assert(js.includes('From room-mix audio to researcher-reviewed evidence') && js.includes('Five-stage research workflow'), 'formal MWU homepage missing');
     assert(js.includes('Open Layer 1a') && js.includes('Review Layer 1b'), 'formal Layer 1 CTAs missing');
     assert(js.includes('Delivery layers'), 'layer sidebar missing');
     for (const marker of [

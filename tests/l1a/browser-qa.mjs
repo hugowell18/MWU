@@ -82,6 +82,7 @@ async function main() {
     cwd: ROOT,
     env: {
       ...process.env,
+      MWU_AUTH_DISABLED: '1',
       MWU_L1A_TEST_MODE: '1',
       MWU_L1A_ROOT: path.join(temporary, 'accepted', 'sessions'),
       MWU_MULTILOGUE_OUT: path.join(temporary, 'accepted'),
