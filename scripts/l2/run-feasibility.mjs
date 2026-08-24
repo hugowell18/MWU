@@ -21,6 +21,7 @@ import {
   buildPauseRows,
   buildPseudoGoldReference,
   buildReferenceCentricTiming,
+  buildTransitionEvidence,
   buildUnresolvedItems,
   compareWordTimings,
   findMwuOccurrences,
@@ -29,6 +30,7 @@ import {
   rowsToCsv,
   validateReviewedTextGrid,
 } from "./feasibility-core.mjs";
+import { buildTimedRawTranscript, buildVerifiedTranscriptReference } from "./verified-transcript.mjs";
 
 const RECORDING_ID = "Multilogue04_C_Level30_D1G4";
 const DEFAULTS = {
@@ -37,6 +39,9 @@ const DEFAULTS = {
   goldTextGrid: "outputs/multilogue-v2-poc/Multilogue04_C_Level30_D1G4_P025_corrected_6tier.TextGrid",
   assemblyJson:
     "outputs/multilogue-validation/Multilogue04_C_Level30_D1G4/assemblyai/Multilogue04_C_Level30_D1G4.16k_mono.assemblyai.raw.json",
+  transcript: "sample-inputs/Golden/Multilogue04_C_Level30_D1G4_Transcript.txt",
+  annotationGuide:
+    "sample-inputs/Golden/Multi-Word Unit (MWU) Project- Verbatim Transcription & Acoustic Annotation Guide.docx",
   providerMapping:
     "outputs/multilogue-validation/sessions/Multilogue04_C_Level30_D1G4-1787382481013-2798df/L1a/revisions/review-v0006/outputs/internal_evidence/path-b/provider-mapping.json",
   l1aHandoff:
@@ -55,6 +60,8 @@ function parseArgs(argv) {
     ["--audio", "audio"],
     ["--gold-textgrid", "goldTextGrid"],
     ["--assembly-json", "assemblyJson"],
+    ["--transcript", "transcript"],
+    ["--annotation-guide", "annotationGuide"],
     ["--provider-mapping", "providerMapping"],
     ["--l1a-handoff", "l1aHandoff"],
     ["--output-root", "outputRoot"],
@@ -77,7 +84,9 @@ function parseArgs(argv) {
 
   --audio <path>              Original room-mix WAV
   --gold-textgrid <path>      Researcher-corrected dynamic N+3 TextGrid
-  --assembly-json <path>      AssemblyAI transcript JSON used as pseudo-gold
+  --assembly-json <path>      AssemblyAI JSON used only as generated timing support
+  --transcript <path>         Researcher-verified S1-SN transcript TXT
+  --annotation-guide <path>   Customer annotation conventions DOCX/PDF
   --provider-mapping <path>   AssemblyAI speaker to canonical S1-SN mapping
   --l1a-handoff <path>        Accepted L1a handoff manifest
   --output-root <path>        Output root
@@ -181,7 +190,7 @@ function buildMfaUnits(reference, handoff, audioMode, maxSegmentSec) {
   }
   return {
     schema_version: "l2-feasibility-mfa-units-v1",
-    source_status: "assemblyai_pseudo_gold",
+    source_status: reference.status,
     audio_mode: audioMode,
     max_segment_seconds: maxSegmentSec,
     units,
@@ -270,11 +279,12 @@ function buildHtmlReport(report, speakerRows, unresolved) {
     .join("");
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Layer 2 Feasibility Report</title><style>
+<title>Layer 2 Calibration Draft</title><style>
 :root{font-family:Inter,Arial,sans-serif;color:#172033;background:#f5f7fb}body{margin:0;padding:32px}.wrap{max-width:1160px;margin:auto}.top{border-top:4px solid #275fd6;background:white;padding:28px;border-bottom:1px solid #d9e0ec}.eyebrow{color:#275fd6;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0}h1{font-size:30px;margin:8px 0}p{color:#5d6c86;line-height:1.55}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.metric,.section{background:white;border:1px solid #d9e0ec;border-radius:6px}.metric{padding:16px}.metric b{display:block;font-size:22px}.metric span{font-size:12px;color:#6d7a91}.section{margin-top:16px;padding:20px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;border-bottom:1px solid #e6ebf3;padding:10px}th{color:#5d6c86}.pass{color:#137a45}.warn{color:#a45b06}.badge{display:inline-block;padding:4px 8px;border-radius:4px;background:#e9f0ff;color:#275fd6;font-size:12px;font-weight:700}@media(max-width:760px){body{padding:12px}.grid{grid-template-columns:1fr 1fr}.section{overflow:auto}}
-</style></head><body><main class="wrap"><section class="top"><span class="badge">Engineering feasibility only</span><div class="eyebrow">${htmlEscape(report.run_id)}</div><h1>Layer 2 end-to-end result</h1><p>This run combines researcher-corrected P025 timing with an AssemblyAI pseudo-gold transcript, generated word alignment and simulated research definitions. It does not establish linguistic accuracy.</p></section>
-  <div class="grid"><div class="metric"><b class="${report.technical_status === "passed" ? "pass" : "warn"}">${htmlEscape(report.technical_status)}</b><span>technical execution</span></div><div class="metric"><b>${report.speaker_count}</b><span>canonical speakers</span></div><div class="metric"><b>${report.analysis_word_count}</b><span>reference transcript words</span></div><div class="metric"><b>${Math.round(report.analysis_timing.mfa_support_ratio * 10000) / 100}%</b><span>MFA-supported timing</span></div></div>
-  <section class="section"><h2>Timing evidence</h2><p><b>${report.analysis_timing.mfa_supported_word_count}</b> words use generated MFA timing; <b>${report.analysis_timing.assemblyai_fallback_word_count}</b> unmatched words retain explicit AssemblyAI fallback timing. The fallback keeps the table complete but is not research-ready word alignment.</p></section>
+</style></head><body><main class="wrap"><section class="top"><span class="badge">1 of 10 · Engineering calibration draft</span><div class="eyebrow">${htmlEscape(report.run_id)}</div><h1>Layer 2 calibration result</h1><p>This run combines the researcher-corrected P025 TextGrid with the researcher-verified transcript. Word alignment is generated; AS-unit, clause, MWU and external lexical-tool definitions remain provisional or pending.</p></section>
+  <div class="grid"><div class="metric"><b class="${report.technical_status === "passed" ? "pass" : "warn"}">${htmlEscape(report.technical_status)}</b><span>technical execution</span></div><div class="metric"><b>${report.speaker_count}</b><span>canonical speakers</span></div><div class="metric"><b>${report.analysis_word_count}</b><span>reference transcript words</span></div><div class="metric"><b>${Math.round(report.analysis_timing.mfa_support_ratio * 10000) / 100}%</b><span>timing coverage, not accuracy</span></div></div>
+  <section class="section"><h2>Timing evidence</h2><p><b>${report.analysis_timing.mfa_supported_word_count}</b> words use generated MFA timing; <b>${report.analysis_timing.assemblyai_fallback_word_count}</b> unmatched words retain explicit AssemblyAI fallback timing. MFA segment QC remains open: <b>${report.alignment_review_gate.mfa_ok_utterance_count}</b> passed, <b>${report.alignment_review_gate.mfa_needs_review_utterance_count}</b> need review and <b>${report.alignment_review_gate.mfa_missing_alignment_utterance_count}</b> are missing. <b>${report.alignment_review_gate.mfa_needs_review_word_count}</b> MFA-timed words sit inside review segments.</p></section>
+  <section class="section"><h2>Acoustic evidence</h2><p>The Gold TextGrid contains <b>${report.all_own_pause_count}</b> researcher-labelled own pauses; <b>${report.pause_count}</b> meet P025. All <b>${report.transition_evidence.point_count}</b> transition/FTO points are retained, including overlap cases where the offset is explicitly not measured.</p></section>
 <section class="section"><h2>Speaker feature preview</h2><table><thead><tr><th>Speaker</th><th>Words</th><th>Own pauses</th><th>Vocal seconds</th><th>Words/sec</th><th>MWUs</th></tr></thead><tbody>${metrics}</tbody></table></section>
 <section class="section"><h2>Research limits</h2><table><thead><tr><th>ID</th><th>Module</th><th>Status</th><th>Reason</th></tr></thead><tbody>${issues}</tbody></table></section>
 </main></body></html>`;
@@ -284,12 +294,12 @@ function main() {
   const args = parseArgs(process.argv);
   const repoRoot = resolve(".");
   const paths = Object.fromEntries(
-    ["audio", "goldTextGrid", "assemblyJson", "providerMapping", "l1aHandoff", "mfaBin", "dictionary", "acousticModel"].map((key) => [
+    ["audio", "goldTextGrid", "assemblyJson", "transcript", "annotationGuide", "providerMapping", "l1aHandoff", "mfaBin", "dictionary", "acousticModel"].map((key) => [
       key,
       resolve(args[key]),
     ]),
   );
-  for (const key of ["audio", "goldTextGrid", "assemblyJson", "providerMapping", "l1aHandoff"]) {
+  for (const key of ["audio", "goldTextGrid", "assemblyJson", "transcript", "annotationGuide", "providerMapping", "l1aHandoff"]) {
     if (!existsSync(paths[key])) throw new Error(`Missing ${key}: ${paths[key]}`);
   }
 
@@ -309,23 +319,47 @@ function main() {
   const assembly = JSON.parse(readFileSync(paths.assemblyJson, "utf8"));
   const mappingDocument = JSON.parse(readFileSync(paths.providerMapping, "utf8"));
   const providerMapping = mappingDocument.mapping?.assemblyai ?? mappingDocument.assemblyai ?? {};
-  const reference = buildPseudoGoldReference(assembly, providerMapping);
+  const asrReference = buildPseudoGoldReference(assembly, providerMapping);
+  const verifiedTranscriptText = readFileSync(paths.transcript, "utf8");
+  const reference = buildVerifiedTranscriptReference({
+    transcriptText: verifiedTranscriptText,
+    asrReference,
+    participantSpeakers: contract.speakers,
+    durationSeconds: contract.duration_seconds,
+    acousticTiers: contract.tiers,
+  });
   if (reference.speakers.join("|") !== contract.speakers.join("|")) {
     throw new Error(`Transcript speakers ${reference.speakers} do not match reviewed TextGrid ${contract.speakers}`);
   }
 
-  const referenceTranscriptPath = join(inputsDir, `${args.recordingId}.assemblyai-pseudo-gold.txt`);
-  writeText(referenceTranscriptPath, reference.transcript_text);
+  const referenceTranscriptPath = join(inputsDir, `${args.recordingId}.researcher-verified.txt`);
+  writeText(referenceTranscriptPath, verifiedTranscriptText.endsWith("\n") ? verifiedTranscriptText : `${verifiedTranscriptText}\n`);
+  writeText(join(inputsDir, `${args.recordingId}.participant-transcript.txt`), reference.participant_transcript_text);
+  writeText(join(inputsDir, `${args.recordingId}.excluded-transcript.txt`), reference.excluded_transcript_text);
   writeJson(join(inputsDir, "reference_timing.json"), {
     status: reference.status,
-    accuracy_claim: false,
+    transcript_status: reference.transcript_status,
+    transcript_accuracy_claim: true,
+    timing_accuracy_claim: false,
     provider_confidence: reference.provider_confidence,
     speakers: reference.speakers,
     utterances: reference.utterances,
+    timing_seed_summary: reference.timing_seed_summary,
   });
+  writeText(join(inputsDir, "transcript_turns.csv"), rowsToCsv(reference.transcript_parse.turns.map((turn) => ({
+    turn_id: turn.turn_id,
+    speaker: turn.speaker,
+    text: turn.text,
+    annotation_tags: turn.annotation_tags,
+    is_backchannel: turn.is_backchannel,
+    is_excluded: turn.is_excluded,
+    canonical_participant: turn.canonical_participant,
+    lexical_token_count: turn.lexical_tokens.length,
+  }))));
+  writeJson(join(inputsDir, "transcript_annotation_validation.json"), reference.transcript_parse);
 
-  const definitions = buildDefinitionPack();
-  writeJson(join(inputsDir, "definition_pack.simulated.json"), definitions);
+  const definitions = buildDefinitionPack({ customerGuide: true });
+  writeJson(join(inputsDir, "definition_pack.provisional.json"), definitions);
   const metadata = buildMetadata({
     recordingId: args.recordingId,
     durationSeconds: contract.duration_seconds,
@@ -334,11 +368,11 @@ function main() {
     textGridHash: hashFile(paths.goldTextGrid),
     transcriptHash: hashFile(referenceTranscriptPath),
   });
-  writeJson(join(inputsDir, "recording_metadata.mixed.json"), metadata);
-  writeText(join(inputsDir, "participants.simulated.csv"), rowsToCsv(metadata.participants));
+  writeJson(join(inputsDir, "recording_metadata.provisional.json"), metadata);
+  writeText(join(inputsDir, "participants.provisional.csv"), rowsToCsv(metadata.participants));
 
   const inputManifest = {
-    schema_version: "l2-feasibility-input-manifest-v1",
+    schema_version: "l2-provisional-input-manifest-v1",
     run_id: args.runId,
     recording_id: args.recordingId,
     source_audio: { path: paths.audio, sha256: hashFile(paths.audio), status: "real_source" },
@@ -352,23 +386,40 @@ function main() {
     transcript: {
       path: referenceTranscriptPath,
       sha256: hashFile(referenceTranscriptPath),
-      status: "assemblyai_pseudo_gold",
-      accuracy_claim: false,
+      status: "researcher_verified_gold",
+      accuracy_claim: true,
+      timing_embedded: false,
+    },
+    annotation_guide: {
+      path: paths.annotationGuide,
+      sha256: hashFile(paths.annotationGuide),
+      status: "customer_supplied",
+    },
+    timing_support: {
+      path: paths.assemblyJson,
+      sha256: hashFile(paths.assemblyJson),
+      status: "provider_generated_support_only",
+      transcript_truth: false,
     },
     word_alignment: { status: "pending_generation", reviewed: false },
-    metadata: { status: "mixed_real_and_simulated" },
-    definition_pack: { status: "simulated_for_engineering_validation", research_approved: false },
+    metadata: { status: "provisional_pending_study_metadata" },
+    definition_pack: {
+      status: "customer_annotation_rules_plus_provisional_analysis_rules",
+      research_approved: false,
+    },
   };
   writeJson(join(inputsDir, "input_manifest.json"), inputManifest);
 
-  const transcriptSplit = splitTranscript(reference.transcript_text);
+  const transcriptSplit = splitTranscript(reference.participant_transcript_text);
   const transcriptOutputDir = join(outputsDir, "transcript");
   for (const speaker of transcriptSplit.speakers) {
-    writeText(join(transcriptOutputDir, `${speaker.name}_RAW-TIMING.txt`), `${speaker.raw}\n`);
+    writeText(join(transcriptOutputDir, `${speaker.name}_RAW-TIMING.txt`), buildTimedRawTranscript(reference, speaker.name));
     writeText(join(transcriptOutputDir, `${speaker.name}_TIDY-PHRASE.txt`), `${speaker.tidy}\n`);
   }
   writeJson(join(transcriptOutputDir, "transformation_log.json"), {
-    source_status: "assemblyai_pseudo_gold",
+    source_status: "researcher_verified_gold",
+    annotation_guide: paths.annotationGuide,
+    excluded_turn_count: reference.transcript_parse.excluded_turns.length,
     speakers: transcriptSplit.speakers,
     report: transcriptSplit.report,
   });
@@ -447,8 +498,8 @@ function main() {
       );
     }
     if (merge.status === 0 && existsSync(alignmentJsonPath)) {
-      alignment = normalizeAlignmentPayload(JSON.parse(readFileSync(alignmentJsonPath, "utf8")), "mfa_generated_fixture");
-      alignmentSource = "mfa_generated_fixture";
+      alignment = normalizeAlignmentPayload(JSON.parse(readFileSync(alignmentJsonPath, "utf8")), "mfa_generated_alignment");
+      alignmentSource = "mfa_generated_alignment";
     } else if (args.requireMfa) {
       throw new Error("MFA was required but the alignment pipeline failed; inspect reports/*.log.json");
     }
@@ -461,7 +512,7 @@ function main() {
   writeJson(alignmentJsonPath, alignment);
   const alignmentComparison = compareWordTimings(reference.words, alignment.word_intervals);
   const analysisTiming =
-    alignmentSource === "mfa_generated_fixture"
+    alignmentSource === "mfa_generated_alignment"
       ? buildReferenceCentricTiming(reference.words, alignment.word_intervals)
       : {
           schema_version: "l2-reference-centric-word-timing-v1",
@@ -476,6 +527,12 @@ function main() {
           },
           word_intervals: alignment.word_intervals,
         };
+  const alignmentQc = alignment.summary?.alignment_qc ?? null;
+  const mfaNeedsReviewWordCount = analysisTiming.word_intervals.filter(
+    (word) => word.timing_source === "mfa" && word.alignment_confidence?.status === "needs_review",
+  ).length;
+  analysisTiming.summary.alignment_qc = alignmentQc;
+  analysisTiming.summary.mfa_needs_review_word_count = mfaNeedsReviewWordCount;
   writeJson(join(alignmentOutputDir, "analysis_word_timing.json"), analysisTiming);
   writeText(join(alignmentOutputDir, "analysis_word_timing.csv"), rowsToCsv(analysisTiming.word_intervals));
   writeJson(join(alignmentOutputDir, "alignment_provenance.json"), {
@@ -488,14 +545,23 @@ function main() {
   writeText(join(alignmentOutputDir, "word_alignment.csv"), rowsToCsv(alignment.word_intervals));
 
   const asUnitRows = buildAsUnitCandidates(reference);
+  const transitionRows = buildTransitionEvidence(contract);
   const occurrences = findMwuOccurrences(analysisTiming.word_intervals, definitions.mwu_targets);
   const pauseRows = buildPauseRows(contract, analysisTiming.word_intervals, occurrences, 0.25);
-  const featureTables = buildFeatureTables(contract, analysisTiming.word_intervals, occurrences, pauseRows);
+  const allOwnPauseCount = contract.tiers
+    .filter((tier) => contract.speakers.includes(tier.name))
+    .flatMap((tier) => tier.intervals)
+    .filter((interval) => String(interval.text ?? "").trim() === "op").length;
+  const featureTables = buildFeatureTables(contract, analysisTiming.word_intervals, occurrences, pauseRows, {
+    transcriptSource: "researcher_verified_txt",
+    definitionStatus: "customer_annotation_rules_plus_provisional_analysis_rules",
+  });
   const unresolved = buildUnresolvedItems({
     alignmentSource,
     alignmentSummary: analysisTiming.summary,
     pauseRows,
     asUnitRows,
+    transcriptStatus: reference.transcript_status,
   });
   const featuresDir = join(outputsDir, "features");
   writeText(join(featuresDir, "as_unit_candidates.csv"), rowsToCsv(asUnitRows));
@@ -505,9 +571,23 @@ function main() {
   writeText(join(featuresDir, "lexical_features.csv"), rowsToCsv(featureTables.lexicalRows));
   writeText(join(featuresDir, "repair_features.csv"), rowsToCsv(featureTables.repairRows));
   writeText(join(featuresDir, "unresolved_items.csv"), rowsToCsv(unresolved));
+  const acousticOutputDir = join(outputsDir, "acoustic");
+  writeText(join(acousticOutputDir, "p025_qualifying_own_pauses.csv"), rowsToCsv(pauseRows));
+  writeText(join(acousticOutputDir, "transition_fto_evidence.csv"), rowsToCsv(transitionRows));
+  writeJson(join(acousticOutputDir, "transition_fto_evidence.json"), {
+    schema_version: "mwu-l2-transition-evidence-v1",
+    source: paths.goldTextGrid,
+    path_b: true,
+    research_claim_ready: false,
+    transition_count: transitionRows.length,
+    measured_fto_count: transitionRows.filter((row) => row.offset_measured).length,
+    overlap_offset_not_measured_count: transitionRows.filter((row) => row.overlap_present && !row.offset_measured).length,
+    rows: transitionRows,
+  });
 
   const earlyHandoff = featureTables.speakerRows.map((speakerRow) => ({
     recording_id: args.recordingId,
+    threshold_sec: 0.25,
     participant_id: metadata.participants.find((participant) => participant.canonical_speaker === speakerRow.speaker)?.participant_id,
     ...speakerRow,
     alignment_source: analysisTiming.source_status,
@@ -525,30 +605,51 @@ function main() {
   );
   const executionChecks = [
     { id: "L2F-001", name: "reviewed TextGrid dynamic N+3 contract", pass: contract.errors.length === 0 },
-    { id: "L2F-002", name: "pseudo-gold transcript speaker mapping", pass: reference.speakers.join("|") === contract.speakers.join("|") },
+    { id: "L2F-002", name: "researcher-verified transcript speaker mapping", pass: reference.speakers.join("|") === contract.speakers.join("|") },
     { id: "L2F-003", name: "RAW/TIDY generated for every speaker", pass: transcriptSplit.speakers.length === contract.speaker_count },
-    { id: "L2F-004", name: "word alignment fixture generated", pass: alignment.word_intervals.length > 0 },
+    { id: "L2F-004", name: "generated word alignment produced", pass: alignment.word_intervals.length > 0 },
     { id: "L2F-005", name: "word timestamps inside canonical clock", pass: timingOutOfBounds.length === 0 },
     { id: "L2F-006", name: "speaker feature rows complete", pass: featureTables.speakerRows.length === contract.speaker_count },
     { id: "L2F-007", name: "research limitations remain explicit", pass: unresolved.length >= 5 },
+    {
+      id: "L2F-008",
+      name: "TextTier transition evidence retained",
+      pass: transitionRows.length === contract.transition_point_count && transitionRows.every((row) => row.parse_status === "parsed"),
+      observed: transitionRows.length,
+      expected: contract.transition_point_count,
+    },
   ];
   const alignmentChecks = [
     {
-      id: "L2F-008",
+      id: "L2F-009",
       name: "MFA supports at least 95% of reference transcript words",
       pass: analysisTiming.summary.mfa_support_ratio >= 0.95,
       observed: analysisTiming.summary.mfa_support_ratio,
       threshold: 0.95,
     },
   ];
+  const alignmentReviewGate = {
+    status:
+      analysisTiming.summary.assemblyai_fallback_word_count > 0 ||
+      mfaNeedsReviewWordCount > 0 ||
+      Number(alignmentQc?.missing_alignment_utterance_count ?? 0) > 0
+        ? "open"
+        : "closed",
+    mfa_ok_utterance_count: Number(alignmentQc?.ok_utterance_count ?? 0),
+    mfa_needs_review_utterance_count: Number(alignmentQc?.needs_review_utterance_count ?? 0),
+    mfa_missing_alignment_utterance_count: Number(alignmentQc?.missing_alignment_utterance_count ?? 0),
+    mfa_flagged_word_count: Number(alignmentQc?.flagged_word_count ?? 0),
+    mfa_needs_review_word_count: mfaNeedsReviewWordCount,
+    assemblyai_fallback_word_count: analysisTiming.summary.assemblyai_fallback_word_count,
+  };
   const executionPassed = executionChecks.every((check) => check.pass);
   const technicalStatus = !executionPassed
     ? "failed"
-    : alignmentChecks.every((check) => check.pass)
+    : alignmentChecks.every((check) => check.pass) && alignmentReviewGate.status === "closed"
       ? "passed"
       : "passed_with_alignment_review_required";
   const report = {
-    schema_version: "l2-feasibility-report-v1",
+    schema_version: "l2-provisional-report-v1",
     generated_at: new Date().toISOString(),
     run_id: args.runId,
     recording_id: args.recordingId,
@@ -560,7 +661,14 @@ function main() {
     mfa_output_word_count: alignment.word_intervals.length,
     utterance_count: reference.utterances.length,
     pause_count: pauseRows.length,
+    all_own_pause_count: allOwnPauseCount,
     mwu_occurrence_count: occurrences.length,
+    transition_evidence: {
+      point_count: transitionRows.length,
+      measured_fto_count: transitionRows.filter((row) => row.offset_measured).length,
+      overlap_offset_not_measured_count: transitionRows.filter((row) => row.overlap_present && !row.offset_measured).length,
+      research_claim_ready: false,
+    },
     alignment_source: alignmentSource,
     mfa_audio_mode: args.mfaAudioMode,
     mfa_max_segment_seconds: args.mfaMaxSegmentSec,
@@ -573,21 +681,25 @@ function main() {
       warnings: contract.warnings,
     },
     transcript: {
-      status: reference.status,
+      status: reference.transcript_status,
+      timing_seed_status: reference.status,
+      timing_seed_summary: reference.timing_seed_summary,
       provider_confidence: reference.provider_confidence,
-      accuracy_claim: false,
+      accuracy_claim: true,
+      timing_accuracy_claim: false,
     },
     alignment_comparison: alignmentComparison,
+    alignment_review_gate: alignmentReviewGate,
     technical_checks: [...executionChecks, ...alignmentChecks],
     unresolved_items: unresolved,
     interpretation:
-      "The Layer 2 engineering path is executable. AS-unit, clause, MWU, repair, syllable and external lexical-tool values remain fixture or pending until client definitions and reviewed evidence are supplied.",
+      "The customer transcript and P025 TextGrid are accepted Gold inputs. AS-unit, clause, MWU, aggregate repair, syllable and external lexical-tool values remain provisional or pending until the research definitions are supplied.",
   };
   writeJson(join(reportsDir, "validation_report.json"), report);
-  writeText(join(reportsDir, "Layer2_Feasibility_Report.html"), buildHtmlReport(report, featureTables.speakerRows, unresolved));
+  writeText(join(reportsDir, "Layer2_Provisional_Report.html"), buildHtmlReport(report, featureTables.speakerRows, unresolved));
   writeText(
     join(reportsDir, "validation_report.md"),
-    `# Layer 2 feasibility result\n\n- Technical status: **${technicalStatus}**\n- Research claim ready: **no**\n- Alignment source: **${alignmentSource}**\n- Speakers: **${contract.speaker_count}**\n- Reference transcript words: **${analysisTiming.word_intervals.length}**\n- MFA-supported words: **${analysisTiming.summary.mfa_supported_word_count} (${(analysisTiming.summary.mfa_support_ratio * 100).toFixed(2)}%)**\n- Explicit AssemblyAI fallback words: **${analysisTiming.summary.assemblyai_fallback_word_count}**\n- P025 own pauses: **${pauseRows.length}**\n- Fixture MWU matches: **${occurrences.length}**\n\nThe engineering chain is connected, but alignment review plus client-approved linguistic definitions remain required for research use.\n`,
+    `# Layer 2 calibration draft\n\n- Technical status: **${technicalStatus}**\n- Research claim ready: **no**\n- Transcript source: **researcher-verified TXT**\n- Alignment source: **${alignmentSource}**\n- Speakers: **${contract.speaker_count}**\n- Reference transcript words: **${analysisTiming.word_intervals.length}**\n- MFA-supported words: **${analysisTiming.summary.mfa_supported_word_count} (${(analysisTiming.summary.mfa_support_ratio * 100).toFixed(2)}% coverage, not accuracy)**\n- MFA utterances: **${alignmentReviewGate.mfa_ok_utterance_count} OK / ${alignmentReviewGate.mfa_needs_review_utterance_count} review / ${alignmentReviewGate.mfa_missing_alignment_utterance_count} missing**\n- MFA-timed words in review segments: **${alignmentReviewGate.mfa_needs_review_word_count}**\n- Explicit AssemblyAI timing fallback words: **${analysisTiming.summary.assemblyai_fallback_word_count}**\n- Researcher-labelled own pauses: **${allOwnPauseCount} total; ${pauseRows.length} meet P025**\n- Transition/FTO points retained: **${transitionRows.length}**\n- Provisional MWU matches: **${occurrences.length}**\n\nThe Gold transcript and P025 TextGrid drive this engineering calibration run. Word timing remains generated. AS-unit, clause, MWU, repair-total, syllable and external lexical-tool definitions still require research approval.\n`,
   );
 
   inputManifest.word_alignment = {
@@ -618,7 +730,7 @@ function main() {
         ok: technicalStatus !== "failed",
         run_dir: runDir,
         report: join(reportsDir, "validation_report.json"),
-        html_report: join(reportsDir, "Layer2_Feasibility_Report.html"),
+        html_report: join(reportsDir, "Layer2_Provisional_Report.html"),
         technical_status: technicalStatus,
         research_claim_ready: false,
         alignment_source: alignmentSource,
@@ -627,6 +739,8 @@ function main() {
         mfa_supported_words: analysisTiming.summary.mfa_supported_word_count,
         assemblyai_fallback_words: analysisTiming.summary.assemblyai_fallback_word_count,
         pauses: pauseRows.length,
+        total_own_pauses: allOwnPauseCount,
+        transition_points: transitionRows.length,
         mwu_occurrences: occurrences.length,
       },
       null,

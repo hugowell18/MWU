@@ -9,6 +9,7 @@
 
 const DEFAULT_FILLERS = ['uh', 'uhh', 'um', 'umm', 'uhm', 'er', 'err', 'erm', 'mm', 'hmm', 'mhm', 'mm-hmm', 'mmhmm'];
 const LAUGHTER = [/\[laugh[^\]]*\]/gi, /\(laugh[^)]*\)/gi, /\[laughter\]/gi, /\bha(?:ha)+\b/gi];
+const ANNOTATION_TAGS = new Set(['bc', 'x']);
 
 const tokens = (s) => s.match(/\S+/g) || [];
 const wkey = (w) => w.toLowerCase().replace(/[^a-z0-9']/g, '');
@@ -64,8 +65,10 @@ function clean(text, fillers) {
   for (const tok of tokens(text)) {
     const k = tok.toLowerCase().replace(/[^a-z0-9'-]/g, '');
     const laugh = isLaughter(tok);
-    if (laugh || fset.has(k)) {
-      const kind = laugh ? 'laughter' : 'filler';
+    const annotation = /^\[([a-z0-9_-]+)\]$/i.exec(tok);
+    const knownAnnotation = annotation && ANNOTATION_TAGS.has(annotation[1].toLowerCase());
+    if (laugh || fset.has(k) || knownAnnotation) {
+      const kind = laugh ? 'laughter' : knownAnnotation ? 'annotation_tag' : 'filler';
       index.push({ token: tok, kind, action: 'removed' });
       diff.push({ w: tok, op: 'remove', kind });
     } else {

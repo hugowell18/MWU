@@ -52,17 +52,9 @@ export function rowsToCsv(rows, headers = null) {
 
 const n = (value) => (value === "" || value === null || value === undefined ? null : Number(value));
 
-function countBy(rows, field, value) {
-  return rows.filter((row) => row[field] === value).length;
-}
-
-export function buildMatrixRows({ handoffRows, lexicalRows, repairRows, pauseRows }) {
-  const lexicalBySpeaker = new Map(lexicalRows.map((row) => [row.speaker, row]));
-  const repairBySpeaker = new Map(repairRows.map((row) => [row.speaker, row]));
+export function buildMatrixRows({ handoffRows, pauseRows }) {
   return handoffRows.map((handoff) => {
     const speaker = handoff.speaker;
-    const lexical = lexicalBySpeaker.get(speaker) ?? {};
-    const repair = repairBySpeaker.get(speaker) ?? {};
     const speakerPauses = pauseRows.filter((row) => row.speaker === speaker);
     const qualifyingOwnPauseDuration = speakerPauses.reduce((sum, row) => sum + (n(row.duration_sec) ?? 0), 0);
     const mfaWords = n(handoff.mfa_timed_word_count) ?? 0;
@@ -70,81 +62,81 @@ export function buildMatrixRows({ handoffRows, lexicalRows, repairRows, pauseRow
     const timingWords = mfaWords + fallbackWords;
     return {
       recording_id: handoff.recording_id,
+      threshold_sec: n(handoff.threshold_sec) ?? 0.25,
       participant_id: handoff.participant_id,
       speaker,
-      word_count: n(handoff.word_count),
+      word_count: null,
       active_vocal_duration_sec: n(handoff.active_vocal_duration_sec),
       own_pause_labeled_duration_sec: n(handoff.own_pause_duration_sec),
       qualifying_own_pause_duration_sec: round(qualifyingOwnPauseDuration, 6),
       own_pause_count: n(handoff.own_pause_count),
       mean_own_pause_sec: n(handoff.mean_own_pause_sec),
-      articulation_rate_words_per_sec: n(handoff.articulation_rate_words_per_sec),
-      speech_rate_words_per_sec: n(handoff.speech_rate_words_per_sec),
-      pause_density_per_100_words: n(handoff.pause_density_per_100_words),
-      token_count: n(lexical.token_count),
-      type_count: n(lexical.type_count),
-      type_token_ratio: n(lexical.type_token_ratio),
-      mean_token_length: n(lexical.mean_token_length),
-      mwu_occurrence_count: n(handoff.mwu_occurrence_count),
-      filler_count: n(repair.filler_count),
-      adjacent_repetition_count: n(repair.adjacent_repetition_count),
-      false_start_count: n(repair.false_start_count),
-      repair_count: n(repair.repair_count),
-      pause_within_utterance_candidate_count: countBy(speakerPauses, "clause_location_candidate", "within_utterance_candidate"),
-      pause_utterance_boundary_candidate_count: countBy(
-        speakerPauses,
-        "clause_location_candidate",
-        "utterance_boundary_candidate",
-      ),
-      pause_location_unresolved_count:
-        countBy(speakerPauses, "clause_location_candidate", "unresolved") +
-        countBy(speakerPauses, "clause_location_candidate", "leading_candidate") +
-        countBy(speakerPauses, "clause_location_candidate", "trailing_candidate"),
-      pause_inside_mwu_candidate_count: countBy(speakerPauses, "mwu_relation_candidate", "inside_mwu"),
-      pause_before_mwu_candidate_count: countBy(speakerPauses, "mwu_relation_candidate", "before_mwu"),
-      pause_after_mwu_candidate_count: countBy(speakerPauses, "mwu_relation_candidate", "after_mwu"),
+      articulation_rate_words_per_sec: null,
+      speech_rate_words_per_sec: null,
+      pause_density_per_100_words: null,
+      token_count: null,
+      type_count: null,
+      type_token_ratio: null,
+      mean_token_length: null,
+      mwu_occurrence_count: null,
+      filler_count: null,
+      adjacent_repetition_count: null,
+      false_start_count: null,
+      repair_count: null,
+      pause_within_utterance_candidate_count: null,
+      pause_utterance_boundary_candidate_count: null,
+      pause_location_unresolved_count: null,
+      pause_inside_mwu_candidate_count: null,
+      pause_before_mwu_candidate_count: null,
+      pause_after_mwu_candidate_count: null,
       mfa_timed_word_count: mfaWords,
       assemblyai_fallback_word_count: fallbackWords,
       word_timing_mfa_support_ratio: timingWords ? round(mfaWords / timingWords, 6) : null,
-      external_lexical_tools_status: lexical.external_tool_status || "pending_client_input",
+      external_lexical_tools_status: "pending_client_input",
       unresolved_item_count: n(handoff.unresolved_item_count),
-      record_status: "feasibility_not_research_ready",
+      record_status: "provisional_not_research_release",
       l3_release_ready: false,
     };
   });
 }
 
-export function provisionalCodebook() {
+export function provisionalCodebook(options = {}) {
+  const verifiedTranscript = options.transcriptStatus === "researcher_verified_gold";
+  const transcriptSource = verifiedTranscript
+    ? "researcher-verified transcript; tokenization definition pending"
+    : "generated transcript; tokenization definition pending";
+  const transcriptProvenance = "pending_client_input";
   const fields = [
     ["recording_id", "string", "identifier", false, "L2 handoff", "real_source", true],
-    ["participant_id", "string", "identifier", false, "L2 metadata", "simulated", false],
+    ["threshold_sec", "number", "seconds", false, "reviewed TextGrid threshold", "gold", true],
+    ["participant_id", "string", "identifier", false, "canonical recording-speaker key", "system", true],
     ["speaker", "string", "canonical S label", false, "researcher TextGrid", "gold", true],
-    ["word_count", "integer", "words", false, "AssemblyAI transcript", "pseudo_gold", false],
+    ["word_count", "integer", "words", true, transcriptSource, transcriptProvenance, false],
     ["active_vocal_duration_sec", "number", "seconds", false, "researcher TextGrid labels s/f/bc/ol", "gold_derived", true],
     ["own_pause_labeled_duration_sec", "number", "seconds", false, "all researcher TextGrid intervals labeled op", "gold_derived", true],
     ["qualifying_own_pause_duration_sec", "number", "seconds", false, "researcher TextGrid op intervals >= P025", "gold_derived", true],
     ["own_pause_count", "integer", "pauses", false, "researcher TextGrid op >= P025", "gold_derived", true],
-    ["mean_own_pause_sec", "number", "seconds", false, "own_pause_duration_sec / own_pause_count", "gold_derived", true],
-    ["articulation_rate_words_per_sec", "number", "words/second", false, "word_count / active vocal duration", "mixed_provisional", false],
-    ["speech_rate_words_per_sec", "number", "words/second", false, "word_count / floor-run duration", "mixed_provisional", false],
-    ["pause_density_per_100_words", "number", "pauses/100 words", false, "own pauses and word count", "mixed_provisional", false],
-    ["token_count", "integer", "tokens", false, "AssemblyAI transcript", "pseudo_gold", false],
-    ["type_count", "integer", "types", false, "AssemblyAI transcript", "pseudo_gold", false],
-    ["type_token_ratio", "number", "ratio", false, "provisional lexical rule", "mixed_provisional", false],
-    ["mean_token_length", "number", "characters", false, "provisional lexical rule", "mixed_provisional", false],
-    ["mwu_occurrence_count", "integer", "occurrences", false, "fixture MWU target list", "simulated", false],
-    ["filler_count", "integer", "tokens", false, "fixture filler list", "simulated", false],
-    ["adjacent_repetition_count", "integer", "repetitions", false, "fixture exact repetition rule", "simulated", false],
-    ["false_start_count", "integer", "events", true, "client repair coding", "pending_client_input", false],
+    ["mean_own_pause_sec", "number", "seconds", false, "qualifying_own_pause_duration_sec / own_pause_count", "gold_derived", true],
+    ["articulation_rate_words_per_sec", "number", "words/second", true, "approved word/syllable rule pending", "pending_client_input", false],
+    ["speech_rate_words_per_sec", "number", "words/second", true, "approved word/syllable rule pending", "pending_client_input", false],
+    ["pause_density_per_100_words", "number", "pauses/100 words", true, "approved tokenization and denominator pending", "pending_client_input", false],
+    ["token_count", "integer", "tokens", true, transcriptSource, transcriptProvenance, false],
+    ["type_count", "integer", "types", true, transcriptSource, transcriptProvenance, false],
+    ["type_token_ratio", "number", "ratio", true, "approved lexical normalization pending", "pending_client_input", false],
+    ["mean_token_length", "number", "characters", true, "approved lexical normalization pending", "pending_client_input", false],
+    ["mwu_occurrence_count", "integer", "occurrences", true, "approved MWU definition pending", "pending_client_input", false],
+    ["filler_count", "integer", "tokens", true, "approved filler coding rule pending", "pending_client_input", false],
+    ["adjacent_repetition_count", "integer", "repetitions", true, "approved repair coding rule pending", "pending_client_input", false],
+    ["false_start_count", "integer", "events", true, "approved false-start coding rule pending", "pending_client_input", false],
     ["repair_count", "integer", "events", true, "client repair coding", "pending_client_input", false],
-    ["pause_within_utterance_candidate_count", "integer", "pauses", false, "fixture utterance boundary rule", "simulated", false],
-    ["pause_utterance_boundary_candidate_count", "integer", "pauses", false, "fixture utterance boundary rule", "simulated", false],
-    ["pause_location_unresolved_count", "integer", "pauses", false, "fixture pause classifier", "simulated", false],
-    ["pause_inside_mwu_candidate_count", "integer", "pauses", false, "fixture MWU target list", "simulated", false],
-    ["pause_before_mwu_candidate_count", "integer", "pauses", false, "fixture MWU target list", "simulated", false],
-    ["pause_after_mwu_candidate_count", "integer", "pauses", false, "fixture MWU target list", "simulated", false],
-    ["mfa_timed_word_count", "integer", "words", false, "generated MFA fixture", "generated_unreviewed", false],
-    ["assemblyai_fallback_word_count", "integer", "words", false, "AssemblyAI timing fallback", "pseudo_gold", false],
+    ["pause_within_utterance_candidate_count", "integer", "pauses", true, "approved clause boundary rule pending", "pending_client_input", false],
+    ["pause_utterance_boundary_candidate_count", "integer", "pauses", true, "approved clause boundary rule pending", "pending_client_input", false],
+    ["pause_location_unresolved_count", "integer", "pauses", true, "approved pause-location rule pending", "pending_client_input", false],
+    ["pause_inside_mwu_candidate_count", "integer", "pauses", true, "approved MWU definition pending", "pending_client_input", false],
+    ["pause_before_mwu_candidate_count", "integer", "pauses", true, "approved MWU definition pending", "pending_client_input", false],
+    ["pause_after_mwu_candidate_count", "integer", "pauses", true, "approved MWU definition pending", "pending_client_input", false],
+    ["mfa_timed_word_count", "integer", "words", false, "generated MFA word alignment", "generated_unreviewed", false],
+    ["assemblyai_fallback_word_count", "integer", "words", false, "AssemblyAI timing fallback", "generated_unreviewed", false],
     ["word_timing_mfa_support_ratio", "number", "ratio", false, "MFA support / transcript words", "generated_unreviewed", false],
     ["external_lexical_tools_status", "string", "status", false, "TAALES/TAALED/AntConc", "pending_client_input", false],
     ["unresolved_item_count", "integer", "items", false, "L2 unresolved register", "pending", false],

@@ -32,7 +32,11 @@ export function hashFile(path) {
 
 export function csvCell(value) {
   if (value === null || value === undefined) return "";
-  const text = Array.isArray(value) ? value.join("|") : String(value);
+  const text = Array.isArray(value)
+    ? value.join("|")
+    : typeof value === "object"
+      ? JSON.stringify(value)
+      : String(value);
   return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 }
 
@@ -99,7 +103,10 @@ export function validateReviewedTextGrid(text, expectedDuration = null) {
     if (tier?.intervals.length) errors.push(...tierCoverage(tier, duration).issues);
   }
   const transitionTier = tiers.find((candidate) => candidate.name === "transitions");
-  if (transitionTier && transitionTier.intervals.length === 0) warnings.push("transitions tier is empty in the researcher reference");
+  const transitionEvidenceCount =
+    (transitionTier?.points.length ?? 0) +
+    (transitionTier?.intervals.filter((interval) => String(interval.text ?? "").trim()).length ?? 0);
+  if (transitionTier && transitionEvidenceCount === 0) warnings.push("transitions tier is empty in the researcher reference");
 
   return {
     status: errors.length ? "failed" : warnings.length ? "passed_with_warnings" : "passed",
@@ -108,10 +115,60 @@ export function validateReviewedTextGrid(text, expectedDuration = null) {
     speaker_count: speakers.length,
     speakers,
     expected_dynamic_tier_count: expectedTierCount,
+    transition_evidence_count: transitionEvidenceCount,
+    transition_point_count: transitionTier?.points.length ?? 0,
     errors,
     warnings,
     tiers,
   };
+}
+
+function transitionMarkFields(mark) {
+  const text = String(mark ?? "").trim();
+  const match = text.match(/^(S\d+)>(S\d+)\s+FTO=(NA|[+-]?\d+(?:\.\d+)?)(?:\s+(.*))?$/);
+  if (!match) {
+    return {
+      from_speaker: "",
+      to_speaker: "",
+      fto_sec: null,
+      overlap_present: false,
+      offset_measured: false,
+      source_status: "unparsed",
+      parse_status: "needs_review",
+    };
+  }
+  const attributes = Object.fromEntries(
+    String(match[4] ?? "")
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((entry) => {
+        const separator = entry.indexOf("=");
+        return separator < 0 ? [entry, true] : [entry.slice(0, separator), entry.slice(separator + 1)];
+      }),
+  );
+  const ftoMeasured = match[3] !== "NA";
+  return {
+    from_speaker: match[1],
+    to_speaker: match[2],
+    fto_sec: ftoMeasured ? Number(match[3]) : null,
+    overlap_present: attributes.overlap === "qualified" || String(attributes.status ?? "").includes("overlap_present"),
+    offset_measured: ftoMeasured,
+    source_status: String(attributes.status ?? "unspecified"),
+    parse_status: "parsed",
+  };
+}
+
+export function buildTransitionEvidence(contract) {
+  const tier = contract.tiers.find((candidate) => candidate.name === "transitions");
+  if (!tier) return [];
+  return tier.points.map((point, index) => ({
+    transition_id: `TR${String(index + 1).padStart(4, "0")}`,
+    point_sec: round(point.number, 6),
+    ...transitionMarkFields(point.mark),
+    source_mark: point.mark,
+    evidence_source: "researcher_corrected_textgrid",
+    research_claim_ready: false,
+  }));
 }
 
 export function buildPseudoGoldReference(assemblyPayload, providerToCanonical) {
@@ -191,7 +248,7 @@ export function buildAsrTimingFallback(reference, durationSeconds) {
     },
     word_intervals: reference.words.map((word) => ({
       ...word,
-      alignment_status: "pseudo_gold_unreviewed",
+      alignment_status: "provider_generated_unreviewed",
       alignment_flags: ["not_for_word_level_research_claim"],
     })),
     alignment_review: reference.utterances.map((utterance) => ({
@@ -199,7 +256,7 @@ export function buildAsrTimingFallback(reference, durationSeconds) {
       speaker: utterance.speaker,
       start_sec: utterance.start_sec,
       end_sec: utterance.end_sec,
-      status: "pseudo_gold_unreviewed",
+      status: "provider_generated_unreviewed",
       flags: ["mfa_not_used"],
     })),
   };
@@ -212,13 +269,13 @@ export function normalizeAlignmentPayload(payload, source) {
     research_claim_ready: false,
     summary: {
       ...(payload.summary ?? {}),
-      alignment_method: source === "mfa_generated_fixture" ? "mfa_3_x" : "assemblyai_word_timestamps",
+      alignment_method: source === "mfa_generated_alignment" ? "mfa_3_x" : "assemblyai_word_timestamps",
       reviewed: false,
     },
     word_intervals: (payload.word_intervals ?? []).map((word) => ({
       ...word,
       normalized_token: normalizeToken(word.text),
-      timing_source: source === "mfa_generated_fixture" ? "mfa" : "assemblyai",
+      timing_source: source === "mfa_generated_alignment" ? "mfa" : "assemblyai",
       review_state: "generated_unreviewed",
     })),
   };
@@ -293,7 +350,7 @@ export function buildReferenceCentricTiming(referenceWords, alignedWords) {
         output.push({
           ...referenceWord,
           timing_source: "assemblyai_fallback",
-          timing_review_state: "pseudo_gold_unreviewed",
+          timing_review_state: "provider_generated_unreviewed",
           mfa_word_id: "",
           alignment_flags: ["mfa_token_not_matched", "not_for_word_level_research_claim"],
           alignment_confidence: null,
@@ -306,7 +363,7 @@ export function buildReferenceCentricTiming(referenceWords, alignedWords) {
   const fallbackWordCount = output.length - mfaSupportedWordCount;
   return {
     schema_version: "l2-reference-centric-word-timing-v1",
-    source_status: fallbackWordCount ? "mfa_with_assemblyai_fallback" : "mfa_generated_fixture",
+    source_status: fallbackWordCount ? "mfa_with_assemblyai_fallback" : "mfa_generated_alignment",
     research_claim_ready: false,
     summary: {
       reference_word_count: output.length,
@@ -459,7 +516,9 @@ function safeRate(numerator, denominator) {
   return denominator > 0 ? round(numerator / denominator, 6) : null;
 }
 
-export function buildFeatureTables(contract, words, occurrences, pauses) {
+export function buildFeatureTables(contract, words, occurrences, pauses, options = {}) {
+  const transcriptSource = options.transcriptSource ?? "assemblyai_pseudo_gold";
+  const definitionStatus = options.definitionStatus ?? "simulated_for_feasibility";
   const speakerRows = [];
   const lexicalRows = [];
   const repairRows = [];
@@ -481,6 +540,7 @@ export function buildFeatureTables(contract, words, occurrences, pauses) {
     for (let index = 1; index < normalized.length; index += 1) {
       if (normalized[index] === normalized[index - 1]) adjacentRepetitionCount += 1;
     }
+    const falseStartCount = speakerWords.filter((word) => /[-\u2014\u2013]$/.test(String(word.text ?? ""))).length;
     speakerRows.push({
       speaker,
       word_count: wordCount,
@@ -496,8 +556,8 @@ export function buildFeatureTables(contract, words, occurrences, pauses) {
       word_timing_source: fallbackTimedWordCount ? "mfa_with_assemblyai_fallback" : "mfa",
       mfa_timed_word_count: mfaTimedWordCount,
       assemblyai_fallback_word_count: fallbackTimedWordCount,
-      transcript_source: "assemblyai_pseudo_gold",
-      definition_status: "simulated_for_feasibility",
+      transcript_source: transcriptSource,
+      definition_status: definitionStatus,
     });
     lexicalRows.push({
       speaker,
@@ -512,9 +572,9 @@ export function buildFeatureTables(contract, words, occurrences, pauses) {
       speaker,
       filler_count: fillerCount,
       adjacent_repetition_count: adjacentRepetitionCount,
-      false_start_count: null,
+      false_start_count: falseStartCount,
       repair_count: null,
-      status: "partial_pseudo_gold_only",
+      status: transcriptSource === "researcher_verified_txt" ? "customer_markers_counted_repair_total_pending" : "partial_pseudo_gold_only",
     });
   }
   return { speakerRows, lexicalRows, repairRows };
@@ -528,22 +588,37 @@ export function buildAsUnitCandidates(reference) {
     start_sec: utterance.start_sec,
     end_sec: utterance.end_sec,
     text: utterance.text,
-    boundary_source: "assemblyai_utterance_fixture",
-    review_status: "unresolved_research_definition",
+    annotation_tags: utterance.annotation_tags ?? [],
+    unit_type: utterance.is_backchannel ? "backchannel_not_as_unit" : "as_unit_candidate",
+    boundary_source: reference.transcript_status === "researcher_verified_gold"
+      ? "verified_transcript_turn_candidate"
+      : "assemblyai_utterance_fixture",
+    review_status: utterance.is_backchannel ? "excluded_from_as_unit_candidate" : "unresolved_research_definition",
   }));
 }
 
-export function buildDefinitionPack() {
+export function buildDefinitionPack(options = {}) {
+  const customerGuide = Boolean(options.customerGuide);
   return {
     schema_version: "l2-feasibility-definition-pack-v1",
-    status: "simulated_for_engineering_validation",
+    status: customerGuide ? "customer_annotation_rules_plus_provisional_analysis_rules" : "simulated_for_engineering_validation",
     research_approved: false,
-    as_unit_rule: "Each AssemblyAI utterance is one provisional AS-unit candidate; no research claim.",
-    clause_rule: "A word gap crossing an AssemblyAI utterance is an utterance-boundary candidate; manual clause rules remain required.",
+    transcript_conventions: customerGuide
+      ? {
+          status: "customer_supplied",
+          speaker_labels: "Canonical S1-SN; non-participant speech uses an explicit role such as Teacher.",
+          backchannel_tag: "[bc]",
+          excluded_tag: "[x]",
+          fillers: "Retain spoken fillers verbatim.",
+          cutoffs_and_repairs: "Retain trailing hyphens, repetitions and em-dash restarts.",
+        }
+      : { status: "fixture" },
+    as_unit_rule: "Each eligible verified transcript turn is one provisional AS-unit candidate; [bc] turns are kept separately; final AS-unit boundaries remain pending.",
+    clause_rule: "A word gap crossing a verified transcript turn is a turn-boundary candidate; approved clause rules remain required.",
     pause_location_rule: "Use researcher-corrected op intervals >= 0.25 s and nearest generated word boundaries.",
     mwu_rule: "Exact case-insensitive contiguous match within one utterance against the fixture target list.",
     mwu_targets: DEFAULT_MWU_TARGETS,
-    repair_rule: "Count listed fillers and adjacent exact repetitions; false starts and repairs remain pending.",
+    repair_rule: "Count listed fillers, adjacent exact repetitions and customer-defined trailing-hyphen/em-dash false-start markers; aggregate repair coding remains pending.",
     rate_rule: {
       articulation_rate_words_per_sec: "word_count / duration(s+f+bc+ol)",
       speech_rate_words_per_sec: "word_count / duration(s+f+bc+ol+op)",
@@ -562,7 +637,7 @@ export function buildMetadata({ recordingId, durationSeconds, speakers, audioHas
     schema_version: "mwu-l2-metadata-v1",
     recording: {
       recording_id: recordingId,
-      corpus_id: "SIM_POC_CORPUS",
+      corpus_id: "POC_CALIBRATION_CORPUS",
       media_type: "audio",
       language: "eng",
       interaction_type: "multilogue",
@@ -572,34 +647,38 @@ export function buildMetadata({ recordingId, durationSeconds, speakers, audioHas
       reviewed_textgrid_sha256: textGridHash,
       reference_transcript_sha256: transcriptHash,
       pause_threshold_seconds: 0.25,
-      factual_status: "mixed_real_and_simulated",
+      factual_status: "real_inputs_with_provisional_analysis_metadata",
     },
     participants: speakers.map((speaker, index) => ({
-      participant_id: `SIM_P${String(index + 1).padStart(2, "0")}`,
+      participant_id: `${recordingId}:${speaker}`,
       canonical_speaker: speaker,
       role: "Participant",
       first_language: "und",
       proficiency: "unknown",
       included: true,
-      is_simulated: true,
+      is_simulated: false,
+      metadata_status: "canonical_speaker_key_pending_study_participant_metadata",
     })),
     task: {
-      task_id: "SIM_TASK_01",
+      task_id: `${recordingId}:task`,
       task_type: "discussion",
       condition: "unknown",
-      is_simulated: true,
+      is_simulated: false,
+      metadata_status: "derived_from_recording_context_pending_study_metadata",
     },
   };
 }
 
-export function buildUnresolvedItems({ alignmentSource, alignmentSummary = null, pauseRows, asUnitRows }) {
-  return [
+export function buildUnresolvedItems({ alignmentSource, alignmentSummary = null, pauseRows, asUnitRows, transcriptStatus = "assemblyai_pseudo_gold" }) {
+  const items = [
     {
       item_id: "U001",
       module: "transcript",
       field: "verbatim_accuracy",
-      status: "pseudo_gold",
-      reason: "AssemblyAI is the PoC reference transcript and has not been researcher verified.",
+      status: transcriptStatus === "researcher_verified_gold" ? "accepted_input" : "pseudo_gold",
+      reason: transcriptStatus === "researcher_verified_gold"
+        ? "The transcript is researcher supplied and is the canonical orthographic input."
+        : "AssemblyAI is the PoC reference transcript and has not been researcher verified.",
     },
     {
       item_id: "U002",
@@ -646,4 +725,5 @@ export function buildUnresolvedItems({ alignmentSource, alignmentSummary = null,
       reason: "Coding and syllable/rate definitions have not been approved.",
     },
   ];
+  return items;
 }

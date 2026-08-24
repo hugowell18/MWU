@@ -6,26 +6,55 @@ export function parseTextGrid(text) {
   const tiers = [];
   let currentTier = null;
   let currentInterval = null;
+  let currentPoint = null;
 
   for (const line of text.split(/\r?\n/)) {
     if (/^\s*item \[\d+\]:\s*$/.test(line)) {
-      currentTier = { name: "", intervals: [] };
+      currentTier = { name: "", class: "", intervals: [], points: [] };
       currentInterval = null;
+      currentPoint = null;
       tiers.push(currentTier);
       continue;
     }
 
     if (!currentTier) continue;
 
+    const classMatch = line.match(/^\s*class = "(.*)"\s*$/);
+    if (classMatch && !currentInterval && !currentPoint) {
+      currentTier.class = unquoteTextGridString(classMatch[1]);
+      continue;
+    }
+
     const nameMatch = line.match(/^\s*name = "(.*)"\s*$/);
-    if (nameMatch && !currentInterval) {
+    if (nameMatch && !currentInterval && !currentPoint) {
       currentTier.name = unquoteTextGridString(nameMatch[1]);
       continue;
     }
 
     if (/^\s*intervals \[\d+\]:\s*$/.test(line)) {
       currentInterval = { start: Number.NaN, end: Number.NaN, text: "" };
+      currentPoint = null;
       currentTier.intervals.push(currentInterval);
+      continue;
+    }
+
+    if (/^\s*points \[\d+\]:\s*$/.test(line)) {
+      currentPoint = { number: Number.NaN, mark: "" };
+      currentInterval = null;
+      currentTier.points.push(currentPoint);
+      continue;
+    }
+
+    if (currentPoint) {
+      const numberMatch = line.match(/^\s*number = ([^\s]+)\s*$/);
+      if (numberMatch) {
+        currentPoint.number = Number(numberMatch[1]);
+        continue;
+      }
+      const markMatch = line.match(/^\s*mark = "(.*)"\s*$/);
+      if (markMatch) {
+        currentPoint.mark = unquoteTextGridString(markMatch[1]);
+      }
       continue;
     }
 
@@ -53,6 +82,7 @@ export function parseTextGrid(text) {
     tier.intervals = tier.intervals.filter((interval) => {
       return Number.isFinite(interval.start) && Number.isFinite(interval.end) && interval.end > interval.start;
     });
+    tier.points = tier.points.filter((point) => Number.isFinite(point.number));
   }
 
   return tiers.filter((tier) => tier.name);

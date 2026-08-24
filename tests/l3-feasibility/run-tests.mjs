@@ -24,11 +24,11 @@ test("Layer 2 tables merge into one participant-level matrix row", () => {
   const rows = matrixFixture();
   assert.equal(rows.length, 1);
   assert.equal(rows[0].speaker, "S1");
-  assert.equal(rows[0].word_count, 10);
+  assert.equal(rows[0].word_count, null);
   assert.equal(rows[0].own_pause_labeled_duration_sec, 0.5);
   assert.equal(rows[0].qualifying_own_pause_duration_sec, 0.5);
-  assert.equal(rows[0].pause_within_utterance_candidate_count, 1);
-  assert.equal(rows[0].pause_inside_mwu_candidate_count, 1);
+  assert.equal(rows[0].pause_within_utterance_candidate_count, null);
+  assert.equal(rows[0].pause_inside_mwu_candidate_count, null);
   assert.equal(rows[0].word_timing_mfa_support_ratio, 0.9);
   assert.equal(rows[0].false_start_count, null);
   assert.equal(rows[0].l3_release_ready, false);
@@ -41,6 +41,8 @@ test("provisional codebook covers every matrix field with provenance", () => {
   assert.equal(validation.status, "passed", JSON.stringify(validation.errors));
   assert.deepEqual(Object.keys(rows[0]), codebook.map((field) => field.field_name));
   assert.equal(fieldProvenanceRows(codebook).length, codebook.length);
+  assert.equal(codebook.find((field) => field.field_name === "word_count").provenance_status, "pending_client_input");
+  assert.equal(codebook.find((field) => field.field_name === "mean_own_pause_sec").source, "qualifying_own_pause_duration_sec / own_pause_count");
 });
 
 test("Gold-derived values independently reconcile to matrix values", () => {

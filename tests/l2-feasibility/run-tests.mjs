@@ -8,9 +8,16 @@ import {
   buildPauseRows,
   buildPseudoGoldReference,
   buildReferenceCentricTiming,
+  buildTransitionEvidence,
   findMwuOccurrences,
+  rowsToCsv,
   validateReviewedTextGrid,
 } from "../../scripts/l2/feasibility-core.mjs";
+import {
+  buildTimedRawTranscript,
+  buildVerifiedTranscriptReference,
+  parseVerifiedTranscript,
+} from "../../scripts/l2/verified-transcript.mjs";
 
 let passed = 0;
 let failed = 0;
@@ -21,6 +28,24 @@ test("dynamic N+3 reviewed TextGrid accepts canonical speakers and nine labels",
   assert.deepEqual(contract.speakers, ["S1", "S2"]);
   assert.equal(contract.tier_count, 5);
   assert.equal(contract.expected_dynamic_tier_count, 5);
+  assert.equal(contract.transition_point_count, 2);
+  assert.equal(contract.transition_evidence_count, 2);
+});
+
+test("TextTier transitions retain measured FTO and Path B overlap evidence", () => {
+  const rows = buildTransitionEvidence(validateReviewedTextGrid(textGridFixture(), 3));
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].from_speaker, "S1");
+  assert.equal(rows[0].fto_sec, 0.42);
+  assert.equal(rows[1].fto_sec, null);
+  assert.equal(rows[1].overlap_present, true);
+  assert.equal(rows[1].offset_measured, false);
+});
+
+test("CSV export serializes structured alignment confidence", () => {
+  const csv = rowsToCsv([{ word: "hello", alignment_confidence: { status: "needs_review", snr: 7.1 } }]);
+  assert.doesNotMatch(csv, /\[object Object\]/);
+  assert.match(csv, /needs_review/);
 });
 
 test("AssemblyAI pseudo-gold maps provider speakers without claiming Gold accuracy", () => {
@@ -32,9 +57,62 @@ test("AssemblyAI pseudo-gold maps provider speakers without claiming Gold accura
 });
 
 test("S1-SN transcript labels split into per-speaker RAW and TIDY outputs", () => {
-  const split = splitTranscript("S1: Um hello hello.\nS2: Right.\n");
+  const split = splitTranscript("S1: Um hello hello. [bc]\nS2: Right.\n");
   assert.deepEqual(split.speakers.map((speaker) => speaker.name), ["S1", "S2"]);
   assert.match(split.speakers[0].raw, /Um hello hello/);
+  assert.doesNotMatch(split.speakers[0].tidy, /\[bc\]/);
+});
+
+test("verified transcript accepts canonical participants and excludes tagged Teacher turns", () => {
+  const parsed = parseVerifiedTranscript(
+    "S1: Um, hello.\n\nS2: Mm. [bc]\n\nTeacher: Stop there. [x]\n",
+    ["S1", "S2"],
+  );
+  assert.equal(parsed.status, "passed");
+  assert.equal(parsed.participant_turns.length, 2);
+  assert.equal(parsed.excluded_turns.length, 1);
+  assert.equal(parsed.participant_turns[1].is_backchannel, true);
+});
+
+test("verified transcript remains text truth while AssemblyAI supplies only timing seeds", () => {
+  const asr = referenceFixture();
+  const reference = buildVerifiedTranscriptReference({
+    transcriptText: "S1: Um hello there.\nS2: Right.\nTeacher: Stop. [x]\n",
+    asrReference: asr,
+    participantSpeakers: ["S1", "S2"],
+    durationSeconds: 3,
+  });
+  assert.equal(reference.transcript_status, "researcher_verified_gold");
+  assert.equal(reference.words.map((word) => word.normalized_token).join(" "), "um hello there right");
+  assert.equal(reference.excluded_transcript_text.includes("Teacher:"), true);
+  assert.equal(reference.timing_accuracy_claim, false);
+  assert.equal(reference.timing_seed_summary.assemblyai_token_match_count, 3);
+  assert.match(buildTimedRawTranscript(reference, "S1"), /^\[\d{2}:\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}:\d{2}\.\d{3}\] Um hello there\./);
+});
+
+test("unmatched backchannels use reviewed TextGrid activity spans instead of global interpolation", () => {
+  const reference = buildVerifiedTranscriptReference({
+    transcriptText: "S1: Hello there.\nS2: Mm. [bc]\nS1: Continue now.\n",
+    participantSpeakers: ["S1", "S2"],
+    durationSeconds: 10,
+    asrReference: {
+      provider_confidence: 0.9,
+      words: [
+        { word_id: "A1", speaker: "S1", text: "Hello", normalized_token: "hello", start_sec: 1, end_sec: 1.2, confidence: 0.9 },
+        { word_id: "A2", speaker: "S1", text: "there", normalized_token: "there", start_sec: 1.3, end_sec: 1.5, confidence: 0.9 },
+        { word_id: "A3", speaker: "S1", text: "Continue", normalized_token: "continue", start_sec: 4, end_sec: 4.3, confidence: 0.9 },
+        { word_id: "A4", speaker: "S1", text: "now", normalized_token: "now", start_sec: 4.4, end_sec: 4.6, confidence: 0.9 },
+      ],
+    },
+    acousticTiers: [
+      { name: "S1", intervals: [] },
+      { name: "S2", intervals: [{ start: 2.2, end: 2.5, text: "bc" }] },
+    ],
+  });
+  const backchannel = reference.utterances.find((utterance) => utterance.is_backchannel);
+  assert.equal(backchannel.start_sec, 2.2);
+  assert.equal(backchannel.end_sec, 2.5);
+  assert.equal(backchannel.words[0].timing_source, "researcher_textgrid_bc_span_seed");
 });
 
 test("reference-centric timing preserves every transcript word and exposes fallback", () => {
@@ -140,12 +218,31 @@ function intervalTier(name, intervals, xmax = 3) {
   return lines;
 }
 
+function pointTier(name, points, xmax = 3) {
+  const lines = [
+    '        class = "TextTier"',
+    `        name = "${name}"`,
+    "        xmin = 0",
+    `        xmax = ${xmax}`,
+    `        points: size = ${points.length}`,
+  ];
+  points.forEach((point, index) => {
+    lines.push(`        points [${index + 1}]:`);
+    lines.push(`            number = ${point[0]}`);
+    lines.push(`            mark = "${point[1]}"`);
+  });
+  return lines;
+}
+
 function textGridFixture() {
   const tiers = [
     intervalTier("S1", [[0, 1, "s"], [1, 1.5, "op"], [1.5, 3, "s"]]),
     intervalTier("S2", [[0, 2, "pf"], [2, 2.5, "s"], [2.5, 3, "pf"]]),
     intervalTier("floor", [[0, 2, "S1"], [2, 2.5, "S2"], [2.5, 3, "FREE"]]),
-    intervalTier("transitions", [[0, 3, ""]]),
+    pointTier("transitions", [
+      [1.5, "S1>S2 FTO=+0.420 status=provisional"],
+      [2.6, "S2>S1 FTO=NA overlap=qualified status=overlap_present_offset_not_measured"],
+    ]),
     intervalTier("flags", [[0, 3, ""]]),
   ];
   const lines = [

@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Layer 2 / Layer 3 Engineering Calibration Draft</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      --page: #f4f7fa;
+      --surface: #ffffff;
+      --ink: #172033;
+      --muted: #617087;
+      --line: #d7e0ea;
+      --blue: #2458d3;
+      --blue-soft: #eaf0ff;
+      --green: #167447;
+      --green-soft: #e9f7ef;
+      --amber: #94620a;
+      --amber-soft: #fff5d9;
+      --red: #a43b3b;
+      --red-soft: #fff0ef;
+      --gray-soft: #edf1f5;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .topbar-inner,
+    .page {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar-inner {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 7px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .brand strong,
+    .brand span { display: block; }
+    .brand strong { font-size: 14px; }
+    .brand span { margin-top: 2px; color: var(--muted); font-size: 11px; }
+
+    .document-meta {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+      line-height: 1.45;
+    }
+
+    .page { padding: 42px 0 64px; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 46px;
+      align-items: end;
+      padding: 8px 0 32px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p { margin-top: 0; }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 14px;
+      font-size: 42px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 780px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .boundary {
+      padding: 18px 20px;
+      border-left: 3px solid var(--amber);
+      background: var(--amber-soft);
+    }
+
+    .boundary b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .boundary p {
+      margin-bottom: 0;
+      color: #6c5420;
+      font-size: 12.5px;
+      line-height: 1.55;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin: 24px 0 46px;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .metric {
+      min-height: 102px;
+      padding: 18px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metric b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 25px;
+      line-height: 1;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .layer {
+      padding: 0 0 46px;
+    }
+
+    .layer + .layer {
+      padding-top: 42px;
+      border-top: 1px solid var(--line);
+    }
+
+    .layer-head {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 28px;
+      margin-bottom: 20px;
+      align-items: start;
+    }
+
+    .layer-index {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .layer-head h2 {
+      margin-bottom: 8px;
+      font-size: 29px;
+      line-height: 1.15;
+    }
+
+    .layer-head p {
+      max-width: 820px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .io-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .io-panel {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .io-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 56px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+    }
+
+    .io-title h3 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .io-title span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: minmax(140px, 0.84fr) 112px minmax(0, 1.4fr);
+      gap: 14px;
+      align-items: start;
+      padding: 14px 18px;
+      border-bottom: 1px solid #e8edf3;
+    }
+
+    .status-row:last-child { border-bottom: 0; }
+
+    .status-row strong {
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .status-row p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.48;
+    }
+
+    .status {
+      display: inline-flex;
+      width: fit-content;
+      min-height: 25px;
+      align-items: center;
+      padding: 0 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 850;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .ok { background: var(--green-soft); color: var(--green); }
+    .assumption { background: var(--amber-soft); color: var(--amber); }
+    .open { background: var(--blue-soft); color: var(--blue); }
+    .ng { background: var(--red-soft); color: var(--red); }
+    .mixed { background: var(--gray-soft); color: #4f6075; }
+
+    .layer-verdict {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 28px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .layer-verdict b {
+      color: var(--green);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .layer-verdict p {
+      margin-bottom: 0;
+      color: #405069;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .resolution {
+      padding-top: 42px;
+      border-top: 1px solid var(--line);
+    }
+
+    .resolution-head {
+      max-width: 760px;
+      margin-bottom: 24px;
+    }
+
+    .resolution-head h2 {
+      margin-bottom: 8px;
+      font-size: 29px;
+    }
+
+    .resolution-head p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .step {
+      min-height: 154px;
+      padding: 18px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step-index {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+    }
+
+    .step p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+
+    .final-note {
+      margin-top: 24px;
+      padding: 22px 24px;
+      border-left: 4px solid var(--blue);
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .final-note b {
+      display: block;
+      margin-bottom: 7px;
+      color: #9db8ff;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .final-note p {
+      max-width: 920px;
+      margin-bottom: 0;
+      color: #edf2fa;
+      font-size: 14px;
+      line-height: 1.62;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .io-grid { grid-template-columns: 1fr; }
+      .metrics,
+      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hero { gap: 24px; }
+      .boundary { max-width: 680px; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner,
+      .page { width: min(100% - 24px, 1180px); }
+      .topbar-inner { align-items: flex-start; padding: 12px 0; }
+      .document-meta { display: none; }
+      .page { padding-top: 26px; }
+      h1 { font-size: 32px; }
+      .metrics,
+      .steps { grid-template-columns: 1fr; }
+      .layer-head,
+      .layer-verdict { grid-template-columns: 1fr; gap: 8px; }
+      .status-row { grid-template-columns: 1fr; gap: 7px; }
+      .status { min-height: 23px; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .topbar { position: static; }
+      .page { width: 100%; padding: 24px; }
+      .io-panel,
+      .metrics,
+      .steps { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">MWU</div>
+        <div>
+          <strong>Engineering Calibration Draft</strong>
+          <span>Layer 2 / Layer 3 · Multilogue04 · 1 of 10</span>
+        </div>
+      </div>
+      <div class="document-meta">
+        24 August 2026<br>
+        Research release: not yet approved
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Layer 2–3 engineering calibration · 1 of 10</p>
+        <h1>Verified evidence connected; research definitions still open</h1>
+        <p class="hero-copy">The pipeline has completed one end-to-end engineering calibration run using the researcher-corrected P025 TextGrid and verified transcript. Acoustic evidence, transcript preparation, transition handoff and workbook compilation are connected. Definition-dependent linguistic fields remain blank or isolated as provisional samples.</p>
+      </div>
+      <aside class="boundary">
+        <b>Evidence boundary</b>
+        <p>97.16% is generated word-timing coverage, not boundary accuracy. MFA QC still contains 29 review segments, 6 missing alignments and 390 MFA-timed words inside review segments.</p>
+      </aside>
+    </section>
+
+    <section class="metrics" aria-label="Calibration metrics">
+      <div class="metric"><b>1 / 10</b><span>trial recordings currently processed through L2 and L3</span></div>
+      <div class="metric"><b>97.16%</b><span>generated word-timing coverage · not accuracy</span></div>
+      <div class="metric"><b>22</b><span>transition/FTO points retained · 4 overlap offsets unmeasured</span></div>
+      <div class="metric"><b>15 / 15</b><span>scoped Gold-derived Layer 1 checks passed</span></div>
+    </section>
+
+    <section class="layer" id="layer-2">
+      <header class="layer-head">
+        <div class="layer-index">Layer 2</div>
+        <div>
+          <h2>Transcript and linguistic analysis</h2>
+          <p>The verified transcript parser, timestamped RAW/TIDY preparation and acoustic evidence handoff are operational. AS-unit, pause-location, MWU, repair/rate and lexical-tool analysis remains pending the shared coding rules.</p>
+        </div>
+      </header>
+
+      <div class="io-grid">
+        <section class="io-panel" aria-labelledby="l2-inputs">
+          <header class="io-title"><h3 id="l2-inputs">Inputs</h3><span>Evidence and rules</span></header>
+          <div class="status-row"><strong>WAV + accepted L1a handoff</strong><span class="status ok">OK</span><p>Canonical S1-S3 mapping and muted-mirror tracks are available.</p></div>
+          <div class="status-row"><strong>P025 Gold TextGrid</strong><span class="status ok">OK</span><p>Full 501.013333-second researcher-corrected reference.</p></div>
+          <div class="status-row"><strong>Verified transcript TXT</strong><span class="status ok">OK</span><p>S1-S3, fillers, repetitions, false starts, repairs, [bc] and [x] retained.</p></div>
+          <div class="status-row"><strong>Annotation guide</strong><span class="status ok">OK</span><p>Enough for transcript ingestion, participant exclusion and tag parsing.</p></div>
+          <div class="status-row"><strong>Generated word timing</strong><span class="status assumption">Review open</span><p>MFA is used as generated timing evidence; AssemblyAI supplies 25 explicit fallback words.</p></div>
+          <div class="status-row"><strong>Shared linguistic definitions</strong><span class="status open">Open</span><p>AS-unit/clause, pause-location, MWU, repair/rate and lexical-tool rules remain unapproved.</p></div>
+          <div class="status-row"><strong>P035 review strategy</strong><span class="status open">Open</span><p>The supplied Gold reference covers P025 only.</p></div>
+        </section>
+
+        <section class="io-panel" aria-labelledby="l2-outputs">
+          <header class="io-title"><h3 id="l2-outputs">Outputs</h3><span>Current result</span></header>
+          <div class="status-row"><strong>Transcript validation</strong><span class="status ok">OK</span><p>60 participant turns accepted; two Teacher [x] turns excluded from metrics.</p></div>
+          <div class="status-row"><strong>RAW / TIDY transcripts</strong><span class="status ok">OK · draft</span><p>Generated for S1-S3. RAW files now contain canonical turn timestamps; TIDY files retain a transformation log.</p></div>
+          <div class="status-row"><strong>Generated word alignment</strong><span class="status assumption">Review open</span><p>856/881 words have MFA timing; 25 use AssemblyAI fallback. This measures coverage, not accuracy.</p></div>
+          <div class="status-row"><strong>P025 acoustic pause values</strong><span class="status ok">OK</span><p>The Gold TextGrid contains 636 own pauses; 244 meet the P025 threshold and enter the qualifying-pause table.</p></div>
+          <div class="status-row"><strong>Transition / FTO evidence</strong><span class="status ok">OK · retained</span><p>All 22 TextTier points are preserved: 18 measured FTO values and 4 Path B overlap offsets left explicitly unmeasured.</p></div>
+          <div class="status-row"><strong>AS-unit, MWU, repair and rates</strong><span class="status ng">NG · provisional</span><p>Tables exist but must be regenerated after the shared definitions are approved.</p></div>
+          <div class="status-row"><strong>External lexical tools</strong><span class="status ng">NG · pending</span><p>TAALES/TAALED/AntConc versions, settings and selected variables are not yet supplied.</p></div>
+          <div class="status-row"><strong>Early Phase V handoff</strong><span class="status mixed">OK · mixed</span><p>Structurally complete, with Gold, generated, assumed and pending provenance preserved.</p></div>
+        </section>
+      </div>
+
+      <div class="layer-verdict">
+        <b>Layer 2 verdict</b>
+        <p>Transcript ingestion, timestamped preparation, P025 pause extraction and transition evidence are connected. Word timing remains reviewable; linguistic analysis waits for the research team's project-wide definition pack.</p>
+      </div>
+    </section>
+
+    <section class="layer" id="layer-3">
+      <header class="layer-head">
+        <div class="layer-index">Layer 3</div>
+        <div>
+          <h2>Matrix, validation and reporting</h2>
+          <p>The compiler and validation framework are operational. Final research release depends on accepted Layer 2 semantics, the study schema and representative expected rows.</p>
+        </div>
+      </header>
+
+      <div class="io-grid">
+        <section class="io-panel" aria-labelledby="l3-inputs">
+          <header class="io-title"><h3 id="l3-inputs">Inputs</h3><span>Handoff and schema</span></header>
+          <div class="status-row"><strong>Layer 2 handoff</strong><span class="status mixed">Mixed</span><p>Structurally valid, but definition-dependent values remain provisional.</p></div>
+          <div class="status-row"><strong>P025 Gold + verified transcript</strong><span class="status ok">OK</span><p>Available for acoustic recalculation and verified-text ingestion. Research tokenization remains pending.</p></div>
+          <div class="status-row"><strong>Path B transition evidence</strong><span class="status ok">OK · provisional</span><p>All 22 points enter Layer 3 at transition grain; final accepted fields remain a research-team decision.</p></div>
+          <div class="status-row"><strong>Final matrix schema + metadata</strong><span class="status open">Open</span><p>Final fields, row grain, participant/task/group metadata and null rules are pending.</p></div>
+          <div class="status-row"><strong>Expected rows + acceptance rules</strong><span class="status open">Open</span><p>A researcher-calculated multilogue row and field-level tolerances are required.</p></div>
+          <div class="status-row"><strong>P035 treatment</strong><span class="status open">Open</span><p>The secondary-threshold review or deterministic-regeneration strategy remains to be confirmed.</p></div>
+        </section>
+
+        <section class="io-panel" aria-labelledby="l3-outputs">
+          <header class="io-title"><h3 id="l3-outputs">Outputs</h3><span>Current result</span></header>
+          <div class="status-row"><strong>Matrix CSV</strong><span class="status ok">OK · technical</span><p>Three participant rows and 35 calibration fields generated. Unapproved linguistic values remain blank.</p></div>
+          <div class="status-row"><strong>Research workbook</strong><span class="status ok">OK · technical</span><p>Eight sheets, including separate Transition FTO evidence and its codebook.</p></div>
+          <div class="status-row"><strong>Gold-derived validation</strong><span class="status ok">OK · scoped</span><p>15/15 P025 timing and pause checks passed for S1-S3.</p></div>
+          <div class="status-row"><strong>Field provenance</strong><span class="status ok">OK</span><p>Every field exposes its evidence status; no simulated linguistic value is presented in the main matrix.</p></div>
+          <div class="status-row"><strong>Final linguistic matrix</strong><span class="status ng">NG · not final</span><p>Definition-dependent and external-tool fields are not accepted research outputs.</p></div>
+          <div class="status-row"><strong>Final research release</strong><span class="status ng">NG · blocked</span><p>Requires approved definitions, schema, expected rows and the remaining nine Gold bundles.</p></div>
+        </section>
+      </div>
+
+      <div class="layer-verdict">
+        <b>Layer 3 verdict</b>
+        <p>Compilation, transition handoff, provenance and scoped Gold recalculation work. The workbook is a calibration artifact, not the final ten-recording research matrix.</p>
+      </div>
+    </section>
+
+    <section class="layer" id="delivery-package">
+      <header class="layer-head">
+        <div class="layer-index">Delivery package</div>
+        <div>
+          <h2>Accepted evidence is separated from provisional samples</h2>
+          <p>The package is intentionally small. It contains no audio, API credentials or internal MFA work directory. Files that depend on unapproved linguistic rules are isolated from validated acoustic and transcript evidence.</p>
+        </div>
+      </header>
+
+      <div class="steps">
+        <div class="step"><span class="step-index">01</span><strong>Layer 2 verified core</strong><p>Timestamped RAW/TIDY transcripts, transcript turns, P025 qualifying pauses and all 22 transition/FTO records.</p></div>
+        <div class="step"><span class="step-index">02</span><strong>Provisional samples</strong><p>AS-unit, pause-location, MWU, repair and rate previews kept outside accepted results.</p></div>
+        <div class="step"><span class="step-index">03</span><strong>Layer 3 calibration</strong><p>Workbook, blank-safe matrix, codebooks, provenance and separate transition table.</p></div>
+        <div class="step"><span class="step-index">04</span><strong>Validation evidence</strong><p>L2/L3 reports, 15/15 Gold comparison, unresolved register and SHA-256 package manifest.</p></div>
+      </div>
+    </section>
+
+    <section class="resolution">
+      <header class="resolution-head">
+        <p class="eyebrow">Resolution path</p>
+        <h2>How provisional output becomes the trial deliverable</h2>
+        <p>Per recording, the recurring input is only the corrected TextGrid and verified TXT. The research definitions and matrix rules are confirmed once and reused across all ten recordings.</p>
+      </header>
+
+      <div class="steps">
+        <div class="step"><span class="step-index">01</span><strong>Freeze shared definitions</strong><p>Approve AS-unit/clause, pause-location, MWU, repair/rate, lexical-tool and P035/FTO rules.</p></div>
+        <div class="step"><span class="step-index">02</span><strong>Re-run Multilogue04</strong><p>Replace provisional rules and compare against one researcher-calculated expected row.</p></div>
+        <div class="step"><span class="step-index">03</span><strong>Process the remaining nine</strong><p>Reuse the shared definitions with each corrected TextGrid and verified transcript.</p></div>
+        <div class="step"><span class="step-index">04</span><strong>Compile the trial matrix</strong><p>Deliver the ten-recording workbook, codebook, provenance and unresolved register.</p></div>
+      </div>
+
+      <div class="final-note">
+        <b>Recommended client statement</b>
+        <p>The first Layer 2-to-Layer 3 engineering calibration run is complete. Verified acoustic and transcript evidence is carried forward; generated timing remains open for review, and definition-dependent linguistic fields remain pending until the shared research rules are confirmed.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

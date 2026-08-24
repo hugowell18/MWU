@@ -1,6 +1,6 @@
 # Layer 2 / Layer 3：Methodology Atlas 预想、当前实际与 Gap 补齐方案
 
-版本：v0.2
+版本：v0.3
 
 日期：2026-08-24
 
@@ -106,47 +106,58 @@ Methodology Atlas 是 Layer 2 / Layer 3 的主合同，不应由 feasibility 脚
 
 ### 3.1 客户当前提供或承诺的内容
 
-当前 C10 样例中已经有：
+当前 Golden 输入目录已经配齐同一条 recording 的：
 
-- 一个 verified speaker-attributed transcript TXT；
+- researcher-corrected P025 six-tier TextGrid；
+- verified speaker-attributed transcript TXT；
 - annotation conventions guide（DOCX / PDF）；
 - `S1:`、`S2:`、`S3:` 和 `Teacher:` 等 speaker labels；
 - `[bc]`、`[x]`、fillers、repetitions、false starts 和 repairs 等转录标记。
 
-客户邮件还说明：
-
-- 该样例对应 `Multilogue04_C_Level30_D1G4_P025_corrected_6tier.TextGrid`；
-- 如有需要，可以重新提供这一 corrected TextGrid；
-- 其余 recordings 的 Golden TextGrid、transcript 和 definition sets 正在交付。
-
-所以，当前 transcript 格式本身是可用的。样例 recording 进入完整 Layer 2 前，仍需把对应 Golden TextGrid 与 TXT 配对；其余 recordings 同样按一组 TextGrid + TXT 进入。
+文件位于 `sample-inputs/Golden/`，并通过 `INPUT_MANIFEST.md` 记录证据角色和 SHA-256。该样例已经能够直接进入 Layer 2。其余 recordings 仍按一组 corrected TextGrid + verified TXT 配对进入。
 
 ### 3.2 当前工程实际能力
 
-L1a / L1b 已经具备真实处理和人工 review workflow。Layer 2 / Layer 3 当前主要还是 feasibility implementation：
+L1a / L1b 已经具备真实处理和人工 review workflow。本轮已把客户提供的 Golden 输入接入 Layer 2 / Layer 3：
 
-- `scripts/l2/run-feasibility.mjs` 当前读取 AssemblyAI JSON 生成 pseudo-gold transcript，并非直接读取客户 verified TXT；
+- `scripts/l2/run-feasibility.mjs` 直接读取客户 verified TXT，并把它作为文本真值；
+- Teacher `[x]` 内容从参与者分析中排除，`[bc]`、fillers、repetitions 和 false starts 保留；
+- AssemblyAI 只提供生成式时间种子，不再充当 transcript truth；
+- Gold TextGrid 中的 `bc` 和声学活动区间用于限制 ASR 未命中的短 turn，避免跨长时间插值；
 - `scripts/l2/feasibility-core.mjs` 中的 AS-unit、clause、MWU、repair、rate 和 lexical-tool definitions 仍明确标记为 simulated / fixture；
 - word timing 目前来自未人工校验的 MFA 或 AssemblyAI fallback；
 - Layer 2 feasibility 当前主要按 P025 计算，没有完整实现 Atlas 要求的 P025 / P035 双 threshold 传递；
-- `scripts/l3/run-feasibility.mjs` 能生成 provisional matrix、codebook 和 provenance check，但当前矩阵临时按 participant/speaker rows 构造；
-- 当前 L3 输出明确是 engineering feasibility，不是 final research release。
+- `scripts/l3/run-feasibility.mjs` 已生成 provisional matrix、workbook、codebook、field provenance 和 Gold-derived validation；当前矩阵仍临时按 participant/speaker rows 构造；
+- 当前 L3 输出是 provisional research output，不是 final research release。
 
-这说明主链路的骨架已经存在，但“客户真实输入适配、研究定义冻结、双 threshold 和最终 study schema”尚未完全替换 feasibility fixtures。
+客户真实输入适配已经完成。尚未完成的是研究定义冻结、P025/P035 双 threshold 的完整传递、外部 lexical tools 和最终 study schema。
+
+### 3.3 Multilogue04 实际运行结果
+
+本轮使用 muted-mirror WAV、客户 P025 Gold TextGrid 和 verified TXT 运行：
+
+- transcript：881 个参与者词，S1 451、S2 179、S3 251；Teacher `[x]` 未进入分析行；
+- generated word alignment：MFA 支持 856/881 个词（97.16%），25 个词保留显式 AssemblyAI fallback；
+- 分人 MFA 支持率：S1 98.00%、S2 93.30%、S3 98.41%；
+- Layer 2 technical status：passed；词级 timing 仍未经过研究者校验；
+- Layer 3：3 行、35 个 provisional 字段；15/15 个可从 P025 Gold 独立复算的 L1 字段检查通过；
+- workbook 包含 Analysis Matrix、Codebook、Field Provenance、Gold Validation、Technical Checks 和 Unresolved 六个 sheet。
+
+97.16% 是“得到 MFA 时间的 transcript 词覆盖率”，不是词边界准确率。15/15 也只证明 Gold TextGrid 可独立复算的 L1 字段一致，不能证明所有 L2/L3 语言学字段已经正确。
 
 ## 4. 系统预想与实际 Gap
 
 | 范围 | Atlas 预想 | 当前实际 | Gap 如何补齐 |
 |---|---|---|---|
-| Recording 输入 | Golden L1b TextGrid + reviewed transcript + conventions | 已有 TXT 样例和 conventions；对应 Golden TextGrid 未在 C10 同包出现 | 将客户 corrected TextGrid 与同名 TXT 按 recording ID 配对；WAV 和 L1 session 直接复用系统已有资料 |
-| Transcript ingestion | 直接处理 researcher-reviewed transcript | L2 feasibility 仍从 AssemblyAI JSON 构造 pseudo-gold | 后续让 L2 直接读取客户 TXT；AssemblyAI 只保留为 alignment/support evidence，不再作为 transcript truth |
-| Speaker / annotation parsing | 保留 canonical speakers 和转录约定 | 当前客户 TXT 已含 `S1/S2/S3/Teacher`、`[bc]`、`[x]` 等 | 按 annotation guide 解析；Teacher 与 participant 指标分开；未知标记进入 unresolved report，不静默删除 |
+| Recording 输入 | Golden L1b TextGrid + reviewed transcript + conventions | Multilogue04 已配对并记录 hash | 对其余 recordings 沿用 recording ID 配对；WAV 和 L1 session 直接复用系统已有资料 |
+| Transcript ingestion | 直接处理 researcher-reviewed transcript | 已直接读取客户 TXT；AssemblyAI 仅作 timing support | 用其余 verified TXT 做批量格式验证，未知标记进入 unresolved report |
+| Speaker / annotation parsing | 保留 canonical speakers 和转录约定 | 已处理 `S1/S2/S3/Teacher`、`[bc]`、`[x]`；Teacher 已排除 | 用其余样例验证异常 speaker/tag 处理，不静默删除 |
 | Word timing | lexical/MWU 与 pause-location 可关联到时间轴 | 客户 TXT 无 timestamps；Golden TextGrid 也不等于逐词时间 | 不要求客户补逐词时间。用 WAV + verified TXT 在系统内部生成 forced alignment，并对低置信度/关键样例做抽查；生成 timing 必须标记为 generated，不冒充 Gold |
 | AS-unit / clause | 使用 research definitions 生成并 review units | 当前只是“一个 ASR utterance = 一个 AS-unit candidate”的 fixture | 采用明确、可引用、可版本化的 AS-unit / clause rule 作为 provisional 方法，并对 calibration sample 人工复核；客户 definition set 到达后做 rule diff 和重算 |
 | MWU | 按研究定义、词表/频率/association rules 计算 | 当前只是小型 fixture target list 的 exact match | 冻结 provisional MWU operational definition、reference corpus、frequency/range/association settings；客户定义到达后替换配置并重算 MWU 模块 |
 | TAALES / TAALED / AntConc | 版本和变量可复现 | 当前尚无已批准的 tool versions / selected variables | 我方可以先确定专业且可复现的版本与变量清单，并明确标为 provisional；这不要求客户必须额外制作配置文件，但最终应让客户确认方法 |
 | Pause thresholds | P025 / P035 独立运行并在 Phase V 同时保留 | UI 中 0.25 / 0.35 为固定值；当前 L2/L3 feasibility 主要只传递 P025 | 固定的 0.25 / 0.35 本身不构成问题；需要让 Phase IV 对两个 threshold 分别生成结果，并在 Phase V 用 `threshold` 字段保留两组 observations。额外自定义 threshold 暂不需要实现 |
-| Layer 2 handoff | Phase III–IV 形成 reviewed feature package | 当前已有 early handoff，但包含 simulated/generated provenance | 保留 provenance；真实 TXT、definitions 和 review 替换完成后，将对应字段从 provisional 升级为 accepted |
+| Layer 2 handoff | Phase III–IV 形成 reviewed feature package | 已有真实 TXT 驱动的 handoff，仍包含 generated/simulated provenance | 保留 provenance；definitions 和必要 review 完成后，将对应字段从 provisional 升级为 accepted |
 | Layer 3 observation grain | 由 study schema 决定 one row per observation | feasibility 暂时固定为 speaker-level rows | 不把临时 speaker-row 当最终规范。由 study schema 明确 observation grain；在未确认前，可先用 `participant × recording × threshold` 作为 provisional matrix，并在 codebook 标明 |
 | Layer 3 release | workbook + matrix + QA + codebook | compiler 骨架已有，但 schema/codebook 是 provisional | 用真实 L2 handoff 编译 provisional workbook/matrix；客户确认 study schema、definitions 和校验样例后再形成 final release |
 
@@ -269,12 +280,12 @@ One shared annotation / definition set
 
 `Golden L1b TextGrid + verified TXT` 足以作为客户侧每个 recording 的 Layer 2 核心输入。结合系统已有 WAV、L1 session 和一套明确标记的 provisional definitions，我们可以产生完整的 Layer 2 provisional output，并继续生成 Layer 3 provisional workbook / analysis matrix。
 
-当前的主要工作不是向客户索要大量额外文件，而是：
+接下来的主要工作是：
 
-1. 用客户真实 TXT 替换 pseudo-gold 输入；
-2. 把方法定义从 fixture 升级为可版本化、可确认的 research configuration；
+1. 对其余九条 corrected TextGrid + verified TXT 执行同一输入合同检查；
+2. 把 AS-unit、clause、MWU、repair/rate 和 lexical-tool 定义从 fixture 升级为可版本化、可确认的 research configuration；
 3. 把 P025 / P035 和正确的 study observation grain 贯穿到 Phase V；
-4. 客户 definitions 到达后做差异重算和最终确认。
+4. 用客户提供的代表性期望行校验 L2/L3 定义相关字段，再进行最终确认。
 
 这与 Methodology Atlas 的原始流程是一致的，也是在不扩大客户负担的前提下，从当前工程实际补齐到研究交付的最短路径。
 
@@ -284,4 +295,7 @@ One shared annotation / definition set
 - 当前 L2 feasibility runner：`scripts/l2/run-feasibility.mjs`；
 - 当前 L2 simulated definitions：`scripts/l2/feasibility-core.mjs`；
 - 当前 L3 feasibility compiler：`scripts/l3/run-feasibility.mjs`；
-- 客户样例 transcript / convention documents：`C:\Users\yyang.DELOITTEML\Downloads\C10`。
+- 客户样例 transcript / convention documents：`sample-inputs/Golden/`；
+- 本轮 Layer 2 结果：`outputs/layer2-validation/Multilogue04_C_Level30_D1G4-verified-provisional-v3/`；
+- 本轮 Layer 3 结果：`outputs/layer3-validation/Multilogue04_C_Level30_D1G4-matrix-provisional-v3/`。
+- 客户沟通用 Input/Output readiness 报告：`docs/LAYER2_LAYER3_CALIBRATION_READINESS_REPORT.md`。
